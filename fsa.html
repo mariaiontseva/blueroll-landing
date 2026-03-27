@@ -472,36 +472,32 @@ async function searchFSA() {
       else baseUrl += `&BusinessTypeName=${encodeURIComponent(bizType)}`;
     }
 
-    // Search ratings 0 through maxRating, paginate with delay to avoid rate limits
+    // Search using ratingOperatorKey for efficient single-request fetching
     let allEstablishments = [];
-    const delay = ms => new Promise(r => setTimeout(r, ms));
     const pendingOnly = document.getElementById('pendingOnly').checked;
-    const maxPages = pendingOnly ? 1 : 3;
     const startRating = minRatingOverride !== null ? minRatingOverride : 0;
-    minRatingOverride = null; // reset after use
-    for (let r = startRating; r <= maxRating; r++) {
-      let page = 1;
-      let hasMore = true;
-      while (hasMore && page <= maxPages) {
-        const url = baseUrl + `&ratingKey=${r}&pageSize=200&pageNumber=${page}`;
-        document.getElementById('searchBtn').textContent = `Searching... (rating ${r}, page ${page})`;
-        try {
-          const resp = await fetch(url, { headers: HEADERS });
-          if (!resp.ok) { hasMore = false; break; }
-          const data = await resp.json();
-          if (data.establishments && data.establishments.length > 0) {
-            allEstablishments = allEstablishments.concat(data.establishments);
-            hasMore = data.establishments.length === 200;
-            page++;
-            await delay(500); // 500ms delay between requests to avoid rate limit
-          } else {
-            hasMore = false;
-          }
-        } catch (fetchErr) {
-          console.warn(`Failed rating ${r} page ${page}:`, fetchErr);
-          hasMore = false;
-        }
-      }
+    const useExactRating = minRatingOverride !== null;
+    minRatingOverride = null;
+
+    if (useExactRating) {
+      // Single exact rating search
+      document.getElementById('searchBtn').textContent = `Searching... (rating ${startRating})`;
+      try {
+        const url = baseUrl + `&ratingKey=${startRating}&ratingOperatorKey=Equal&pageSize=5000`;
+        const resp = await fetch(url, { headers: HEADERS });
+        const data = await resp.json();
+        if (data.establishments) allEstablishments = data.establishments;
+      } catch (e) { console.warn('Search failed:', e); }
+    } else {
+      // Range search: use LessThanOrEqual for efficiency
+      document.getElementById('searchBtn').textContent = `Searching... (rating ≤${maxRating})`;
+      try {
+        const url = baseUrl + `&ratingKey=${maxRating}&ratingOperatorKey=LessThanOrEqual&pageSize=5000`;
+        const resp = await fetch(url, { headers: HEADERS });
+        const data = await resp.json();
+        if (data.establishments) allEstablishments = data.establishments;
+        document.getElementById('searchBtn').textContent = `Filtering ${allEstablishments.length} results...`;
+      } catch (e) { console.warn('Search failed:', e); }
     }
 
     // Filter by date
