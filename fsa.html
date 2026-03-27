@@ -503,7 +503,6 @@ async function searchFSA() {
     });
 
     // Filter by NewRatingPending if checkbox is checked
-    const pendingOnly = document.getElementById('pendingOnly').checked;
     if (pendingOnly) {
       allResults = allResults.filter(e => e.NewRatingPending === true);
     }
