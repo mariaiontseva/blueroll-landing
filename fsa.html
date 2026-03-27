@@ -457,21 +457,29 @@ async function searchFSA() {
     if (location) baseUrl += `&address=${encodeURIComponent(location)}`;
     if (bizType) baseUrl += `&BusinessTypeName=${encodeURIComponent(bizType)}`;
 
-    // Search ratings 0 through maxRating, paginate to get more results
+    // Search ratings 0 through maxRating, paginate with delay to avoid rate limits
     let allEstablishments = [];
+    const delay = ms => new Promise(r => setTimeout(r, ms));
     for (let r = 0; r <= maxRating; r++) {
       let page = 1;
       let hasMore = true;
-      while (hasMore && page <= 5) { // max 5 pages per rating = 1000 per rating
+      while (hasMore && page <= 3) { // max 3 pages per rating = 600 per rating
         const url = baseUrl + `&ratingKey=${r}&pageSize=200&pageNumber=${page}`;
         document.getElementById('searchBtn').textContent = `Searching... (rating ${r}, page ${page})`;
-        const resp = await fetch(url, { headers: HEADERS });
-        const data = await resp.json();
-        if (data.establishments && data.establishments.length > 0) {
-          allEstablishments = allEstablishments.concat(data.establishments);
-          hasMore = data.establishments.length === 200;
-          page++;
-        } else {
+        try {
+          const resp = await fetch(url, { headers: HEADERS });
+          if (!resp.ok) { hasMore = false; break; }
+          const data = await resp.json();
+          if (data.establishments && data.establishments.length > 0) {
+            allEstablishments = allEstablishments.concat(data.establishments);
+            hasMore = data.establishments.length === 200;
+            page++;
+            await delay(300); // 300ms delay between requests
+          } else {
+            hasMore = false;
+          }
+        } catch (fetchErr) {
+          console.warn(`Failed rating ${r} page ${page}:`, fetchErr);
           hasMore = false;
         }
       }
