@@ -692,10 +692,10 @@ function quickFilter(preset) {
     case 'fresh3':
       document.getElementById('maxRating').value = '3';
       document.getElementById('location').value = '';
-      document.getElementById('bizType').value = 'Restaurant/Cafe/Canteen';
+      document.getElementById('bizType').value = '';
       document.getElementById('ratedIn').value = '30';
       document.getElementById('pendingOnly').checked = false;
-      minRatingOverride = 3; // search ONLY rating 3, not 0-3
+      minRatingOverride = 3;
       break;
     case 'all_low':
       document.getElementById('maxRating').value = '2';
