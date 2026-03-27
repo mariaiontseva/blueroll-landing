@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Improve Your Food Hygiene Rating — Blueroll</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
+  background: #FAFAF7; color: #111; min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center;
+}
+
+.card {
+  max-width: 440px; width: 100%; margin: 40px 20px; background: white;
+  border-radius: 20px; overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
+}
+
+.card-header {
+  background: linear-gradient(135deg, #065F46, #047857);
+  padding: 32px 28px 28px; color: white; text-align: center;
+}
+.card-header .logo { font-size: 18px; font-weight: 700; letter-spacing: -0.4px; margin-bottom: 20px; opacity: 0.7; }
+
+.rating-display { margin-bottom: 12px; }
+.rating-big {
+  font-size: 72px; font-weight: 800; line-height: 1; letter-spacing: -3px;
+  display: inline-block;
+}
+.rating-of { font-size: 28px; font-weight: 600; opacity: 0.3; margin-left: 4px; }
+
+.rating-label { font-size: 16px; font-weight: 500; opacity: 0.7; margin-bottom: 8px; }
+.biz-name { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+.biz-addr { font-size: 14px; opacity: 0.5; margin-top: 4px; }
+.rated-date { font-size: 12px; opacity: 0.35; margin-top: 8px; }
+
+.card-body { padding: 28px; }
+
+.message {
+  font-size: 16px; line-height: 1.6; color: #333; margin-bottom: 24px;
+  text-align: center;
+}
+.message strong { color: #047857; }
+
+.features {
+  margin-bottom: 28px;
+}
+.feature {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 0;
+}
+.feature-check {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #D1FAE5; color: #047857;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+}
+.feature-text { font-size: 14px; color: #444; line-height: 1.4; }
+.feature-text strong { color: #111; }
+
+.cta-buttons { display: flex; flex-direction: column; gap: 10px; }
+.cta-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 16px; border-radius: 12px; text-decoration: none;
+  font-size: 16px; font-weight: 600; transition: all 0.15s;
+}
+.cta-apple {
+  background: #111; color: white;
+}
+.cta-apple:hover { background: #333; }
+.cta-google {
+  background: white; color: #111; border: 1.5px solid #E5E7EB;
+}
+.cta-google:hover { border-color: #111; }
+.cta-btn svg { flex-shrink: 0; }
+
+.trial-note {
+  text-align: center; font-size: 13px; color: #999; margin-top: 16px;
+}
+
+.footer {
+  text-align: center; padding: 20px; font-size: 12px; color: #bbb;
+}
+.footer a { color: #999; }
+
+/* Rating colors */
+.r-0, .r-1 { color: #FCA5A5; }
+.r-2 { color: #FCD34D; }
+.r-3 { color: #6EE7B7; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="card-header">
+    <div class="logo">Blueroll</div>
+    <div class="rating-display">
+      <span class="rating-big" id="ratingNum">—</span><span class="rating-of">/5</span>
+    </div>
+    <div class="rating-label" id="ratingLabel">Food Hygiene Rating</div>
+    <div class="biz-name" id="bizName">Your Business</div>
+    <div class="biz-addr" id="bizAddr"></div>
+    <div class="rated-date" id="ratedDate"></div>
+  </div>
+
+  <div class="card-body">
+    <div class="message" id="message">
+      Getting to <strong>5 stars</strong> is easier than you think — with the right tools.
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-check">✓</div>
+        <div class="feature-text"><strong>Digital HACCP checklists</strong> — replace paper records, always inspection-ready</div>
+      </div>
+      <div class="feature">
+        <div class="feature-check">✓</div>
+        <div class="feature-text"><strong>AI recipe import</strong> — snap a photo, allergens extracted automatically</div>
+      </div>
+      <div class="feature">
+        <div class="feature-check">✓</div>
+        <div class="feature-text"><strong>One-tap compliance reports</strong> — PDF ready for your EHO</div>
+      </div>
+      <div class="feature">
+        <div class="feature-check">✓</div>
+        <div class="feature-text"><strong>Temperature logging</strong> — automatic alerts when out of range</div>
+      </div>
+    </div>
+
+    <div class="cta-buttons">
+      <a href="#" class="cta-btn cta-apple" id="appleBtn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Download on App Store
+      </a>
+      <a href="#" class="cta-btn cta-google" id="googleBtn">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#34A853" d="M3.609 1.814L13.792 12 3.61 22.186a2.37 2.37 0 01-.61-1.6V3.414c0-.6.222-1.147.609-1.6z"/><path fill="#FBBC04" d="M17.556 8.236L14.84 9.81 13.792 12l1.048 2.19 2.716 1.574 3.04-1.758c.784-.452 1.28-1.233 1.28-2.006s-.496-1.554-1.28-2.006l-3.04-1.758z"/><path fill="#4285F4" d="M3.609 1.814L13.792 12l3.764-3.764L5.55.422C4.843.016 4.183-.009 3.609.185V1.814z"/><path fill="#EA4335" d="M3.609 22.186L13.792 12l3.764 3.764L5.55 23.578c-.707.406-1.367.431-1.941.237v-1.629z"/></svg>
+        Get it on Google Play
+      </a>
+    </div>
+
+    <div class="trial-note">14-day free trial · No credit card required · £14.99/month after</div>
+  </div>
+</div>
+
+<div class="footer">
+  <a href="https://blueroll.app">blueroll.app</a> · <a href="https://blueroll.app/privacy.html">Privacy</a> · <a href="https://blueroll.app/terms.html">Terms</a>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const name = params.get('name') || 'Your Business';
+const addr = params.get('addr') || '';
+const rating = params.get('rating') || '?';
+const date = params.get('date') || '';
+const fhrsId = params.get('fhrsid') || '';
+
+document.getElementById('bizName').textContent = name;
+document.getElementById('bizAddr').textContent = addr;
+document.getElementById('ratingNum').textContent = rating;
+if (date) document.getElementById('ratedDate').textContent = 'Rated ' + date;
+
+const r = parseInt(rating);
+const ratingEl = document.getElementById('ratingNum');
+if (r <= 1) ratingEl.classList.add('r-1');
+else if (r === 2) ratingEl.classList.add('r-2');
+else if (r >= 3) ratingEl.classList.add('r-3');
+
+const labels = {
+  0: 'Urgent Improvement Necessary',
+  1: 'Major Improvement Necessary',
+  2: 'Improvement Necessary',
+  3: 'Generally Satisfactory'
+};
+if (labels[r]) document.getElementById('ratingLabel').textContent = labels[r];
+
+const messages = {
+  0: 'Your business needs urgent attention. <strong>Blueroll</strong> can help you build proper food safety records fast.',
+  1: 'Major improvements are needed — but with <strong>digital records</strong>, getting to 5 stars is very achievable.',
+  2: 'You\'re close. <strong>Digital HACCP records</strong> could be the difference between a 2 and a 5.',
+  3: 'Good start! Go from 3 to <strong>5 stars</strong> with proper digital compliance records.'
+};
+if (messages[r]) document.getElementById('message').innerHTML = messages[r];
+
+document.title = name + ' — Improve Your Food Hygiene Rating';
+
+// UTM tracking
+const utm = `?utm_source=fsa_letter&utm_medium=qr&utm_campaign=${encodeURIComponent(name)}`;
+document.getElementById('appleBtn').href = 'https://apps.apple.com/app/blueroll/id6760937451' + utm;
+document.getElementById('googleBtn').href = 'https://blueroll.app' + utm;
+</script>
+</body>
+</html>

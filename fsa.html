@@ -491,8 +491,9 @@ Best regards,
 The Blueroll Team
 hello@blueroll.app`;
 
-  // QR code via public API
-  document.getElementById('qrCode').src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent('https://blueroll.app?utm_source=fsa_letter&utm_medium=print&utm_campaign=' + encodeURIComponent(e.BusinessName))}`;
+  // QR code links to personalized landing page
+  const rPage = `https://blueroll.app/r.html?name=${encodeURIComponent(e.BusinessName)}&addr=${encodeURIComponent(addr)}&rating=${encodeURIComponent(rating)}&date=${encodeURIComponent(ratedDate)}&fhrsid=${e.FHRSID || ''}`;
+  document.getElementById('qrCode').src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(rPage)}`;
 
   document.getElementById('modal').classList.add('active');
 }
