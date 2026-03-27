@@ -159,6 +159,15 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
   white-space: pre-wrap; font-family: var(--font);
 }
 .letter-content .highlight { background: #FEF3C7; padding: 2px 4px; border-radius: 2px; font-weight: 600; }
+.letter-content { font-size: 14px !important; }
+.letter-qr {
+  text-align: center; margin: 20px 0; padding: 20px;
+  background: #F9FAFB; border-radius: 12px; border: 1px solid #E5E7EB;
+}
+.letter-qr img { border-radius: 8px; display: block; margin: 0 auto; }
+.letter-qr-text {
+  font-size: 13px; color: #666; margin-top: 10px; font-weight: 500; line-height: 1.4;
+}
 .qr-section { text-align: center; margin: 24px 0; }
 .qr-section img { border: 1px solid #eee; border-radius: 8px; }
 .modal-actions { display: flex; gap: 8px; margin-top: 24px; padding-top: 20px; border-top: 1px solid #eee; }
@@ -225,14 +234,17 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
   }
 
   .letter-content {
-    font-size: 12px !important;
+    font-size: 14px !important;
     line-height: 1.7 !important;
     margin-top: 0 !important;
   }
+  .letter-qr {
+    background: #F9FAFB !important; border: 1px solid #ddd !important;
+    padding: 16px !important; margin: 16px 0 !important;
+  }
+  .letter-qr img { width: 180px !important; height: 180px !important; }
 
-  .qr-section { margin: 16px 0 !important; }
-  .qr-section img { width: 100px !important; height: 100px !important; }
-  .qr-section div { font-size: 9px !important; }
+  .qr-section { display: none !important; }
 
   /* Footer */
   .print-footer {
@@ -371,9 +383,8 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
     <h2 id="letterBizName"></h2>
     <div class="subtitle" id="letterBizAddr"></div>
     <div class="letter-content" id="letterContent"></div>
-    <div class="qr-section">
+    <div class="qr-section" id="qrSection" style="display:none;">
       <img id="qrCode" width="160" height="160" alt="QR Code">
-      <div style="font-size:12px; color:#888; margin-top:8px;">Scan to download Blueroll</div>
     </div>
     <div class="print-footer">blueroll.app · hello@blueroll.app · Food Safety Made Simple</div>
     <div class="modal-actions">
@@ -533,14 +544,21 @@ function showLetter(idx) {
     '3': 'Generally Satisfactory'
   }[rating] || rating;
 
+  // QR code links to personalized landing page
+  const rPage = `https://blueroll.app/r.html?name=${encodeURIComponent(e.BusinessName)}&addr=${encodeURIComponent(addr)}&rating=${encodeURIComponent(rating)}&date=${encodeURIComponent(ratedDate)}&fhrsid=${e.FHRSID || ''}`;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(rPage)}`;
+
   document.getElementById('letterContent').innerHTML =
 `Dear ${e.BusinessName} team,
 
 We noticed that your business at <span class="highlight">${addr}</span> received a food hygiene rating of <span class="highlight">${rating} — ${ratingText}</span> on ${ratedDate}.
 
-We understand that managing food safety compliance can be challenging, especially with the demands of running a busy kitchen. That's exactly why we built <strong>Blueroll</strong>.
+<div class="letter-qr">
+  <img src="${qrUrl}" width="200" height="200" alt="QR">
+  <div class="letter-qr-text">Scan to see your full rating<br>breakdown and details</div>
+</div>
 
-Blueroll is a mobile app that replaces paper HACCP records with digital checklists, helps you track allergens automatically, and generates compliance reports with one tap — so you're always ready for your next inspection.
+We understand that maintaining compliance can be challenging alongside running a busy kitchen. That's why we built <strong>Blueroll</strong> — a mobile app that replaces paper HACCP records with digital checklists, tracks allergens automatically, and generates inspection-ready compliance reports with one tap.
 
 <strong>What Blueroll can do for you:</strong>
 • Digital HACCP checklists with automatic reminders
@@ -549,17 +567,16 @@ Blueroll is a mobile app that replaces paper HACCP records with digital checklis
 • Team task tracking — see who completed what
 • Temperature logging with out-of-range alerts
 
-Many restaurants have improved their food hygiene rating after switching to digital record-keeping. We'd love to help ${e.BusinessName} get back to a 5-star rating.
+Many restaurants have improved their rating after switching to digital records. We'd love to help ${e.BusinessName} get back to 5 stars.
 
-<strong>Try Blueroll free for 14 days</strong> — no credit card required. Scan the QR code below or visit blueroll.app.
+<strong>Try Blueroll free for 14 days</strong> — no credit card required.
+Visit <strong>blueroll.app</strong> or scan the QR code above.
 
 Best regards,
 The Blueroll Team
 hello@blueroll.app`;
 
-  // QR code links to personalized landing page
-  const rPage = `https://blueroll.app/r.html?name=${encodeURIComponent(e.BusinessName)}&addr=${encodeURIComponent(addr)}&rating=${encodeURIComponent(rating)}&date=${encodeURIComponent(ratedDate)}&fhrsid=${e.FHRSID || ''}`;
-  document.getElementById('qrCode').src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(rPage)}`;
+  document.getElementById('qrCode').style.display = 'none';
 
   document.getElementById('modal').classList.add('active');
 }
