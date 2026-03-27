@@ -429,6 +429,7 @@ const API = 'https://api.ratings.food.gov.uk';
 const HEADERS = { 'x-api-version': '2', 'Accept': 'application/json' };
 let allResults = [];
 let selected = new Set();
+let minRatingOverride = null; // for quickFilter to search exact rating
 
 // Clock
 setInterval(() => {
@@ -461,8 +462,10 @@ async function searchFSA() {
     let allEstablishments = [];
     const delay = ms => new Promise(r => setTimeout(r, ms));
     const pendingOnly = document.getElementById('pendingOnly').checked;
-    const maxPages = pendingOnly ? 1 : 2; // fewer pages for pending (we filter after)
-    for (let r = 0; r <= maxRating; r++) {
+    const maxPages = pendingOnly ? 1 : 2;
+    const startRating = minRatingOverride !== null ? minRatingOverride : 0;
+    minRatingOverride = null; // reset after use
+    for (let r = startRating; r <= maxRating; r++) {
       let page = 1;
       let hasMore = true;
       while (hasMore && page <= maxPages) {
@@ -678,6 +681,7 @@ function quickFilter(preset) {
       document.getElementById('bizType').value = 'Restaurant/Cafe/Canteen';
       document.getElementById('ratedIn').value = '30';
       document.getElementById('pendingOnly').checked = false;
+      minRatingOverride = 3; // search ONLY rating 3, not 0-3
       break;
     case 'all_low':
       document.getElementById('maxRating').value = '2';
