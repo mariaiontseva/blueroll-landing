@@ -460,10 +460,12 @@ async function searchFSA() {
     // Search ratings 0 through maxRating, paginate with delay to avoid rate limits
     let allEstablishments = [];
     const delay = ms => new Promise(r => setTimeout(r, ms));
+    const pendingOnly = document.getElementById('pendingOnly').checked;
+    const maxPages = pendingOnly ? 1 : 2; // fewer pages for pending (we filter after)
     for (let r = 0; r <= maxRating; r++) {
       let page = 1;
       let hasMore = true;
-      while (hasMore && page <= 3) { // max 3 pages per rating = 600 per rating
+      while (hasMore && page <= maxPages) {
         const url = baseUrl + `&ratingKey=${r}&pageSize=200&pageNumber=${page}`;
         document.getElementById('searchBtn').textContent = `Searching... (rating ${r}, page ${page})`;
         try {
@@ -474,7 +476,7 @@ async function searchFSA() {
             allEstablishments = allEstablishments.concat(data.establishments);
             hasMore = data.establishments.length === 200;
             page++;
-            await delay(300); // 300ms delay between requests
+            await delay(500); // 500ms delay between requests to avoid rate limit
           } else {
             hasMore = false;
           }
