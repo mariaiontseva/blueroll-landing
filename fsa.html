@@ -181,45 +181,73 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 .select-bar.active { display: flex; }
 .select-bar strong { font-weight: 600; }
 
+/* Print-only elements (hidden on screen) */
+.print-logo { display: none; }
+.print-footer { display: none; }
+
 @media print {
   * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-  body { background: white !important; color: black !important; }
+  body { background: white !important; color: black !important; overflow: visible !important; }
   .header, .sidebar, .main, .layout { display: none !important; }
   .modal-overlay {
-    display: flex !important; position: static !important; background: none !important;
-    backdrop-filter: none !important;
+    display: block !important; position: static !important; background: none !important;
+    backdrop-filter: none !important; overflow: visible !important;
   }
   .modal {
     box-shadow: none !important; border-radius: 0 !important;
     width: 100% !important; max-width: 100% !important;
-    max-height: none !important; padding: 40px 60px !important;
-    margin: 0 !important;
+    max-height: none !important; overflow: visible !important;
+    padding: 0 !important; margin: 0 !important;
   }
   .modal-close, .modal-actions { display: none !important; }
-  .letter-content { font-size: 13px !important; line-height: 1.8 !important; }
-  .modal h2 { font-size: 18px !important; }
-  .modal .subtitle { font-size: 12px !important; }
-  .qr-section { margin: 20px 0 !important; }
-  .qr-section img { width: 120px !important; height: 120px !important; }
 
-  /* Print letterhead */
-  .modal::before {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 4px;
-    background: #047857;
-    margin-bottom: 32px;
+  /* Envelope window: address visible at ~45mm from top, ~20mm from left */
+  /* Standard DL envelope window: roughly 90x45mm, positioned 20mm left, 45mm top */
+
+  .print-logo {
+    display: block !important;
+    margin-bottom: 8px;
   }
-  .modal::after {
-    content: 'blueroll.app · hello@blueroll.app';
-    display: block;
+  .print-logo img {
+    height: 28px;
+    border-radius: 5px;
+  }
+
+  .modal h2 {
+    font-size: 16px !important;
+    margin-top: 4px !important;
+    margin-bottom: 2px !important;
+  }
+  .modal .subtitle {
+    font-size: 11px !important;
+    margin-bottom: 32px !important;
+    /* This block (logo + name + address) sits in the envelope window area */
+  }
+
+  .letter-content {
+    font-size: 12px !important;
+    line-height: 1.7 !important;
+    margin-top: 0 !important;
+  }
+
+  .qr-section { margin: 16px 0 !important; }
+  .qr-section img { width: 100px !important; height: 100px !important; }
+  .qr-section div { font-size: 9px !important; }
+
+  /* Footer */
+  .print-footer {
+    display: block !important;
     text-align: center;
-    font-size: 10px;
+    font-size: 9px;
     color: #999;
-    margin-top: 24px;
-    padding-top: 16px;
+    margin-top: 16px;
+    padding-top: 12px;
     border-top: 1px solid #eee;
+  }
+
+  @page {
+    margin: 20mm 18mm 15mm 20mm;
+    size: A4;
   }
 }
 </style>
@@ -339,6 +367,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="print-logo"><img src="app_icon.png" alt="Blueroll"></div>
     <h2 id="letterBizName"></h2>
     <div class="subtitle" id="letterBizAddr"></div>
     <div class="letter-content" id="letterContent"></div>
@@ -346,6 +375,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
       <img id="qrCode" width="160" height="160" alt="QR Code">
       <div style="font-size:12px; color:#888; margin-top:8px;">Scan to download Blueroll</div>
     </div>
+    <div class="print-footer">blueroll.app · hello@blueroll.app · Food Safety Made Simple</div>
     <div class="modal-actions">
       <button class="btn-print" onclick="window.print()">Print Letter</button>
       <button class="btn-copy" onclick="copyLetter()">Copy Text</button>
