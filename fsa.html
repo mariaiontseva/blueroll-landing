@@ -286,6 +286,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
         <option value="1">1 — Major improvement necessary</option>
         <option value="2" selected>2 — Improvement necessary</option>
         <option value="3">3 — Generally satisfactory</option>
+        <option value="4">4 — Good</option>
       </select>
     </div>
 
@@ -423,18 +424,27 @@ async function searchFSA() {
   cutoffDate.setDate(cutoffDate.getDate() - ratedInDays);
 
   try {
-    let url = `${API}/Establishments?pageSize=200&sortOptionKey=RatingDate&sortDescending=true`;
-    if (location) url += `&name=&address=${encodeURIComponent(location)}`;
-    if (bizType) url += `&BusinessTypeId=&BusinessTypeName=${encodeURIComponent(bizType)}`;
+    let baseUrl = `${API}/Establishments?sortOptionKey=RatingDate&sortDescending=true`;
+    if (location) baseUrl += `&address=${encodeURIComponent(location)}`;
+    if (bizType) baseUrl += `&BusinessTypeName=${encodeURIComponent(bizType)}`;
 
-    // Search ratings 0 through maxRating
+    // Search ratings 0 through maxRating, paginate to get more results
     let allEstablishments = [];
     for (let r = 0; r <= maxRating; r++) {
-      const ratingUrl = url + `&ratingKey=${r}`;
-      const resp = await fetch(ratingUrl, { headers: HEADERS });
-      const data = await resp.json();
-      if (data.establishments) {
-        allEstablishments = allEstablishments.concat(data.establishments);
+      let page = 1;
+      let hasMore = true;
+      while (hasMore && page <= 5) { // max 5 pages per rating = 1000 per rating
+        const url = baseUrl + `&ratingKey=${r}&pageSize=200&pageNumber=${page}`;
+        document.getElementById('searchBtn').textContent = `Searching... (rating ${r}, page ${page})`;
+        const resp = await fetch(url, { headers: HEADERS });
+        const data = await resp.json();
+        if (data.establishments && data.establishments.length > 0) {
+          allEstablishments = allEstablishments.concat(data.establishments);
+          hasMore = data.establishments.length === 200;
+          page++;
+        } else {
+          hasMore = false;
+        }
       }
     }
 
@@ -544,8 +554,9 @@ function showLetter(idx) {
     '3': 'Generally Satisfactory'
   }[rating] || rating;
 
-  // QR code links to personalized landing page
-  const rPage = `https://blueroll.app/r.html?name=${encodeURIComponent(e.BusinessName)}&addr=${encodeURIComponent(addr)}&rating=${encodeURIComponent(rating)}&date=${encodeURIComponent(ratedDate)}&fhrsid=${e.FHRSID || ''}`;
+  // QR code links to personalized landing page with scores
+  const scores = e.scores || {};
+  const rPage = `https://blueroll.app/r.html?name=${encodeURIComponent(e.BusinessName)}&addr=${encodeURIComponent(addr)}&rating=${encodeURIComponent(rating)}&date=${encodeURIComponent(ratedDate)}&fhrsid=${e.FHRSID || ''}&h=${scores.Hygiene||''}&s=${scores.Structural||''}&m=${scores.ConfidenceInManagement||''}`;
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(rPage)}`;
 
   document.getElementById('letterContent').innerHTML =

@@ -57,6 +57,30 @@ body {
   margin-bottom: 24px; max-width: 320px;
 }
 
+/* Score breakdown */
+.breakdown {
+  width: 100%; margin-bottom: 20px;
+  background: rgba(255,255,255,0.06); border-radius: 12px;
+  padding: 14px 16px;
+}
+.score-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 6px 0;
+}
+.score-label { font-size: 12px; opacity: 0.5; width: 80px; flex-shrink: 0; }
+.score-bar {
+  flex: 1; height: 6px; background: rgba(255,255,255,0.1);
+  border-radius: 3px; overflow: hidden;
+}
+.score-fill {
+  height: 100%; border-radius: 3px; transition: width 0.6s ease;
+  display: block;
+}
+.score-fill.good { background: #34D399; }
+.score-fill.ok { background: #FCD34D; }
+.score-fill.bad { background: #FCA5A5; }
+.score-verdict { font-size: 11px; font-weight: 600; width: 60px; text-align: right; }
+
 /* Features — compact horizontal */
 .features {
   display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
@@ -103,6 +127,25 @@ body {
   <div class="rated-date" id="ratedDate"></div>
 
   <div class="message" id="message">Digital records make getting to 5 stars easy.</div>
+
+  <!-- Score breakdown -->
+  <div class="breakdown" id="breakdown" style="display:none;">
+    <div class="score-row">
+      <span class="score-label">Hygiene</span>
+      <span class="score-bar"><span class="score-fill" id="scoreH"></span></span>
+      <span class="score-verdict" id="verdictH"></span>
+    </div>
+    <div class="score-row">
+      <span class="score-label">Structure</span>
+      <span class="score-bar"><span class="score-fill" id="scoreS"></span></span>
+      <span class="score-verdict" id="verdictS"></span>
+    </div>
+    <div class="score-row">
+      <span class="score-label">Management</span>
+      <span class="score-bar"><span class="score-fill" id="scoreM"></span></span>
+      <span class="score-verdict" id="verdictM"></span>
+    </div>
+  </div>
 
   <div class="features">
     <div class="feat">✓ HACCP checklists</div>
@@ -152,6 +195,26 @@ const msg = {
   3: 'Good start. Go from 3 to 5 with proper compliance tools.'
 };
 if (msg[r]) document.getElementById('message').textContent = msg[r];
+
+// Score breakdown (FSA: 0=best, 25=worst for hygiene/structural; 0=best, 30=worst for management)
+const h = p.get('h'); const s = p.get('s'); const m = p.get('m');
+if (h !== null && s !== null && m !== null) {
+  document.getElementById('breakdown').style.display = 'block';
+
+  function renderScore(id, verdictId, raw, max) {
+    const val = parseInt(raw) || 0;
+    const pct = Math.max(5, 100 - (val / max * 100));
+    const el = document.getElementById(id);
+    const vEl = document.getElementById(verdictId);
+    el.style.width = pct + '%';
+    if (val <= 5) { el.classList.add('good'); vEl.textContent = 'Good'; vEl.style.color = '#34D399'; }
+    else if (val <= 10) { el.classList.add('ok'); vEl.textContent = 'Fair'; vEl.style.color = '#FCD34D'; }
+    else { el.classList.add('bad'); vEl.textContent = 'Poor'; vEl.style.color = '#FCA5A5'; }
+  }
+  renderScore('scoreH', 'verdictH', h, 25);
+  renderScore('scoreS', 'verdictS', s, 25);
+  renderScore('scoreM', 'verdictM', m, 30);
+}
 
 const utm = `?utm_source=fsa_letter&utm_medium=qr&utm_campaign=${encodeURIComponent(name)}`;
 document.getElementById('appleBtn').href = 'https://apps.apple.com/app/blueroll/id6760937451' + utm;
