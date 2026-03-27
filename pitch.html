@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blueroll — Pitch Deck</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --border: rgba(255,255,255,0.07);
+    --text: #f0ede6;
+    --muted: rgba(240,237,230,0.45);
+    --accent: #c8f5a0;
+    --accent-dim: rgba(200,245,160,0.12);
+    --mono: 'DM Mono', monospace;
+    --serif: 'DM Serif Display', serif;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    overflow: hidden;
+  }
+
+  .deck {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5vw 7vw;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .slide-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 2.5rem;
+  }
+
+  .big-number {
+    font-family: var(--serif);
+    font-size: clamp(72px, 13vw, 160px);
+    line-height: 0.9;
+    color: var(--text);
+    margin-bottom: 1.25rem;
+  }
+
+  .big-number span {
+    color: var(--accent);
+  }
+
+  .headline {
+    font-size: clamp(16px, 2.2vw, 22px);
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 600px;
+    line-height: 1.5;
+    margin-bottom: 3rem;
+  }
+
+  .source {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(240,237,230,0.25);
+    letter-spacing: 0.05em;
+    margin-top: -2.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .source a {
+    color: rgba(240,237,230,0.35);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .stats-row {
+    display: grid;
+    gap: 1px;
+  }
+
+  .stats-row.cols-2 { grid-template-columns: 1fr 1fr; }
+  .stats-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  .stat-box {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    padding: 1.5rem 1.75rem;
+  }
+
+  .stat-box:first-child { border-radius: 4px 0 0 4px; }
+  .stat-box:last-child { border-radius: 0 4px 4px 0; }
+  .stats-row.cols-2 .stat-box:only-child,
+  .stats-row.cols-3 .stat-box:only-child { border-radius: 4px; }
+
+  .stat-num {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 42px);
+    color: var(--text);
+    margin-bottom: 0.35rem;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .stat-source {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: rgba(240,237,230,0.2);
+    margin-top: 0.5rem;
+    letter-spacing: 0.04em;
+  }
+
+  .stat-source a { color: rgba(240,237,230,0.28); text-decoration: underline; text-underline-offset: 2px; }
+
+  .divider {
+    width: 32px;
+    height: 1px;
+    background: var(--accent);
+    margin-bottom: 2rem;
+    opacity: 0.6;
+  }
+
+  /* Cover slide */
+  .cover-logo {
+    font-family: var(--serif);
+    font-size: clamp(48px, 8vw, 96px);
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+
+  .cover-logo span {
+    color: var(--accent);
+  }
+
+  .cover-sub {
+    font-size: clamp(14px, 1.8vw, 18px);
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 500px;
+    line-height: 1.6;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border: 0.5px solid rgba(200,245,160,0.25);
+    padding: 4px 10px;
+    border-radius: 2px;
+    margin-bottom: 2rem;
+  }
+
+  /* Nav */
+  .nav {
+    position: fixed;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    z-index: 100;
+  }
+
+  .nav-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--muted);
+    opacity: 0.3;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+
+  .dot.active {
+    opacity: 1;
+    background: var(--accent);
+    transform: scale(1.3);
+  }
+
+  .nav-btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    background: none;
+    border: 0.5px solid var(--border);
+    padding: 6px 14px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+
+  .nav-btn:hover {
+    color: var(--text);
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  /* Counter */
+  .slide-counter {
+    position: fixed;
+    top: 2rem;
+    right: 2.5rem;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    opacity: 0.4;
+  }
+
+  /* Competitor table */
+  .comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+  }
+
+  .comp-table th {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 0.75rem 1rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .comp-table td {
+    font-size: 14px;
+    color: var(--text);
+    padding: 0.9rem 1rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .comp-table tr:last-child td { border-bottom: none; }
+
+  .comp-table .hl td { color: var(--accent); }
+
+  .comp-table .muted-td { color: var(--muted); font-size: 13px; }
+
+  .pill {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 9px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    letter-spacing: 0.08em;
+  }
+
+  .pill-red { background: rgba(220,50,50,0.15); color: #f87171; border: 0.5px solid rgba(220,50,50,0.2); }
+  .pill-green { background: var(--accent-dim); color: var(--accent); border: 0.5px solid rgba(200,245,160,0.2); }
+
+  /* Team slide */
+  .team-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    margin-top: 1rem;
+  }
+
+  .team-box {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    padding: 1.5rem;
+  }
+
+  .team-box:first-child { border-radius: 4px 0 0 4px; }
+  .team-box:last-child { border-radius: 0 4px 4px 0; }
+
+  .team-val {
+    font-family: var(--serif);
+    font-size: 32px;
+    color: var(--accent);
+    margin-bottom: 0.35rem;
+  }
+
+  .team-key {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.2rem;
+  }
+
+  .team-desc {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.4;
+  }
+
+  /* Bg grid */
+  .bg-grid {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .slide { z-index: 1; }
+  .nav { z-index: 10; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .slide.active .big-number,
+  .slide.active .cover-logo,
+  .slide.active .headline,
+  .slide.active .stats-row,
+  .slide.active .comp-table,
+  .slide.active .team-row,
+  .slide.active .divider {
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .slide.active .stats-row { animation-delay: 0.15s; }
+  .slide.active .comp-table { animation-delay: 0.15s; }
+  .slide.active .team-row { animation-delay: 0.15s; }
+  .slide.active .headline { animation-delay: 0.08s; }
+
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+
+<div class="deck" id="deck">
+
+  <!-- SLIDE 0: Cover -->
+  <div class="slide active" data-index="0">
+    <div class="tag">Pre-seed · 2026</div>
+    <div class="cover-logo">Blue<span>roll</span></div>
+    <div class="divider"></div>
+    <div class="cover-sub">AI-powered food safety compliance for UK restaurants. Replacing paper HACCP records at £14.99/month.</div>
+  </div>
+
+  <!-- SLIDE 1: Problem — cost of foodborne illness -->
+  <div class="slide" data-index="1">
+    <div class="slide-label">01 — Problem</div>
+    <div class="big-number"><span>£10.4</span>bn</div>
+    <div class="headline">annual economic burden of foodborne illness in the UK</div>
+    <div class="source">Source: <a href="https://www.gov.uk/government/statistics/united-kingdom-food-security-report-2024/united-kingdom-food-security-report-2024-theme-5-food-safety-and-consumer-confidence" target="_blank">UK Food Security Report 2024, FSA/DEFRA</a></div>
+    <div class="stats-row cols-2">
+      <div class="stat-box">
+        <div class="stat-num">430,000+</div>
+        <div class="stat-label">food businesses legally required to maintain HACCP records across England, Wales & Northern Ireland</div>
+        <div class="stat-source">Source: <a href="https://www.food.gov.uk/news-alerts/news/fsa-marks-15-years-of-food-hygiene-ratings-and-reminds-diners-to-look-before-they-book" target="_blank">FSA, 15 Years of FHRS, 2025</a></div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">95,000</div>
+        <div class="stat-label">overdue inspections including 871 high-risk businesses — backlog from post-pandemic under-resourcing</div>
+        <div class="stat-source">Source: <a href="https://www.foodsafetynews.com/2025/06/uk-food-agencies-voice-concerns-about-status-of-inspection-activities/" target="_blank">FSA/FSS Our Food 2024, via Food Safety News</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: Urgency — allergens & risk -->
+  <div class="slide" data-index="2">
+    <div class="slide-label">02 — Why now</div>
+    <div class="big-number"><span>2×</span></div>
+    <div class="headline">businesses rated 2 or below are twice as likely to cause food poisoning outbreaks versus those rated 3+</div>
+    <div class="source">Source: <a href="https://www.food.gov.uk/news-alerts/news/fsa-marks-15-years-of-food-hygiene-ratings-and-reminds-diners-to-look-before-they-book" target="_blank">FSA FHRS 15th Anniversary Research, November 2025</a></div>
+    <div class="stats-row cols-3">
+      <div class="stat-box">
+        <div class="stat-num">101</div>
+        <div class="stat-label">allergen alerts issued by FSA last year — up from 64 the year before</div>
+        <div class="stat-source">Source: <a href="https://www.foodsafetynews.com/2025/06/uk-food-agencies-voice-concerns-about-status-of-inspection-activities/" target="_blank">FSA/FSS Our Food 2024</a></div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">89%</div>
+        <div class="stat-label">of businesses in England improve their record-keeping after receiving a bad hygiene rating</div>
+        <div class="stat-source">Source: <a href="https://science.food.gov.uk/article/138241-food-hygiene-rating-scheme-audit-of-display-and-business-survey-2024" target="_blank">FSA FHRS Business Survey 2024</a></div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">20%</div>
+        <div class="stat-label">of food safety officer posts in Scotland vacant or unavailable — enforcement resources shrinking nationally</div>
+        <div class="stat-source">Source: <a href="https://www.foodsafetynews.com/2025/06/uk-food-agencies-voice-concerns-about-status-of-inspection-activities/" target="_blank">FSA/FSS Our Food 2024</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: Market -->
+  <div class="slide" data-index="3">
+    <div class="slide-label">03 — Market</div>
+    <div class="big-number"><span>£68</span>M</div>
+    <div class="headline">UK ARR opportunity — 380,000 independent food businesses × £14.99/month</div>
+    <div class="source">Calculation based on: <a href="https://www.food.gov.uk/news-alerts/news/fsa-marks-15-years-of-food-hygiene-ratings-and-reminds-diners-to-look-before-they-book" target="_blank">FSA FHRS data 2025</a>. Excludes NHS, schools, care homes (additional channel).</div>
+    <div class="stats-row cols-3">
+      <div class="stat-box">
+        <div class="stat-num">£38+</div>
+        <div class="stat-label">Trail — per site per month. Web-only. No native mobile app. Owned by Access Group.</div>
+        <div class="stat-source">Source: <a href="https://www.fooddocs.com/post/digital-haccp-compliance-tools" target="_blank">FoodDocs HACCP Tools Comparison 2025</a></div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">£59+</div>
+        <div class="stat-label">FoodDocs — per site per month on annual plan. Estonian startup targeting enterprise.</div>
+        <div class="stat-source">Source: <a href="https://www.fooddocs.com/post/digital-haccp-compliance-tools" target="_blank">FoodDocs Pricing 2025</a></div>
+      </div>
+      <div class="stat-box" style="border: 0.5px solid rgba(200,245,160,0.3);">
+        <div class="stat-num" style="color:var(--accent);">£14.99</div>
+        <div class="stat-label">Blueroll — flat monthly. All features. Native iOS. Built for independent operators.</div>
+        <div class="stat-source">blueroll.app</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: Solution -->
+  <div class="slide" data-index="4">
+    <div class="slide-label">04 — Solution</div>
+    <div class="big-number"><span>30</span>s</div>
+    <div class="headline">AI extracts full allergen data, ingredients & cooking parameters from any recipe — photo, text, or PDF</div>
+    <div class="source">blueroll.app — live on the App Store</div>
+    <div class="stats-row cols-3">
+      <div class="stat-box">
+        <div class="stat-num">14</div>
+        <div class="stat-label">EU allergens tracked automatically across all menu items</div>
+        <div class="stat-source">Per EU Food Information for Consumers Regulation (EU FIC)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">5</div>
+        <div class="stat-label">SFBB templates built in — based on FSA's own Safer Food Better Business framework</div>
+        <div class="stat-source">FSA SFBB, food.gov.uk</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">1 tap</div>
+        <div class="stat-label">PDF compliance report — date-stamped, ready to send to Environmental Health Officer</div>
+        <div class="stat-source">blueroll.app</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: Competitors -->
+  <div class="slide" data-index="5">
+    <div class="slide-label">05 — Competitive landscape</div>
+    <div class="headline" style="margin-bottom:1.5rem;">Nobody owns the independent. Trail and FoodDocs serve chains. Blueroll serves the 350,000 they've ignored.</div>
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Pricing</th>
+          <th>Native mobile</th>
+          <th>AI features</th>
+          <th>Target</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Trail (Access Group)</td>
+          <td class="muted-td">£38+/site/mo</td>
+          <td><span class="pill pill-red">Web only</span></td>
+          <td><span class="pill pill-red">Limited</span></td>
+          <td class="muted-td">Wagamama, Costa</td>
+        </tr>
+        <tr>
+          <td>FoodDocs</td>
+          <td class="muted-td">£59+/site/mo</td>
+          <td><span class="pill pill-green">Yes</span></td>
+          <td><span class="pill pill-green">HACCP AI</span></td>
+          <td class="muted-td">Multi-site enterprise</td>
+        </tr>
+        <tr>
+          <td>SFBB+</td>
+          <td class="muted-td">£4.99/mo</td>
+          <td><span class="pill pill-green">Yes</span></td>
+          <td><span class="pill pill-red">None</span></td>
+          <td class="muted-td">Basic FSA diary only</td>
+        </tr>
+        <tr class="hl">
+          <td><strong>Blueroll</strong></td>
+          <td>£14.99 flat</td>
+          <td><span class="pill pill-green">Native iOS</span></td>
+          <td><span class="pill pill-green">Recipe AI</span></td>
+          <td>Independent restaurants</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="stat-source" style="margin-top:1rem;">Sources: <a href="https://www.fooddocs.com/post/digital-haccp-compliance-tools" target="_blank">FoodDocs Comparison 2025</a> · <a href="https://www.capterra.com/p/176765/Trail/" target="_blank">Capterra Trail 2026</a> · <a href="https://www.sfbbplus.co.uk/" target="_blank">sfbbplus.co.uk</a></div>
+  </div>
+
+  <!-- SLIDE 6: Team -->
+  <div class="slide" data-index="6">
+    <div class="slide-label">06 — Founder</div>
+    <div class="big-number"><span>$2</span>M</div>
+    <div class="headline">raised at Lobster — visual content marketplace with Google as enterprise client</div>
+    <div class="team-row">
+      <div class="team-box">
+        <div class="team-val">15 yrs</div>
+        <div class="team-key">Product design & tech</div>
+        <div class="team-desc">CS degree, Moscow State University. Co-founded and scaled Lobster to $2M in funding.</div>
+      </div>
+      <div class="team-box">
+        <div class="team-val">Oxford</div>
+        <div class="team-key">DPhil researcher</div>
+        <div class="team-desc">MA SOAS · MPhil Oxford · DPhil 2026. Deep research background alongside technical execution.</div>
+      </div>
+      <div class="team-box">
+        <div class="team-val">Solo+AI</div>
+        <div class="team-key">Built & shipped alone</div>
+        <div class="team-desc">Blueroll designed, built, and launched by one founder using AI-assisted development. Capital-efficient by default.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: Ask -->
+  <div class="slide" data-index="7">
+    <div class="slide-label">07 — The ask</div>
+    <div class="big-number"><span>£150</span>k</div>
+    <div class="headline">pre-seed to acquire first 200 customers, validate NHS/education catering channel, and make first hire</div>
+    <div class="stats-row cols-3">
+      <div class="stat-box">
+        <div class="stat-num">£9k</div>
+        <div class="stat-label">MRR target at 200 customers — path to default-alive</div>
+        <div class="stat-source">200 × £14.99 × 3 sites avg</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">NHS</div>
+        <div class="stat-label">50+ kitchens per NHS Trust — single contract worth more than 100 independent restaurants</div>
+        <div class="stat-source">G-Cloud procurement channel</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">12 mo</div>
+        <div class="stat-label">runway to traction — product live, market validated, team in place</div>
+        <div class="stat-source">blueroll.app</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <button class="nav-btn" id="prev">← prev</button>
+  <div class="nav-dots" id="dots"></div>
+  <button class="nav-btn" id="next">next →</button>
+</div>
+
+<div class="slide-counter" id="counter"></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dotsContainer = document.getElementById('dots');
+  const counter = document.getElementById('counter');
+  let current = 0;
+
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => go(i);
+    dotsContainer.appendChild(d);
+  });
+
+  function go(n) {
+    slides[current].classList.remove('active');
+    dotsContainer.children[current].classList.remove('active');
+    current = (n + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dotsContainer.children[current].classList.add('active');
+    counter.textContent = (current + 1) + ' / ' + slides.length;
+  }
+
+  go(0);
+
+  document.getElementById('next').onclick = () => go(current + 1);
+  document.getElementById('prev').onclick = () => go(current - 1);
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') go(current + 1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') go(current - 1);
+  });
+</script>
+</body>
+</html>
