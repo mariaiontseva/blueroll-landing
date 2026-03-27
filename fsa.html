@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blueroll — FSA Outreach Tool</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0f0d;
+  --surface: #111916;
+  --surface2: #192019;
+  --border: rgba(16,185,129,0.12);
+  --text: #e2e8e4;
+  --muted: rgba(226,232,228,0.4);
+  --accent: #10B981;
+  --accent-dim: rgba(16,185,129,0.1);
+  --red: #EF4444;
+  --orange: #F59E0B;
+  --font: -apple-system, 'SF Pro Text', system-ui, sans-serif;
+  --mono: 'SF Mono', 'Menlo', 'Consolas', monospace;
+}
+
+body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 14px; min-height: 100vh; }
+
+/* Header */
+.header {
+  padding: 20px 32px;
+  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.header-left { display: flex; align-items: center; gap: 16px; }
+.header-left h1 { font-size: 16px; font-weight: 600; letter-spacing: -0.3px; }
+.header-left .tag {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--accent); background: var(--accent-dim);
+  padding: 3px 8px; border-radius: 3px; border: 0.5px solid rgba(16,185,129,0.2);
+}
+.header-right { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+
+/* Layout */
+.layout { display: grid; grid-template-columns: 340px 1fr; height: calc(100vh - 61px); }
+
+/* Sidebar */
+.sidebar { border-right: 1px solid var(--border); padding: 24px; overflow-y: auto; }
+.sidebar h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 16px; font-weight: 500; }
+
+.form-group { margin-bottom: 16px; }
+.form-label { font-size: 11px; color: var(--muted); margin-bottom: 6px; display: block; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.05em; }
+.form-input, .form-select {
+  width: 100%; background: var(--surface2); border: 1px solid var(--border);
+  color: var(--text); padding: 10px 12px; border-radius: 6px; font-size: 14px;
+  font-family: inherit; outline: none; transition: border-color 0.15s;
+}
+.form-input:focus, .form-select:focus { border-color: var(--accent); }
+.form-select { cursor: pointer; -webkit-appearance: none; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2310B981'%3E%3Cpath d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center;
+}
+
+.btn {
+  width: 100%; padding: 12px; border: none; border-radius: 6px;
+  font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+  font-family: inherit;
+}
+.btn-primary { background: var(--accent); color: #0a0f0d; }
+.btn-primary:hover { background: #34D399; }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); margin-top: 8px; }
+.btn-secondary:hover { border-color: var(--accent); }
+
+.stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 20px; }
+.stat-box {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: 6px;
+  padding: 12px; text-align: center;
+}
+.stat-num { font-family: var(--mono); font-size: 24px; font-weight: 700; color: var(--accent); }
+.stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* Main */
+.main { overflow-y: auto; }
+.main-header {
+  padding: 16px 24px; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  position: sticky; top: 0; background: var(--bg); z-index: 10;
+}
+.main-header h2 { font-size: 13px; color: var(--muted); font-weight: 400; }
+.main-header .actions { display: flex; gap: 8px; }
+.btn-sm {
+  padding: 6px 14px; font-size: 12px; border-radius: 4px;
+  border: 1px solid var(--border); background: var(--surface2);
+  color: var(--text); cursor: pointer; font-family: inherit; font-weight: 500;
+  transition: all 0.15s;
+}
+.btn-sm:hover { border-color: var(--accent); color: var(--accent); }
+.btn-sm-primary { background: var(--accent); color: #0a0f0d; border-color: var(--accent); }
+.btn-sm-primary:hover { background: #34D399; }
+
+/* Table */
+.table { width: 100%; border-collapse: collapse; }
+.table th {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--muted); text-align: left;
+  padding: 10px 16px; border-bottom: 1px solid var(--border);
+  position: sticky; top: 49px; background: var(--bg); z-index: 5;
+}
+.table td { padding: 12px 16px; border-bottom: 1px solid rgba(16,185,129,0.05); font-size: 13px; }
+.table tr { transition: background 0.1s; }
+.table tr:hover { background: var(--accent-dim); }
+.table input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px; cursor: pointer; }
+
+.rating-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 6px; font-weight: 700; font-size: 14px;
+}
+.rating-0, .rating-1 { background: rgba(239,68,68,0.15); color: #EF4444; }
+.rating-2 { background: rgba(249,115,22,0.15); color: #F97316; }
+.rating-3 { background: rgba(245,158,11,0.15); color: #F59E0B; }
+.rating-4 { background: rgba(16,185,129,0.15); color: #10B981; }
+.rating-5 { background: rgba(16,185,129,0.15); color: #10B981; }
+
+.biz-name { font-weight: 500; }
+.biz-addr { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.date-cell { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+/* Empty state */
+.empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--muted); }
+.empty-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.3; }
+.empty-text { font-size: 15px; }
+.empty-sub { font-size: 12px; margin-top: 4px; }
+
+/* Loading */
+.loading { display: none; align-items: center; justify-content: center; padding: 40px; }
+.loading.active { display: flex; }
+.spinner { width: 24px; height: 24px; border: 2.5px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.6s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Letter modal */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+  z-index: 100; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.active { display: flex; }
+.modal {
+  background: white; color: #111; border-radius: 12px; width: 640px; max-height: 90vh;
+  overflow-y: auto; padding: 48px; position: relative;
+}
+.modal-close {
+  position: absolute; top: 16px; right: 16px; background: none; border: none;
+  font-size: 24px; cursor: pointer; color: #999; line-height: 1;
+}
+.modal h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+.modal .subtitle { font-size: 13px; color: #888; margin-bottom: 24px; }
+.letter-content {
+  font-size: 14px; line-height: 1.7; color: #333;
+  white-space: pre-wrap; font-family: var(--font);
+}
+.letter-content .highlight { background: #FEF3C7; padding: 2px 4px; border-radius: 2px; font-weight: 600; }
+.qr-section { text-align: center; margin: 24px 0; }
+.qr-section img { border: 1px solid #eee; border-radius: 8px; }
+.modal-actions { display: flex; gap: 8px; margin-top: 24px; padding-top: 20px; border-top: 1px solid #eee; }
+.modal .btn-print {
+  flex: 1; padding: 12px; border: 1px solid #ddd; background: white; border-radius: 8px;
+  font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit;
+}
+.modal .btn-print:hover { border-color: #047857; color: #047857; }
+.modal .btn-copy {
+  flex: 1; padding: 12px; background: #047857; color: white; border: none; border-radius: 8px;
+  font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
+}
+
+/* Select all */
+.select-bar {
+  display: none; padding: 10px 24px; background: var(--accent-dim);
+  border-bottom: 1px solid var(--border); font-size: 13px; color: var(--accent);
+  align-items: center; gap: 12px;
+}
+.select-bar.active { display: flex; }
+.select-bar strong { font-weight: 600; }
+
+@media print {
+  body { background: white; color: black; }
+  .header, .sidebar, .main-header, .modal-overlay, .modal-actions { display: none !important; }
+  .modal { box-shadow: none; padding: 20px; width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>Blueroll FSA Outreach</h1>
+    <span class="tag">Internal</span>
+  </div>
+  <div class="header-right" id="clock"></div>
+</div>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Search Parameters</h2>
+
+    <div class="form-group">
+      <label class="form-label">Max Rating</label>
+      <select class="form-select" id="maxRating">
+        <option value="0">0 — Urgent improvement necessary</option>
+        <option value="1">1 — Major improvement necessary</option>
+        <option value="2" selected>2 — Improvement necessary</option>
+        <option value="3">3 — Generally satisfactory</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Location (postcode or area)</label>
+      <input class="form-input" id="location" placeholder="e.g. London, N4, SW1A" value="">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Business Type</label>
+      <select class="form-select" id="bizType">
+        <option value="">All types</option>
+        <option value="Restaurant/Cafe/Canteen" selected>Restaurant/Cafe/Canteen</option>
+        <option value="Takeaway/Sandwich shop">Takeaway/Sandwich shop</option>
+        <option value="Pub/bar/nightclub">Pub/bar/nightclub</option>
+        <option value="Hotel/B&B/Guest house">Hotel/B&B/Guest house</option>
+        <option value="Retailers - other">Retailers</option>
+        <option value="Caring Premises">Care homes</option>
+        <option value="School/College/University">Schools/Universities</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Rated in last</label>
+      <select class="form-select" id="ratedIn">
+        <option value="7">7 days</option>
+        <option value="14">14 days</option>
+        <option value="30" selected>30 days</option>
+        <option value="90">90 days</option>
+        <option value="365">1 year</option>
+      </select>
+    </div>
+
+    <button class="btn btn-primary" id="searchBtn" onclick="searchFSA()">Search FSA Register</button>
+    <button class="btn btn-secondary" id="generateBtn" onclick="generateLetters()" disabled>Generate Letters for Selected</button>
+
+    <div class="stats-row" id="stats" style="display:none;">
+      <div class="stat-box">
+        <div class="stat-num" id="statTotal">0</div>
+        <div class="stat-label">Found</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" id="statSelected">0</div>
+        <div class="stat-label">Selected</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="main-header" id="mainHeader" style="display:none;">
+      <h2 id="resultSummary"></h2>
+      <div class="actions">
+        <button class="btn-sm" onclick="selectAll()">Select All</button>
+        <button class="btn-sm" onclick="deselectAll()">Deselect All</button>
+        <button class="btn-sm btn-sm-primary" onclick="generateLetters()">Generate Letters</button>
+      </div>
+    </div>
+
+    <div class="select-bar" id="selectBar">
+      <strong id="selectCount">0</strong> businesses selected
+    </div>
+
+    <div id="emptyState" class="empty">
+      <div class="empty-icon">🔍</div>
+      <div class="empty-text">Search the FSA register</div>
+      <div class="empty-sub">Find businesses with low ratings and generate outreach letters</div>
+    </div>
+
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+    </div>
+
+    <table class="table" id="resultsTable" style="display:none;">
+      <thead>
+        <tr>
+          <th style="width:40px;"><input type="checkbox" id="checkAll" onchange="toggleAll(this.checked)"></th>
+          <th>Rating</th>
+          <th>Business</th>
+          <th>Type</th>
+          <th>Rated</th>
+          <th style="width:80px;">Letter</th>
+        </tr>
+      </thead>
+      <tbody id="results"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Letter Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <h2 id="letterBizName"></h2>
+    <div class="subtitle" id="letterBizAddr"></div>
+    <div class="letter-content" id="letterContent"></div>
+    <div class="qr-section">
+      <img id="qrCode" width="160" height="160" alt="QR Code">
+      <div style="font-size:12px; color:#888; margin-top:8px;">Scan to download Blueroll</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-print" onclick="window.print()">Print Letter</button>
+      <button class="btn-copy" onclick="copyLetter()">Copy Text</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = 'https://api.ratings.food.gov.uk';
+const HEADERS = { 'x-api-version': '2', 'Accept': 'application/json' };
+let allResults = [];
+let selected = new Set();
+
+// Clock
+setInterval(() => {
+  document.getElementById('clock').textContent = new Date().toLocaleString('en-GB', {
+    day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'
+  });
+}, 1000);
+
+async function searchFSA() {
+  const maxRating = parseInt(document.getElementById('maxRating').value);
+  const location = document.getElementById('location').value.trim();
+  const bizType = document.getElementById('bizType').value;
+  const ratedInDays = parseInt(document.getElementById('ratedIn').value);
+
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('resultsTable').style.display = 'none';
+  document.getElementById('loading').classList.add('active');
+  document.getElementById('searchBtn').disabled = true;
+  document.getElementById('searchBtn').textContent = 'Searching...';
+
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - ratedInDays);
+
+  try {
+    let url = `${API}/Establishments?pageSize=200&sortOptionKey=RatingDate&sortDescending=true`;
+    if (location) url += `&name=&address=${encodeURIComponent(location)}`;
+    if (bizType) url += `&BusinessTypeId=&BusinessTypeName=${encodeURIComponent(bizType)}`;
+
+    // Search ratings 0 through maxRating
+    let allEstablishments = [];
+    for (let r = 0; r <= maxRating; r++) {
+      const ratingUrl = url + `&ratingKey=${r}`;
+      const resp = await fetch(ratingUrl, { headers: HEADERS });
+      const data = await resp.json();
+      if (data.establishments) {
+        allEstablishments = allEstablishments.concat(data.establishments);
+      }
+    }
+
+    // Filter by date
+    allResults = allEstablishments.filter(e => {
+      if (!e.RatingDate) return false;
+      const rated = new Date(e.RatingDate);
+      return rated >= cutoffDate;
+    }).sort((a, b) => new Date(b.RatingDate) - new Date(a.RatingDate));
+
+    // Remove duplicates by FHRSID
+    const seen = new Set();
+    allResults = allResults.filter(e => {
+      if (seen.has(e.FHRSID)) return false;
+      seen.add(e.FHRSID);
+      return true;
+    });
+
+    renderResults();
+  } catch (err) {
+    alert('Error: ' + err.message);
+  } finally {
+    document.getElementById('loading').classList.remove('active');
+    document.getElementById('searchBtn').disabled = false;
+    document.getElementById('searchBtn').textContent = 'Search FSA Register';
+  }
+}
+
+function renderResults() {
+  const tbody = document.getElementById('results');
+  const table = document.getElementById('resultsTable');
+  const header = document.getElementById('mainHeader');
+  const stats = document.getElementById('stats');
+
+  tbody.innerHTML = '';
+  selected.clear();
+  updateSelectCount();
+
+  if (allResults.length === 0) {
+    document.getElementById('emptyState').style.display = 'flex';
+    document.getElementById('emptyState').querySelector('.empty-text').textContent = 'No results found';
+    document.getElementById('emptyState').querySelector('.empty-sub').textContent = 'Try a different location or wider date range';
+    table.style.display = 'none';
+    header.style.display = 'none';
+    stats.style.display = 'none';
+    return;
+  }
+
+  table.style.display = 'table';
+  header.style.display = 'flex';
+  stats.style.display = 'grid';
+  document.getElementById('statTotal').textContent = allResults.length;
+  document.getElementById('resultSummary').textContent = `${allResults.length} businesses rated ≤${document.getElementById('maxRating').value} in the last ${document.getElementById('ratedIn').value} days`;
+
+  allResults.forEach((e, i) => {
+    const rating = e.RatingValue || '?';
+    const ratingNum = parseInt(rating) || 0;
+    const addr = [e.AddressLine1, e.AddressLine2, e.AddressLine3, e.PostCode].filter(Boolean).join(', ');
+    const ratedDate = e.RatingDate ? new Date(e.RatingDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : '—';
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="checkbox" data-idx="${i}" onchange="toggleSelect(${i}, this.checked)"></td>
+      <td><span class="rating-badge rating-${ratingNum}">${rating}</span></td>
+      <td><div class="biz-name">${e.BusinessName}</div><div class="biz-addr">${addr}</div></td>
+      <td style="font-size:12px;color:var(--muted);">${e.BusinessType || '—'}</td>
+      <td class="date-cell">${ratedDate}</td>
+      <td><button class="btn-sm" onclick="showLetter(${i})">View</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function toggleSelect(idx, checked) {
+  if (checked) selected.add(idx); else selected.delete(idx);
+  updateSelectCount();
+}
+
+function toggleAll(checked) {
+  const boxes = document.querySelectorAll('#results input[type="checkbox"]');
+  boxes.forEach(cb => { cb.checked = checked; toggleSelect(parseInt(cb.dataset.idx), checked); });
+}
+
+function selectAll() { document.getElementById('checkAll').checked = true; toggleAll(true); }
+function deselectAll() { document.getElementById('checkAll').checked = false; toggleAll(false); }
+
+function updateSelectCount() {
+  document.getElementById('statSelected').textContent = selected.size;
+  document.getElementById('selectCount').textContent = selected.size;
+  document.getElementById('selectBar').classList.toggle('active', selected.size > 0);
+  document.getElementById('generateBtn').disabled = selected.size === 0;
+}
+
+function showLetter(idx) {
+  const e = allResults[idx];
+  const rating = e.RatingValue || '?';
+  const addr = [e.AddressLine1, e.AddressLine2, e.AddressLine3, e.PostCode].filter(Boolean).join(', ');
+  const ratedDate = e.RatingDate ? new Date(e.RatingDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }) : 'recently';
+
+  document.getElementById('letterBizName').textContent = e.BusinessName;
+  document.getElementById('letterBizAddr').textContent = addr;
+
+  const ratingText = {
+    '0': 'Urgent Improvement Necessary',
+    '1': 'Major Improvement Necessary',
+    '2': 'Improvement Necessary',
+    '3': 'Generally Satisfactory'
+  }[rating] || rating;
+
+  document.getElementById('letterContent').innerHTML =
+`Dear ${e.BusinessName} team,
+
+We noticed that your business at <span class="highlight">${addr}</span> received a food hygiene rating of <span class="highlight">${rating} — ${ratingText}</span> on ${ratedDate}.
+
+We understand that managing food safety compliance can be challenging, especially with the demands of running a busy kitchen. That's exactly why we built <strong>Blueroll</strong>.
+
+Blueroll is a mobile app that replaces paper HACCP records with digital checklists, helps you track allergens automatically, and generates compliance reports with one tap — so you're always ready for your next inspection.
+
+<strong>What Blueroll can do for you:</strong>
+• Digital HACCP checklists with automatic reminders
+• AI-powered recipe import — snap a photo, we extract allergens
+• One-tap PDF compliance reports for EHO inspections
+• Team task tracking — see who completed what
+• Temperature logging with out-of-range alerts
+
+Many restaurants have improved their food hygiene rating after switching to digital record-keeping. We'd love to help ${e.BusinessName} get back to a 5-star rating.
+
+<strong>Try Blueroll free for 14 days</strong> — no credit card required. Scan the QR code below or visit blueroll.app.
+
+Best regards,
+The Blueroll Team
+hello@blueroll.app`;
+
+  // QR code via public API
+  document.getElementById('qrCode').src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent('https://blueroll.app?utm_source=fsa_letter&utm_medium=print&utm_campaign=' + encodeURIComponent(e.BusinessName))}`;
+
+  document.getElementById('modal').classList.add('active');
+}
+
+function closeModal() { document.getElementById('modal').classList.remove('active'); }
+
+function copyLetter() {
+  const text = document.getElementById('letterContent').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.btn-copy');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy Text', 1500);
+  });
+}
+
+function generateLetters() {
+  if (selected.size === 0) return;
+  // Show first selected letter
+  const first = [...selected][0];
+  showLetter(first);
+}
+
+// Close modal on Escape
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeModal(); });
+</script>
+</body>
+</html>
