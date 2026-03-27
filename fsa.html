@@ -456,13 +456,27 @@ async function searchFSA() {
   try {
     let baseUrl = `${API}/Establishments?sortOptionKey=RatingDate&sortDescending=true`;
     if (location) baseUrl += `&address=${encodeURIComponent(location)}`;
-    if (bizType) baseUrl += `&BusinessTypeName=${encodeURIComponent(bizType)}`;
+    if (bizType) {
+      // Map type names to IDs for reliable filtering
+      const typeIds = {
+        'Restaurant/Cafe/Canteen': 1,
+        'Takeaway/Sandwich shop': 7844,
+        'Pub/bar/nightclub': 7843,
+        'Hotel/B&B/Guest house': 7842,
+        'Retailers - other': 4613,
+        'Caring Premises': 5,
+        'School/College/University': 7845
+      };
+      const typeId = typeIds[bizType];
+      if (typeId) baseUrl += `&BusinessTypeId=${typeId}`;
+      else baseUrl += `&BusinessTypeName=${encodeURIComponent(bizType)}`;
+    }
 
     // Search ratings 0 through maxRating, paginate with delay to avoid rate limits
     let allEstablishments = [];
     const delay = ms => new Promise(r => setTimeout(r, ms));
     const pendingOnly = document.getElementById('pendingOnly').checked;
-    const maxPages = pendingOnly ? 1 : 2;
+    const maxPages = pendingOnly ? 1 : 3;
     const startRating = minRatingOverride !== null ? minRatingOverride : 0;
     minRatingOverride = null; // reset after use
     for (let r = startRating; r <= maxRating; r++) {
