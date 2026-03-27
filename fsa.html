@@ -326,6 +326,13 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
       </select>
     </div>
 
+    <div class="form-group">
+      <label class="form-label" style="display:flex;align-items:center;gap:8px;">
+        <input type="checkbox" id="pendingOnly" style="accent-color:var(--accent);width:16px;height:16px;">
+        Awaiting re-inspection only
+      </label>
+    </div>
+
     <button class="btn btn-primary" id="searchBtn" onclick="searchFSA()">Search FSA Register</button>
     <button class="btn btn-secondary" id="generateBtn" onclick="generateLetters()" disabled>Generate Letters for Selected</button>
 
@@ -339,6 +346,20 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
         <div class="stat-label">Selected</div>
       </div>
     </div>
+
+    <h2 style="margin-top:24px;">Quick Filters</h2>
+    <button class="btn btn-secondary" onclick="quickFilter('drops')" style="margin-bottom:6px;margin-top:0;">
+      🔴 Rating drops (last 7 days, ≤2)
+    </button>
+    <button class="btn btn-secondary" onclick="quickFilter('pending')" style="margin-bottom:6px;margin-top:0;">
+      🔄 Awaiting re-inspection
+    </button>
+    <button class="btn btn-secondary" onclick="quickFilter('fresh3')" style="margin-bottom:6px;margin-top:0;">
+      ⚠️ Rated 3 this month
+    </button>
+    <button class="btn btn-secondary" onclick="quickFilter('all_low')" style="margin-top:0;">
+      📋 All rated ≤2 (full UK)
+    </button>
   </div>
 
   <!-- Main -->
@@ -373,7 +394,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
           <th>Rating</th>
           <th>Business</th>
           <th>Type</th>
+          <th>Local Authority</th>
           <th>Rated</th>
+          <th>Pending</th>
           <th style="width:80px;">Letter</th>
         </tr>
       </thead>
@@ -469,6 +492,12 @@ async function searchFSA() {
       return true;
     });
 
+    // Filter by NewRatingPending if checkbox is checked
+    const pendingOnly = document.getElementById('pendingOnly').checked;
+    if (pendingOnly) {
+      allResults = allResults.filter(e => e.NewRatingPending === true);
+    }
+
     renderResults();
   } catch (err) {
     alert('Error: ' + err.message);
@@ -517,7 +546,9 @@ function renderResults() {
       <td><span class="rating-badge rating-${ratingNum}">${rating}</span></td>
       <td><div class="biz-name">${e.BusinessName}</div><div class="biz-addr">${addr}</div></td>
       <td style="font-size:12px;color:var(--muted);">${e.BusinessType || '—'}</td>
+      <td style="font-size:12px;color:var(--muted);">${e.LocalAuthorityName || '—'}</td>
       <td class="date-cell">${ratedDate}</td>
+      <td>${e.NewRatingPending ? '<span style="color:var(--accent);font-size:11px;font-weight:600;">RE-INSPECT</span>' : ''}</td>
       <td><button class="btn-sm" onclick="showLetter(${i})">View</button></td>
     `;
     tbody.appendChild(tr);
@@ -614,6 +645,40 @@ function generateLetters() {
   // Show first selected letter
   const first = [...selected][0];
   showLetter(first);
+}
+
+function quickFilter(preset) {
+  switch(preset) {
+    case 'drops':
+      document.getElementById('maxRating').value = '2';
+      document.getElementById('location').value = '';
+      document.getElementById('bizType').value = '';
+      document.getElementById('ratedIn').value = '7';
+      document.getElementById('pendingOnly').checked = false;
+      break;
+    case 'pending':
+      document.getElementById('maxRating').value = '3';
+      document.getElementById('location').value = '';
+      document.getElementById('bizType').value = '';
+      document.getElementById('ratedIn').value = '90';
+      document.getElementById('pendingOnly').checked = true;
+      break;
+    case 'fresh3':
+      document.getElementById('maxRating').value = '3';
+      document.getElementById('location').value = '';
+      document.getElementById('bizType').value = 'Restaurant/Cafe/Canteen';
+      document.getElementById('ratedIn').value = '30';
+      document.getElementById('pendingOnly').checked = false;
+      break;
+    case 'all_low':
+      document.getElementById('maxRating').value = '2';
+      document.getElementById('location').value = '';
+      document.getElementById('bizType').value = '';
+      document.getElementById('ratedIn').value = '365';
+      document.getElementById('pendingOnly').checked = false;
+      break;
+  }
+  searchFSA();
 }
 
 // Close modal on Escape
