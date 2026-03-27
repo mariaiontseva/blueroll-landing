@@ -196,8 +196,14 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 
 @media print {
   * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-  body { background: white !important; color: black !important; overflow: visible !important; }
+  body { background: white !important; color: black !important; overflow: hidden !important; width: 100% !important; }
+  html { overflow: hidden !important; }
   .header, .sidebar, .main, .layout { display: none !important; }
+  /* Kill any browser extension overlays */
+  body > *:not(.modal-overlay) { display: none !important; }
+  body > .modal-overlay { display: block !important; }
+  iframe, [id*="extension"], [class*="extension"], [data-extension],
+  body > div:not(.modal-overlay):not(.layout):not(.header) { display: none !important; }
   .modal-overlay {
     display: block !important; position: static !important; background: none !important;
     backdrop-filter: none !important; overflow: visible !important;
