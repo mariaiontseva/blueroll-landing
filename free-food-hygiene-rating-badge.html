@@ -87,23 +87,36 @@ nav {
 .search-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
 /* Results */
-.results-list { margin-top: 12px; max-height: 320px; overflow-y: auto; }
+.results-list {
+  margin-top: 12px; max-height: 340px; overflow-y: auto;
+  background: white; border-radius: 14px; border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+.results-list:empty { display: none; }
 .result-item {
-  display: flex; align-items: center; gap: 12px; padding: 10px 12px;
-  border-radius: 10px; cursor: pointer; transition: background 0.1s;
+  display: flex; align-items: center; gap: 14px; padding: 14px 16px;
+  cursor: pointer; transition: background 0.12s;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
 }
-.result-item:hover { background: rgba(4,120,87,0.06); }
+.result-item:last-child { border-bottom: none; }
+.result-item:first-child { border-radius: 14px 14px 0 0; }
+.result-item:last-child { border-radius: 0 0 14px 14px; }
+.result-item:only-child { border-radius: 14px; }
+.result-item:hover { background: #F0FAF5; }
 .result-rating {
-  width: 36px; height: 36px; border-radius: 9px; display: flex;
-  align-items: center; justify-content: center; font-size: 16px; font-weight: 800; flex-shrink: 0;
+  width: 38px; height: 38px; border-radius: 10px; display: flex;
+  align-items: center; justify-content: center; font-size: 17px; font-weight: 800; flex-shrink: 0;
 }
-.r5, .r4 { background: #D1FAE5; color: #047857; }
-.r3 { background: #FEF3C7; color: #92400E; }
-.r2 { background: #FED7AA; color: #9A3412; }
-.r1, .r0 { background: #FECACA; color: #991B1B; }
+.r5 { background: #047857; color: white; }
+.r4 { background: #10B981; color: white; }
+.r3 { background: #F59E0B; color: white; }
+.r2 { background: #F97316; color: white; }
+.r1 { background: #EF4444; color: white; }
+.r0 { background: #DC2626; color: white; }
 .result-info { flex: 1; min-width: 0; }
-.result-name { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.result-addr { font-size: 12px; color: var(--light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.result-name { font-weight: 600; font-size: 15px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.result-addr { font-size: 13px; color: var(--light); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.result-arrow { color: var(--border); font-size: 18px; }
 
 /* Widget Section */
 .widget-section { display: none; max-width: 680px; margin: 0 auto; padding: 0 24px 64px; }
@@ -328,7 +341,7 @@ function renderResults(list) {
     const r = parseInt(e.RatingValue) || 0;
     const addrParts = [e.AddressLine1, e.AddressLine2, e.PostCode].filter(s => s && s !== e.BusinessName);
     const addr = addrParts.join(', ');
-    return `<div class="result-item" onclick="pick(${i})"><div class="result-rating r${r}">${r}</div><div class="result-info"><div class="result-name">${e.BusinessName}</div><div class="result-addr">${addr}</div></div></div>`;
+    return `<div class="result-item" onclick="pick(${i})"><div class="result-rating r${r}">${r}</div><div class="result-info"><div class="result-name">${e.BusinessName}</div><div class="result-addr">${addr}</div></div><div class="result-arrow">›</div></div>`;
   }).join('');
   window._r = list;
 }
