@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /fsa.html
+Disallow: /r.html
+Sitemap: https://blueroll.app/sitemap.xml
