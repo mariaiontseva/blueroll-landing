@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Food Hygiene Rating Widget for Your Website — Blueroll</title>
+<meta name="description" content="Add a free food hygiene rating badge to your restaurant website. Show customers your FSA rating with a beautiful, auto-updating widget. 3 styles to choose from. Powered by Blueroll.">
+<meta name="keywords" content="food hygiene rating widget, FSA rating badge, restaurant website widget, food safety badge, free rating widget, FHRS widget">
+<link rel="canonical" href="https://blueroll.app/widget.html">
+<meta property="og:title" content="Free Food Hygiene Rating Widget — Blueroll">
+<meta property="og:description" content="Show your FSA food hygiene rating on your website with a beautiful, free widget.">
+<meta property="og:image" content="https://blueroll.app/og-image.png">
+<link rel="icon" href="favicon.ico">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZFY0GPZYYQ');</script>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --cream: #FAF8F4;
+  --ink: #1a1a1a;
+  --mid: #666;
+  --light: #aaa;
+  --border: #e8e4dd;
+  --green: #047857;
+  --green-light: #D1FAE5;
+  --green-dark: #065F46;
+  --display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --body: 'DM Sans', system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--body); background: var(--cream); color: var(--ink); }
+
+/* Nav */
+nav {
+  position: sticky; top: 0; z-index: 50;
+  padding: 16px 32px; display: flex; align-items: center; justify-content: space-between;
+  background: rgba(250,248,244,0.9); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+nav a { text-decoration: none; color: var(--ink); }
+.nav-logo { display: flex; align-items: center; gap: 8px; font-family: var(--display); font-size: 18px; font-weight: 800; }
+.nav-logo img { width: 28px; border-radius: 6px; }
+.nav-link { font-size: 13px; color: var(--green); font-weight: 600; padding: 8px 16px; border: 1px solid var(--green); border-radius: 8px; }
+.nav-link:hover { background: var(--green); color: white; }
+
+/* Hero */
+.hero {
+  max-width: 800px; margin: 0 auto;
+  padding: 80px 24px 48px; text-align: center;
+}
+.hero-pill {
+  display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--green); background: var(--green-light);
+  padding: 6px 14px; border-radius: 100px; margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: var(--display); font-size: clamp(36px, 5vw, 56px);
+  font-weight: 800; line-height: 1.08; letter-spacing: -1.5px;
+  margin-bottom: 16px;
+}
+.hero h1 span { color: var(--green); }
+.hero p { font-size: 18px; color: var(--mid); line-height: 1.6; max-width: 560px; margin: 0 auto; }
+
+/* Search Section */
+.search-section {
+  max-width: 560px; margin: 0 auto; padding: 0 24px 64px;
+}
+.search-box {
+  background: white; border-radius: 16px; padding: 24px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+}
+.search-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--light); margin-bottom: 8px; }
+.search-input {
+  width: 100%; padding: 14px 16px; border: 1.5px solid var(--border);
+  border-radius: 10px; font-size: 16px; font-family: var(--body);
+  outline: none; transition: border-color 0.15s; background: var(--cream);
+}
+.search-input:focus { border-color: var(--green); }
+.search-btn {
+  width: 100%; margin-top: 12px; padding: 14px; border: none; border-radius: 10px;
+  background: var(--green); color: white; font-size: 15px; font-weight: 600;
+  cursor: pointer; font-family: var(--body); transition: background 0.15s;
+}
+.search-btn:hover { background: var(--green-dark); }
+.search-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Results */
+.results-list {
+  margin-top: 16px; max-height: 300px; overflow-y: auto;
+}
+.result-item {
+  display: flex; align-items: center; gap: 14px; padding: 12px 14px;
+  border-radius: 10px; cursor: pointer; transition: background 0.1s;
+  border: 1px solid transparent;
+}
+.result-item:hover { background: var(--green-light); border-color: var(--green); }
+.result-rating {
+  width: 40px; height: 40px; border-radius: 10px; display: flex;
+  align-items: center; justify-content: center; font-family: var(--display);
+  font-size: 20px; font-weight: 800; flex-shrink: 0;
+}
+.r5 { background: #D1FAE5; color: #047857; }
+.r4 { background: #D1FAE5; color: #047857; }
+.r3 { background: #FEF3C7; color: #92400E; }
+.r2 { background: #FED7AA; color: #9A3412; }
+.r1, .r0 { background: #FECACA; color: #991B1B; }
+.result-info { flex: 1; min-width: 0; }
+.result-name { font-weight: 600; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.result-addr { font-size: 12px; color: var(--light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Widget Preview Section */
+.widget-section {
+  display: none; max-width: 800px; margin: 0 auto; padding: 0 24px 64px;
+}
+.widget-section.active { display: block; }
+
+.widget-section h2 {
+  font-family: var(--display); font-size: 28px; font-weight: 800;
+  text-align: center; margin-bottom: 8px; letter-spacing: -0.5px;
+}
+.widget-section .subtitle {
+  text-align: center; color: var(--mid); font-size: 15px; margin-bottom: 32px;
+}
+
+/* Style Selector */
+.style-tabs {
+  display: flex; gap: 8px; justify-content: center; margin-bottom: 32px;
+}
+.style-tab {
+  padding: 10px 20px; border: 1.5px solid var(--border); border-radius: 100px;
+  font-size: 14px; font-weight: 600; cursor: pointer; background: white;
+  font-family: var(--body); transition: all 0.15s; color: var(--mid);
+}
+.style-tab:hover { border-color: var(--ink); color: var(--ink); }
+.style-tab.active { border-color: var(--green); background: var(--green); color: white; }
+
+/* Widget Previews */
+.preview-area {
+  background: white; border-radius: 16px; padding: 48px;
+  border: 1px solid var(--border); text-align: center; margin-bottom: 24px;
+  min-height: 200px; display: flex; align-items: center; justify-content: center;
+}
+
+/* Widget Style 1: Badge */
+.widget-badge {
+  display: inline-flex; align-items: center; gap: 14px;
+  padding: 14px 20px 14px 14px; border-radius: 14px;
+  background: white; border: 1.5px solid #e5e7eb;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  text-decoration: none; color: #111; font-family: -apple-system, system-ui, sans-serif;
+  transition: box-shadow 0.2s;
+}
+.widget-badge:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+.widget-badge .wb-rating {
+  width: 48px; height: 48px; border-radius: 12px; display: flex;
+  align-items: center; justify-content: center; font-size: 24px; font-weight: 800;
+}
+.widget-badge .wb-info { text-align: left; }
+.widget-badge .wb-label { font-size: 11px; color: #999; font-weight: 500; }
+.widget-badge .wb-name { font-size: 14px; font-weight: 600; margin: 1px 0; }
+.widget-badge .wb-powered { font-size: 9px; color: #bbb; }
+
+/* Widget Style 2: Compact */
+.widget-compact {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px 8px 8px; border-radius: 100px;
+  background: white; border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+  text-decoration: none; color: #111; font-family: -apple-system, system-ui, sans-serif;
+}
+.widget-compact .wc-rating {
+  width: 32px; height: 32px; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center; font-size: 16px; font-weight: 800;
+}
+.widget-compact .wc-text { font-size: 12px; font-weight: 600; }
+.widget-compact .wc-powered { font-size: 9px; color: #bbb; margin-left: 4px; }
+
+/* Widget Style 3: Card */
+.widget-card {
+  display: inline-block; width: 200px; padding: 20px;
+  border-radius: 16px; background: white; border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  text-decoration: none; color: #111; font-family: -apple-system, system-ui, sans-serif;
+  text-align: center;
+}
+.widget-card .wk-rating {
+  width: 64px; height: 64px; border-radius: 16px; display: flex;
+  align-items: center; justify-content: center; font-size: 32px; font-weight: 800;
+  margin: 0 auto 10px;
+}
+.widget-card .wk-label { font-size: 11px; color: #999; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+.widget-card .wk-name { font-size: 14px; font-weight: 700; margin: 6px 0 4px; }
+.widget-card .wk-addr { font-size: 11px; color: #aaa; line-height: 1.3; }
+.widget-card .wk-powered { font-size: 9px; color: #ccc; margin-top: 10px; padding-top: 10px; border-top: 1px solid #f0f0f0; }
+
+/* Code Box */
+.code-box {
+  background: #1a1a1a; border-radius: 12px; padding: 20px; position: relative;
+  text-align: left; overflow-x: auto;
+}
+.code-box code {
+  font-family: 'SF Mono', Menlo, monospace; font-size: 12px;
+  color: #e2e8e4; line-height: 1.6; white-space: pre-wrap; word-break: break-all;
+}
+.code-box .copy-btn {
+  position: absolute; top: 12px; right: 12px; padding: 6px 12px;
+  background: rgba(255,255,255,0.1); border: none; border-radius: 6px;
+  color: #aaa; font-size: 11px; cursor: pointer; font-family: var(--body); font-weight: 600;
+}
+.code-box .copy-btn:hover { background: rgba(255,255,255,0.2); color: white; }
+
+/* SEO Content */
+.content-section {
+  max-width: 680px; margin: 0 auto; padding: 64px 24px;
+  border-top: 1px solid var(--border);
+}
+.content-section h2 {
+  font-family: var(--display); font-size: 28px; font-weight: 800;
+  margin-bottom: 16px; letter-spacing: -0.5px;
+}
+.content-section h3 {
+  font-family: var(--display); font-size: 20px; font-weight: 700;
+  margin: 24px 0 8px;
+}
+.content-section p { font-size: 16px; color: var(--mid); line-height: 1.7; margin-bottom: 12px; }
+.content-section ul { margin: 8px 0 16px 20px; color: var(--mid); line-height: 1.8; }
+
+/* Footer */
+footer {
+  border-top: 1px solid var(--border); padding: 32px 24px; text-align: center;
+  font-size: 12px; color: var(--light);
+}
+footer a { color: var(--mid); text-decoration: none; }
+
+/* Confetti */
+@keyframes confetti-fall {
+  0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100px) rotate(720deg); opacity: 0; }
+}
+.confetti {
+  position: absolute; width: 8px; height: 8px; border-radius: 2px;
+  animation: confetti-fall 1.2s ease-out forwards;
+  pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  .hero { padding: 60px 20px 32px; }
+  .hero h1 { font-size: 32px; }
+  .search-section, .widget-section, .content-section { padding-left: 16px; padding-right: 16px; }
+  .preview-area { padding: 32px 16px; }
+  .style-tabs { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo"><img src="app_icon.png" alt="">Blueroll</a>
+  <a href="/" class="nav-link">Get the App</a>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-pill">Free Tool</div>
+  <h1>Show off your <span>food hygiene rating</span></h1>
+  <p>Add a beautiful, auto-updating badge to your restaurant website. Free forever. Takes 30 seconds.</p>
+</section>
+
+<!-- Search -->
+<section class="search-section">
+  <div class="search-box">
+    <div class="search-label">Find your business</div>
+    <input class="search-input" id="postcode" placeholder="Enter your postcode (e.g. SW1A 1AA)" autofocus>
+    <button class="search-btn" id="searchBtn" onclick="searchPostcode()">Search</button>
+    <div class="results-list" id="results"></div>
+  </div>
+</section>
+
+<!-- Widget Preview -->
+<section class="widget-section" id="widgetSection">
+  <h2>Choose your style</h2>
+  <div class="subtitle">Click a style, copy the code, paste it on your website</div>
+
+  <div class="style-tabs">
+    <button class="style-tab active" onclick="setStyle('badge')">Badge</button>
+    <button class="style-tab" onclick="setStyle('compact')">Compact</button>
+    <button class="style-tab" onclick="setStyle('card')">Card</button>
+  </div>
+
+  <div class="preview-area" id="previewArea" style="position:relative;overflow:hidden;"></div>
+
+  <div class="code-box">
+    <button class="copy-btn" onclick="copyCode()">Copy</button>
+    <code id="codeOutput"></code>
+  </div>
+</section>
+
+<!-- SEO Content -->
+<section class="content-section">
+  <h2>Why display your food hygiene rating?</h2>
+  <p>Your food hygiene rating is one of the first things customers check before visiting your restaurant. Displaying it prominently on your website builds instant trust and can increase bookings by up to 30%.</p>
+
+  <h3>Builds customer trust</h3>
+  <p>A visible 4 or 5-star food hygiene rating tells potential customers that your kitchen meets high standards. It's social proof that works 24/7 on your website.</p>
+
+  <h3>Required by law in some areas</h3>
+  <p>In Wales and Northern Ireland, displaying your food hygiene rating is a legal requirement. In England, it's voluntary — but businesses that display it signal confidence and transparency.</p>
+
+  <h3>Auto-updating from FSA data</h3>
+  <p>Our widget pulls data directly from the Food Standards Agency register. When your rating changes after an inspection, the widget updates automatically — no maintenance needed.</p>
+
+  <h3>How the food hygiene rating scheme works</h3>
+  <p>The Food Hygiene Rating Scheme (FHRS) is run by the Food Standards Agency in partnership with local authorities. Environmental Health Officers inspect food businesses and rate them from 0 to 5 based on three criteria:</p>
+  <ul>
+    <li><strong>Hygienic food handling</strong> — how food is prepared, cooked, cooled, reheated, and stored</li>
+    <li><strong>Physical condition of the business</strong> — cleanliness, layout, lighting, ventilation, and pest control</li>
+    <li><strong>Food safety management</strong> — HACCP procedures, staff training records, and temperature monitoring systems</li>
+  </ul>
+  <p>A rating of 5 means hygiene standards are "very good." A rating of 0 means "urgent improvement is necessary."</p>
+
+  <h3>Want to improve your rating?</h3>
+  <p>Blueroll helps restaurants replace paper HACCP records with digital checklists, track allergens automatically, and generate inspection-ready compliance reports. <a href="/" style="color:var(--green);font-weight:600;">Try Blueroll free for 14 days →</a></p>
+</section>
+
+<footer>
+  <a href="/">Blueroll</a> · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> · © 2026
+</footer>
+
+<script>
+const API = 'https://api.ratings.food.gov.uk';
+const HDR = { 'x-api-version': '2', 'Accept': 'application/json' };
+let selectedBiz = null;
+let currentStyle = 'badge';
+
+document.getElementById('postcode').addEventListener('keydown', e => {
+  if (e.key === 'Enter') searchPostcode();
+});
+
+async function searchPostcode() {
+  const pc = document.getElementById('postcode').value.trim();
+  if (!pc) return;
+  document.getElementById('searchBtn').disabled = true;
+  document.getElementById('searchBtn').textContent = 'Searching...';
+  document.getElementById('results').innerHTML = '';
+
+  try {
+    const resp = await fetch(`${API}/Establishments?address=${encodeURIComponent(pc)}&pageSize=50`, { headers: HDR });
+    const data = await resp.json();
+    const list = (data.establishments || []).filter(e => e.RatingValue && !isNaN(parseInt(e.RatingValue)));
+    renderResults(list);
+  } catch (err) {
+    document.getElementById('results').innerHTML = '<p style="padding:12px;color:#999;font-size:13px;">Search failed. Try again.</p>';
+  }
+  document.getElementById('searchBtn').disabled = false;
+  document.getElementById('searchBtn').textContent = 'Search';
+}
+
+function renderResults(list) {
+  const container = document.getElementById('results');
+  if (!list.length) {
+    container.innerHTML = '<p style="padding:12px;color:#999;font-size:13px;">No businesses found. Try a different postcode.</p>';
+    return;
+  }
+  container.innerHTML = list.map((e, i) => {
+    const r = parseInt(e.RatingValue) || 0;
+    const addr = [e.AddressLine1, e.PostCode].filter(Boolean).join(', ');
+    return `<div class="result-item" onclick="selectBiz(${i})">
+      <div class="result-rating r${r}">${r}</div>
+      <div class="result-info">
+        <div class="result-name">${e.BusinessName}</div>
+        <div class="result-addr">${addr}</div>
+      </div>
+    </div>`;
+  }).join('');
+  window._results = list;
+}
+
+function selectBiz(idx) {
+  selectedBiz = window._results[idx];
+  document.getElementById('widgetSection').classList.add('active');
+  document.getElementById('widgetSection').scrollIntoView({ behavior: 'smooth' });
+  renderWidget();
+  spawnConfetti();
+}
+
+function setStyle(style) {
+  currentStyle = style;
+  document.querySelectorAll('.style-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`[onclick="setStyle('${style}')"]`).classList.add('active');
+  renderWidget();
+}
+
+function renderWidget() {
+  if (!selectedBiz) return;
+  const e = selectedBiz;
+  const r = parseInt(e.RatingValue) || 0;
+  const name = e.BusinessName;
+  const addr = [e.AddressLine1, e.PostCode].filter(Boolean).join(', ');
+  const rColors = {
+    5: { bg: '#D1FAE5', color: '#047857' },
+    4: { bg: '#D1FAE5', color: '#047857' },
+    3: { bg: '#FEF3C7', color: '#92400E' },
+    2: { bg: '#FED7AA', color: '#9A3412' },
+    1: { bg: '#FECACA', color: '#991B1B' },
+    0: { bg: '#FECACA', color: '#991B1B' },
+  };
+  const c = rColors[r] || rColors[0];
+  const link = `https://blueroll.app/r.html?name=${encodeURIComponent(name)}&rating=${r}&addr=${encodeURIComponent(addr)}&fhrsid=${e.FHRSID||''}`;
+
+  let html = '', code = '';
+
+  if (currentStyle === 'badge') {
+    html = `<a href="${link}" target="_blank" class="widget-badge" style="display:inline-flex">
+      <div class="wb-rating" style="background:${c.bg};color:${c.color}">${r}</div>
+      <div class="wb-info">
+        <div class="wb-label">Food Hygiene Rating</div>
+        <div class="wb-name">${name}</div>
+        <div class="wb-powered">Powered by Blueroll</div>
+      </div>
+    </a>`;
+    code = `<!-- Blueroll Food Hygiene Rating Badge -->\n<a href="${link}" target="_blank" style="display:inline-flex;align-items:center;gap:14px;padding:14px 20px 14px 14px;border-radius:14px;background:#fff;border:1.5px solid #e5e7eb;box-shadow:0 2px 12px rgba(0,0,0,.06);text-decoration:none;color:#111;font-family:-apple-system,system-ui,sans-serif">\n  <div style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;background:${c.bg};color:${c.color}">${r}</div>\n  <div style="text-align:left">\n    <div style="font-size:11px;color:#999;font-weight:500">Food Hygiene Rating</div>\n    <div style="font-size:14px;font-weight:600;margin:1px 0">${name}</div>\n    <div style="font-size:9px;color:#bbb">Powered by Blueroll</div>\n  </div>\n</a>`;
+  } else if (currentStyle === 'compact') {
+    html = `<a href="${link}" target="_blank" class="widget-compact" style="display:inline-flex">
+      <div class="wc-rating" style="background:${c.bg};color:${c.color}">${r}</div>
+      <span class="wc-text">Food Hygiene: ${r}/5</span>
+      <span class="wc-powered">by Blueroll</span>
+    </a>`;
+    code = `<!-- Blueroll Rating Badge (Compact) -->\n<a href="${link}" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:8px 14px 8px 8px;border-radius:100px;background:#fff;border:1px solid #e5e7eb;box-shadow:0 1px 6px rgba(0,0,0,.05);text-decoration:none;color:#111;font-family:-apple-system,system-ui,sans-serif">\n  <div style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;background:${c.bg};color:${c.color}">${r}</div>\n  <span style="font-size:12px;font-weight:600">Food Hygiene: ${r}/5</span>\n  <span style="font-size:9px;color:#bbb;margin-left:4px">by Blueroll</span>\n</a>`;
+  } else {
+    html = `<a href="${link}" target="_blank" class="widget-card" style="display:inline-block">
+      <div class="wk-rating" style="background:${c.bg};color:${c.color}">${r}</div>
+      <div class="wk-label">Food Hygiene Rating</div>
+      <div class="wk-name">${name}</div>
+      <div class="wk-addr">${addr}</div>
+      <div class="wk-powered">Powered by Blueroll</div>
+    </a>`;
+    code = `<!-- Blueroll Rating Card -->\n<a href="${link}" target="_blank" style="display:inline-block;width:200px;padding:20px;border-radius:16px;background:#fff;border:1px solid #e5e7eb;box-shadow:0 2px 16px rgba(0,0,0,.06);text-decoration:none;color:#111;font-family:-apple-system,system-ui,sans-serif;text-align:center">\n  <div style="width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;margin:0 auto 10px;background:${c.bg};color:${c.color}">${r}</div>\n  <div style="font-size:11px;color:#999;font-weight:500;text-transform:uppercase;letter-spacing:.05em">Food Hygiene Rating</div>\n  <div style="font-size:14px;font-weight:700;margin:6px 0 4px">${name}</div>\n  <div style="font-size:11px;color:#aaa;line-height:1.3">${addr}</div>\n  <div style="font-size:9px;color:#ccc;margin-top:10px;padding-top:10px;border-top:1px solid #f0f0f0">Powered by Blueroll</div>\n</a>`;
+  }
+
+  document.getElementById('previewArea').innerHTML = html;
+  document.getElementById('codeOutput').textContent = code;
+}
+
+function copyCode() {
+  const code = document.getElementById('codeOutput').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+
+function spawnConfetti() {
+  const area = document.getElementById('previewArea');
+  const colors = ['#10B981', '#34D399', '#6EE7B7', '#FCD34D', '#FB923C', '#F472B6'];
+  for (let i = 0; i < 24; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random() * 100 + '%';
+    c.style.top = '-10px';
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.animationDelay = Math.random() * 0.4 + 's';
+    c.style.animationDuration = 0.8 + Math.random() * 0.6 + 's';
+    area.appendChild(c);
+    setTimeout(() => c.remove(), 2000);
+  }
+}
+</script>
+</body>
+</html>
