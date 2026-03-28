@@ -13,6 +13,9 @@
 <link rel="icon" href="favicon.ico">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZFY0GPZYYQ');</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Blueroll Food Hygiene Rating Badge","applicationCategory":"WebApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"GBP"},"description":"Free food hygiene rating widget for restaurant websites. Show your FSA rating with a beautiful badge.","author":{"@type":"Organization","name":"Blueroll","url":"https://blueroll.app"}}
+</script>
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -287,9 +290,9 @@ const HDR = { 'x-api-version': '2', 'Accept': 'application/json' };
 let selectedBiz = null, currentStyle = 'badge', currentTheme = 'emerald';
 
 const themes = {
-  emerald: { bg: '#065F46', bg2: '#047857', gold: '#D4AF37', goldLight: '#F5E6B8', text: '#fff', name: 'Emerald' },
-  navy:    { bg: '#1E293B', bg2: '#334155', gold: '#D4AF37', goldLight: '#F5E6B8', text: '#fff', name: 'Navy' },
-  noir:    { bg: '#111111', bg2: '#1a1a1a', gold: '#D4AF37', goldLight: '#F5E6B8', text: '#fff', name: 'Noir' },
+  emerald: { bg: '#0C3B2E', bg2: '#145A3C', accent: '#B8966F', text: '#F2EDE4' },
+  navy:    { bg: '#0F1729', bg2: '#1A2744', accent: '#B8966F', text: '#E8E4DD' },
+  noir:    { bg: '#0E0E0E', bg2: '#1A1A1A', accent: '#B8966F', text: '#E8E4DD' },
 };
 
 document.getElementById('postcode').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
@@ -348,51 +351,43 @@ function renderWidget() {
   const name = e.BusinessName, addr = [e.AddressLine1, e.PostCode].filter(Boolean).join(', ');
   const scores = e.scores || {};
   const link = `https://blueroll.app/r.html?name=${encodeURIComponent(name)}&rating=${r}&addr=${encodeURIComponent(addr)}&fhrsid=${e.FHRSID||''}&h=${scores.Hygiene||''}&s=${scores.Structural||''}&m=${scores.ConfidenceInManagement||''}`;
-  const colors = { 5:'#D1FAE5;color:#047857', 4:'#D1FAE5;color:#047857', 3:'#FEF3C7;color:#92400E', 2:'#FED7AA;color:#9A3412', 1:'#FECACA;color:#991B1B', 0:'#FECACA;color:#991B1B' };
-  const bg = (colors[r]||colors[0]).split(';')[0];
-  const fg = (colors[r]||colors[0]).split(';')[1].replace('color:','');
-
   const T = themes[currentTheme];
-  const gold = T.gold;
+  const a = T.accent; // muted gold
   const starSvg = (filled, sz) => filled
-    ? `<svg width="${sz}" height="${sz}" viewBox="0 0 16 16" fill="${gold}"><path d="M8 0l2.47 4.94L16 5.76l-4 3.84.94 5.4L8 12.46 3.06 15l.94-5.4-4-3.84 5.53-.82z"/></svg>`
-    : `<svg width="${sz}" height="${sz}" viewBox="0 0 16 16" fill="none" stroke="${gold}" stroke-width="0.8" opacity="0.3"><path d="M8 1l2.1 4.2L15 5.9l-3.5 3.4.8 4.7L8 11.6 3.7 14l.8-4.7L1 5.9l4.9-.7z"/></svg>`;
+    ? `<svg width="${sz}" height="${sz}" viewBox="0 0 16 16" fill="${a}"><path d="M8 0l2.47 4.94L16 5.76l-4 3.84.94 5.4L8 12.46 3.06 15l.94-5.4-4-3.84 5.53-.82z"/></svg>`
+    : `<svg width="${sz}" height="${sz}" viewBox="0 0 16 16" fill="none" stroke="${a}" stroke-width="0.7" opacity="0.25"><path d="M8 1l2.1 4.2L15 5.9l-3.5 3.4.8 4.7L8 11.6 3.7 14l.8-4.7L1 5.9l4.9-.7z"/></svg>`;
   const stars = (n, sz) => Array.from({length:5}, (_,i) => starSvg(i<n, sz)).join('');
 
-  // Inline styles for embed code
-  const S = {
-    bg: `background:linear-gradient(135deg,${T.bg},${T.bg2})`,
-    text: `color:${T.text}`,
-    gold: `color:${T.gold}`,
-    goldBg: `background:${T.gold};color:${T.bg}`,
-  };
+  const bg = `background:linear-gradient(145deg,${T.bg},${T.bg2})`;
+  const border = `border:1px solid rgba(255,255,255,0.06)`;
+  const accentBg = `background:linear-gradient(145deg,#C6A96C,#A8894F)`;
 
   let html = '', code = '';
   if (currentStyle === 'badge') {
-    html = `<a href="${link}" target="_blank" style="display:inline-flex;align-items:center;gap:16px;padding:18px 24px;border-radius:16px;${S.bg};box-shadow:0 4px 24px rgba(0,0,0,0.2);text-decoration:none;font-family:-apple-system,system-ui,sans-serif">
-      <div style="width:56px;height:56px;border-radius:14px;${S.goldBg};display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;box-shadow:0 2px 8px rgba(0,0,0,0.2)">${r}</div>
+    html = `<a href="${link}" target="_blank" style="display:inline-flex;align-items:center;gap:18px;padding:20px 28px 20px 20px;border-radius:18px;${bg};${border};box-shadow:0 8px 32px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.04);text-decoration:none;font-family:-apple-system,system-ui,sans-serif">
+      <div style="width:58px;height:58px;border-radius:15px;${accentBg};display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:${T.bg};box-shadow:0 4px 12px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.2)">${r}</div>
       <div style="text-align:left">
-        <div style="font-size:10px;${S.gold};font-weight:600;text-transform:uppercase;letter-spacing:.1em">Food Hygiene Rating</div>
-        <div style="display:flex;gap:2px;margin:4px 0">${stars(r,'11')}</div>
-        <div style="font-size:15px;font-weight:700;${S.text};letter-spacing:-.2px">${name}</div>
-        <div style="font-size:9px;color:rgba(255,255,255,0.3);margin-top:2px">Powered by Blueroll</div>
+        <div style="font-size:10px;color:${a};font-weight:600;text-transform:uppercase;letter-spacing:.12em;margin-bottom:3px">Food Hygiene Rating</div>
+        <div style="display:flex;gap:2px;margin-bottom:5px">${stars(r,'12')}</div>
+        <div style="font-size:16px;font-weight:700;color:${T.text};letter-spacing:-.3px">${name}</div>
+        <div style="font-size:9px;color:rgba(255,255,255,0.2);margin-top:4px;letter-spacing:.03em">Powered by Blueroll</div>
       </div></a>`;
     code = `<!-- Food Hygiene Rating Badge — blueroll.app -->\n` + html.replace(/\n\s*/g, '');
   } else if (currentStyle === 'compact') {
-    html = `<a href="${link}" target="_blank" style="display:inline-flex;align-items:center;gap:10px;padding:10px 18px 10px 10px;border-radius:100px;${S.bg};box-shadow:0 2px 12px rgba(0,0,0,0.15);text-decoration:none;font-family:-apple-system,system-ui,sans-serif">
-      <div style="width:36px;height:36px;border-radius:50%;${S.goldBg};display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800">${r}</div>
-      <span style="font-size:13px;font-weight:600;${S.text}">${r}/5</span>
-      <div style="width:1px;height:16px;background:rgba(255,255,255,0.15)"></div>
-      <span style="font-size:9px;color:rgba(255,255,255,0.35)">Blueroll</span></a>`;
+    html = `<a href="${link}" target="_blank" style="display:inline-flex;align-items:center;gap:12px;padding:12px 20px 12px 12px;border-radius:100px;${bg};${border};box-shadow:0 4px 16px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.04);text-decoration:none;font-family:-apple-system,system-ui,sans-serif">
+      <div style="width:38px;height:38px;border-radius:50%;${accentBg};display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:${T.bg};box-shadow:0 2px 6px rgba(0,0,0,0.25)">${r}</div>
+      <div style="display:flex;gap:2px">${stars(r,'10')}</div>
+      <div style="width:1px;height:18px;background:rgba(255,255,255,0.08)"></div>
+      <span style="font-size:9px;color:rgba(255,255,255,0.25);letter-spacing:.03em">Blueroll</span></a>`;
     code = `<!-- Rating Badge — blueroll.app -->\n` + html.replace(/\n\s*/g, '');
   } else {
-    html = `<a href="${link}" target="_blank" style="display:inline-block;width:220px;padding:28px 24px;border-radius:20px;${S.bg};box-shadow:0 8px 32px rgba(0,0,0,0.2);text-decoration:none;font-family:-apple-system,system-ui,sans-serif;text-align:center">
-      <div style="width:72px;height:72px;border-radius:18px;${S.goldBg};display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;margin:0 auto 12px;box-shadow:0 2px 8px rgba(0,0,0,0.2)">${r}</div>
-      <div style="display:flex;justify-content:center;gap:3px;margin-bottom:10px">${stars(r,'14')}</div>
-      <div style="font-size:10px;${S.gold};font-weight:600;text-transform:uppercase;letter-spacing:.1em">Food Hygiene Rating</div>
-      <div style="font-size:15px;font-weight:700;${S.text};margin:6px 0 4px">${name}</div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.35)">${addr}</div>
-      <div style="font-size:9px;color:rgba(255,255,255,0.2);margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.08)">Powered by Blueroll</div></a>`;
+    html = `<a href="${link}" target="_blank" style="display:inline-block;width:240px;padding:32px 28px;border-radius:22px;${bg};${border};box-shadow:0 12px 40px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.04);text-decoration:none;font-family:-apple-system,system-ui,sans-serif;text-align:center">
+      <div style="width:80px;height:80px;border-radius:20px;${accentBg};display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:800;color:${T.bg};margin:0 auto 14px;box-shadow:0 4px 16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.2)">${r}</div>
+      <div style="display:flex;justify-content:center;gap:3px;margin-bottom:12px">${stars(r,'15')}</div>
+      <div style="font-size:9px;color:${a};font-weight:600;text-transform:uppercase;letter-spacing:.12em">Food Hygiene Rating</div>
+      <div style="font-size:16px;font-weight:700;color:${T.text};margin:8px 0 4px;letter-spacing:-.2px">${name}</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.25);line-height:1.3">${addr}</div>
+      <div style="font-size:9px;color:rgba(255,255,255,0.12);margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.05);letter-spacing:.03em">Powered by Blueroll</div></a>`;
     code = `<!-- Rating Card — blueroll.app -->\n` + html.replace(/\n\s*/g, '');
   }
   document.getElementById('previewArea').innerHTML = html;
