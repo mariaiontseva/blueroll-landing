@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="alternate" hreflang="en-gb" href="https://blueroll.app/tools.html">
+<link rel="alternate" hreflang="en" href="https://blueroll.app/tools.html">
+<title>Free Food Safety Tools for UK Restaurants — Blueroll</title>
+<meta name="description" content="Free food safety tools for UK restaurants: check food hygiene ratings, get an embeddable rating badge, understand FHRS scores, and learn how to improve your rating.">
+<link rel="canonical" href="https://blueroll.app/tools.html">
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://blueroll.app/tools.html">
+<meta property="og:title" content="Free Food Safety Tools for UK Restaurants — Blueroll">
+<meta property="og:description" content="Free tools to check food hygiene ratings, display rating badges, and improve your score.">
+<meta property="og:image" content="https://blueroll.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Food Safety Tools for UK Restaurants — Blueroll">
+<meta name="twitter:description" content="Free tools to check food hygiene ratings, display rating badges, and improve your score.">
+<meta name="twitter:image" content="https://blueroll.app/og-image.png">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZFY0GPZYYQ');</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Free Food Safety Tools for UK Restaurants",
+  "description": "A collection of free food safety tools for UK restaurants, including food hygiene rating lookup, embeddable badges, and guides to improving your rating.",
+  "url": "https://blueroll.app/tools.html",
+  "author": {"@type": "Organization", "name": "Blueroll", "url": "https://blueroll.app"}
+}
+</script>
+
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --green: #047857;
+  --green-dark: #065F46;
+  --green-deep: #022c22;
+  --green-light: #D1FAE5;
+  --bg: #FAFAF7;
+  --card: #FFFFFF;
+  --border: #E8E5DF;
+  --ink: #111;
+  --mid: #555;
+  --light: #999;
+}
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+/* Nav */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 0 48px; height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(250,250,247,0.85);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.nav-left { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+.nav-left img { width: 28px; height: 28px; border-radius: 6px; }
+.nav-left span { font-size: 18px; font-weight: 700; letter-spacing: -0.4px; }
+.nav-right { display: flex; gap: 28px; align-items: center; }
+.nav-right a { text-decoration: none; color: var(--mid); font-size: 14px; font-weight: 500; transition: color 0.15s; }
+.nav-right a:hover { color: var(--ink); }
+.nav-btn { background: var(--ink); color: white !important; padding: 8px 20px; border-radius: 8px; font-weight: 600 !important; font-size: 13px !important; }
+
+/* Hero */
+.hero {
+  max-width: 680px; margin: 0 auto;
+  padding: 120px 24px 48px; text-align: center;
+}
+.hero .label {
+  font-size: 13px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 1.2px; color: var(--green); margin-bottom: 16px;
+}
+.hero h1 {
+  font-size: 42px; font-weight: 700; letter-spacing: -1.5px; line-height: 1.1;
+  margin-bottom: 16px;
+}
+.hero h1 em { color: var(--green); font-style: normal; }
+.hero p { font-size: 18px; color: var(--mid); line-height: 1.6; max-width: 520px; margin: 0 auto; }
+
+/* Tools grid */
+.tools-grid {
+  max-width: 680px; margin: 0 auto; padding: 0 24px 48px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.tool-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+  padding: 28px 32px; display: flex; align-items: flex-start; gap: 20px;
+  text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;
+}
+.tool-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+}
+.tool-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: var(--green); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
+}
+.tool-content { flex: 1; }
+.tool-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.3px; }
+.tool-desc { font-size: 15px; color: var(--mid); line-height: 1.6; }
+.tool-link { display: inline-block; margin-top: 8px; font-size: 14px; color: var(--green); font-weight: 600; }
+
+/* Content */
+.content { max-width: 680px; margin: 0 auto; padding: 48px 24px; border-top: 1px solid var(--border); }
+.content h2 { font-size: 28px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+.content p { font-size: 16px; color: var(--mid); line-height: 1.7; margin-bottom: 12px; }
+.content a { color: var(--green); font-weight: 600; text-decoration: none; }
+.content a:hover { text-decoration: underline; }
+
+/* CTA banner */
+.cta-banner { max-width: 680px; margin: 0 auto; padding: 48px 24px 64px; }
+.cta-inner {
+  background: var(--green-dark); border-radius: 16px; padding: 40px; text-align: center;
+}
+.cta-inner h3 { color: white; font-size: 22px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.3px; }
+.cta-inner p { color: rgba(255,255,255,0.5); font-size: 15px; margin-bottom: 20px; }
+.cta-inner a {
+  display: inline-block; padding: 12px 28px; background: white; color: var(--green-dark);
+  border-radius: 10px; font-weight: 600; font-size: 15px; text-decoration: none;
+}
+
+footer { border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; font-size: 12px; color: var(--light); }
+footer a { color: var(--mid); text-decoration: none; margin: 0 8px; }
+
+@media (max-width: 600px) {
+  nav { padding: 0 16px; }
+  .nav-right a:not(.nav-btn) { display: none; }
+  .hero { padding: 100px 16px 32px; }
+  .hero h1 { font-size: 30px; }
+  .tools-grid { padding: 0 16px 32px; }
+  .tool-card { padding: 20px; gap: 14px; }
+  .content { padding: 32px 16px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-left">
+    <img src="app_icon.png" alt="Blueroll">
+    <span>Blueroll</span>
+  </a>
+  <div class="nav-right">
+    <a href="/#features">Features</a>
+    <a href="/#pricing">Pricing</a>
+    <a href="free-food-hygiene-rating-badge.html">Free Widget</a>
+    <a href="#" class="nav-btn">Download</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="label">Free Tools</div>
+  <h1>Free food safety <em>tools</em></h1>
+  <p>Everything you need to check, understand, display, and improve your food hygiene rating. All free, no account required.</p>
+</section>
+
+<div class="tools-grid">
+  <a href="check-food-hygiene-rating.html" class="tool-card">
+    <div class="tool-icon">&#128269;</div>
+    <div class="tool-content">
+      <div class="tool-title">Check Food Hygiene Rating</div>
+      <div class="tool-desc">Search by postcode or business name to instantly see any UK food business's hygiene rating. Powered by official FSA data with detailed score breakdowns.</div>
+      <span class="tool-link">Check a rating &rarr;</span>
+    </div>
+  </a>
+
+  <a href="free-food-hygiene-rating-badge.html" class="tool-card">
+    <div class="tool-icon">&#127991;</div>
+    <div class="tool-content">
+      <div class="tool-title">Food Hygiene Rating Badge</div>
+      <div class="tool-desc">Add a beautiful, auto-updating food hygiene rating badge to your restaurant website. Choose from multiple styles. Copy and paste the embed code — done in 30 seconds.</div>
+      <span class="tool-link">Get your free badge &rarr;</span>
+    </div>
+  </a>
+
+  <a href="food-hygiene-ratings-explained.html" class="tool-card">
+    <div class="tool-icon">&#128218;</div>
+    <div class="tool-content">
+      <div class="tool-title">Food Hygiene Ratings Explained</div>
+      <div class="tool-desc">Complete guide to the UK Food Hygiene Rating Scheme. What ratings 0 to 5 mean, how inspections work, the three scoring criteria, and legal display requirements.</div>
+      <span class="tool-link">Read the guide &rarr;</span>
+    </div>
+  </a>
+
+  <a href="how-to-improve-food-hygiene-rating.html" class="tool-card">
+    <div class="tool-icon">&#9650;</div>
+    <div class="tool-content">
+      <div class="tool-title">How to Improve Your Rating</div>
+      <div class="tool-desc">Actionable advice for each of the three scoring areas. Whether you are stuck on a 3 or aiming for a 5, this guide covers exactly what inspectors look for and how to fix common issues.</div>
+      <span class="tool-link">Improve your rating &rarr;</span>
+    </div>
+  </a>
+</div>
+
+<section class="content">
+  <h2>About Blueroll</h2>
+  <p>Blueroll is a food safety management app for UK restaurants offering digital HACCP checklists, AI recipe import, allergen tracking, and compliance reports at £14.99/month. It replaces paper records with a fast, verifiable digital system that Environmental Health Officers trust.</p>
+  <p>These free tools are part of our mission to make food safety accessible to every UK food business. Whether you run a single-site cafe or a multi-location restaurant group, Blueroll helps you stay inspection-ready every day. <a href="/">Start your free 14-day trial</a>.</p>
+</section>
+
+<div class="cta-banner">
+  <div class="cta-inner">
+    <h3>Go digital. Get a 5.</h3>
+    <p>Blueroll replaces paper logs with digital checklists, AI recipe import, and instant compliance reports.</p>
+    <a href="/">Start your free 14-day trial</a>
+  </div>
+</div>
+
+<footer>
+  <a href="/">Blueroll</a> · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> · © 2026
+</footer>
+
+</body>
+</html>
