@@ -277,8 +277,8 @@ const API = 'https://api.ratings.food.gov.uk';
 const HDR = { 'x-api-version': '2', 'Accept': 'application/json' };
 let selectedBiz = null, currentStyle = 'card';
 
-// Deep navy + warm champagne gold
-const T = { bg: '#0B1426', bg2: '#162040', accent: '#C9A96E', text: '#EDE8DF' };
+// Deep navy + bright warm gold
+const T = { bg: '#0D1B2A', bg2: '#1B2D45', accent: '#E2B55A', text: '#F0ECE3' };
 
 document.getElementById('postcode').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
 
@@ -338,7 +338,7 @@ function renderWidget() {
 
   const bg = `background:linear-gradient(145deg,${T.bg},${T.bg2})`;
   const border = `border:1px solid rgba(255,255,255,0.06)`;
-  const accentBg = `background:linear-gradient(145deg,#C6A96C,#A8894F)`;
+  const accentBg = `background:linear-gradient(145deg,#ECC55B,#D4A843)`;
 
   let html = '', code = '';
   if (currentStyle === 'badge') {
@@ -348,7 +348,7 @@ function renderWidget() {
         <div style="font-size:10px;color:${a};font-weight:600;text-transform:uppercase;letter-spacing:.12em;margin-bottom:3px">Food Hygiene Rating</div>
         <div style="display:flex;gap:2px;margin-bottom:5px">${stars(r,'12')}</div>
         <div style="font-size:16px;font-weight:700;color:${T.text};letter-spacing:-.3px">${name}</div>
-        <div style="font-size:9px;color:rgba(255,255,255,0.2);margin-top:4px;letter-spacing:.03em">Powered by Blueroll</div>
+        <div style="font-size:9px;color:${a};opacity:0.5;margin-top:4px;letter-spacing:.05em">Powered by Blueroll</div>
       </div></a>`;
     code = `<!-- Food Hygiene Rating Badge — blueroll.app -->\n` + html.replace(/\n\s*/g, '');
   } else {
@@ -357,8 +357,8 @@ function renderWidget() {
       <div style="display:flex;justify-content:center;gap:3px;margin-bottom:12px">${stars(r,'15')}</div>
       <div style="font-size:9px;color:${a};font-weight:600;text-transform:uppercase;letter-spacing:.12em">Food Hygiene Rating</div>
       <div style="font-size:16px;font-weight:700;color:${T.text};margin:8px 0 4px;letter-spacing:-.2px">${name}</div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.25);line-height:1.3">${addr}</div>
-      <div style="font-size:9px;color:rgba(255,255,255,0.12);margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.05);letter-spacing:.03em">Powered by Blueroll</div></a>`;
+      <div style="font-size:11px;color:rgba(255,255,255,0.45);line-height:1.3">${addr}</div>
+      <div style="font-size:9px;color:${a};opacity:0.5;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.08);letter-spacing:.05em">Powered by Blueroll</div></a>`;
     code = `<!-- Rating Card — blueroll.app -->\n` + html.replace(/\n\s*/g, '');
   }
   document.getElementById('previewArea').innerHTML = html;
