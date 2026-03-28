@@ -68,43 +68,41 @@ nav {
 .hero p { font-size: 18px; color: var(--mid); line-height: 1.6; max-width: 500px; margin: 0 auto; }
 
 /* Search */
-.search-section { max-width: 500px; margin: 0 auto; padding: 0 24px 64px; }
-.search-box {
-  background: var(--card); border-radius: 16px; padding: 24px;
-  border: 1px solid var(--border); box-shadow: 0 4px 24px rgba(0,0,0,0.04);
-}
+.search-section { max-width: 480px; margin: 0 auto; padding: 0 24px 64px; }
+.search-box { }
 .search-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--light); margin-bottom: 8px; }
+.search-row { display: flex; gap: 8px; }
 .search-input {
-  width: 100%; padding: 14px 16px; border: 1.5px solid var(--border);
-  border-radius: 10px; font-size: 16px; font-family: inherit;
-  outline: none; transition: border-color 0.15s; background: var(--bg);
+  flex: 1; padding: 14px 16px; border: 1.5px solid var(--border);
+  border-radius: 12px; font-size: 16px; font-family: inherit;
+  outline: none; transition: border-color 0.15s; background: white;
 }
 .search-input:focus { border-color: var(--green); }
 .search-btn {
-  width: 100%; margin-top: 12px; padding: 14px; border: none; border-radius: 10px;
+  padding: 14px 24px; border: none; border-radius: 12px;
   background: var(--green); color: white; font-size: 15px; font-weight: 600;
-  cursor: pointer; font-family: inherit; transition: background 0.15s;
+  cursor: pointer; font-family: inherit; transition: background 0.15s; white-space: nowrap;
 }
 .search-btn:hover { background: var(--green-dark); }
 .search-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
 /* Results */
-.results-list { margin-top: 16px; max-height: 280px; overflow-y: auto; }
+.results-list { margin-top: 12px; max-height: 320px; overflow-y: auto; }
 .result-item {
-  display: flex; align-items: center; gap: 14px; padding: 12px;
-  border-radius: 10px; cursor: pointer; transition: background 0.1s; border: 1px solid transparent;
+  display: flex; align-items: center; gap: 12px; padding: 10px 12px;
+  border-radius: 10px; cursor: pointer; transition: background 0.1s;
 }
-.result-item:hover { background: var(--green-light); border-color: var(--green); }
+.result-item:hover { background: rgba(4,120,87,0.06); }
 .result-rating {
-  width: 40px; height: 40px; border-radius: 10px; display: flex;
-  align-items: center; justify-content: center; font-size: 20px; font-weight: 800; flex-shrink: 0;
+  width: 36px; height: 36px; border-radius: 9px; display: flex;
+  align-items: center; justify-content: center; font-size: 16px; font-weight: 800; flex-shrink: 0;
 }
 .r5, .r4 { background: #D1FAE5; color: #047857; }
 .r3 { background: #FEF3C7; color: #92400E; }
 .r2 { background: #FED7AA; color: #9A3412; }
 .r1, .r0 { background: #FECACA; color: #991B1B; }
 .result-info { flex: 1; min-width: 0; }
-.result-name { font-weight: 600; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.result-name { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .result-addr { font-size: 12px; color: var(--light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 /* Widget Section */
@@ -212,8 +210,10 @@ footer a { color: var(--mid); text-decoration: none; margin: 0 8px; }
 <section class="search-section">
   <div class="search-box">
     <div class="search-label">Find your business</div>
-    <input class="search-input" id="postcode" placeholder="Enter your postcode" autofocus>
-    <button class="search-btn" id="searchBtn" onclick="doSearch()">Search</button>
+    <div class="search-row">
+      <input class="search-input" id="postcode" placeholder="Enter your postcode" autofocus>
+      <button class="search-btn" id="searchBtn" onclick="doSearch()">Search</button>
+    </div>
     <div class="results-list" id="results"></div>
   </div>
 </section>
@@ -326,7 +326,8 @@ function renderResults(list) {
   if (!list.length) { c.innerHTML = '<p style="padding:12px;color:#999;font-size:13px;">No businesses found.</p>'; return; }
   c.innerHTML = list.map((e, i) => {
     const r = parseInt(e.RatingValue) || 0;
-    const addr = [e.AddressLine1, e.PostCode].filter(Boolean).join(', ');
+    const addrParts = [e.AddressLine1, e.AddressLine2, e.PostCode].filter(s => s && s !== e.BusinessName);
+    const addr = addrParts.join(', ');
     return `<div class="result-item" onclick="pick(${i})"><div class="result-rating r${r}">${r}</div><div class="result-info"><div class="result-name">${e.BusinessName}</div><div class="result-addr">${addr}</div></div></div>`;
   }).join('');
   window._r = list;
