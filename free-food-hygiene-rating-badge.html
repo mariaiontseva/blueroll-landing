@@ -113,14 +113,14 @@ nav {
 .widget-section h2 { font-size: 28px; font-weight: 700; text-align: center; margin-bottom: 4px; letter-spacing: -0.5px; }
 .widget-section .subtitle { text-align: center; color: var(--mid); font-size: 15px; margin-bottom: 32px; }
 
-.style-tabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 32px; }
+.style-tabs { display: flex; gap: 4px; justify-content: center; background: #EDEAE4; border-radius: 12px; padding: 4px; width: fit-content; margin: 0 auto; }
 .style-tab {
-  padding: 10px 20px; border: 1.5px solid var(--border); border-radius: 10px;
-  font-size: 14px; font-weight: 600; cursor: pointer; background: white;
-  font-family: inherit; transition: all 0.15s; color: var(--mid);
+  padding: 10px 28px; border: none; border-radius: 9px;
+  font-size: 14px; font-weight: 600; cursor: pointer; background: transparent;
+  font-family: inherit; transition: all 0.2s; color: var(--light);
 }
-.style-tab:hover { border-color: var(--ink); color: var(--ink); }
-.style-tab.active { border-color: var(--green); background: var(--green); color: white; }
+.style-tab:hover { color: var(--ink); }
+.style-tab.active { background: white; color: var(--ink); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
 
 .preview-area {
   background: #f0eeea; border-radius: 16px; padding: 48px;
@@ -220,23 +220,11 @@ footer a { color: var(--mid); text-decoration: none; margin: 0 8px; }
 
 <section class="widget-section" id="widgetSection">
   <h2>Choose your style</h2>
-  <div class="subtitle">Pick a theme, then a shape. Copy the code, paste on your website.</div>
+  <div class="subtitle">Pick a shape, copy the code, paste on your website</div>
 
-  <div style="text-align:center;margin-bottom:12px;">
-    <div class="search-label" style="margin-bottom:8px;">Theme</div>
-    <div class="style-tabs">
-      <button class="style-tab active" onclick="setTheme('emerald')">Emerald</button>
-      <button class="style-tab" onclick="setTheme('navy')">Navy</button>
-      <button class="style-tab" onclick="setTheme('noir')">Noir</button>
-    </div>
-  </div>
-  <div style="text-align:center;margin-bottom:32px;">
-    <div class="search-label" style="margin-bottom:8px;">Shape</div>
-    <div class="style-tabs">
-      <button class="style-tab shape-tab active" onclick="setStyle('badge')">Badge</button>
-      <button class="style-tab shape-tab" onclick="setStyle('compact')">Compact</button>
-      <button class="style-tab shape-tab" onclick="setStyle('card')">Card</button>
-    </div>
+  <div class="style-tabs" style="margin-bottom:32px;">
+    <button class="style-tab active" onclick="setStyle('card')">Card</button>
+    <button class="style-tab" onclick="setStyle('badge')">Badge</button>
   </div>
 
   <div class="preview-area" id="previewArea"></div>
@@ -287,13 +275,10 @@ footer a { color: var(--mid); text-decoration: none; margin: 0 8px; }
 <script>
 const API = 'https://api.ratings.food.gov.uk';
 const HDR = { 'x-api-version': '2', 'Accept': 'application/json' };
-let selectedBiz = null, currentStyle = 'badge', currentTheme = 'emerald';
+let selectedBiz = null, currentStyle = 'card';
 
-const themes = {
-  emerald: { bg: '#0C3B2E', bg2: '#145A3C', accent: '#B8966F', text: '#F2EDE4' },
-  navy:    { bg: '#0F1729', bg2: '#1A2744', accent: '#B8966F', text: '#E8E4DD' },
-  noir:    { bg: '#0E0E0E', bg2: '#1A1A1A', accent: '#B8966F', text: '#E8E4DD' },
-};
+// Deep navy + warm champagne gold
+const T = { bg: '#0B1426', bg2: '#162040', accent: '#C9A96E', text: '#EDE8DF' };
 
 document.getElementById('postcode').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
 
@@ -332,15 +317,9 @@ function pick(i) {
   confetti();
 }
 
-function setTheme(t) {
-  currentTheme = t;
-  document.querySelectorAll('.style-tab:not(.shape-tab)').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  renderWidget();
-}
 function setStyle(s) {
   currentStyle = s;
-  document.querySelectorAll('.shape-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.style-tab').forEach(b => b.classList.remove('active'));
   event.target.classList.add('active');
   renderWidget();
 }
@@ -351,8 +330,7 @@ function renderWidget() {
   const name = e.BusinessName, addr = [e.AddressLine1, e.PostCode].filter(Boolean).join(', ');
   const scores = e.scores || {};
   const link = `https://blueroll.app/r.html?name=${encodeURIComponent(name)}&rating=${r}&addr=${encodeURIComponent(addr)}&fhrsid=${e.FHRSID||''}&h=${scores.Hygiene||''}&s=${scores.Structural||''}&m=${scores.ConfidenceInManagement||''}`;
-  const T = themes[currentTheme];
-  const a = T.accent; // muted gold
+  const a = T.accent;
   const starSvg = (filled, sz) => filled
     ? `<svg width="${sz}" height="${sz}" viewBox="0 0 16 16" fill="${a}"><path d="M8 0l2.47 4.94L16 5.76l-4 3.84.94 5.4L8 12.46 3.06 15l.94-5.4-4-3.84 5.53-.82z"/></svg>`
     : `<svg width="${sz}" height="${sz}" viewBox="0 0 16 16" fill="none" stroke="${a}" stroke-width="0.7" opacity="0.25"><path d="M8 1l2.1 4.2L15 5.9l-3.5 3.4.8 4.7L8 11.6 3.7 14l.8-4.7L1 5.9l4.9-.7z"/></svg>`;
@@ -373,13 +351,6 @@ function renderWidget() {
         <div style="font-size:9px;color:rgba(255,255,255,0.2);margin-top:4px;letter-spacing:.03em">Powered by Blueroll</div>
       </div></a>`;
     code = `<!-- Food Hygiene Rating Badge — blueroll.app -->\n` + html.replace(/\n\s*/g, '');
-  } else if (currentStyle === 'compact') {
-    html = `<a href="${link}" target="_blank" style="display:inline-flex;align-items:center;gap:12px;padding:12px 20px 12px 12px;border-radius:100px;${bg};${border};box-shadow:0 4px 16px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.04);text-decoration:none;font-family:-apple-system,system-ui,sans-serif">
-      <div style="width:38px;height:38px;border-radius:50%;${accentBg};display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:${T.bg};box-shadow:0 2px 6px rgba(0,0,0,0.25)">${r}</div>
-      <div style="display:flex;gap:2px">${stars(r,'10')}</div>
-      <div style="width:1px;height:18px;background:rgba(255,255,255,0.08)"></div>
-      <span style="font-size:9px;color:rgba(255,255,255,0.25);letter-spacing:.03em">Blueroll</span></a>`;
-    code = `<!-- Rating Badge — blueroll.app -->\n` + html.replace(/\n\s*/g, '');
   } else {
     html = `<a href="${link}" target="_blank" style="display:inline-block;width:240px;padding:32px 28px;border-radius:22px;${bg};${border};box-shadow:0 12px 40px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.04);text-decoration:none;font-family:-apple-system,system-ui,sans-serif;text-align:center">
       <div style="width:80px;height:80px;border-radius:20px;${accentBg};display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:800;color:${T.bg};margin:0 auto 14px;box-shadow:0 4px 16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.2)">${r}</div>
