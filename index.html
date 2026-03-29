@@ -557,7 +557,15 @@ nav {
   .hero-buttons .store-badge { height: 42px; }
   .hero-phone { order: -1; }
   .phone-frame { width: 200px; }
-  .hero-phone > div:last-child { display: none !important; }
+  .hero-phone { overflow: visible !important; }
+  .hero-phone > div:last-child {
+    position: static !important;
+    display: flex !important; justify-content: center;
+    margin-top: 16px;
+  }
+  .hero-phone > div:last-child > div {
+    transform: scale(0.85);
+  }
 
   /* Stats */
   .hero-stats-wrap { padding: 0 20px 48px; }
