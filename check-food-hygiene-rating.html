@@ -7,6 +7,8 @@
 <meta name="description" content="See food hygiene ratings for every restaurant, cafe, and takeaway near you on an interactive map. Enter any UK postcode to explore ratings from 0 to 5.">
 <meta name="keywords" content="food hygiene ratings near me, food hygiene map, restaurant ratings UK, check food hygiene rating, FHRS map">
 <link rel="canonical" href="https://blueroll.app/check-food-hygiene-rating.html">
+<link rel="alternate" hreflang="en-gb" href="https://blueroll.app/check-food-hygiene-rating.html">
+<link rel="alternate" hreflang="en" href="https://blueroll.app/check-food-hygiene-rating.html">
 
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -23,6 +25,20 @@
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZFY0GPZYYQ');</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Food Hygiene Ratings Map",
+  "description": "Interactive map showing food hygiene ratings for every restaurant, cafe, and takeaway near any UK postcode. Data from the Food Standards Agency.",
+  "url": "https://blueroll.app/check-food-hygiene-rating.html",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web browser",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"},
+  "author": {"@type": "Organization", "name": "Blueroll", "url": "https://blueroll.app"}
+}
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -86,13 +102,23 @@ nav {
 .search-bar button:hover { background: var(--green-dark); }
 
 .map-container { max-width: 960px; margin: 0 auto; padding: 0 24px 16px; }
-#map { width: 100%; height: 540px; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; }
+#map { width: 100%; height: 640px; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; }
 .map-info { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; font-size: 13px; color: var(--light); }
 #result-count { font-weight: 600; color: var(--mid); }
 
 .legend { max-width: 960px; margin: 0 auto; padding: 0 24px 56px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 .legend-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--mid); font-weight: 500; }
 .legend-dot { width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: white; }
+
+.content { max-width: 720px; margin: 0 auto; padding: 0 24px 56px; }
+.content-section { padding: 48px 0; border-top: 1px solid var(--border); }
+.content h2 { font-size: 28px; font-weight: 800; letter-spacing: -0.8px; margin-bottom: 20px; }
+.content h3 { font-size: 17px; font-weight: 700; margin: 24px 0 8px; }
+.content p { font-size: 15px; color: var(--mid); line-height: 1.75; margin-bottom: 12px; }
+.content a { color: var(--green); font-weight: 600; text-decoration: none; }
+.content a:hover { text-decoration: underline; }
+.content ul { margin: 8px 0 16px 20px; }
+.content li { font-size: 15px; color: var(--mid); line-height: 1.75; margin-bottom: 4px; }
 
 .leaflet-popup-content-wrapper { border-radius: 12px !important; font-family: 'Plus Jakarta Sans', sans-serif !important; box-shadow: 0 8px 30px rgba(0,0,0,0.12) !important; padding: 0 !important; }
 .leaflet-popup-content { margin: 0 !important; padding: 16px 20px !important; min-width: 200px; }
@@ -178,6 +204,22 @@ nav {
   <div class="legend-item"><div class="legend-dot" style="background:#7F1D1D;">0</div> Urgent</div>
 </div>
 
+<div class="content">
+  <div class="content-section">
+    <h2>Why check ratings near you?</h2>
+    <p>Every food business in England, Wales, and Northern Ireland is inspected by local authority Environmental Health Officers and given a hygiene rating from 0 (urgent improvement necessary) to 5 (very good). This map shows those ratings for every restaurant, cafe, takeaway, pub, and food shop near any UK postcode.</p>
+
+    <h3>For customers</h3>
+    <p>Check before you eat. 89% of consumers recognise the food hygiene rating sticker, but not every business displays it — especially in England, where display is still voluntary. This map lets you see the rating of any business before you visit or order delivery, including the date of the last inspection and the full score breakdown.</p>
+
+    <h3>For restaurant owners</h3>
+    <p>See how you compare to your neighbours. If competitors around you all have a 5 and you have a 3, customers will notice. Use this tool to identify where you stand and what you need to improve. Our guides on <a href="food-hygiene-ratings-explained.html">how ratings work</a> and <a href="how-to-improve-food-hygiene-rating.html">how to improve your rating</a> cover everything you need to know.</p>
+
+    <h3>About the data</h3>
+    <p>All data comes directly from the Food Standards Agency's FHRS API in real time. Ratings are updated when new inspections are published. The map searches within 1 mile of your postcode and shows up to 100 businesses. For full details on any establishment, visit <a href="https://ratings.food.gov.uk">ratings.food.gov.uk</a>.</p>
+  </div>
+</div>
+
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-grid">
@@ -229,9 +271,11 @@ var map, markers = [];
 function initMap(lat, lng) {
   if (map) map.remove();
   map = L.map('map').setView([lat, lng], 15);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>',
-    maxZoom: 19
+  var isRetina = window.devicePixelRatio > 1;
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}' + (isRetina ? '@2x' : '') + '.png', {
+    attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/">CARTO</a>',
+    maxZoom: 20,
+    tileSize: 256
   }).addTo(map);
 }
 
