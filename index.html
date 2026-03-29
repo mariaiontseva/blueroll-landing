@@ -555,15 +555,22 @@ nav {
   .hero-buttons { justify-content: center; }
   .hero-buttons a { height: 42px; }
   .hero-buttons .store-badge { height: 42px; }
-  .hero-phone { order: -1; }
-  .phone-frame { width: 200px; }
-  .hero-phone { overflow: visible !important; }
-  .rating-badge-overlay {
-    position: static !important; bottom: auto !important; right: auto !important;
-    display: flex !important; justify-content: center;
-    margin-top: 16px;
+  .hero-phone {
+    order: -1;
+    flex-direction: column !important;
+    align-items: center !important;
   }
-  .rating-badge-overlay > div { transform: scale(0.8); }
+  .phone-frame { width: 200px; }
+  .rating-badge-overlay {
+    position: static !important;
+    top: auto !important; bottom: auto !important;
+    left: auto !important; right: auto !important;
+    margin-top: 12px;
+  }
+  .rating-badge-overlay > div {
+    width: 150px !important;
+    padding: 16px 14px !important;
+  }
 
   /* Stats */
   .hero-stats-wrap { padding: 0 20px 48px; }
