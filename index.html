@@ -476,6 +476,17 @@ nav {
 .hero-buttons.nudge a { animation: nudge 1.5s ease-in-out 3; }
 .hero-buttons.nudge a:nth-child(2) { animation-delay: 0.1s; }
 
+/* ── Hero stats bar ── */
+.hero-stats-wrap { max-width: 1100px; margin: 0 auto; padding: 0 48px 80px; }
+.hero-stats {
+  background: #065F46; border-radius: 20px; padding: 40px 48px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+}
+.hero-stat { text-align: center; padding: 0 16px; border-right: 1px solid rgba(255,255,255,0.1); }
+.hero-stat:last-child { border-right: none; }
+.hero-stat-num { font-size: 40px; font-weight: 800; color: white; letter-spacing: -1px; }
+.hero-stat-text { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 4px; line-height: 1.4; }
+
 /* ── Widget promo ── */
 .widget-promo-section { max-width: 900px; margin: 0 auto; padding: 0 48px 100px; }
 .widget-promo-inner {
@@ -488,7 +499,7 @@ nav {
 .hamburger {
   display: none; width: 44px; height: 44px; border: none; background: none;
   cursor: pointer; padding: 10px; flex-direction: column; justify-content: center;
-  gap: 5px;
+  gap: 5px; position: relative; z-index: 1001;
 }
 .hamburger span {
   display: block; width: 22px; height: 2px; background: var(--ink);
@@ -540,11 +551,17 @@ nav {
   .hero-buttons .store-badge { height: 42px; }
   .hero-phone { order: -1; }
   .phone-frame { width: 200px; }
-  /* Hide rating badge overlay on mobile */
-  .hero-phone > div:last-child { display: none !important; }
+  .hero-phone > div:last-child {
+    right: -20px !important; bottom: -10px !important;
+    transform: scale(0.7); transform-origin: bottom right;
+  }
 
   /* Stats */
-  .stats { padding: 0 20px 48px; flex-wrap: wrap; gap: 20px; justify-content: center; }
+  .hero-stats-wrap { padding: 0 20px 48px; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); padding: 28px 20px; gap: 24px; }
+  .hero-stat { border-right: none; padding: 0; }
+  .hero-stat-num { font-size: 28px; }
+  .hero-stat-text { font-size: 12px; }
 
   /* Features */
   .features { padding: 48px 20px; }
@@ -643,24 +660,12 @@ nav {
   </div>
 </section>
 
-<div style="max-width:1100px;margin:0 auto;padding:0 48px 80px;">
-  <div style="background:#065F46;border-radius:20px;padding:40px 48px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;overflow:hidden;">
-    <div style="text-align:center;padding:0 16px;border-right:1px solid rgba(255,255,255,0.1);">
-      <div style="font-size:40px;font-weight:800;color:white;letter-spacing:-1px;">430K+</div>
-      <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-top:4px;line-height:1.4;">UK food businesses legally required to keep HACCP records</div>
-    </div>
-    <div style="text-align:center;padding:0 16px;border-right:1px solid rgba(255,255,255,0.1);">
-      <div style="font-size:40px;font-weight:800;color:white;letter-spacing:-1px;">95K</div>
-      <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-top:4px;line-height:1.4;">overdue inspections — EHOs can't keep up with paper records</div>
-    </div>
-    <div style="text-align:center;padding:0 16px;border-right:1px solid rgba(255,255,255,0.1);">
-      <div style="font-size:40px;font-weight:800;color:white;letter-spacing:-1px;">89%</div>
-      <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-top:4px;line-height:1.4;">improve their rating after switching to digital records</div>
-    </div>
-    <div style="text-align:center;padding:0 16px;">
-      <div style="font-size:40px;font-weight:800;color:white;letter-spacing:-1px;">£14.99</div>
-      <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-top:4px;line-height:1.4;">/month — less than a pack of blue rolls</div>
-    </div>
+<div class="hero-stats-wrap">
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hero-stat-num">430K+</div><div class="hero-stat-text">UK food businesses legally required to keep HACCP records</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">95K</div><div class="hero-stat-text">Overdue inspections in the UK</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">89%</div><div class="hero-stat-text">Improve after switching to digital records</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">£14.99</div><div class="hero-stat-text">/month — less than a pack of blue rolls</div></div>
   </div>
 </div>
 
