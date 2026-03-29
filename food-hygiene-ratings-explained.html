@@ -40,21 +40,25 @@
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {"@type": "Question", "name": "What does a food hygiene rating of 5 mean?", "acceptedAnswer": {"@type": "Answer", "text": "A rating of 5 means hygiene standards are very good. The business fully complies with food hygiene law."}},
-    {"@type": "Question", "name": "Is it mandatory to display food hygiene rating in the UK?", "acceptedAnswer": {"@type": "Answer", "text": "In Wales and Northern Ireland, displaying your food hygiene rating is a legal requirement. In England, it is voluntary but recommended."}},
-    {"@type": "Question", "name": "How can I improve my food hygiene rating?", "acceptedAnswer": {"@type": "Answer", "text": "Focus on three areas: hygienic food handling, physical condition of the premises, and food safety management systems including HACCP documentation and temperature records."}},
-    {"@type": "Question", "name": "How do I display my food hygiene rating on my website?", "acceptedAnswer": {"@type": "Answer", "text": "You can use a free embeddable badge from Blueroll at blueroll.app/free-food-hygiene-rating-badge.html. Enter your postcode, select your business, and copy the embed code."}}
+    {"@type": "Question", "name": "What does a food hygiene rating of 5 mean?", "acceptedAnswer": {"@type": "Answer", "text": "A rating of 5 means hygiene standards are very good. The business fully complies with food hygiene law. To achieve a 5, no individual scoring category can score above 5 out of 25."}},
+    {"@type": "Question", "name": "Is it mandatory to display food hygiene ratings in the UK?", "acceptedAnswer": {"@type": "Answer", "text": "In Wales and Northern Ireland, displaying your food hygiene rating is a legal requirement. In England, it is voluntary. Scotland uses a different scheme (FHIS) with Pass or Improvement Required."}},
+    {"@type": "Question", "name": "Can I appeal my food hygiene rating?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. You must submit a formal appeal within 21 days of receiving your rating notification. The appeal is reviewed by a different officer than the one who conducted the inspection. You will receive a decision within 21 days."}},
+    {"@type": "Question", "name": "How can I improve my food hygiene rating?", "acceptedAnswer": {"@type": "Answer", "text": "Focus on the three scoring areas: hygienic food handling, physical condition of premises, and food safety management. The most common area where businesses lose marks is management — completing daily records, logging temperatures, and maintaining training files."}},
+    {"@type": "Question", "name": "How often are food hygiene inspections?", "acceptedAnswer": {"@type": "Answer", "text": "Inspection frequency is risk-based. High-risk businesses are inspected every 6 months, medium-risk every 12-18 months, and low-risk every 2-3 years. Inspections are always unannounced."}},
+    {"@type": "Question", "name": "What happens if my restaurant gets a 0 rating?", "acceptedAnswer": {"@type": "Answer", "text": "A 0 rating does not automatically close your business. However, the local authority may issue a Hygiene Improvement Notice requiring fixes within a deadline, or in serious cases a Hygiene Emergency Prohibition Notice which forces immediate closure until problems are resolved. Fines are unlimited."}}
   ]
 }
 </script>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
   --green: #047857;
   --green-dark: #065F46;
   --green-deep: #022c22;
-  --green-light: #D1FAE5;
   --bg: #FAFAF7;
   --card: #FFFFFF;
   --border: #E8E5DF;
@@ -63,106 +67,212 @@
   --light: #999;
 }
 html { scroll-behavior: smooth; }
-body { font-family: -apple-system, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
+body { font-family: 'Plus Jakarta Sans', -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
 
-/* Nav */
+/* Nav — matches main site */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  padding: 0 48px; height: 64px;
+  padding: 0 48px; height: 80px;
   display: flex; align-items: center; justify-content: space-between;
-  background: rgba(250,250,247,0.85);
-  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  background: rgba(250,250,247,0.92);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(0,0,0,0.06);
 }
-.nav-left { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
-.nav-left img { width: 28px; height: 28px; border-radius: 6px; }
-.nav-left span { font-size: 18px; font-weight: 700; letter-spacing: -0.4px; }
-.nav-right { display: flex; gap: 28px; align-items: center; }
-.nav-right a { text-decoration: none; color: var(--mid); font-size: 14px; font-weight: 500; transition: color 0.15s; }
+.nav-left { display: flex; align-items: center; gap: 6px; text-decoration: none; color: inherit; }
+.nav-left img { width: 24px; height: auto; }
+.nav-left span { font-size: 20px; font-weight: 800; letter-spacing: -0.6px; }
+.nav-right { display: flex; gap: 32px; align-items: center; }
+.nav-right a { text-decoration: none; color: var(--mid); font-size: 15px; font-weight: 600; letter-spacing: -0.1px; transition: color 0.15s; }
 .nav-right a:hover { color: var(--ink); }
-.nav-btn { background: var(--ink); color: white !important; padding: 8px 20px; border-radius: 8px; font-weight: 600 !important; font-size: 13px !important; }
+.nav-btn {
+  background: var(--green) !important; color: white !important;
+  padding: 14px 32px !important; border-radius: 10px !important;
+  font-weight: 700 !important; font-size: 16px !important;
+  letter-spacing: -0.3px; transition: background 0.15s !important;
+}
+.nav-btn:hover { background: #036B4E !important; }
 
 /* Hero */
 .hero {
-  max-width: 680px; margin: 0 auto;
-  padding: 120px 24px 48px; text-align: center;
+  max-width: 720px; margin: 0 auto;
+  padding: 140px 24px 56px; text-align: center;
 }
 .hero .label {
-  font-size: 13px; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 1.2px; color: var(--green); margin-bottom: 16px;
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 2px; color: var(--green); margin-bottom: 20px;
 }
 .hero h1 {
-  font-size: 42px; font-weight: 700; letter-spacing: -1.5px; line-height: 1.1;
-  margin-bottom: 16px;
+  font-size: 48px; font-weight: 800; letter-spacing: -2px; line-height: 1.08;
+  margin-bottom: 20px;
 }
 .hero h1 em { color: var(--green); font-style: normal; }
-.hero p { font-size: 18px; color: var(--mid); line-height: 1.6; max-width: 520px; margin: 0 auto; }
+.hero p { font-size: 18px; color: var(--mid); line-height: 1.6; max-width: 540px; margin: 0 auto; }
+
+/* Stats strip */
+.stats-strip {
+  max-width: 720px; margin: 0 auto; padding: 0 24px 56px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+}
+.stats-strip .ss {
+  padding: 24px; text-align: center;
+}
+.ss-num { font-size: 32px; font-weight: 800; letter-spacing: -1.5px; color: var(--ink); margin-bottom: 4px; }
+.ss-text { font-size: 12px; color: var(--light); line-height: 1.4; }
 
 /* Rating cards */
-.ratings-grid {
-  max-width: 680px; margin: 0 auto; padding: 0 24px 48px;
-  display: flex; flex-direction: column; gap: 12px;
+.ratings-section {
+  max-width: 720px; margin: 0 auto; padding: 0 24px 56px;
+}
+.ratings-section h2 {
+  font-size: 28px; font-weight: 800; letter-spacing: -0.8px; margin-bottom: 24px;
 }
 .rating-card {
-  background: var(--card); border: 1px solid var(--border); border-radius: 16px;
-  padding: 24px 28px; display: flex; align-items: flex-start; gap: 20px;
+  display: flex; align-items: stretch; gap: 0;
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  overflow: hidden; margin-bottom: 10px;
 }
-.rating-badge {
-  width: 56px; height: 56px; border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 28px; font-weight: 800; flex-shrink: 0;
+.rating-stripe {
+  width: 6px; flex-shrink: 0;
 }
-.rb-5, .rb-4 { background: #D1FAE5; color: #047857; }
-.rb-3 { background: #FEF3C7; color: #92400E; }
-.rb-2 { background: #FED7AA; color: #9A3412; }
-.rb-1 { background: #FECACA; color: #991B1B; }
-.rb-0 { background: #991B1B; color: white; }
-.rating-content { flex: 1; }
-.rating-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
-.rating-desc { font-size: 15px; color: var(--mid); line-height: 1.6; }
+.rs-5 { background: #047857; }
+.rs-4 { background: #10B981; }
+.rs-3 { background: #F59E0B; }
+.rs-2 { background: #F97316; }
+.rs-1 { background: #EF4444; }
+.rs-0 { background: #7F1D1D; }
+.rating-num {
+  width: 64px; display: flex; align-items: center; justify-content: center;
+  font-size: 28px; font-weight: 800; flex-shrink: 0; color: var(--ink);
+}
+.rating-body { padding: 20px 24px 20px 0; flex: 1; border-left: 1px solid var(--border); padding-left: 20px; }
+.rating-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.rating-desc { font-size: 14px; color: var(--mid); line-height: 1.6; }
 
 /* Content */
-.content { max-width: 680px; margin: 0 auto; padding: 48px 24px; border-top: 1px solid var(--border); }
-.content h2 { font-size: 28px; font-weight: 700; margin: 48px 0 16px; letter-spacing: -0.5px; }
-.content h2:first-child { margin-top: 0; }
-.content h3 { font-size: 18px; font-weight: 700; margin: 28px 0 8px; }
-.content p { font-size: 16px; color: var(--mid); line-height: 1.7; margin-bottom: 12px; }
-.content ul, .content ol { margin: 8px 0 16px 20px; color: var(--mid); line-height: 1.8; }
+.content { max-width: 720px; margin: 0 auto; padding: 0 24px 56px; }
+.content-section { padding: 48px 0; border-top: 1px solid var(--border); }
+.content-section:first-child { border-top: none; padding-top: 0; }
+.content h2 { font-size: 28px; font-weight: 800; letter-spacing: -0.8px; margin-bottom: 20px; }
+.content h3 { font-size: 17px; font-weight: 700; margin: 24px 0 8px; }
+.content p { font-size: 15px; color: var(--mid); line-height: 1.75; margin-bottom: 12px; }
 .content a { color: var(--green); font-weight: 600; text-decoration: none; }
 .content a:hover { text-decoration: underline; }
 
-/* Info box */
+/* Scoring table */
+.score-table {
+  width: 100%; border-collapse: collapse; margin: 20px 0;
+  font-size: 13px;
+}
+.score-table th {
+  text-align: left; padding: 10px 12px;
+  font-weight: 700; font-size: 11px; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--light);
+  border-bottom: 2px solid var(--border);
+}
+.score-table td {
+  padding: 10px 12px; border-bottom: 1px solid var(--border);
+  color: var(--mid); font-size: 14px;
+}
+.score-table tr:last-child td { border-bottom: none; }
+.score-table .st-rating { font-weight: 800; color: var(--ink); font-size: 16px; }
+.score-table .st-desc { font-weight: 600; color: var(--ink); }
+
+/* Info boxes */
 .info-box {
-  background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 12px;
-  padding: 20px 24px; margin: 20px 0;
+  border-radius: 12px; padding: 24px 28px; margin: 24px 0;
+  border: 2px solid;
+  box-sizing: border-box; max-width: 100%;
 }
-.info-box p { color: #1E40AF; margin-bottom: 0; font-size: 15px; }
-.info-box strong { color: #1E3A8A; }
+.info-box p { margin-bottom: 0; font-size: 14px; line-height: 1.65; }
+.info-blue { background: #E8EDFB; border-color: #93A8E0; }
+.info-blue p { color: #2E4A8A; }
+.info-blue strong { color: #1C2F5E; }
+.info-amber { background: #FDF3D7; border-color: #E2BA3E; }
+.info-amber p { color: #7A5A00; }
+.info-amber strong { color: #5C4300; }
+.info-red { background: #FCE8E8; border-color: #E87C7C; }
+.info-red p { color: #9B2222; }
+.info-red strong { color: #6B1111; }
+.info-green { background: #DFF5EA; border-color: #4ABA7D; }
+.info-green p { color: #0A6640; }
+.info-green strong { color: #064E30; }
 
-/* CTA banner */
-.cta-banner { max-width: 680px; margin: 0 auto; padding: 48px 24px 64px; }
+/* Display table */
+.display-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+  background: var(--border); border: 1px solid var(--border); border-radius: 12px;
+  overflow: hidden; margin: 24px 0;
+}
+.display-cell {
+  background: var(--card); padding: 20px;
+}
+.display-cell h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.display-cell .dc-status {
+  font-size: 13px; font-weight: 700; margin-bottom: 8px;
+}
+.dc-yes { color: #047857; }
+.dc-no { color: #DC2626; }
+.display-cell p { font-size: 12px; color: var(--light); line-height: 1.5; margin: 0; }
+
+/* CTA */
+.cta-banner { max-width: 720px; margin: 0 auto; padding: 0 24px 64px; }
 .cta-inner {
-  background: var(--green-dark); border-radius: 16px; padding: 40px; text-align: center;
+  background: var(--green-deep); border-radius: 16px; padding: 48px;
+  text-align: center; position: relative; overflow: hidden;
 }
-.cta-inner h3 { color: white; font-size: 22px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.3px; }
-.cta-inner p { color: rgba(255,255,255,0.5); font-size: 15px; margin-bottom: 20px; }
+.cta-inner::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 400px 300px at 20% 50%, rgba(4,120,87,0.3), transparent);
+  pointer-events: none;
+}
+.cta-inner h3 { color: white; font-size: 24px; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.5px; position: relative; }
+.cta-inner p { color: rgba(255,255,255,0.45); font-size: 15px; margin-bottom: 24px; line-height: 1.6; position: relative; }
 .cta-inner a {
-  display: inline-block; padding: 12px 28px; background: white; color: var(--green-dark);
-  border-radius: 10px; font-weight: 600; font-size: 15px; text-decoration: none;
+  display: inline-block; padding: 14px 32px; background: white; color: var(--green-dark);
+  border-radius: 10px; font-weight: 700; font-size: 15px; text-decoration: none;
+  transition: opacity 0.15s; position: relative;
 }
+.cta-inner a:hover { opacity: 0.9; }
 
-footer { border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; font-size: 12px; color: var(--light); }
-footer a { color: var(--mid); text-decoration: none; margin: 0 8px; }
+/* Footer — matches main site */
+.site-footer { background: var(--ink); color: rgba(255,255,255,0.5); padding: 64px 48px 40px; }
+.footer-inner { max-width: 900px; margin: 0 auto; }
+.footer-grid {
+  display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px;
+  padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.footer-brand img { width: 24px; height: auto; margin-bottom: 12px; }
+.footer-brand p { font-size: 13px; line-height: 1.6; color: rgba(255,255,255,0.35); max-width: 220px; }
+.footer-col h4 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.25); margin-bottom: 16px; }
+.footer-col a { display: block; font-size: 13px; color: rgba(255,255,255,0.5); text-decoration: none; padding: 5px 0; transition: color 0.15s; }
+.footer-col a:hover { color: white; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 24px; }
+.footer-bottom span { font-size: 12px; color: rgba(255,255,255,0.25); }
+.footer-social { display: flex; gap: 16px; }
+.footer-social a { color: rgba(255,255,255,0.3); transition: color 0.15s; text-decoration: none; }
+.footer-social a:hover { color: white; }
+.footer-social svg { width: 18px; height: 18px; }
 
 @media (max-width: 600px) {
-  nav { padding: 0 16px; }
+  nav { padding: 0 20px; height: 68px; }
+  .nav-left img { width: 20px; }
+  .nav-left span { font-size: 17px; }
   .nav-right a:not(.nav-btn) { display: none; }
-  .hero { padding: 100px 16px 32px; }
-  .hero h1 { font-size: 30px; }
-  .ratings-grid { padding: 0 16px 32px; }
-  .rating-card { padding: 20px; gap: 14px; }
-  .rating-badge { width: 44px; height: 44px; font-size: 22px; border-radius: 11px; }
-  .content { padding: 32px 16px; }
+  .nav-btn { padding: 12px 24px !important; font-size: 15px !important; }
+  .hero { padding: 120px 16px 40px; }
+  .hero h1 { font-size: 32px; letter-spacing: -1.2px; }
+  .hero p { font-size: 16px; }
+  .stats-strip { grid-template-columns: 1fr; padding: 0 16px 40px; }
+  .ratings-section { padding: 0 16px 40px; }
+  .rating-num { width: 48px; font-size: 22px; }
+  .rating-body { padding: 16px; }
+  .content { padding: 0 16px 40px; }
+  .display-grid { grid-template-columns: 1fr; }
+  .cta-banner { padding: 0 16px 48px; }
+  .cta-inner { padding: 32px 24px; }
+  .site-footer { padding: 48px 20px 32px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .footer-bottom { flex-direction: column; gap: 12px; }
 }
 </style>
 </head>
@@ -170,148 +280,262 @@ footer a { color: var(--mid); text-decoration: none; margin: 0 8px; }
 
 <nav>
   <a href="/" class="nav-left">
-    <img src="app_icon.png" alt="Blueroll">
+    <img src="blueroll-logo.svg" alt="Blueroll">
     <span>Blueroll</span>
   </a>
   <div class="nav-right">
     <a href="/#features">Features</a>
     <a href="/#pricing">Pricing</a>
-    <a href="free-food-hygiene-rating-badge.html">Free Widget</a>
-    <a href="#" class="nav-btn">Download</a>
+    <a href="/" class="nav-btn">Get started</a>
   </div>
 </nav>
 
 <section class="hero">
   <div class="label">FHRS Guide</div>
   <h1>Food hygiene ratings <em>explained</em></h1>
-  <p>What ratings 0 to 5 actually mean, how inspections work, the three scoring criteria, and when display is a legal requirement.</p>
+  <p>What ratings 0 to 5 mean, how inspections work, the three scoring criteria, and when display is a legal requirement.</p>
 </section>
 
-<div class="ratings-grid">
+<div class="stats-strip">
+  <div class="ss"><div class="ss-num">430K+</div><div class="ss-text">UK food businesses in the scheme</div></div>
+  <div class="ss"><div class="ss-num">78%</div><div class="ss-text">Rated 5 — very good</div></div>
+  <div class="ss"><div class="ss-num">89%</div><div class="ss-text">Of consumers recognise the sticker</div></div>
+</div>
+
+<div class="ratings-section">
+  <h2>What each rating means</h2>
+
   <div class="rating-card">
-    <div class="rating-badge rb-5">5</div>
-    <div class="rating-content">
+    <div class="rating-stripe rs-5"></div>
+    <div class="rating-num">5</div>
+    <div class="rating-body">
       <div class="rating-title">Very good</div>
-      <div class="rating-desc">The highest rating. The business meets all food hygiene requirements and follows best practices. All three scoring areas are performing well. Approximately 70% of UK food businesses hold a rating of 5.</div>
+      <div class="rating-desc">The highest rating. The business fully complies with food hygiene law and follows best practices across all three scoring areas. To achieve a 5, no individual category can score above 5 out of 25. Around 78% of UK food businesses hold this rating.</div>
     </div>
   </div>
   <div class="rating-card">
-    <div class="rating-badge rb-4">4</div>
-    <div class="rating-content">
+    <div class="rating-stripe rs-4"></div>
+    <div class="rating-num">4</div>
+    <div class="rating-body">
       <div class="rating-title">Good</div>
-      <div class="rating-desc">Hygiene standards are good overall, but there are some minor areas for improvement. The business may have small issues in one scoring area — perhaps a few missing records or a minor maintenance task. Nothing that poses a risk to food safety.</div>
+      <div class="rating-desc">Hygiene standards are good overall, with minor areas for improvement. The business may have small issues in one area — perhaps a few missing records or a minor maintenance task. Nothing that poses a risk to food safety.</div>
     </div>
   </div>
   <div class="rating-card">
-    <div class="rating-badge rb-3">3</div>
-    <div class="rating-content">
+    <div class="rating-stripe rs-3"></div>
+    <div class="rating-num">3</div>
+    <div class="rating-body">
       <div class="rating-title">Generally satisfactory</div>
-      <div class="rating-desc">Hygiene standards are acceptable but improvement is needed. This often indicates that while food handling is adequate, documentation and management procedures need strengthening. Many businesses at this level have the practices in place but are not recording them consistently.</div>
+      <div class="rating-desc">Hygiene standards are acceptable but improvement is needed. Often indicates that food handling is adequate but documentation and management procedures need strengthening. Many businesses at this level have the right practices but are not recording them consistently.</div>
     </div>
   </div>
   <div class="rating-card">
-    <div class="rating-badge rb-2">2</div>
-    <div class="rating-content">
+    <div class="rating-stripe rs-2"></div>
+    <div class="rating-num">2</div>
+    <div class="rating-body">
       <div class="rating-title">Improvement necessary</div>
-      <div class="rating-desc">Significant issues were found during the inspection. The business needs to make real improvements to food handling, building condition, or food safety management. The local authority will have outlined the specific areas requiring attention and will expect action before the next inspection.</div>
+      <div class="rating-desc">Significant issues found during the inspection. The business needs real improvements to food handling, building condition, or food safety management. The local authority will outline specific areas requiring attention and expect action before the next inspection.</div>
     </div>
   </div>
   <div class="rating-card">
-    <div class="rating-badge rb-1">1</div>
-    <div class="rating-content">
+    <div class="rating-stripe rs-1"></div>
+    <div class="rating-num">1</div>
+    <div class="rating-body">
       <div class="rating-title">Major improvement necessary</div>
-      <div class="rating-desc">Serious problems with food hygiene were found. The business has significant failings in one or more scoring areas. The local authority may issue a formal written warning or take other enforcement action. Substantial changes are needed.</div>
+      <div class="rating-desc">Serious problems with food hygiene. Significant failings in one or more scoring areas. The local authority may issue formal written warnings or take enforcement action. Substantial changes are needed.</div>
     </div>
   </div>
   <div class="rating-card">
-    <div class="rating-badge rb-0">0</div>
-    <div class="rating-content">
+    <div class="rating-stripe rs-0"></div>
+    <div class="rating-num">0</div>
+    <div class="rating-body">
       <div class="rating-title">Urgent improvement necessary</div>
-      <div class="rating-desc">The most serious outcome. Conditions at the business may pose an imminent risk to public health. The local authority is likely to take enforcement action, which could include issuing a Hygiene Emergency Prohibition Notice to close the business until the problems are resolved.</div>
+      <div class="rating-desc">The most serious outcome. Conditions may pose an imminent risk to public health. The local authority can issue a Hygiene Emergency Prohibition Notice to close the business until problems are resolved. Businesses rated 0-2 are twice as likely to be linked to food poisoning outbreaks.</div>
     </div>
   </div>
 </div>
 
-<section class="content">
+<div class="content">
 
-  <h2>The three scoring criteria</h2>
-  <p>During an inspection, Environmental Health Officers assess three distinct areas. Each area is scored independently, and the scores combine to determine the overall 0-5 rating. Understanding these areas is essential for any food business that wants to maintain or improve its rating.</p>
+  <div class="content-section">
+    <h2>The three scoring criteria</h2>
+    <p>Environmental Health Officers assess three areas independently. Each receives a score, and the combined total determines your 0-5 rating. One badly performing area pulls the entire rating down — even if the other two are excellent.</p>
 
-  <h3>1. Hygienic food handling</h3>
-  <p>This criterion covers how food is prepared, cooked, reheated, cooled, and stored. Inspectors observe whether cross-contamination is being prevented, whether cooking and cooling temperatures are correct, and whether allergens are properly managed. They will watch staff at work and check that practices match documented procedures. Key observations include use of colour-coded equipment, correct fridge temperatures and storage order, and personal hygiene standards.</p>
+    <h3>1. Hygienic food handling</h3>
+    <p>How food is prepared, cooked, reheated, cooled, and stored. Inspectors observe whether cross-contamination is being prevented, whether cooking and cooling temperatures are correct, and whether allergens are properly managed. They watch staff at work and check that practices match documented procedures.</p>
 
-  <h3>2. Cleanliness and condition of facilities and building</h3>
-  <p>The structural assessment examines the physical state of the premises. This includes the cleanliness of all surfaces and equipment, the layout of the kitchen, the condition of walls, floors, and ceilings, the availability of hand wash basins, ventilation, lighting, and pest control measures. A kitchen might handle food well but lose marks here if the building is poorly maintained — for example, cracked tiles that harbour bacteria or a lack of adequate hand-washing facilities.</p>
+    <h3>2. Cleanliness and condition of the building</h3>
+    <p>The physical state of the premises: cleanliness of surfaces and equipment, kitchen layout, condition of walls, floors, and ceilings, hand wash basins, ventilation, lighting, and pest control. A kitchen might handle food well but lose marks here if the building is poorly maintained.</p>
 
-  <h3>3. Management of food safety</h3>
-  <p>This is where inspectors assess whether the business has a documented food safety management system (based on HACCP principles) and whether it is actually being used. They want to see completed daily and weekly record sheets, staff training records, temperature logs, cleaning schedules, and evidence that the system is reviewed and updated. This area is consistently where businesses lose the most marks, because it requires ongoing documentation rather than a one-time setup.</p>
+    <h3>3. Management of food safety</h3>
+    <p>Whether the business has a documented food safety management system based on HACCP principles and whether it is actually being used. Inspectors want to see completed daily records, temperature logs, staff training records, and cleaning schedules. This is consistently where businesses lose the most marks.</p>
 
-  <h2>How inspections work</h2>
-  <p>Food hygiene inspections in the UK are carried out by Environmental Health Officers (EHOs) employed by local authorities. Here is how the process typically works:</p>
-
-  <h3>Unannounced visits</h3>
-  <p>Inspections are almost always unannounced. The EHO will arrive during normal business hours and identify themselves. You cannot refuse an inspection — EHOs have a legal right of entry to food premises. The inspection usually takes between one and three hours, depending on the size and complexity of the business.</p>
-
-  <h3>What happens during an inspection</h3>
-  <p>The inspector will typically start by walking through the premises, observing food handling practices and assessing the physical condition of the kitchen. They will check temperatures of fridges, freezers, and hot-holding equipment. They will ask to see your food safety management records, training certificates, cleaning schedules, and pest control reports. They may ask staff questions about food safety procedures to verify that training has been effective.</p>
-
-  <h3>After the inspection</h3>
-  <p>The EHO will discuss their findings with you before leaving and will explain any issues found. You will later receive a written report detailing the scores for each area and any required or recommended actions. Your rating is then published on the FSA website. Businesses have a right to appeal the rating if they believe it is unfair, and in some cases can request a re-inspection after improvements have been made.</p>
-
-  <h3>Inspection frequency</h3>
-  <p>How often your business is inspected depends on its risk profile. Newly registered food businesses are usually inspected within 28 days. After that, high-risk businesses (those with previous low ratings or complex operations) may be inspected every 6 months. Medium-risk businesses are typically inspected every 12-18 months. Low-risk businesses with consistently high ratings may only be visited every 2-3 years.</p>
-
-  <div class="info-box">
-    <p><strong>Scotland operates differently.</strong> Scotland uses the Food Hygiene Information Scheme (FHIS), which gives a simple Pass or Improvement Required result, rather than a 0-5 numeric rating. The inspection process is similar, but the published outcome is binary rather than graded.</p>
+    <div class="info-box info-green">
+      <p><strong>Blueroll digitises category 3.</strong> Digital HACCP checklists, automatic temperature logging, and one-tap compliance reports mean your food safety management records are always complete and inspection-ready. <a href="/" style="color:#047857;">Start free trial</a></p>
+    </div>
   </div>
 
-  <h2>Legal requirements for displaying ratings</h2>
-  <p>The rules around displaying food hygiene ratings vary depending on where your business is located within the UK:</p>
+  <div class="content-section">
+    <h2>How scores map to ratings</h2>
+    <p>Each category is scored from 0 (best) to 25 or 30 (worst). The three scores are totalled, and the total maps to your rating. But there is an important override: if any single category scores too high, your rating drops regardless of the total.</p>
 
-  <h3>Wales</h3>
-  <p>Under the <strong>Food Hygiene Rating (Wales) Act 2013</strong>, all food businesses in Wales are legally required to display their rating sticker at or near the entrance to their premises, in a position where it can be easily read by customers. Failure to display the sticker, or displaying an incorrect rating, can result in a fixed penalty notice. Online food businesses must also display their rating on their website and on third-party platforms where their food is listed.</p>
+    <table class="score-table">
+      <thead>
+        <tr><th>Rating</th><th>Description</th><th>Total score</th><th>Max per category</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="st-rating">5</td><td class="st-desc">Very good</td><td>0 – 15</td><td>5</td></tr>
+        <tr><td class="st-rating">4</td><td class="st-desc">Good</td><td>20</td><td>10</td></tr>
+        <tr><td class="st-rating">3</td><td class="st-desc">Generally satisfactory</td><td>25 – 30</td><td>10</td></tr>
+        <tr><td class="st-rating">2</td><td class="st-desc">Improvement necessary</td><td>35 – 40</td><td>15</td></tr>
+        <tr><td class="st-rating">1</td><td class="st-desc">Major improvement</td><td>45 – 50</td><td>20</td></tr>
+        <tr><td class="st-rating">0</td><td class="st-desc">Urgent improvement</td><td>50+</td><td>—</td></tr>
+      </tbody>
+    </table>
 
-  <h3>Northern Ireland</h3>
-  <p>Northern Ireland has similar mandatory display requirements under the <strong>Food Hygiene Rating Act (Northern Ireland) 2016</strong>. All food businesses must display their rating sticker in a conspicuous place that is readily visible to customers. The rules also apply to online businesses.</p>
+    <div class="info-box info-amber">
+      <p><strong>One bad area ruins everything.</strong> A restaurant with perfect food handling and a spotless kitchen can still get a 3 or lower if they have no documented HACCP records. The "max per category" column is the key — it caps your rating even if the other areas are excellent.</p>
+    </div>
+  </div>
 
-  <h3>England</h3>
-  <p>In England, displaying your food hygiene rating is currently <strong>voluntary</strong>. However, the FSA strongly encourages all food businesses to display their rating, and many customers actively look for it. There have been ongoing discussions about making display mandatory in England, as it already is in Wales and Northern Ireland. Even without a legal requirement, displaying a good rating builds trust and can be a competitive advantage.</p>
+  <div class="content-section">
+    <h2>How inspections work</h2>
 
-  <h3>Online display</h3>
-  <p>Whether it is mandatory in your jurisdiction or not, displaying your food hygiene rating online is increasingly important. Customers routinely check ratings before ordering from a new restaurant. You can use our <a href="free-food-hygiene-rating-badge.html">free food hygiene rating widget</a> to add an auto-updating badge to your website in seconds.</p>
+    <h3>Unannounced visits</h3>
+    <p>Inspections are always unannounced. The Environmental Health Officer arrives during normal business hours and has a legal right of entry. You cannot refuse an inspection. A typical visit takes one to three hours depending on the size and complexity of the business.</p>
 
-  <h2>Frequently asked questions</h2>
+    <h3>What happens during an inspection</h3>
+    <p>The inspector walks through the premises, observes food handling, checks fridge and freezer temperatures, reviews your food safety management records, training certificates, cleaning schedules, and pest control reports. They may ask staff questions about procedures to verify that training has been effective.</p>
 
-  <h3>Can a business still operate with a 0 rating?</h3>
-  <p>Yes, in most cases. A 0 rating does not automatically mean the business is closed. However, the local authority may take enforcement action such as a Hygiene Improvement Notice (requiring specific improvements within a set timeframe) or, in the most serious cases, a Hygiene Emergency Prohibition Notice which does force immediate closure until the problem is resolved.</p>
+    <h3>After the inspection</h3>
+    <p>The EHO discusses findings before leaving and explains any issues. You later receive a written report with scores for each area and required or recommended actions. Your rating is published on the FSA website, usually within 28 days.</p>
 
-  <h3>How long does it take to get a new rating after inspection?</h3>
-  <p>Typically, the rating is published on the FSA website within a few weeks of the inspection. However, businesses have a 21-day window to appeal or respond before the rating is made public. In practice, most ratings appear within 28 days of the inspection.</p>
+    <h3>How often</h3>
+    <p>Frequency is risk-based. High-risk businesses (previous low ratings, complex operations) are inspected every 6 months. Medium-risk every 12–18 months. Low-risk with consistently high ratings may only be visited every 2–3 years. Newly registered businesses are usually inspected within 28 days.</p>
 
-  <h3>Do ratings expire?</h3>
-  <p>Ratings do not technically expire, but they are replaced by a new rating following each subsequent inspection. A rating from several years ago may not reflect current standards. The FSA website shows the date of the last inspection alongside each rating, so customers can judge how recent the information is.</p>
+    <div class="info-box info-blue">
+      <p><strong>Scotland is different.</strong> Scotland uses the Food Hygiene Information Scheme (FHIS), which gives a simple Pass or Improvement Required result rather than a 0-5 rating. The inspection process is similar, but the outcome is binary.</p>
+    </div>
+  </div>
 
-  <h3>Can I check a business's full inspection history?</h3>
-  <p>The FSA website shows the current rating and the date of the last inspection for each business. Detailed inspection reports are held by the local authority and can usually be obtained through a Freedom of Information request. Our <a href="check-food-hygiene-rating.html">free rating checker</a> also provides score breakdowns for each of the three assessment areas.</p>
+  <div class="content-section">
+    <h2>Display requirements by country</h2>
+    <p>Whether you must display your rating depends on where your business is located.</p>
 
-  <h3>How can I improve my rating?</h3>
-  <p>Focus on the three scoring areas: food handling, building condition, and food safety management. The most impactful quick wins are usually in management — completing your daily records, logging temperatures, and maintaining training files. For a detailed guide, see our article on <a href="how-to-improve-food-hygiene-rating.html">how to improve your food hygiene rating</a>.</p>
+    <div class="display-grid">
+      <div class="display-cell">
+        <h4>Wales</h4>
+        <div class="dc-status dc-yes">Mandatory</div>
+        <p>Food Hygiene Rating (Wales) Act 2013. Must display at entrance, visible to customers. Fixed penalty for non-compliance.</p>
+      </div>
+      <div class="display-cell">
+        <h4>Northern Ireland</h4>
+        <div class="dc-status dc-yes">Mandatory</div>
+        <p>Food Hygiene Rating Act (NI) 2016. Must display in a conspicuous place readily visible to customers.</p>
+      </div>
+      <div class="display-cell">
+        <h4>England</h4>
+        <div class="dc-status dc-no">Voluntary</div>
+        <p>No legislation yet. FSA and CIEH campaign for mandatory display. 69% of businesses choose to display voluntarily.</p>
+      </div>
+    </div>
 
-  <h2>About Blueroll</h2>
-  <p>Blueroll is a food safety management app for UK restaurants offering digital HACCP checklists, AI recipe import, allergen tracking, and compliance reports at £14.99/month. Start your 14-day free trial at <a href="/">blueroll.app</a>.</p>
+    <p>Displaying your rating online is not legally required anywhere, but customers routinely check before ordering. You can use our <a href="free-food-hygiene-rating-badge.html">free hygiene rating widget</a> to add an auto-updating badge to your website.</p>
+  </div>
 
-</section>
+  <div class="content-section">
+    <h2>What happens with low ratings</h2>
+
+    <h3>Rating 0 — urgent improvement</h3>
+    <p>The EHO will typically serve a Hygiene Improvement Notice — a formal legal document requiring corrective action within a specified deadline (minimum 14 days). If there is an imminent risk to public health, they can issue a Hygiene Emergency Prohibition Notice, which closes the business immediately. The authority must then apply to Magistrates' Court within 3 days for a Prohibition Order.</p>
+
+    <div class="info-box info-red">
+      <p><strong>Fines are unlimited.</strong> Failure to comply with a Hygiene Improvement Notice is a criminal offence. There is no cap on fines since 2016. Tesco was fined £7.56 million in 2021 for food safety breaches. Individual directors can face personal prosecution.</p>
+    </div>
+
+    <h3>Rating 1 — major improvement</h3>
+    <p>Written advice on required improvements with deadlines. Enforcement action may follow if improvements are not made. Follow-up visits are scheduled.</p>
+
+    <h3>Rating 2 — improvement necessary</h3>
+    <p>Written guidance provided. Less severe enforcement but improvements are expected before the next scheduled inspection.</p>
+
+    <p>A 0 rating does not automatically mean closure — that only happens when there is an imminent risk to health. But businesses rated 2 or below are twice as likely to be linked to food poisoning outbreaks.</p>
+  </div>
+
+  <div class="content-section">
+    <h2>Appeals and re-inspections</h2>
+
+    <h3>Appealing your rating</h3>
+    <p>You can formally appeal within <strong>21 days</strong> of receiving your rating notification. The appeal is reviewed by a different officer than the one who inspected you. You will receive a decision within 21 days. If still dissatisfied, you can use the local authority's complaints procedure.</p>
+
+    <h3>Requesting a re-inspection</h3>
+    <p>If you have made improvements and want a new rating, you can request a re-rating inspection in writing. In Wales and Northern Ireland, re-inspections happen within 3 months and carry a fee. In England, timelines vary by local authority — some charge, some do not. The inspector will assess standards generally, not just the areas you improved.</p>
+
+    <h3>Right to reply</h3>
+    <p>You can submit a written response that is published alongside your rating on the FSA website. This does not change the rating — it simply adds context for consumers. There is no deadline; you can submit a response at any time until the next inspection.</p>
+  </div>
+
+  <div class="content-section">
+    <h2>Frequently asked questions</h2>
+
+    <h3>Do ratings expire?</h3>
+    <p>Ratings do not expire. They are replaced by a new rating after each subsequent inspection. The FSA website shows the inspection date alongside each rating so consumers can judge how recent it is.</p>
+
+    <h3>Can I check a business's full inspection history?</h3>
+    <p>The FSA website shows the current rating and inspection date. Detailed reports are held by the local authority and can be obtained through a Freedom of Information request. Our <a href="check-food-hygiene-rating.html">free rating checker</a> shows score breakdowns for each category.</p>
+
+    <h3>How can I improve my rating?</h3>
+    <p>Focus on the three scoring areas. The most impactful quick wins are usually in management — completing daily records, logging temperatures, and maintaining training files. For a detailed guide, see <a href="how-to-improve-food-hygiene-rating.html">how to improve your food hygiene rating</a>.</p>
+  </div>
+
+</div>
 
 <div class="cta-banner">
   <div class="cta-inner">
     <h3>Keep your kitchen inspection-ready</h3>
-    <p>Blueroll gives you digital checklists, temperature logging, allergen tracking, and compliance reports — everything EHOs want to see.</p>
+    <p>Digital HACCP checklists, automatic temperature logging, allergen tracking, and one-tap compliance reports — everything EHOs want to see.</p>
     <a href="/">Try Blueroll free for 14 days</a>
   </div>
 </div>
 
-<footer>
-  <a href="/">Blueroll</a> · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> · © 2026
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="blueroll-logo.svg" alt="Blueroll">
+        <p>Food safety management for UK restaurants. Digital checklists, AI recipe import, allergen tracking.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="/#features">Features</a>
+        <a href="/#ai">AI Import</a>
+        <a href="/#pricing">Pricing</a>
+        <a href="/#faq">FAQ</a>
+      </div>
+      <div class="footer-col">
+        <h4>Free Tools</h4>
+        <a href="free-food-hygiene-rating-badge.html">Hygiene Rating Badge</a>
+        <a href="check-food-hygiene-rating.html">Check Your Rating</a>
+        <a href="food-hygiene-ratings-explained.html">Ratings Explained</a>
+        <a href="how-to-improve-food-hygiene-rating.html">How to Improve</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="pitch.html">Pitch Deck</a>
+        <a href="mailto:hello@blueroll.app">Contact</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Use</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Blueroll. London, UK.</span>
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/company/blueroll" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        <a href="https://x.com/bluerollapp" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="mailto:hello@blueroll.app" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg></a>
+      </div>
+    </div>
+  </div>
 </footer>
 
 </body>
