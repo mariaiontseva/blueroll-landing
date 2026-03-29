@@ -558,14 +558,12 @@ nav {
   .hero-phone { order: -1; }
   .phone-frame { width: 200px; }
   .hero-phone { overflow: visible !important; }
-  .hero-phone > div:last-child {
-    position: static !important;
+  .rating-badge-overlay {
+    position: static !important; bottom: auto !important; right: auto !important;
     display: flex !important; justify-content: center;
     margin-top: 16px;
   }
-  .hero-phone > div:last-child > div {
-    transform: scale(0.85);
-  }
+  .rating-badge-overlay > div { transform: scale(0.8); }
 
   /* Stats */
   .hero-stats-wrap { padding: 0 20px 48px; }
@@ -655,7 +653,7 @@ nav {
       <img src="app_screen.png" alt="Blueroll app">
     </div>
     <!-- Rating badge overlay -->
-    <div style="position:absolute;bottom:-20px;right:-40px;z-index:2;">
+    <div class="rating-badge-overlay" style="position:absolute;bottom:-20px;right:-40px;z-index:2;">
       <div style="display:inline-block;width:200px;padding:24px 20px;border-radius:18px;background:linear-gradient(145deg,#0D1B2A,#1B2D45);border:1px solid rgba(255,255,255,0.06);box-shadow:0 12px 40px rgba(0,0,0,0.3);font-family:-apple-system,system-ui,sans-serif;text-align:center;">
         <div style="width:64px;height:64px;border-radius:16px;background:linear-gradient(145deg,#ECC55B,#D4A843);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;color:#0D1B2A;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,0.3);">5</div>
         <div style="display:flex;justify-content:center;gap:2px;margin-bottom:8px;">
