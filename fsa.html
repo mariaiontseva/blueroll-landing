@@ -263,19 +263,18 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
   display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;
 }
 
-/* Letter QR — inline with text on screen */
-.letter-qr-inline {
-  float: right;
-  margin: 0 0 12px 16px;
+/* Letter QR — centered block */
+.letter-qr-block {
   text-align: center;
+  margin: 16px 0;
+  padding: 16px;
   background: #F9FAFB;
-  border-radius: 10px;
+  border-radius: 12px;
   border: 1px solid #E5E7EB;
-  padding: 12px;
 }
-.letter-qr-inline img { border-radius: 6px; display: block; }
-.letter-qr-inline .letter-qr-text {
-  font-size: 11px; color: #666; margin-top: 6px; font-weight: 500; line-height: 1.3;
+.letter-qr-block img { border-radius: 8px; display: block; margin: 0 auto; }
+.letter-qr-block .letter-qr-text {
+  font-size: 13px; color: #666; margin-top: 10px; font-weight: 500; line-height: 1.4;
 }
 
 @media print {
@@ -299,50 +298,53 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
   }
   .modal-close, .modal-actions { display: none !important; }
 
-  /* === SENDER: top-right corner === */
+  /* === SENDER + ADDRESS: positioned for C5 window envelope ===
+     C5 envelope: 229×162mm. Window is ~50mm from top of envelope, 20mm from left.
+     A4 folded in half: fold at 148.5mm. Lower half faces out.
+     The window shows content at ~155-175mm from top of A4.
+     With @page margin-top: 18mm, content starts at 18mm.
+     So we need ~137mm (155-18) of space before the address block.
+     Sender goes right above the address in the window area. */
+
   .print-sender {
     display: flex !important;
     align-items: center;
     gap: 8px;
-    margin-bottom: 20mm;
+    margin-top: 115mm !important;
+    margin-bottom: 3mm !important;
   }
   .print-sender-logo {
-    height: 24px;
+    height: 22px;
     border-radius: 4px;
   }
   .print-sender-info {
-    font-size: 10px;
+    font-size: 9px;
     color: #666;
     line-height: 1.3;
   }
 
-  /* === ADDRESS BLOCK: positioned for C5 window envelope ===
-     C5 envelope: 229×162mm. Window: ~90×45mm, 20mm from left, 15mm from bottom.
-     A4 folded in half = 148.5mm per half.
-     Address must be at ~88-108mm from top of A4, ~0mm from left margin (margin is already 20mm).
-     So address block starts about 68mm below the sender. */
   .print-address-block {
-    margin-top: 15mm !important;
-    margin-bottom: 10mm !important;
-    min-height: 35mm;
+    margin-top: 0 !important;
+    margin-bottom: 8mm !important;
+    min-height: 20mm;
     max-width: 85mm;
   }
   .modal h2 {
-    font-size: 14px !important;
+    font-size: 13px !important;
     font-weight: 700 !important;
-    margin-bottom: 2px !important;
+    margin-bottom: 1px !important;
     line-height: 1.2 !important;
   }
   .modal .subtitle {
     font-size: 11px !important;
     color: #333 !important;
-    line-height: 1.4 !important;
+    line-height: 1.3 !important;
   }
 
-  /* === LETTER CONTENT: compact to fit A4 === */
+  /* === LETTER CONTENT: compact to fit on the upper half of A4 === */
   .letter-content {
-    font-size: 11.5px !important;
-    line-height: 1.55 !important;
+    font-size: 11px !important;
+    line-height: 1.5 !important;
     margin-top: 0 !important;
   }
   .letter-content .highlight {
@@ -355,26 +357,26 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
     font-weight: 700 !important;
   }
 
-  /* QR inline — smaller for print */
-  .letter-qr-inline {
-    float: right !important;
-    margin: 0 0 8px 12px !important;
-    padding: 8px !important;
+  /* QR block — centered, visible in print */
+  .letter-qr-block {
+    text-align: center !important;
+    margin: 10px 0 !important;
+    padding: 10px !important;
     background: #f5f5f5 !important;
     border: 1px solid #ddd !important;
+    border-radius: 8px !important;
   }
-  .letter-qr-inline img {
-    width: 100px !important;
-    height: 100px !important;
+  .letter-qr-block img {
+    width: 140px !important;
+    height: 140px !important;
   }
-  .letter-qr-inline .letter-qr-text {
-    font-size: 8px !important;
+  .letter-qr-block .letter-qr-text {
+    font-size: 9px !important;
     margin-top: 4px !important;
   }
 
   /* Hide old QR section */
   .qr-section { display: none !important; }
-  .letter-qr { display: none !important; }
 
   /* === FOOTER === */
   .print-footer {
@@ -1110,10 +1112,10 @@ function showLetter(idx) {
   const rPage = `https://blueroll.app/r.html?name=${encodeURIComponent(e.BusinessName)}&addr=${encodeURIComponent(addr)}&rating=${encodeURIComponent(rating)}&date=${encodeURIComponent(ratedDate)}&fhrsid=${e.FHRSID || ''}&h=${scores.Hygiene||''}&s=${scores.Structural||''}&m=${scores.ConfidenceInManagement||''}`;
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(rPage)}`;
 
-  // QR block — inline, floats right
-  const qrBlock = `<div class="letter-qr-inline">
-  <img src="${qrUrl}" width="130" height="130" alt="QR">
-  <div class="letter-qr-text">Scan for your<br>rating breakdown</div>
+  // QR block — centered
+  const qrBlock = `<div class="letter-qr-block">
+  <img src="${qrUrl}" width="180" height="180" alt="QR">
+  <div class="letter-qr-text">Scan to see your full rating breakdown and how to improve</div>
 </div>`;
 
   const features = `<strong>What Blueroll does:</strong>
@@ -1134,7 +1136,7 @@ The Blueroll Team`;
   const monthsAgo = getMonthsAgo(e.RatingDate);
 
   if (overdue) {
-    letterBody = `${qrBlock}Dear ${e.BusinessName} team,
+    letterBody = `Dear ${e.BusinessName} team,
 
 Your last food hygiene inspection was <span class="highlight">${monthsAgo} months ago</span>. Your next EHO visit could be any day now — are your HACCP records up to date?
 
@@ -1142,11 +1144,13 @@ If you're still using paper records, an unannounced inspection can catch gaps yo
 
 ${features}
 
+${qrBlock}
+
 Restaurants using Blueroll report feeling significantly more confident before inspections. We'd love to help ${e.BusinessName} be fully prepared.
 
 ${signoff}`;
   } else if (ratingNum === 4) {
-    letterBody = `${qrBlock}Dear ${e.BusinessName} team,
+    letterBody = `Dear ${e.BusinessName} team,
 
 Your recent food hygiene inspection scored <span class="highlight">4 out of 5</span> — so close to perfect! The most common reasons for missing a 5 are paperwork gaps and inconsistent records.
 
@@ -1154,17 +1158,21 @@ Your recent food hygiene inspection scored <span class="highlight">4 out of 5</s
 
 ${features}
 
+${qrBlock}
+
 Many restaurants have gone from 4 to 5 after switching to digital records. We'd love to help ${e.BusinessName} get there.
 
 ${signoff}`;
   } else {
-    letterBody = `${qrBlock}Dear ${e.BusinessName} team,
+    letterBody = `Dear ${e.BusinessName} team,
 
 We noticed your recent food hygiene inspection resulted in a rating of <span class="highlight">${rating} — ${ratingText}</span>.
 
 We know how frustrating that can be, especially when you're working hard to keep standards up. <strong>Blueroll</strong> is a simple app that replaces paper HACCP records with digital checklists your team can complete in seconds.
 
 ${features}
+
+${qrBlock}
 
 Restaurants using Blueroll typically improve their rating by 1-2 points at their next inspection. We'd love to help ${e.BusinessName} get back to 5 stars.
 
