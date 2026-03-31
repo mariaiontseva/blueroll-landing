@@ -220,14 +220,13 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
   white-space: pre-wrap; font-family: var(--font);
 }
 .letter-content .highlight { background: #FEF3C7; padding: 2px 4px; border-radius: 2px; font-weight: 600; }
-.modal-actions { display: flex; gap: 8px; margin-top: 24px; padding-top: 20px; border-top: 1px solid #eee; }
 .modal .btn-print {
-  flex: 1; padding: 12px; border: 1px solid #ddd; background: white; border-radius: 8px;
+  padding: 10px 20px; border: 1px solid #ddd; background: white; border-radius: 8px;
   font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit;
 }
 .modal .btn-print:hover { border-color: #047857; color: #047857; }
 .modal .btn-copy {
-  flex: 1; padding: 12px; background: #047857; color: white; border: none; border-radius: 8px;
+  padding: 10px 20px; background: #047857; color: white; border: none; border-radius: 8px;
   font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
 }
 
@@ -273,6 +272,19 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
   font-size: 14px; line-height: 1.7; color: #333;
   white-space: pre-wrap; font-family: var(--font);
 }
+/* Toolbar inside modal */
+.modal-toolbar {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid #eee;
+}
+.modal-toolbar span { font-size: 13px; color: #888; font-weight: 500; }
+.modal-toolbar .modal-actions { display: flex; gap: 8px; }
+/* Letter page — each letter is a separate page */
+.letter-page {
+  padding: 24px 0; border-bottom: 2px dashed #e5e7eb;
+  margin-bottom: 24px;
+}
+.letter-page:last-child { border-bottom: none; margin-bottom: 0; }
 .letter-footer {
   text-align: center; font-size: 9px; color: #aaa; margin-top: 16px;
   padding-top: 12px; border-top: 1px solid #eee;
@@ -295,9 +307,18 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
     box-shadow: none !important; border-radius: 0 !important;
     width: 100% !important; max-width: 100% !important;
     max-height: none !important; overflow: visible !important;
-    padding: 40mm 0 0 0 !important; margin: 0 !important;
+    padding: 0 !important; margin: 0 !important;
   }
-  .modal-close, .modal-actions { display: none !important; }
+  .modal-close, .modal-actions, .modal-toolbar { display: none !important; }
+
+  /* Each letter on its own page */
+  .letter-page {
+    page-break-after: always !important;
+    border-bottom: none !important;
+    margin-bottom: 0 !important;
+    padding: 40mm 0 0 0 !important;
+  }
+  .letter-page:last-child { page-break-after: avoid !important; }
 
   /* === TOP: envelope window zone (sender + address, top-left) === */
   .letter-top {
@@ -582,32 +603,18 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
   </div>
 </div>
 
-<!-- Letter Modal -->
+<!-- Letter Modal (single + batch) -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">&times;</button>
-    <!-- TOP: envelope window zone (sender + recipient address) -->
-    <div class="letter-top">
-      <div class="letter-sender">
-        <img src="app_icon.png" alt="Blueroll" class="letter-sender-logo">
-        <div class="letter-sender-info"><strong>Blueroll</strong><br>hello@blueroll.app</div>
+    <div class="modal-toolbar">
+      <span id="letterCount">1 letter</span>
+      <div class="modal-actions">
+        <button class="btn-print" onclick="window.print()">🖨 Print All</button>
+        <button class="btn-copy" onclick="copyLetter()">Copy Text</button>
       </div>
-      <div class="letter-recipient">
-        <div class="letter-biz-name" id="letterBizName"></div>
-        <div class="letter-biz-addr" id="letterBizAddr"></div>
-      </div>
-      <div class="letter-postage" id="letterPostage"></div>
     </div>
-    <!-- BODY: intro paragraph + QR block + rest of letter -->
-    <div class="letter-content" id="letterContent"></div>
-    <div class="letter-qr-inline" id="letterQrInline"></div>
-    <div class="letter-content2" id="letterContent2"></div>
-    <!-- FOOTER -->
-    <div class="letter-footer">blueroll.app · hello@blueroll.app · Food Safety Made Simple</div>
-    <div class="modal-actions">
-      <button class="btn-print" onclick="window.print()">Print Letter</button>
-      <button class="btn-copy" onclick="copyLetter()">Copy Text</button>
-    </div>
+    <div id="lettersContainer"></div>
   </div>
 </div>
 
@@ -1086,16 +1093,12 @@ function updateSelectCount() {
   document.getElementById('generateBtn').disabled = selected.size === 0;
 }
 
-function showLetter(idx) {
+function buildLetterPage(idx) {
   const e = allResults[idx];
   const rating = e.RatingValue || '?';
   const ratingNum = parseInt(rating) || 0;
   const addr = [e.AddressLine1, e.AddressLine2, e.AddressLine3, e.PostCode].filter(Boolean).join(', ');
   const ratedDate = e.RatingDate ? new Date(e.RatingDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }) : 'recently';
-
-  // Top-left: recipient in envelope window zone
-  document.getElementById('letterBizName').textContent = e.BusinessName;
-  document.getElementById('letterBizAddr').textContent = addr;
 
   const ratingText = {
     '0': 'Urgent Improvement Necessary',
@@ -1106,13 +1109,9 @@ function showLetter(idx) {
     '5': 'Very Good'
   }[rating] || rating;
 
-  // QR code links to personalized landing page with scores
   const scores = e.scores || {};
   const rPage = `https://blueroll.app/r.html?name=${encodeURIComponent(e.BusinessName)}&addr=${encodeURIComponent(addr)}&rating=${encodeURIComponent(rating)}&date=${encodeURIComponent(ratedDate)}&fhrsid=${e.FHRSID || ''}&h=${scores.Hygiene||''}&s=${scores.Structural||''}&m=${scores.ConfidenceInManagement||''}`;
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(rPage)}`;
-
-  // QR — inline block between first paragraph and rest of letter
-  document.getElementById('letterQrInline').innerHTML = `<img src="${qrUrl}" width="150" height="150" alt="QR"><div class="qr-caption">Scan to see your full rating breakdown<br>and how to improve</div>`;
 
   const features = `<strong>What Blueroll does:</strong>
 • Ready-made HACCP checklists — complete in seconds
@@ -1127,8 +1126,7 @@ Visit <strong>blueroll.app</strong> or scan the QR code.
 Best regards,
 The Blueroll Team`;
 
-  let intro = '';
-  let rest = '';
+  let intro = '', rest = '';
   const overdue = isOverdue(e);
   const monthsAgo = getMonthsAgo(e.RatingDate);
 
@@ -1136,7 +1134,6 @@ The Blueroll Team`;
     intro = `Dear ${e.BusinessName} team,
 
 Your last food hygiene inspection was <span class="highlight">${monthsAgo} months ago</span>. Your next EHO visit could be any day now — are your HACCP records up to date?`;
-
     rest = `If you're still using paper records, an unannounced inspection can catch gaps you didn't know existed. <strong>Blueroll</strong> replaces paper with a simple app that keeps everything digital, current, and inspection-ready.
 
 ${features}
@@ -1148,7 +1145,6 @@ ${signoff}`;
     intro = `Dear ${e.BusinessName} team,
 
 Your recent food hygiene inspection scored <span class="highlight">4 out of 5</span> — so close to perfect! The most common reasons for missing a 5 are paperwork gaps and inconsistent records.`;
-
     rest = `<strong>Blueroll</strong> is a simple app that replaces paper HACCP records with digital checklists. It takes 2 minutes to set up and helps you close that gap to a perfect score.
 
 ${features}
@@ -1160,7 +1156,6 @@ ${signoff}`;
     intro = `Dear ${e.BusinessName} team,
 
 We noticed your recent food hygiene inspection resulted in a rating of <span class="highlight">${rating} — ${ratingText}</span>.`;
-
     rest = `We know how frustrating that can be, especially when you're working hard to keep standards up. <strong>Blueroll</strong> is a simple app that replaces paper HACCP records with digital checklists your team can complete in seconds.
 
 ${features}
@@ -1170,16 +1165,43 @@ Restaurants using Blueroll typically improve their rating by 1-2 points at their
 ${signoff}`;
   }
 
-  document.getElementById('letterContent').innerHTML = intro;
-  document.getElementById('letterContent2').innerHTML = rest;
-  document.getElementById('modal').classList.add('active');
+  return `<div class="letter-page">
+  <div class="letter-top">
+    <div class="letter-sender">
+      <img src="app_icon.png" alt="Blueroll" class="letter-sender-logo">
+      <div class="letter-sender-info"><strong>Blueroll</strong><br>hello@blueroll.app</div>
+    </div>
+    <div class="letter-recipient">
+      <div class="letter-biz-name">${e.BusinessName}</div>
+      <div class="letter-biz-addr">${addr}</div>
+    </div>
+    <div class="letter-postage"></div>
+  </div>
+  <div class="letter-content">${intro}</div>
+  <div class="letter-qr-inline"><img src="${qrUrl}" width="150" height="150" alt="QR"><div class="qr-caption">Scan to see your full rating breakdown<br>and how to improve</div></div>
+  <div class="letter-content2">${rest}</div>
+  <div class="letter-footer">blueroll.app · hello@blueroll.app · Food Safety Made Simple</div>
+</div>`;
+}
+
+function showLetter(idx) {
+  const modal = document.getElementById('modal');
+  const container = document.getElementById('lettersContainer');
+  container.innerHTML = buildLetterPage(idx);
+  document.getElementById('letterCount').textContent = '1 letter';
+  modal.classList.add('active');
 }
 
 function closeModal() { document.getElementById('modal').classList.remove('active'); }
 
 function copyLetter() {
-  const text = document.getElementById('letterContent').innerText + '\n\n' + document.getElementById('letterContent2').innerText;
-  navigator.clipboard.writeText(text).then(() => {
+  const pages = document.querySelectorAll('#lettersContainer .letter-page');
+  const texts = [...pages].map(p => {
+    const c1 = p.querySelector('.letter-content');
+    const c2 = p.querySelector('.letter-content2');
+    return (c1 ? c1.innerText : '') + '\n\n' + (c2 ? c2.innerText : '');
+  });
+  navigator.clipboard.writeText(texts.join('\n\n---\n\n')).then(() => {
     const btn = document.querySelector('.btn-copy');
     btn.textContent = 'Copied!';
     setTimeout(() => btn.textContent = 'Copy Text', 1500);
@@ -1188,9 +1210,12 @@ function copyLetter() {
 
 function generateLetters() {
   if (selected.size === 0) return;
-  // Show first selected letter
-  const first = [...selected][0];
-  showLetter(first);
+  const indices = [...selected];
+  const modal = document.getElementById('modal');
+  const container = document.getElementById('lettersContainer');
+  container.innerHTML = indices.map(i => buildLetterPage(i)).join('');
+  document.getElementById('letterCount').textContent = indices.length + (indices.length === 1 ? ' letter' : ' letters');
+  modal.classList.add('active');
 }
 
 function quickFilter(preset) {
