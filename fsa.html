@@ -87,7 +87,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
   position: sticky; top: 0; background: var(--bg); z-index: 10;
 }
 .main-header h2 { font-size: 13px; color: var(--muted); font-weight: 400; }
-.main-header .actions { display: flex; gap: 8px; }
+.main-header .actions { display: flex; gap: 8px; flex-wrap: wrap; }
 .btn-sm {
   padding: 6px 14px; font-size: 12px; border-radius: 4px;
   border: 1px solid var(--border); background: var(--surface2);
@@ -124,6 +124,64 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 .biz-name { font-weight: 500; }
 .biz-addr { font-size: 11px; color: var(--muted); margin-top: 1px; }
 .date-cell { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+.channel-tag {
+  font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 3px;
+  display: inline-block; white-space: nowrap;
+}
+.channel-paper { background: rgba(245,158,11,0.15); color: #F59E0B; }
+.channel-email { background: rgba(59,130,246,0.15); color: #3B82F6; }
+.channel-insta { background: rgba(168,85,247,0.15); color: #A855F7; }
+
+/* Sidebar section divider */
+.sidebar-divider {
+  border: none; border-top: 1px solid var(--border); margin: 20px 0;
+}
+
+/* CSV drop zone */
+.csv-drop {
+  border: 2px dashed var(--border); border-radius: 8px; padding: 20px;
+  text-align: center; cursor: pointer; transition: all 0.2s;
+  margin-bottom: 12px;
+}
+.csv-drop:hover, .csv-drop.dragover {
+  border-color: var(--accent); background: var(--accent-dim);
+}
+.csv-drop-icon { font-size: 28px; margin-bottom: 6px; opacity: 0.5; }
+.csv-drop-text { font-size: 12px; color: var(--muted); }
+.csv-drop-text strong { color: var(--accent); }
+
+/* Filter bar */
+.filter-bar {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px;
+}
+.filter-btn {
+  padding: 6px 10px; font-size: 11px; border-radius: 4px;
+  border: 1px solid var(--border); background: var(--surface2);
+  color: var(--muted); cursor: pointer; font-family: inherit; font-weight: 500;
+  transition: all 0.15s; white-space: nowrap;
+}
+.filter-btn:hover { border-color: var(--accent); color: var(--text); }
+.filter-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+
+.filter-count {
+  font-family: var(--mono); font-size: 10px; background: rgba(255,255,255,0.08);
+  padding: 1px 5px; border-radius: 3px; margin-left: 4px;
+}
+
+/* Rating checkboxes row */
+.rating-checks {
+  display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px;
+}
+.rating-check-label {
+  display: flex; align-items: center; gap: 4px; font-size: 12px;
+  cursor: pointer; padding: 4px 8px; border-radius: 4px;
+  border: 1px solid var(--border); background: var(--surface2);
+  transition: all 0.15s;
+}
+.rating-check-label:hover { border-color: var(--accent); }
+.rating-check-label input:checked + span { color: var(--accent); }
+.rating-check-label input { accent-color: var(--accent); width: 13px; height: 13px; }
 
 /* Empty state */
 .empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--muted); }
@@ -193,6 +251,11 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 /* Print-only elements (hidden on screen) */
 .print-logo { display: none; }
 .print-footer { display: none; }
+
+/* Export bar */
+.export-bar {
+  display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;
+}
 
 @media print {
   * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
@@ -360,6 +423,55 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
     <button class="btn btn-secondary" onclick="quickFilter('all_low')" style="margin-top:0;">
       📋 All rated ≤2 (full UK)
     </button>
+
+    <!-- CSV Import Section -->
+    <hr class="sidebar-divider">
+    <h2>CSV Import</h2>
+
+    <div class="csv-drop" id="csvDrop" onclick="document.getElementById('csvFile').click()">
+      <div class="csv-drop-icon">📁</div>
+      <div class="csv-drop-text">Drop CSV here or <strong>click to browse</strong></div>
+    </div>
+    <input type="file" id="csvFile" accept=".csv" style="display:none;" onchange="handleCSVFile(this.files[0])">
+    <div id="csvStatus" style="font-size:11px;color:var(--muted);margin-bottom:12px;display:none;"></div>
+
+    <!-- Chain Filter -->
+    <div id="csvFilters" style="display:none;">
+      <div class="form-group">
+        <label class="form-label" style="display:flex;align-items:center;gap:8px;">
+          <input type="checkbox" id="excludeChains" checked style="accent-color:var(--accent);width:16px;height:16px;" onchange="applyCSVFilters()">
+          Exclude chains
+        </label>
+      </div>
+
+      <!-- Rating Filter -->
+      <label class="form-label">Ratings to show</label>
+      <div class="rating-checks" id="ratingChecks">
+        <label class="rating-check-label"><input type="checkbox" value="0" onchange="applyCSVFilters()"><span>0</span></label>
+        <label class="rating-check-label"><input type="checkbox" value="1" onchange="applyCSVFilters()"><span>1</span></label>
+        <label class="rating-check-label"><input type="checkbox" value="2" checked onchange="applyCSVFilters()"><span>2</span></label>
+        <label class="rating-check-label"><input type="checkbox" value="3" checked onchange="applyCSVFilters()"><span>3</span></label>
+        <label class="rating-check-label"><input type="checkbox" value="4" checked onchange="applyCSVFilters()"><span>4</span></label>
+        <label class="rating-check-label"><input type="checkbox" value="5" onchange="applyCSVFilters()"><span>5</span></label>
+      </div>
+
+      <!-- Channel Filter -->
+      <label class="form-label">Channel</label>
+      <div class="filter-bar" id="channelFilter">
+        <button class="filter-btn active" data-channel="all" onclick="setChannel('all')">All <span class="filter-count" id="countAll">0</span></button>
+        <button class="filter-btn" data-channel="paper" onclick="setChannel('paper')">📮 Paper <span class="filter-count" id="countPaper">0</span></button>
+        <button class="filter-btn" data-channel="email" onclick="setChannel('email')">📧 Email <span class="filter-count" id="countEmail">0</span></button>
+        <button class="filter-btn" data-channel="insta" onclick="setChannel('insta')">📱 Insta <span class="filter-count" id="countInsta">0</span></button>
+      </div>
+
+      <!-- Export Buttons -->
+      <label class="form-label" style="margin-top:12px;">Export</label>
+      <div class="export-bar">
+        <button class="btn-sm" onclick="exportCSV('paper')">📮 Paper List</button>
+        <button class="btn-sm" onclick="exportCSV('email')">📧 Email List</button>
+        <button class="btn-sm" onclick="exportCSV('insta')">📱 Insta List</button>
+      </div>
+    </div>
   </div>
 
   <!-- Main -->
@@ -397,6 +509,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
           <th>Local Authority</th>
           <th>Rated</th>
           <th>Pending</th>
+          <th id="thEmail" style="display:none;">Email</th>
+          <th id="thInsta" style="display:none;">Insta</th>
+          <th id="thChannel" style="display:none;">Channel</th>
           <th style="width:80px;">Letter</th>
         </tr>
       </thead>
@@ -428,8 +543,20 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 const API = 'https://api.ratings.food.gov.uk';
 const HEADERS = { 'x-api-version': '2', 'Accept': 'application/json' };
 let allResults = [];
+let filteredResults = []; // after CSV filters applied
 let selected = new Set();
 let minRatingOverride = null; // for quickFilter to search exact rating
+let isCSVMode = false;
+let csvRawData = []; // raw parsed CSV rows mapped to standard format
+let activeChannel = 'all';
+
+const CHAIN_LIST = [
+  'greggs','costa','subway','mcdonalds','mcdonald','kfc','nandos','nando',
+  'pizza hut','dominos','domino','wetherspoon','starbucks','pret','burger king',
+  'papa john','five guys','wagamama','zizzi','prezzo','frankie','harvester',
+  'toby carvery','beefeater','brewers fayre','hungry horse','premier inn',
+  'travelodge','marriott','hilton'
+];
 
 // Clock
 setInterval(() => {
@@ -438,7 +565,268 @@ setInterval(() => {
   });
 }, 1000);
 
+// ─── CSV Drag & Drop ─────────────────────────────────────────
+const csvDrop = document.getElementById('csvDrop');
+csvDrop.addEventListener('dragover', e => { e.preventDefault(); csvDrop.classList.add('dragover'); });
+csvDrop.addEventListener('dragleave', () => csvDrop.classList.remove('dragover'));
+csvDrop.addEventListener('drop', e => {
+  e.preventDefault();
+  csvDrop.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file && file.name.endsWith('.csv')) handleCSVFile(file);
+});
+
+// ─── CSV Parsing ─────────────────────────────────────────────
+function parseCSVLine(line) {
+  const fields = [];
+  let current = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (inQuotes) {
+      if (ch === '"') {
+        if (i + 1 < line.length && line[i + 1] === '"') {
+          current += '"'; i++;
+        } else {
+          inQuotes = false;
+        }
+      } else {
+        current += ch;
+      }
+    } else {
+      if (ch === '"') { inQuotes = true; }
+      else if (ch === ',') { fields.push(current.trim()); current = ''; }
+      else { current += ch; }
+    }
+  }
+  fields.push(current.trim());
+  return fields;
+}
+
+function handleCSVFile(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const text = ev.target.result;
+    const lines = text.split(/\r?\n/).filter(l => l.trim());
+    if (lines.length < 2) { alert('CSV appears empty.'); return; }
+
+    const headerLine = lines[0];
+    const headers = parseCSVLine(headerLine).map(h => h.toLowerCase().trim());
+
+    // Map column indices
+    const col = (name) => headers.indexOf(name);
+    const colAny = (...names) => { for (const n of names) { const i = col(n); if (i >= 0) return i; } return -1; };
+
+    const iName = colAny('business_name');
+    const iType = colAny('business_type');
+    const iRating = colAny('rating');
+    const iRatingDate = colAny('rating_date');
+    const iHygiene = colAny('hygiene_score');
+    const iStructural = colAny('structural_score');
+    const iConfidence = colAny('confidence_score');
+    const iAddr1 = colAny('address_1');
+    const iAddr2 = colAny('address_2');
+    const iAddr3 = colAny('address_3');
+    const iAddr4 = colAny('address_4');
+    const iPostcode = colAny('postcode');
+    const iPhone = colAny('phone');
+    const iLA = colAny('local_authority');
+    const iLAEmail = colAny('la_email');
+    const iFHRS = colAny('fhrs_id');
+    const iPending = colAny('new_rating_pending');
+    const iGooglePhone = colAny('google_phone');
+    const iWebsite = colAny('website', 'google_website');
+    const iGoogleRating = colAny('google_rating');
+    const iGoogleReviews = colAny('google_reviews');
+    const iGoogleMaps = colAny('google_maps', 'google_maps_url');
+    const iEmail = colAny('email', 'scraped_email');
+    const iInstagram = colAny('instagram');
+    const iFacebook = colAny('facebook');
+
+    csvRawData = [];
+    for (let r = 1; r < lines.length; r++) {
+      const vals = parseCSVLine(lines[r]);
+      if (!vals[iName]) continue;
+
+      const ratingVal = vals[iRating] || '';
+      const ratingDate = vals[iRatingDate] || '';
+      const email = (iEmail >= 0 ? vals[iEmail] : '') || '';
+      const instagram = (iInstagram >= 0 ? vals[iInstagram] : '') || '';
+      const facebook = (iFacebook >= 0 ? vals[iFacebook] : '') || '';
+      const website = (iWebsite >= 0 ? vals[iWebsite] : '') || '';
+      const googleMaps = (iGoogleMaps >= 0 ? vals[iGoogleMaps] : '') || '';
+      const pending = (iPending >= 0 ? vals[iPending] : '') || '';
+
+      const entry = {
+        BusinessName: vals[iName] || '',
+        BusinessType: (iType >= 0 ? vals[iType] : '') || '',
+        RatingValue: ratingVal,
+        RatingDate: ratingDate ? parseRatingDate(ratingDate) : '',
+        AddressLine1: (iAddr1 >= 0 ? vals[iAddr1] : '') || '',
+        AddressLine2: (iAddr2 >= 0 ? vals[iAddr2] : '') || '',
+        AddressLine3: (iAddr3 >= 0 ? vals[iAddr3] : '') || '',
+        AddressLine4: (iAddr4 >= 0 ? vals[iAddr4] : '') || '',
+        PostCode: (iPostcode >= 0 ? vals[iPostcode] : '') || '',
+        Phone: (iPhone >= 0 ? vals[iPhone] : '') || '',
+        LocalAuthorityName: (iLA >= 0 ? vals[iLA] : '') || '',
+        LocalAuthorityEmail: (iLAEmail >= 0 ? vals[iLAEmail] : '') || '',
+        FHRSID: (iFHRS >= 0 ? vals[iFHRS] : '') || '',
+        NewRatingPending: pending.toLowerCase() === 'true' || pending === '1' || pending.toLowerCase() === 'yes',
+        GooglePhone: (iGooglePhone >= 0 ? vals[iGooglePhone] : '') || '',
+        Website: website,
+        GoogleRating: (iGoogleRating >= 0 ? vals[iGoogleRating] : '') || '',
+        GoogleReviews: (iGoogleReviews >= 0 ? vals[iGoogleReviews] : '') || '',
+        GoogleMaps: googleMaps,
+        Email: email,
+        Instagram: instagram,
+        Facebook: facebook,
+        scores: {
+          Hygiene: (iHygiene >= 0 ? vals[iHygiene] : '') || '',
+          Structural: (iStructural >= 0 ? vals[iStructural] : '') || '',
+          ConfidenceInManagement: (iConfidence >= 0 ? vals[iConfidence] : '') || ''
+        }
+      };
+      csvRawData.push(entry);
+    }
+
+    isCSVMode = true;
+    document.getElementById('csvStatus').style.display = 'block';
+    document.getElementById('csvStatus').textContent = `Loaded ${csvRawData.length} rows from ${file.name}`;
+    document.getElementById('csvFilters').style.display = 'block';
+
+    applyCSVFilters();
+  };
+  reader.readAsText(file);
+}
+
+function parseRatingDate(str) {
+  // Handle various date formats: DD/MM/YYYY, YYYY-MM-DD, DD-MM-YYYY etc.
+  if (!str) return '';
+  // If it already looks like ISO
+  if (/^\d{4}-\d{2}-\d{2}/.test(str)) return str;
+  // DD/MM/YYYY or DD-MM-YYYY
+  const m = str.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
+  if (m) return `${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`;
+  return str;
+}
+
+function isChain(name) {
+  const lower = name.toLowerCase();
+  return CHAIN_LIST.some(chain => lower.includes(chain));
+}
+
+function getChannel(entry) {
+  if (entry.Email) return 'email';
+  if (entry.Instagram) return 'insta';
+  return 'paper';
+}
+
+function getMonthsAgo(dateStr) {
+  if (!dateStr) return null;
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return null;
+  const now = new Date();
+  return (now.getFullYear() - d.getFullYear()) * 12 + (now.getMonth() - d.getMonth());
+}
+
+function isOverdue(entry) {
+  const months = getMonthsAgo(entry.RatingDate);
+  return months !== null && months > 10;
+}
+
+function applyCSVFilters() {
+  if (!isCSVMode) return;
+
+  const excludeChains = document.getElementById('excludeChains').checked;
+  const checkedRatings = new Set();
+  document.querySelectorAll('#ratingChecks input[type="checkbox"]').forEach(cb => {
+    if (cb.checked) checkedRatings.add(cb.value);
+  });
+
+  // First pass: apply chain + rating filters
+  let base = csvRawData.filter(e => {
+    if (excludeChains && isChain(e.BusinessName)) return false;
+    const r = String(parseInt(e.RatingValue) || 0);
+    if (!checkedRatings.has(r)) return false;
+    return true;
+  });
+
+  // Count channels
+  let counts = { all: base.length, paper: 0, email: 0, insta: 0 };
+  base.forEach(e => { counts[getChannel(e)]++; });
+  document.getElementById('countAll').textContent = counts.all;
+  document.getElementById('countPaper').textContent = counts.paper;
+  document.getElementById('countEmail').textContent = counts.email;
+  document.getElementById('countInsta').textContent = counts.insta;
+
+  // Apply channel filter
+  if (activeChannel !== 'all') {
+    base = base.filter(e => getChannel(e) === activeChannel);
+  }
+
+  allResults = base;
+  filteredResults = base;
+  renderResults();
+}
+
+function setChannel(ch) {
+  activeChannel = ch;
+  document.querySelectorAll('#channelFilter .filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.channel === ch);
+  });
+  applyCSVFilters();
+}
+
+// ─── Export ───────────────────────────────────────────────────
+function exportCSV(type) {
+  let rows, headers, filename;
+  const data = filteredResults || allResults;
+
+  if (type === 'paper') {
+    headers = ['business_name','address_1','address_2','address_3','postcode','rating','rating_date'];
+    rows = data.filter(e => getChannel(e) === 'paper').map(e => [
+      e.BusinessName, e.AddressLine1, e.AddressLine2, e.AddressLine3, e.PostCode,
+      e.RatingValue, e.RatingDate
+    ]);
+    filename = 'blueroll_paper_list.csv';
+  } else if (type === 'email') {
+    headers = ['business_name','email','rating','rating_date'];
+    rows = data.filter(e => getChannel(e) === 'email').map(e => [
+      e.BusinessName, e.Email, e.RatingValue, e.RatingDate
+    ]);
+    filename = 'blueroll_email_list.csv';
+  } else if (type === 'insta') {
+    headers = ['business_name','instagram','rating'];
+    rows = data.filter(e => getChannel(e) === 'insta').map(e => [
+      e.BusinessName, e.Instagram, e.RatingValue
+    ]);
+    filename = 'blueroll_insta_list.csv';
+  }
+
+  const escField = f => {
+    const s = String(f || '');
+    if (s.includes(',') || s.includes('"') || s.includes('\n')) return '"' + s.replace(/"/g, '""') + '"';
+    return s;
+  };
+
+  let csv = headers.join(',') + '\n';
+  rows.forEach(r => { csv += r.map(escField).join(',') + '\n'; });
+
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ─── FSA Search ──────────────────────────────────────────────
 async function searchFSA() {
+  isCSVMode = false;
+  document.getElementById('csvFilters').style.display = 'none';
+
   const maxRating = parseInt(document.getElementById('maxRating').value);
   const location = document.getElementById('location').value.trim();
   const bizType = document.getElementById('bizType').value;
@@ -520,6 +908,7 @@ async function searchFSA() {
       allResults = allResults.filter(e => e.NewRatingPending === true);
     }
 
+    filteredResults = allResults;
     renderResults();
   } catch (err) {
     alert('Error: ' + err.message);
@@ -535,6 +924,12 @@ function renderResults() {
   const table = document.getElementById('resultsTable');
   const header = document.getElementById('mainHeader');
   const stats = document.getElementById('stats');
+  const showExtras = isCSVMode;
+
+  // Show/hide CSV-specific columns
+  document.getElementById('thEmail').style.display = showExtras ? '' : 'none';
+  document.getElementById('thInsta').style.display = showExtras ? '' : 'none';
+  document.getElementById('thChannel').style.display = showExtras ? '' : 'none';
 
   tbody.innerHTML = '';
   selected.clear();
@@ -553,14 +948,35 @@ function renderResults() {
   table.style.display = 'table';
   header.style.display = 'flex';
   stats.style.display = 'grid';
+  document.getElementById('emptyState').style.display = 'none';
   document.getElementById('statTotal').textContent = allResults.length;
-  document.getElementById('resultSummary').textContent = `${allResults.length} businesses rated ≤${document.getElementById('maxRating').value} in the last ${document.getElementById('ratedIn').value} days`;
+
+  if (isCSVMode) {
+    document.getElementById('resultSummary').textContent = `${allResults.length} leads — ${activeChannel === 'all' ? 'all channels' : activeChannel}`;
+  } else {
+    document.getElementById('resultSummary').textContent = `${allResults.length} businesses rated ≤${document.getElementById('maxRating').value} in the last ${document.getElementById('ratedIn').value} days`;
+  }
 
   allResults.forEach((e, i) => {
     const rating = e.RatingValue || '?';
     const ratingNum = parseInt(rating) || 0;
     const addr = [e.AddressLine1, e.AddressLine2, e.AddressLine3, e.PostCode].filter(Boolean).join(', ');
     const ratedDate = e.RatingDate ? new Date(e.RatingDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : '—';
+
+    const channel = getChannel(e);
+    let channelHTML = '';
+    if (channel === 'paper') channelHTML = '<span class="channel-tag channel-paper">📮 Paper</span>';
+    else if (channel === 'email') channelHTML = '<span class="channel-tag channel-email">📧 Email</span>';
+    else if (channel === 'insta') channelHTML = '<span class="channel-tag channel-insta">📱 Insta</span>';
+
+    const emailCell = e.Email ? `<span title="${e.Email}" style="cursor:help;">✉️</span>` : '';
+    const instaCell = e.Instagram ? `<span title="${e.Instagram}" style="cursor:help;">📱</span>` : '';
+
+    const extraCols = showExtras ? `
+      <td style="text-align:center;">${emailCell}</td>
+      <td style="text-align:center;">${instaCell}</td>
+      <td>${channelHTML}</td>
+    ` : '';
 
     const tr = document.createElement('tr');
     tr.innerHTML = `
@@ -571,6 +987,7 @@ function renderResults() {
       <td style="font-size:12px;color:var(--muted);">${e.LocalAuthorityName || '—'}</td>
       <td class="date-cell">${ratedDate}</td>
       <td>${e.NewRatingPending ? '<span style="color:var(--accent);font-size:11px;font-weight:600;">RE-INSPECT</span>' : ''}</td>
+      ${extraCols}
       <td><button class="btn-sm" onclick="showLetter(${i})">View</button></td>
     `;
     tbody.appendChild(tr);
@@ -600,6 +1017,7 @@ function updateSelectCount() {
 function showLetter(idx) {
   const e = allResults[idx];
   const rating = e.RatingValue || '?';
+  const ratingNum = parseInt(rating) || 0;
   const addr = [e.AddressLine1, e.AddressLine2, e.AddressLine3, e.PostCode].filter(Boolean).join(', ');
   const ratedDate = e.RatingDate ? new Date(e.RatingDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }) : 'recently';
 
@@ -610,7 +1028,9 @@ function showLetter(idx) {
     '0': 'Urgent Improvement Necessary',
     '1': 'Major Improvement Necessary',
     '2': 'Improvement Necessary',
-    '3': 'Generally Satisfactory'
+    '3': 'Generally Satisfactory',
+    '4': 'Good',
+    '5': 'Very Good'
   }[rating] || rating;
 
   // QR code links to personalized landing page with scores
@@ -618,36 +1038,76 @@ function showLetter(idx) {
   const rPage = `https://blueroll.app/r.html?name=${encodeURIComponent(e.BusinessName)}&addr=${encodeURIComponent(addr)}&rating=${encodeURIComponent(rating)}&date=${encodeURIComponent(ratedDate)}&fhrsid=${e.FHRSID || ''}&h=${scores.Hygiene||''}&s=${scores.Structural||''}&m=${scores.ConfidenceInManagement||''}`;
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(rPage)}`;
 
-  document.getElementById('letterContent').innerHTML =
-`Dear ${e.BusinessName} team,
-
-We noticed that your business at <span class="highlight">${addr}</span> received a food hygiene rating of <span class="highlight">${rating} — ${ratingText}</span> on ${ratedDate}.
-
-<div class="letter-qr">
+  const qrBlock = `<div class="letter-qr">
   <img src="${qrUrl}" width="200" height="200" alt="QR">
   <div class="letter-qr-text">Scan to see your full rating<br>breakdown and details</div>
-</div>
+</div>`;
 
-We understand that maintaining compliance can be challenging alongside running a busy kitchen. That's why we built <strong>Blueroll</strong> — a mobile app that replaces paper HACCP records with digital checklists, tracks allergens automatically, and generates inspection-ready compliance reports with one tap.
+  const bluerollPitch = `We understand that maintaining compliance can be challenging alongside running a busy kitchen. That's why we built <strong>Blueroll</strong> — a mobile app that replaces paper HACCP records with digital checklists, tracks allergens automatically, and generates inspection-ready compliance reports with one tap.
 
 <strong>What Blueroll can do for you:</strong>
 • Digital HACCP checklists with automatic reminders
 • AI-powered recipe import — snap a photo, we extract allergens
 • One-tap PDF compliance reports for EHO inspections
 • Team task tracking — see who completed what
-• Temperature logging with out-of-range alerts
+• Temperature logging with out-of-range alerts`;
 
-Many restaurants have improved their rating after switching to digital records. We'd love to help ${e.BusinessName} get back to 5 stars.
-
-<strong>Try Blueroll free for 14 days</strong> — no credit card required.
+  const signoff = `<strong>Try Blueroll free for 14 days</strong> — no credit card required.
 Visit <strong>blueroll.app</strong> or scan the QR code above.
 
 Best regards,
 The Blueroll Team
 hello@blueroll.app`;
 
-  document.getElementById('qrCode').style.display = 'none';
+  let letterBody = '';
+  const overdue = isOverdue(e);
+  const monthsAgo = getMonthsAgo(e.RatingDate);
 
+  if (overdue) {
+    // Overdue letter variant
+    letterBody = `Dear ${e.BusinessName} team,
+
+Your last food hygiene inspection was over <span class="highlight">${monthsAgo} months ago</span> — your next EHO visit could be any day. Are your HACCP records ready?
+
+${qrBlock}
+
+If your records are still on paper, an unannounced inspection can catch gaps you didn't know you had. <strong>Blueroll</strong> keeps everything digital, up-to-date, and inspection-ready — so you're always prepared.
+
+${bluerollPitch}
+
+${signoff}`;
+  } else if (ratingNum === 4) {
+    // Rating 4 — positive/close to perfect
+    letterBody = `Dear ${e.BusinessName} team,
+
+Congratulations — your business at <span class="highlight">${addr}</span> scored a food hygiene rating of <span class="highlight">4 — Good</span> on ${ratedDate}. You're so close to a perfect 5!
+
+${qrBlock}
+
+Blueroll can help you close that gap. The most common reasons for missing out on a 5 are paperwork inconsistencies and missing records — exactly what our app solves.
+
+${bluerollPitch}
+
+Many restaurants have gone from 4 to 5 after switching to digital records. We'd love to help ${e.BusinessName} get that perfect score.
+
+${signoff}`;
+  } else {
+    // Rating 0-3 — standard low-rating letter
+    letterBody = `Dear ${e.BusinessName} team,
+
+We noticed that your business at <span class="highlight">${addr}</span> received a food hygiene rating of <span class="highlight">${rating} — ${ratingText}</span> on ${ratedDate}.
+
+${qrBlock}
+
+${bluerollPitch}
+
+Many restaurants have improved their rating after switching to digital records. We'd love to help ${e.BusinessName} get back to 5 stars.
+
+${signoff}`;
+  }
+
+  document.getElementById('letterContent').innerHTML = letterBody;
+  document.getElementById('qrCode').style.display = 'none';
   document.getElementById('modal').classList.add('active');
 }
 
