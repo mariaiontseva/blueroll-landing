@@ -248,32 +248,43 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 .select-bar.active { display: flex; }
 .select-bar strong { font-weight: 600; }
 
-/* Print-only elements (hidden on screen) */
-.print-window-zone { display: none; }
-.print-footer { display: none; }
-
-/* On-screen header */
-.screen-header { margin-bottom: 20px; }
-.screen-header h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
-.screen-header .subtitle { font-size: 13px; color: #888; margin-bottom: 4px; }
-
 /* Export bar */
 .export-bar {
   display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;
 }
 
-/* Letter QR — centered block */
-.letter-qr-block {
-  text-align: center;
-  margin: 16px 0;
-  padding: 16px;
-  background: #F9FAFB;
-  border-radius: 12px;
-  border: 1px solid #E5E7EB;
+/* === Letter layout: top zone (address + QR) === */
+.letter-top {
+  display: flex; gap: 20px; margin-bottom: 20px;
+  padding-bottom: 16px; border-bottom: 1px solid #eee;
 }
-.letter-qr-block img { border-radius: 8px; display: block; margin: 0 auto; }
-.letter-qr-block .letter-qr-text {
-  font-size: 13px; color: #666; margin-top: 10px; font-weight: 500; line-height: 1.4;
+.letter-window {
+  flex: 1; min-width: 0;
+}
+.letter-sender {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+}
+.letter-sender-logo {
+  height: 28px; border-radius: 4px;
+}
+.letter-sender-info {
+  font-size: 11px; color: #888; line-height: 1.3;
+}
+.letter-recipient { margin-bottom: 8px; }
+.letter-biz-name { font-size: 15px; font-weight: 700; line-height: 1.2; margin-bottom: 2px; }
+.letter-biz-addr { font-size: 12px; color: #555; line-height: 1.4; }
+.letter-postage { margin-top: 8px; font-size: 10px; color: #bbb; }
+.letter-qr-side {
+  flex-shrink: 0; width: 140px; display: flex;
+  flex-direction: column; align-items: center; justify-content: flex-start;
+}
+.letter-qr-side img { border-radius: 8px; border: 1px solid #eee; }
+.letter-qr-side .qr-caption {
+  font-size: 9px; color: #888; text-align: center; margin-top: 4px; line-height: 1.3;
+}
+.letter-footer {
+  text-align: center; font-size: 9px; color: #aaa; margin-top: 16px;
+  padding-top: 12px; border-top: 1px solid #eee;
 }
 
 @media print {
@@ -294,57 +305,72 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
     width: 100% !important; max-width: 100% !important;
     max-height: none !important; overflow: visible !important;
     padding: 0 !important; margin: 0 !important;
+    display: flex !important; flex-direction: column !important;
+    min-height: calc(297mm - 25mm) !important; /* A4 minus margins */
   }
   .modal-close, .modal-actions { display: none !important; }
 
-  /* Hide on-screen header in print */
-  .screen-header { display: none !important; }
-
-  /* === PRINT LAYOUT: flex column, full page height ===
-     Letter text at top, address at bottom (C5 window zone) */
-  .modal {
+  /* === TOP: address at top-left (envelope window), QR at top-right === */
+  .letter-top {
     display: flex !important;
-    flex-direction: column !important;
-    min-height: 257mm !important; /* A4 minus margins: 297 - 18 - 12 = 267, slightly less for safety */
+    gap: 10mm !important;
+    margin-bottom: 6mm !important;
+    padding-bottom: 4mm !important;
+    border-bottom: 0.5px solid #ccc !important;
   }
-
-  /* Address zone pushed to bottom of page */
-  .print-window-zone {
-    display: block !important;
-    margin-top: auto !important;
-    padding-top: 8mm;
-    max-width: 90mm;
+  .letter-window {
+    flex: 1 !important;
+    max-width: 85mm !important;
   }
-  .print-sender {
+  .letter-sender {
     display: flex !important;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 2mm;
+    align-items: center !important;
+    gap: 2mm !important;
+    margin-bottom: 3mm !important;
   }
-  .print-sender-logo {
-    height: 20px;
-    border-radius: 3px;
+  .letter-sender-logo {
+    height: 18px !important;
+    border-radius: 2px !important;
   }
-  .print-sender-text {
-    font-size: 9px;
-    color: #666;
+  .letter-sender-info {
+    font-size: 8px !important;
+    color: #666 !important;
+    line-height: 1.2 !important;
   }
-  .print-biz-name {
-    font-size: 13px !important;
+  .letter-biz-name {
+    font-size: 12px !important;
     font-weight: 700 !important;
     line-height: 1.2 !important;
-    margin-bottom: 1px;
+    margin-bottom: 1px !important;
   }
-  .print-biz-addr {
-    font-size: 11px !important;
+  .letter-biz-addr {
+    font-size: 10px !important;
     color: #333 !important;
     line-height: 1.3 !important;
   }
+  .letter-postage {
+    margin-top: 3mm !important;
+    min-height: 15mm !important; /* reserve space for Click & Drop barcode */
+  }
+  .letter-qr-side {
+    flex-shrink: 0 !important;
+    width: 28mm !important;
+    text-align: center !important;
+  }
+  .letter-qr-side img {
+    width: 25mm !important;
+    height: 25mm !important;
+    border-radius: 2mm !important;
+  }
+  .letter-qr-side .qr-caption {
+    font-size: 7px !important;
+    margin-top: 1mm !important;
+  }
 
-  /* === LETTER CONTENT: compact to fit on the upper half of A4 === */
+  /* === LETTER CONTENT: compact to fit one A4 page === */
   .letter-content {
-    font-size: 11px !important;
-    line-height: 1.5 !important;
+    font-size: 10px !important;
+    line-height: 1.45 !important;
     margin-top: 0 !important;
   }
   .letter-content .highlight {
@@ -357,40 +383,21 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
     font-weight: 700 !important;
   }
 
-  /* QR block — centered, visible in print */
-  .letter-qr-block {
-    text-align: center !important;
-    margin: 10px 0 !important;
-    padding: 10px !important;
-    background: #f5f5f5 !important;
-    border: 1px solid #ddd !important;
-    border-radius: 8px !important;
-  }
-  .letter-qr-block img {
-    width: 140px !important;
-    height: 140px !important;
-  }
-  .letter-qr-block .letter-qr-text {
-    font-size: 9px !important;
-    margin-top: 4px !important;
-  }
-
-  /* Hide old QR section */
-  .qr-section { display: none !important; }
+  /* Hide old QR section if any */
+  .qr-section, .letter-qr, .letter-qr-block { display: none !important; }
 
   /* === FOOTER === */
-  .print-footer {
-    display: block !important;
-    text-align: center;
-    font-size: 8px;
-    color: #999;
-    margin-top: 8px;
-    padding-top: 8px;
-    border-top: 1px solid #eee;
+  .letter-footer {
+    text-align: center !important;
+    font-size: 7px !important;
+    color: #999 !important;
+    margin-top: auto !important;
+    padding-top: 3mm !important;
+    border-top: 0.5px solid #ddd !important;
   }
 
   @page {
-    margin: 18mm 18mm 12mm 20mm;
+    margin: 15mm 15mm 10mm 18mm;
     size: A4;
   }
 }
@@ -587,26 +594,26 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">&times;</button>
-    <!-- On-screen header: business name + address -->
-    <div class="screen-header">
-      <h2 id="letterBizName2"></h2>
-      <div class="subtitle" id="letterBizAddr2"></div>
+    <!-- TOP: envelope window zone (left) + QR (right) -->
+    <div class="letter-top">
+      <div class="letter-window">
+        <div class="letter-sender">
+          <img src="app_icon.png" alt="Blueroll" class="letter-sender-logo">
+          <div class="letter-sender-info"><strong>Blueroll</strong><br>hello@blueroll.app</div>
+        </div>
+        <div class="letter-recipient">
+          <div class="letter-biz-name" id="letterBizName"></div>
+          <div class="letter-biz-addr" id="letterBizAddr"></div>
+        </div>
+        <!-- Placeholder for Click & Drop postage barcode -->
+        <div class="letter-postage" id="letterPostage"></div>
+      </div>
+      <div class="letter-qr-side" id="letterQrSide"></div>
     </div>
-    <!-- Letter body (prints at top of page) -->
+    <!-- BODY: letter text -->
     <div class="letter-content" id="letterContent"></div>
-    <!-- Address block (prints at bottom — visible through C5 envelope window when folded) -->
-    <div class="print-window-zone">
-      <div class="print-sender">
-        <img src="app_icon.png" alt="Blueroll" class="print-sender-logo">
-        <span class="print-sender-text"><strong>Blueroll</strong> · hello@blueroll.app</span>
-      </div>
-      <div class="print-address-block">
-        <div class="print-biz-name" id="letterBizName"></div>
-        <div class="print-biz-addr" id="letterBizAddr"></div>
-      </div>
-    </div>
-    <div class="print-footer">blueroll.app · hello@blueroll.app · Food Safety Made Simple</div>
-    <div class="qr-section" id="qrSection" style="display:none;"></div>
+    <!-- FOOTER -->
+    <div class="letter-footer">blueroll.app · hello@blueroll.app · Food Safety Made Simple</div>
     <div class="modal-actions">
       <button class="btn-print" onclick="window.print()">Print Letter</button>
       <button class="btn-copy" onclick="copyLetter()">Copy Text</button>
@@ -1096,12 +1103,9 @@ function showLetter(idx) {
   const addr = [e.AddressLine1, e.AddressLine2, e.AddressLine3, e.PostCode].filter(Boolean).join(', ');
   const ratedDate = e.RatingDate ? new Date(e.RatingDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }) : 'recently';
 
-  // Print address (bottom of page, in envelope window)
+  // Top-left: recipient in envelope window zone
   document.getElementById('letterBizName').textContent = e.BusinessName;
   document.getElementById('letterBizAddr').textContent = addr;
-  // Screen header (top of modal)
-  document.getElementById('letterBizName2').textContent = e.BusinessName;
-  document.getElementById('letterBizAddr2').textContent = addr;
 
   const ratingText = {
     '0': 'Urgent Improvement Necessary',
@@ -1117,11 +1121,8 @@ function showLetter(idx) {
   const rPage = `https://blueroll.app/r.html?name=${encodeURIComponent(e.BusinessName)}&addr=${encodeURIComponent(addr)}&rating=${encodeURIComponent(rating)}&date=${encodeURIComponent(ratedDate)}&fhrsid=${e.FHRSID || ''}&h=${scores.Hygiene||''}&s=${scores.Structural||''}&m=${scores.ConfidenceInManagement||''}`;
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(rPage)}`;
 
-  // QR block — centered
-  const qrBlock = `<div class="letter-qr-block">
-  <img src="${qrUrl}" width="180" height="180" alt="QR">
-  <div class="letter-qr-text">Scan to see your full rating breakdown and how to improve</div>
-</div>`;
+  // QR — top-right side
+  document.getElementById('letterQrSide').innerHTML = `<img src="${qrUrl}" width="120" height="120" alt="QR"><div class="qr-caption">Scan for your<br>rating breakdown</div>`;
 
   const features = `<strong>What Blueroll does:</strong>
 • Ready-made HACCP checklists — complete in seconds
@@ -1149,8 +1150,6 @@ If you're still using paper records, an unannounced inspection can catch gaps yo
 
 ${features}
 
-${qrBlock}
-
 Restaurants using Blueroll report feeling significantly more confident before inspections. We'd love to help ${e.BusinessName} be fully prepared.
 
 ${signoff}`;
@@ -1163,8 +1162,6 @@ Your recent food hygiene inspection scored <span class="highlight">4 out of 5</s
 
 ${features}
 
-${qrBlock}
-
 Many restaurants have gone from 4 to 5 after switching to digital records. We'd love to help ${e.BusinessName} get there.
 
 ${signoff}`;
@@ -1176,8 +1173,6 @@ We noticed your recent food hygiene inspection resulted in a rating of <span cla
 We know how frustrating that can be, especially when you're working hard to keep standards up. <strong>Blueroll</strong> is a simple app that replaces paper HACCP records with digital checklists your team can complete in seconds.
 
 ${features}
-
-${qrBlock}
 
 Restaurants using Blueroll typically improve their rating by 1-2 points at their next inspection. We'd love to help ${e.BusinessName} get back to 5 stars.
 
