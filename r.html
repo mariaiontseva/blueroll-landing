@@ -220,7 +220,6 @@ const utm = `?utm_source=fsa_letter&utm_medium=qr&utm_campaign=${encodeURICompon
 document.getElementById('appleBtn').href = 'https://apps.apple.com/app/blueroll/id6760937451' + utm;
 document.getElementById('googleBtn').href = 'https://blueroll.app' + utm;
 </script>
-<style>.tawk-attention, .tawk-bubble-container .tawk-text-truncate { display: none !important; }</style>
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -234,5 +233,9 @@ s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
 <!--End of Tawk.to Script-->
+<script>
+(function(){var o=new MutationObserver(function(m){document.querySelectorAll('[class*="tawk"][class*="attention"], [class*="tawk"][class*="eyecatcher"], .tawk-min-container .tawk-bubble').forEach(function(e){e.style.display='none';});var ec=document.querySelector('[id*="eyeCatcher"]');if(ec)ec.style.display='none';});o.observe(document.body,{childList:true,subtree:true});})();
+</script>
+
 </body>
 </html>

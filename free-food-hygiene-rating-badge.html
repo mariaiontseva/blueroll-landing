@@ -485,7 +485,6 @@ function confetti() {
   }
 }
 </script>
-<style>.tawk-attention, .tawk-bubble-container .tawk-text-truncate { display: none !important; }</style>
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -499,5 +498,9 @@ s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
 <!--End of Tawk.to Script-->
+<script>
+(function(){var o=new MutationObserver(function(m){document.querySelectorAll('[class*="tawk"][class*="attention"], [class*="tawk"][class*="eyecatcher"], .tawk-min-container .tawk-bubble').forEach(function(e){e.style.display='none';});var ec=document.querySelector('[id*="eyeCatcher"]');if(ec)ec.style.display='none';});o.observe(document.body,{childList:true,subtree:true});})();
+</script>
+
 </body>
 </html>
