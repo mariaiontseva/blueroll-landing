@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Blueroll — FSA Outreach Tool</title>
 <meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -217,17 +220,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
   white-space: pre-wrap; font-family: var(--font);
 }
 .letter-content .highlight { background: #FEF3C7; padding: 2px 4px; border-radius: 2px; font-weight: 600; }
-.letter-content { font-size: 14px !important; }
-.letter-qr {
-  text-align: center; margin: 20px 0; padding: 20px;
-  background: #F9FAFB; border-radius: 12px; border: 1px solid #E5E7EB;
-}
-.letter-qr img { border-radius: 8px; display: block; margin: 0 auto; }
-.letter-qr-text {
-  font-size: 13px; color: #666; margin-top: 10px; font-weight: 500; line-height: 1.4;
-}
-.qr-section { text-align: center; margin: 24px 0; }
-.qr-section img { border: 1px solid #eee; border-radius: 8px; }
 .modal-actions { display: flex; gap: 8px; margin-top: 24px; padding-top: 20px; border-top: 1px solid #eee; }
 .modal .btn-print {
   flex: 1; padding: 12px; border: 1px solid #ddd; background: white; border-radius: 8px;
@@ -288,8 +280,8 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 
 @media print {
   * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-  body { background: white !important; color: black !important; overflow: hidden !important; width: 100% !important; }
-  html { overflow: hidden !important; }
+  body { background: white !important; color: black !important; width: 100% !important; }
+  html, body { overflow: visible !important; height: auto !important; }
   .header, .sidebar, .main, .layout { display: none !important; }
   body > *:not(.modal-overlay) { display: none !important; }
   body > .modal-overlay { display: block !important; }
@@ -342,7 +334,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
   }
   .letter-postage {
     margin-top: 2mm !important;
-    min-height: 12mm !important;
   }
 
   /* === LETTER CONTENT: compact to fit one A4 page === */
