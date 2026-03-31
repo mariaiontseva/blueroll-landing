@@ -249,14 +249,13 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 .select-bar strong { font-weight: 600; }
 
 /* Print-only elements (hidden on screen) */
-.print-sender { display: none; }
+.print-window-zone { display: none; }
 .print-footer { display: none; }
-.print-address-block { }
 
-/* On-screen modal address block */
-.modal .print-address-block {
-  margin-bottom: 20px;
-}
+/* On-screen header */
+.screen-header { margin-bottom: 20px; }
+.screen-header h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+.screen-header .subtitle { font-size: 13px; color: #888; margin-bottom: 4px; }
 
 /* Export bar */
 .export-bar {
@@ -298,44 +297,45 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
   }
   .modal-close, .modal-actions { display: none !important; }
 
-  /* === SENDER + ADDRESS: positioned for C5 window envelope ===
-     C5 envelope: 229×162mm. Window is ~50mm from top of envelope, 20mm from left.
-     A4 folded in half: fold at 148.5mm. Lower half faces out.
-     The window shows content at ~155-175mm from top of A4.
-     With @page margin-top: 18mm, content starts at 18mm.
-     So we need ~137mm (155-18) of space before the address block.
-     Sender goes right above the address in the window area. */
+  /* Hide on-screen header in print */
+  .screen-header { display: none !important; }
 
+  /* === PRINT LAYOUT: flex column, full page height ===
+     Letter text at top, address at bottom (C5 window zone) */
+  .modal {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 257mm !important; /* A4 minus margins: 297 - 18 - 12 = 267, slightly less for safety */
+  }
+
+  /* Address zone pushed to bottom of page */
+  .print-window-zone {
+    display: block !important;
+    margin-top: auto !important;
+    padding-top: 8mm;
+    max-width: 90mm;
+  }
   .print-sender {
     display: flex !important;
     align-items: center;
-    gap: 8px;
-    margin-top: 115mm !important;
-    margin-bottom: 3mm !important;
+    gap: 6px;
+    margin-bottom: 2mm;
   }
   .print-sender-logo {
-    height: 22px;
-    border-radius: 4px;
+    height: 20px;
+    border-radius: 3px;
   }
-  .print-sender-info {
+  .print-sender-text {
     font-size: 9px;
     color: #666;
-    line-height: 1.3;
   }
-
-  .print-address-block {
-    margin-top: 0 !important;
-    margin-bottom: 8mm !important;
-    min-height: 20mm;
-    max-width: 85mm;
-  }
-  .modal h2 {
+  .print-biz-name {
     font-size: 13px !important;
     font-weight: 700 !important;
-    margin-bottom: 1px !important;
     line-height: 1.2 !important;
+    margin-bottom: 1px;
   }
-  .modal .subtitle {
+  .print-biz-addr {
     font-size: 11px !important;
     color: #333 !important;
     line-height: 1.3 !important;
@@ -587,25 +587,26 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">&times;</button>
-    <!-- Print layout: sender header at top -->
-    <div class="print-sender">
-      <img src="app_icon.png" alt="Blueroll" class="print-sender-logo">
-      <div class="print-sender-info">
-        <strong>Blueroll</strong><br>
-        hello@blueroll.app
+    <!-- On-screen header: business name + address -->
+    <div class="screen-header">
+      <h2 id="letterBizName2"></h2>
+      <div class="subtitle" id="letterBizAddr2"></div>
+    </div>
+    <!-- Letter body (prints at top of page) -->
+    <div class="letter-content" id="letterContent"></div>
+    <!-- Address block (prints at bottom — visible through C5 envelope window when folded) -->
+    <div class="print-window-zone">
+      <div class="print-sender">
+        <img src="app_icon.png" alt="Blueroll" class="print-sender-logo">
+        <span class="print-sender-text"><strong>Blueroll</strong> · hello@blueroll.app</span>
+      </div>
+      <div class="print-address-block">
+        <div class="print-biz-name" id="letterBizName"></div>
+        <div class="print-biz-addr" id="letterBizAddr"></div>
       </div>
     </div>
-    <!-- Address block — positioned for C5 window envelope -->
-    <div class="print-address-block">
-      <h2 id="letterBizName"></h2>
-      <div class="subtitle" id="letterBizAddr"></div>
-    </div>
-    <!-- Letter body with QR inline -->
-    <div class="letter-content" id="letterContent"></div>
-    <div class="qr-section" id="qrSection" style="display:none;">
-      <img id="qrCode" width="160" height="160" alt="QR Code">
-    </div>
     <div class="print-footer">blueroll.app · hello@blueroll.app · Food Safety Made Simple</div>
+    <div class="qr-section" id="qrSection" style="display:none;"></div>
     <div class="modal-actions">
       <button class="btn-print" onclick="window.print()">Print Letter</button>
       <button class="btn-copy" onclick="copyLetter()">Copy Text</button>
@@ -1095,8 +1096,12 @@ function showLetter(idx) {
   const addr = [e.AddressLine1, e.AddressLine2, e.AddressLine3, e.PostCode].filter(Boolean).join(', ');
   const ratedDate = e.RatingDate ? new Date(e.RatingDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }) : 'recently';
 
+  // Print address (bottom of page, in envelope window)
   document.getElementById('letterBizName').textContent = e.BusinessName;
   document.getElementById('letterBizAddr').textContent = addr;
+  // Screen header (top of modal)
+  document.getElementById('letterBizName2').textContent = e.BusinessName;
+  document.getElementById('letterBizAddr2').textContent = addr;
 
   const ratingText = {
     '0': 'Urgent Improvement Necessary',
