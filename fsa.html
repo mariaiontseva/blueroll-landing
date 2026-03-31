@@ -421,7 +421,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 <div class="header">
   <div class="header-left">
     <h1>Blueroll FSA Outreach</h1>
-    <span class="tag">Internal</span>
+    <span class="tag" id="dbTag">CRM Database</span>
   </div>
   <div class="header-right" id="clock"></div>
 </div>
@@ -479,7 +479,14 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
       </label>
     </div>
 
-    <button class="btn btn-primary" id="searchBtn" onclick="searchFSA()">Search FSA Register</button>
+    <div class="form-group">
+      <label class="form-label" style="display:flex;align-items:center;gap:8px;">
+        <input type="checkbox" id="excludeContacted" style="accent-color:var(--accent);width:16px;height:16px;">
+        Exclude already contacted
+      </label>
+    </div>
+
+    <button class="btn btn-primary" id="searchBtn" onclick="searchFSA()">Search Database</button>
     <button class="btn btn-secondary" id="generateBtn" onclick="generateLetters()" disabled>Generate Letters for Selected</button>
 
     <div class="stats-row" id="stats" style="display:none;">
@@ -574,7 +581,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 
     <div id="emptyState" class="empty">
       <div class="empty-icon">🔍</div>
-      <div class="empty-text">Search the FSA register</div>
+      <div class="empty-text">Search the database</div>
       <div class="empty-sub">Find businesses with low ratings and generate outreach letters</div>
     </div>
 
@@ -592,9 +599,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
           <th>Local Authority</th>
           <th>Rated</th>
           <th>Pending</th>
-          <th id="thEmail" style="display:none;">Email</th>
-          <th id="thInsta" style="display:none;">Insta</th>
-          <th id="thChannel" style="display:none;">Channel</th>
+          <th id="thEmail">Email</th>
+          <th id="thInsta">Insta</th>
+          <th id="thChannel">Channel</th>
           <th style="width:80px;">Letter</th>
         </tr>
       </thead>
@@ -620,7 +627,43 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 
 <script>
 const API = 'https://api.ratings.food.gov.uk';
+const CRM_API = 'https://web-production-54cc.up.railway.app';
 const HEADERS = { 'x-api-version': '2', 'Accept': 'application/json' };
+
+function mapCRMResult(r) {
+  return {
+    FHRSID: r.fhrs_id,
+    BusinessName: r.name,
+    BusinessType: r.business_type,
+    AddressLine1: r.address_1 || '',
+    AddressLine2: r.address_2 || '',
+    AddressLine3: r.address_3 || '',
+    AddressLine4: r.address_4 || '',
+    PostCode: r.postcode || '',
+    RatingValue: r.rating != null ? String(r.rating) : '?',
+    RatingDate: r.rating_date || '',
+    NewRatingPending: r.new_rating_pending || false,
+    LocalAuthorityName: r.local_authority || '',
+    Email: r.email || '',
+    Instagram: r.instagram || '',
+    Facebook: r.facebook || '',
+    Phone: r.phone || '',
+    Website: '',
+    GoogleRating: '',
+    GoogleReviews: '',
+    GoogleMaps: '',
+    prev_rating: r.prev_rating,
+    prev_rating_date: r.prev_rating_date,
+    letter_sent_at: r.letter_sent_at,
+    email_sent_at: r.email_sent_at,
+    dm_sent_at: r.dm_sent_at,
+    scores: {
+      Hygiene: r.hygiene_score != null ? String(r.hygiene_score) : '',
+      Structural: r.structural_score != null ? String(r.structural_score) : '',
+      ConfidenceInManagement: r.confidence_score != null ? String(r.confidence_score) : ''
+    }
+  };
+}
 let allResults = [];
 let filteredResults = []; // after CSV filters applied
 let selected = new Set();
@@ -637,12 +680,14 @@ const CHAIN_LIST = [
   'travelodge','marriott','hilton'
 ];
 
-// Clock
-setInterval(() => {
+// Load stats on page load
+fetch(`${CRM_API}/api/stats`).then(r => r.json()).then(stats => {
+  document.getElementById('clock').textContent = `${stats.total_businesses.toLocaleString()} businesses · ${stats.total_leads.toLocaleString()} leads`;
+}).catch(() => {
   document.getElementById('clock').textContent = new Date().toLocaleString('en-GB', {
     day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'
   });
-}, 1000);
+});
 
 // ─── CSV Drag & Drop ─────────────────────────────────────────
 const csvDrop = document.getElementById('csvDrop');
@@ -901,7 +946,7 @@ function exportCSV(type) {
   URL.revokeObjectURL(url);
 }
 
-// ─── FSA Search ──────────────────────────────────────────────
+// ─── CRM Database Search ────────────────────────────────────
 async function searchFSA() {
   isCSVMode = false;
   document.getElementById('csvFilters').style.display = 'none';
@@ -910,91 +955,53 @@ async function searchFSA() {
   const location = document.getElementById('location').value.trim();
   const bizType = document.getElementById('bizType').value;
   const ratedInDays = parseInt(document.getElementById('ratedIn').value);
+  const excludeContacted = document.getElementById('excludeContacted')?.checked || false;
 
+  // Show loading...
   document.getElementById('emptyState').style.display = 'none';
   document.getElementById('resultsTable').style.display = 'none';
   document.getElementById('loading').classList.add('active');
   document.getElementById('searchBtn').disabled = true;
   document.getElementById('searchBtn').textContent = 'Searching...';
 
-  const cutoffDate = new Date();
-  cutoffDate.setDate(cutoffDate.getDate() - ratedInDays);
-
   try {
-    let baseUrl = `${API}/Establishments?sortOptionKey=RatingDate&sortDescending=true`;
-    if (location) baseUrl += `&address=${encodeURIComponent(location)}`;
-    if (bizType) {
-      // Map type names to IDs for reliable filtering
-      const typeIds = {
-        'Restaurant/Cafe/Canteen': 1,
-        'Takeaway/Sandwich shop': 7844,
-        'Pub/bar/nightclub': 7843,
-        'Hotel/B&B/Guest house': 7842,
-        'Retailers - other': 4613,
-        'Caring Premises': 5,
-        'School/College/University': 7845
-      };
-      const typeId = typeIds[bizType];
-      if (typeId) baseUrl += `&BusinessTypeId=${typeId}`;
-      else baseUrl += `&BusinessTypeName=${encodeURIComponent(bizType)}`;
-    }
-
-    // Search using ratingOperatorKey for efficient single-request fetching
-    let allEstablishments = [];
-    const pendingOnly = document.getElementById('pendingOnly').checked;
-    const startRating = minRatingOverride !== null ? minRatingOverride : 0;
-    const useExactRating = minRatingOverride !== null;
-    minRatingOverride = null;
-
-    if (useExactRating) {
-      // Single exact rating search
-      document.getElementById('searchBtn').textContent = `Searching... (rating ${startRating})`;
-      try {
-        const url = baseUrl + `&ratingKey=${startRating}&ratingOperatorKey=Equal&pageSize=5000`;
-        const resp = await fetch(url, { headers: HEADERS });
-        const data = await resp.json();
-        if (data.establishments) allEstablishments = data.establishments;
-      } catch (e) { console.warn('Search failed:', e); }
-    } else {
-      // Range search: use LessThanOrEqual for efficiency
-      document.getElementById('searchBtn').textContent = `Searching... (rating ≤${maxRating})`;
-      try {
-        const url = baseUrl + `&ratingKey=${maxRating}&ratingOperatorKey=LessThanOrEqual&pageSize=5000`;
-        const resp = await fetch(url, { headers: HEADERS });
-        const data = await resp.json();
-        if (data.establishments) allEstablishments = data.establishments;
-        document.getElementById('searchBtn').textContent = `Filtering ${allEstablishments.length} results...`;
-      } catch (e) { console.warn('Search failed:', e); }
-    }
-
-    // Filter by date
-    allResults = allEstablishments.filter(e => {
-      if (!e.RatingDate) return false;
-      const rated = new Date(e.RatingDate);
-      return rated >= cutoffDate;
-    }).sort((a, b) => new Date(b.RatingDate) - new Date(a.RatingDate));
-
-    // Remove duplicates by FHRSID
-    const seen = new Set();
-    allResults = allResults.filter(e => {
-      if (seen.has(e.FHRSID)) return false;
-      seen.add(e.FHRSID);
-      return true;
+    const params = new URLSearchParams({
+      rating_max: maxRating,
+      rating_min: minRatingOverride !== null ? minRatingOverride : 0,
+      days: ratedInDays,
+      exclude_chains: 'true',
+      exclude_contacted: excludeContacted ? 'true' : 'false',
+      limit: 1000
     });
 
+    if (location) params.set('postcode', location);
+    if (bizType) params.set('type', bizType);
+    if (minRatingOverride !== null) {
+      params.set('rating_min', minRatingOverride);
+      params.set('rating_max', minRatingOverride);
+    }
+    minRatingOverride = null;
+
+    const resp = await fetch(`${CRM_API}/api/search?${params}`);
+    const data = await resp.json();
+
+    allResults = data.results.map(mapCRMResult);
+
     // Filter by NewRatingPending if checkbox is checked
+    const pendingOnly = document.getElementById('pendingOnly').checked;
     if (pendingOnly) {
       allResults = allResults.filter(e => e.NewRatingPending === true);
     }
 
     filteredResults = allResults;
+    document.getElementById('statTotal').textContent = data.total;
     renderResults();
   } catch (err) {
     alert('Error: ' + err.message);
   } finally {
     document.getElementById('loading').classList.remove('active');
     document.getElementById('searchBtn').disabled = false;
-    document.getElementById('searchBtn').textContent = 'Search FSA Register';
+    document.getElementById('searchBtn').textContent = 'Search Database';
   }
 }
 
@@ -1003,7 +1010,7 @@ function renderResults() {
   const table = document.getElementById('resultsTable');
   const header = document.getElementById('mainHeader');
   const stats = document.getElementById('stats');
-  const showExtras = isCSVMode;
+  const showExtras = true;
 
   // Show/hide CSV-specific columns
   document.getElementById('thEmail').style.display = showExtras ? '' : 'none';
@@ -1048,13 +1055,18 @@ function renderResults() {
     else if (channel === 'email') channelHTML = '<span class="channel-tag channel-email">📧 Email</span>';
     else if (channel === 'insta') channelHTML = '<span class="channel-tag channel-insta">📱 Insta</span>';
 
+    let contactedHTML = '';
+    if (e.letter_sent_at) contactedHTML += '<span class="channel-tag channel-paper" title="Letter sent">📮 Sent</span> ';
+    if (e.email_sent_at) contactedHTML += '<span class="channel-tag channel-email" title="Email sent">📧 Sent</span> ';
+    if (e.dm_sent_at) contactedHTML += '<span class="channel-tag channel-insta" title="DM sent">📱 Sent</span> ';
+
     const emailCell = e.Email ? `<span title="${e.Email}" style="cursor:help;">✉️</span>` : '';
     const instaCell = e.Instagram ? `<span title="${e.Instagram}" style="cursor:help;">📱</span>` : '';
 
     const extraCols = showExtras ? `
       <td style="text-align:center;">${emailCell}</td>
       <td style="text-align:center;">${instaCell}</td>
-      <td>${channelHTML}</td>
+      <td>${channelHTML}${contactedHTML ? '<br>' + contactedHTML : ''}</td>
     ` : '';
 
     const tr = document.createElement('tr');
@@ -1218,15 +1230,25 @@ function generateLetters() {
   modal.classList.add('active');
 }
 
-function quickFilter(preset) {
+async function quickFilter(preset) {
   switch(preset) {
     case 'drops':
-      document.getElementById('maxRating').value = '2';
-      document.getElementById('location').value = '';
-      document.getElementById('bizType').value = '';
-      document.getElementById('ratedIn').value = '7';
-      document.getElementById('pendingOnly').checked = false;
-      break;
+      // Use drops endpoint directly
+      try {
+        document.getElementById('emptyState').style.display = 'none';
+        document.getElementById('resultsTable').style.display = 'none';
+        document.getElementById('loading').classList.add('active');
+        const resp = await fetch(`${CRM_API}/api/drops?days=7`);
+        const data = await resp.json();
+        allResults = data.results.map(mapCRMResult);
+        filteredResults = allResults;
+        isCSVMode = false;
+        document.getElementById('csvFilters').style.display = 'none';
+        renderResults();
+      } finally {
+        document.getElementById('loading').classList.remove('active');
+      }
+      return; // Don't call searchFSA
     case 'pending':
       document.getElementById('maxRating').value = '3';
       document.getElementById('location').value = '';
