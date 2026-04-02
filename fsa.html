@@ -461,18 +461,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 }
 .multi-select-dropdown .ms-actions a:hover { text-decoration: underline; }
 
-/* Collapsible panel */
-.collapsible-toggle {
-  display: flex; align-items: center; gap: 6px; cursor: pointer;
-  font-size: 11px; color: var(--muted); font-family: var(--mono);
-  text-transform: uppercase; letter-spacing: 0.05em;
-  margin-bottom: 8px; user-select: none;
-}
-.collapsible-toggle:hover { color: var(--accent); }
-.collapsible-toggle .toggle-arrow { transition: transform 0.2s; font-size: 8px; }
-.collapsible-toggle.open .toggle-arrow { transform: rotate(90deg); }
-.collapsible-panel { display: none; }
-.collapsible-panel.open { display: block; }
 
 /* Filter clear btn */
 .filter-header {
@@ -604,39 +592,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
       </select>
     </div>
 
-    <!-- Sync Filters (collapsible) -->
-    <div class="collapsible-toggle" onclick="toggleCollapsible('syncPanel', this)">
-      <span class="toggle-arrow">&#9658;</span> Sync Filters
-    </div>
-    <div class="collapsible-panel" id="syncPanel">
-      <div class="form-group">
-        <label class="form-label">Synced after</label>
-        <input class="form-input" type="date" id="syncAfter">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Synced before</label>
-        <input class="form-input" type="date" id="syncBefore">
-      </div>
-      <div class="form-group">
-        <label class="form-label" style="display:flex;align-items:center;gap:8px;">
-          <input type="checkbox" id="onlyNew" style="accent-color:var(--accent);width:16px;height:16px;">
-          New records only
-        </label>
-      </div>
-      <div class="form-group">
-        <label class="form-label" style="display:flex;align-items:center;gap:8px;">
-          <input type="checkbox" id="onlyUpdated" style="accent-color:var(--accent);width:16px;height:16px;">
-          Updated records only
-        </label>
-      </div>
-      <div class="form-group">
-        <label class="form-label" style="display:flex;align-items:center;gap:8px;">
-          <input type="checkbox" id="onlyRatingChanges" style="accent-color:var(--accent);width:16px;height:16px;">
-          Rating changes only
-        </label>
-      </div>
-      <div id="syncLog" style="font-size:11px;color:var(--muted);"></div>
-    </div>
 
     <!-- Checkboxes -->
     <div class="form-group" style="margin-top:12px;">
@@ -921,11 +876,6 @@ function clearFilter(type) {
   }
 }
 
-function toggleCollapsible(panelId, toggle) {
-  const panel = document.getElementById(panelId);
-  panel.classList.toggle('open');
-  toggle.classList.toggle('open');
-}
 
 function resetAllFilters() {
   // Rating: set 0,1,2 checked
@@ -949,13 +899,6 @@ function resetAllFilters() {
 
   // Rated in
   document.getElementById('ratedIn').value = '30';
-
-  // Sync filters
-  document.getElementById('syncAfter').value = '';
-  document.getElementById('syncBefore').value = '';
-  document.getElementById('onlyNew').checked = false;
-  document.getElementById('onlyUpdated').checked = false;
-  document.getElementById('onlyRatingChanges').checked = false;
 
   // Checkboxes
   document.getElementById('pendingOnly').checked = false;
@@ -997,26 +940,6 @@ fetch(`${CRM_API}/api/authorities`).then(r => r.json()).then(authorities => {
   });
 }).catch(() => {});
 
-// Load sync history
-fetch(`${CRM_API}/api/sync/history`).then(r => r.json()).then(data => {
-  const el = document.getElementById('syncLog');
-  if (!data.daily || data.daily.length === 0) {
-    el.innerHTML = '<span style="color:var(--muted);">No sync data yet</span>';
-    return;
-  }
-  let html = '<div style="font-family:var(--mono);font-size:10px;line-height:1.8;">';
-  data.daily.forEach(d => {
-    const date = new Date(d.sync_date).toLocaleDateString('en-GB', { day:'2-digit', month:'short' });
-    const parts = [];
-    if (d.new_records > 0) parts.push(`<span style="color:#10B981;">+${d.new_records} new</span>`);
-    if (d.updated_records > 0) parts.push(`<span style="color:#3B82F6;">${d.updated_records} upd</span>`);
-    if (d.rating_changes > 0) parts.push(`<span style="color:#F59E0B;">${d.rating_changes} rating Δ</span>`);
-    const detail = parts.length > 0 ? parts.join(' · ') : `${d.total_synced.toLocaleString()} synced`;
-    html += `<div>${date} — ${detail}</div>`;
-  });
-  html += '</div>';
-  el.innerHTML = html;
-}).catch(() => {});
 
 // ─── CSV Drag & Drop ─────────────────────────────────────────
 const csvDrop = document.getElementById('csvDrop');
@@ -1319,17 +1242,6 @@ async function searchFSA() {
       params.set('types', selectedTypes.join(','));
     }
 
-    // Sync filters
-    const syncAfter = document.getElementById('syncAfter').value;
-    const syncBefore = document.getElementById('syncBefore').value;
-    const onlyNew = document.getElementById('onlyNew').checked;
-    const onlyUpdated = document.getElementById('onlyUpdated').checked;
-    const onlyRatingChanges = document.getElementById('onlyRatingChanges').checked;
-    if (syncAfter) params.set('synced_after', syncAfter);
-    if (syncBefore) params.set('synced_before', syncBefore);
-    if (onlyNew) params.set('only_new', 'true');
-    if (onlyUpdated) params.set('only_updated', 'true');
-    if (onlyRatingChanges) params.set('only_rating_changes', 'true');
     if (minRatingOverride !== null) {
       params.set('ratings', String(minRatingOverride));
     }
