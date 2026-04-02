@@ -414,6 +414,78 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
     size: A4;
   }
 }
+
+/* Multi-select dropdown */
+.multi-select {
+  position: relative;
+  width: 100%;
+}
+.multi-select-btn {
+  width: 100%; background: var(--surface2); border: 1px solid var(--border);
+  color: var(--text); padding: 10px 12px; border-radius: 6px; font-size: 13px;
+  font-family: inherit; cursor: pointer; text-align: left;
+  display: flex; justify-content: space-between; align-items: center;
+  transition: border-color 0.15s;
+}
+.multi-select-btn:hover { border-color: var(--accent); }
+.multi-select-btn .ms-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+.multi-select-btn .ms-count {
+  font-family: var(--mono); font-size: 10px; background: var(--accent-dim);
+  color: var(--accent); padding: 1px 6px; border-radius: 3px; margin-left: 8px;
+  flex-shrink: 0;
+}
+.multi-select-btn .ms-arrow { color: var(--accent); margin-left: 4px; flex-shrink: 0; font-size: 10px; }
+.multi-select-dropdown {
+  display: none; position: absolute; top: 100%; left: 0; right: 0;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  margin-top: 4px; max-height: 240px; overflow-y: auto; z-index: 50;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+.multi-select-dropdown.open { display: block; }
+.multi-select-dropdown .ms-search {
+  width: 100%; background: var(--surface2); border: none; border-bottom: 1px solid var(--border);
+  color: var(--text); padding: 8px 12px; font-size: 12px; font-family: inherit; outline: none;
+}
+.multi-select-dropdown label {
+  display: flex; align-items: center; gap: 8px; padding: 6px 12px;
+  font-size: 12px; cursor: pointer; transition: background 0.1s;
+}
+.multi-select-dropdown label:hover { background: var(--accent-dim); }
+.multi-select-dropdown input[type="checkbox"] { accent-color: var(--accent); width: 13px; height: 13px; flex-shrink: 0; }
+.multi-select-dropdown .ms-actions {
+  display: flex; justify-content: space-between; padding: 6px 12px;
+  border-top: 1px solid var(--border); font-size: 11px;
+}
+.multi-select-dropdown .ms-actions a {
+  color: var(--accent); cursor: pointer; text-decoration: none;
+}
+.multi-select-dropdown .ms-actions a:hover { text-decoration: underline; }
+
+/* Collapsible panel */
+.collapsible-toggle {
+  display: flex; align-items: center; gap: 6px; cursor: pointer;
+  font-size: 11px; color: var(--muted); font-family: var(--mono);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  margin-bottom: 8px; user-select: none;
+}
+.collapsible-toggle:hover { color: var(--accent); }
+.collapsible-toggle .toggle-arrow { transition: transform 0.2s; font-size: 8px; }
+.collapsible-toggle.open .toggle-arrow { transform: rotate(90deg); }
+.collapsible-panel { display: none; }
+.collapsible-panel.open { display: block; }
+
+/* Filter clear btn */
+.filter-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 6px;
+}
+.filter-header .form-label { margin-bottom: 0; }
+.filter-clear {
+  font-size: 10px; color: var(--muted); cursor: pointer; font-family: var(--mono);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  background: none; border: none; padding: 0;
+}
+.filter-clear:hover { color: var(--accent); }
 </style>
 </head>
 <body>
@@ -431,53 +503,97 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
   <div class="sidebar">
     <h2>Search Parameters</h2>
 
+    <!-- Rating Multi-select -->
     <div class="form-group">
-      <label class="form-label">Max Rating</label>
-      <select class="form-select" id="maxRating">
-        <option value="0">0 — Urgent improvement</option>
-        <option value="1">1 — Major improvement</option>
-        <option value="2" selected>2 — Improvement necessary</option>
-        <option value="3">3 — Generally satisfactory</option>
-        <option value="4">4 — Good</option>
-        <option value="5">5 — Very Good</option>
-      </select>
+      <div class="filter-header">
+        <label class="form-label">Rating</label>
+        <button class="filter-clear" onclick="clearFilter('rating')">Clear</button>
+      </div>
+      <div class="multi-select" id="msRating">
+        <div class="multi-select-btn" onclick="toggleMS('msRating')">
+          <span class="ms-label">0, 1, 2</span>
+          <span class="ms-count">3</span>
+          <span class="ms-arrow">&#9660;</span>
+        </div>
+        <div class="multi-select-dropdown">
+          <div class="ms-actions"><a onclick="msAll('msRating')">All</a><a onclick="msNone('msRating')">None</a></div>
+          <label><input type="checkbox" value="0" checked>0 — Urgent improvement</label>
+          <label><input type="checkbox" value="1" checked>1 — Major improvement</label>
+          <label><input type="checkbox" value="2" checked>2 — Improvement necessary</label>
+          <label><input type="checkbox" value="3">3 — Generally satisfactory</label>
+          <label><input type="checkbox" value="4">4 — Good</label>
+          <label><input type="checkbox" value="5">5 — Very Good</label>
+        </div>
+      </div>
     </div>
 
+    <!-- Location -->
     <div class="form-group">
-      <label class="form-label">Location (postcode or area)</label>
+      <div class="filter-header">
+        <label class="form-label">Location</label>
+        <button class="filter-clear" onclick="document.getElementById('location').value=''">Clear</button>
+      </div>
       <input class="form-input" id="location" placeholder="e.g. London, N4, SW1A" value="">
     </div>
 
+    <!-- Local Authority Multi-select -->
     <div class="form-group">
-      <label class="form-label">Local Authority</label>
-      <select class="form-select" id="localAuthority">
-        <option value="">All authorities</option>
-      </select>
+      <div class="filter-header">
+        <label class="form-label">Local Authority</label>
+        <button class="filter-clear" onclick="clearFilter('authority')">Clear</button>
+      </div>
+      <div class="multi-select" id="msAuthority">
+        <div class="multi-select-btn" onclick="toggleMS('msAuthority')">
+          <span class="ms-label">All authorities</span>
+          <span class="ms-count" style="display:none;">0</span>
+          <span class="ms-arrow">&#9660;</span>
+        </div>
+        <div class="multi-select-dropdown">
+          <input class="ms-search" placeholder="Search authorities..." oninput="filterMS('msAuthority', this.value)">
+          <div class="ms-actions"><a onclick="msAll('msAuthority')">All</a><a onclick="msNone('msAuthority')">None</a></div>
+          <div class="ms-options" id="msAuthorityOptions"></div>
+        </div>
+      </div>
     </div>
 
+    <!-- Business Type Multi-select -->
     <div class="form-group">
-      <label class="form-label">Business Type</label>
-      <select class="form-select" id="bizType">
-        <option value="">All types</option>
-        <option value="Restaurant/Cafe/Canteen" selected>Restaurant/Cafe/Canteen</option>
-        <option value="Takeaway/sandwich shop">Takeaway/Sandwich shop</option>
-        <option value="Pub/bar/nightclub">Pub/bar/nightclub</option>
-        <option value="Hotel/bed & breakfast/guest house">Hotel/B&B/Guest house</option>
-        <option value="Retailers - other">Retailers - other</option>
-        <option value="Retailers - supermarkets/hypermarkets">Retailers - supermarkets</option>
-        <option value="Other catering premises">Other catering premises</option>
-        <option value="Caring Premises">Care homes</option>
-        <option value="School/college/university">Schools/Universities</option>
-        <option value="Mobile caterer">Mobile caterer</option>
-        <option value="Manufacturers/packers">Manufacturers/packers</option>
-        <option value="Distributors/Transporters">Distributors/Transporters</option>
-        <option value="Farmers/growers">Farmers/growers</option>
-        <option value="Importers/Exporters">Importers/Exporters</option>
-      </select>
+      <div class="filter-header">
+        <label class="form-label">Business Type</label>
+        <button class="filter-clear" onclick="clearFilter('bizType')">Clear</button>
+      </div>
+      <div class="multi-select" id="msBizType">
+        <div class="multi-select-btn" onclick="toggleMS('msBizType')">
+          <span class="ms-label">Restaurant/Cafe/Canteen</span>
+          <span class="ms-count">1</span>
+          <span class="ms-arrow">&#9660;</span>
+        </div>
+        <div class="multi-select-dropdown">
+          <div class="ms-actions"><a onclick="msAll('msBizType')">All</a><a onclick="msNone('msBizType')">None</a></div>
+          <label><input type="checkbox" value="Restaurant/Cafe/Canteen" checked>Restaurant/Cafe/Canteen</label>
+          <label><input type="checkbox" value="Takeaway/sandwich shop">Takeaway/Sandwich shop</label>
+          <label><input type="checkbox" value="Pub/bar/nightclub">Pub/bar/nightclub</label>
+          <label><input type="checkbox" value="Hotel/bed & breakfast/guest house">Hotel/B&B/Guest house</label>
+          <label><input type="checkbox" value="Other catering premises">Other catering premises</label>
+          <label><input type="checkbox" value="Retailers - other">Retailers - other</label>
+          <label><input type="checkbox" value="Retailers - supermarkets/hypermarkets">Retailers - supermarkets</label>
+          <label><input type="checkbox" value="Caring Premises">Care homes</label>
+          <label><input type="checkbox" value="School/college/university">Schools/Universities</label>
+          <label><input type="checkbox" value="Mobile caterer">Mobile caterer</label>
+          <label><input type="checkbox" value="Manufacturers/packers">Manufacturers/packers</label>
+          <label><input type="checkbox" value="Distributors/Transporters">Distributors/Transporters</label>
+          <label><input type="checkbox" value="Farmers/growers">Farmers/growers</label>
+          <label><input type="checkbox" value="Importers/Exporters">Importers/Exporters</label>
+        </div>
+      </div>
     </div>
 
+    <!-- Rated in last -->
     <div class="form-group">
-      <label class="form-label">Rated in last</label>
+      <div class="filter-header">
+        <label class="form-label">Rated in last</label>
+        <button class="filter-clear" onclick="document.getElementById('ratedIn').value='30'">Reset</button>
+      </div>
       <select class="form-select" id="ratedIn">
         <option value="7">7 days</option>
         <option value="14">14 days</option>
@@ -488,13 +604,47 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
       </select>
     </div>
 
-    <div class="form-group">
+    <!-- Sync Filters (collapsible) -->
+    <div class="collapsible-toggle" onclick="toggleCollapsible('syncPanel', this)">
+      <span class="toggle-arrow">&#9658;</span> Sync Filters
+    </div>
+    <div class="collapsible-panel" id="syncPanel">
+      <div class="form-group">
+        <label class="form-label">Synced after</label>
+        <input class="form-input" type="date" id="syncAfter">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Synced before</label>
+        <input class="form-input" type="date" id="syncBefore">
+      </div>
+      <div class="form-group">
+        <label class="form-label" style="display:flex;align-items:center;gap:8px;">
+          <input type="checkbox" id="onlyNew" style="accent-color:var(--accent);width:16px;height:16px;">
+          New records only
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="form-label" style="display:flex;align-items:center;gap:8px;">
+          <input type="checkbox" id="onlyUpdated" style="accent-color:var(--accent);width:16px;height:16px;">
+          Updated records only
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="form-label" style="display:flex;align-items:center;gap:8px;">
+          <input type="checkbox" id="onlyRatingChanges" style="accent-color:var(--accent);width:16px;height:16px;">
+          Rating changes only
+        </label>
+      </div>
+      <div id="syncLog" style="font-size:11px;color:var(--muted);"></div>
+    </div>
+
+    <!-- Checkboxes -->
+    <div class="form-group" style="margin-top:12px;">
       <label class="form-label" style="display:flex;align-items:center;gap:8px;">
         <input type="checkbox" id="pendingOnly" style="accent-color:var(--accent);width:16px;height:16px;">
         Awaiting re-inspection only
       </label>
     </div>
-
     <div class="form-group">
       <label class="form-label" style="display:flex;align-items:center;gap:8px;">
         <input type="checkbox" id="excludeContacted" style="accent-color:var(--accent);width:16px;height:16px;">
@@ -503,6 +653,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
     </div>
 
     <button class="btn btn-primary" id="searchBtn" onclick="searchFSA()">Search Database</button>
+    <button class="btn btn-secondary" onclick="resetAllFilters()" style="margin-top:4px;">Reset All Filters</button>
     <button class="btn btn-secondary" id="generateBtn" onclick="generateLetters()" disabled>Generate Letters for Selected</button>
 
     <div class="stats-row" id="stats" style="display:none;">
@@ -529,39 +680,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
     <button class="btn btn-secondary" onclick="quickFilter('all_low')" style="margin-top:0;">
       📋 All rated ≤2 (full UK)
     </button>
-
-    <!-- Sync Filters -->
-    <hr class="sidebar-divider">
-    <h2>Sync Filters</h2>
-
-    <div class="form-group">
-      <label class="form-label">Synced after</label>
-      <input class="form-input" type="date" id="syncAfter">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Synced before</label>
-      <input class="form-input" type="date" id="syncBefore">
-    </div>
-    <div class="form-group">
-      <label class="form-label" style="display:flex;align-items:center;gap:8px;">
-        <input type="checkbox" id="onlyNew" style="accent-color:var(--accent);width:16px;height:16px;">
-        New records only
-      </label>
-    </div>
-    <div class="form-group">
-      <label class="form-label" style="display:flex;align-items:center;gap:8px;">
-        <input type="checkbox" id="onlyUpdated" style="accent-color:var(--accent);width:16px;height:16px;">
-        Updated records only
-      </label>
-    </div>
-    <div class="form-group">
-      <label class="form-label" style="display:flex;align-items:center;gap:8px;">
-        <input type="checkbox" id="onlyRatingChanges" style="accent-color:var(--accent);width:16px;height:16px;">
-        Rating changes only
-      </label>
-    </div>
-
-    <div id="syncLog" style="margin-top:12px;font-size:11px;color:var(--muted);"></div>
 
     <!-- CSV Import Section -->
     <hr class="sidebar-divider">
@@ -729,6 +847,136 @@ const CHAIN_LIST = [
   'travelodge','marriott','hilton'
 ];
 
+// ─── Multi-select helpers ──────────────────────────────────
+function toggleMS(id) {
+  const dd = document.querySelector(`#${id} .multi-select-dropdown`);
+  const wasOpen = dd.classList.contains('open');
+  // Close all others
+  document.querySelectorAll('.multi-select-dropdown.open').forEach(d => d.classList.remove('open'));
+  if (!wasOpen) dd.classList.add('open');
+}
+
+function updateMSLabel(id) {
+  const ms = document.getElementById(id);
+  const checks = ms.querySelectorAll('.multi-select-dropdown input[type="checkbox"]');
+  const checked = [...checks].filter(c => c.checked);
+  const label = ms.querySelector('.ms-label');
+  const count = ms.querySelector('.ms-count');
+
+  if (checked.length === 0) {
+    label.textContent = 'None selected';
+    count.style.display = 'inline';
+    count.textContent = '0';
+  } else if (checked.length === checks.length) {
+    label.textContent = 'All';
+    count.style.display = 'none';
+  } else if (checked.length <= 3) {
+    label.textContent = checked.map(c => c.parentElement.textContent.trim().split(' —')[0].split(' (')[0]).join(', ');
+    count.style.display = 'inline';
+    count.textContent = checked.length;
+  } else {
+    label.textContent = checked.length + ' selected';
+    count.style.display = 'inline';
+    count.textContent = checked.length;
+  }
+}
+
+function msAll(id) {
+  document.querySelectorAll(`#${id} .multi-select-dropdown input[type="checkbox"]`).forEach(c => {
+    if (c.closest('label').style.display !== 'none') c.checked = true;
+  });
+  updateMSLabel(id);
+}
+
+function msNone(id) {
+  document.querySelectorAll(`#${id} .multi-select-dropdown input[type="checkbox"]`).forEach(c => c.checked = false);
+  updateMSLabel(id);
+}
+
+function filterMS(id, query) {
+  const q = query.toLowerCase();
+  document.querySelectorAll(`#${id} .multi-select-dropdown label`).forEach(l => {
+    l.style.display = l.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+function getCheckedValues(id) {
+  return [...document.querySelectorAll(`#${id} .multi-select-dropdown input[type="checkbox"]:checked`)].map(c => c.value);
+}
+
+function clearFilter(type) {
+  switch(type) {
+    case 'rating':
+      document.querySelectorAll('#msRating .multi-select-dropdown input[type="checkbox"]').forEach(c => c.checked = false);
+      updateMSLabel('msRating');
+      break;
+    case 'authority':
+      document.querySelectorAll('#msAuthority .multi-select-dropdown input[type="checkbox"]').forEach(c => c.checked = false);
+      updateMSLabel('msAuthority');
+      break;
+    case 'bizType':
+      document.querySelectorAll('#msBizType .multi-select-dropdown input[type="checkbox"]').forEach(c => c.checked = false);
+      updateMSLabel('msBizType');
+      break;
+  }
+}
+
+function toggleCollapsible(panelId, toggle) {
+  const panel = document.getElementById(panelId);
+  panel.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+
+function resetAllFilters() {
+  // Rating: set 0,1,2 checked
+  document.querySelectorAll('#msRating .multi-select-dropdown input[type="checkbox"]').forEach(c => {
+    c.checked = ['0','1','2'].includes(c.value);
+  });
+  updateMSLabel('msRating');
+
+  // Location
+  document.getElementById('location').value = '';
+
+  // Authority: all unchecked (= all)
+  document.querySelectorAll('#msAuthority .multi-select-dropdown input[type="checkbox"]').forEach(c => c.checked = false);
+  updateMSLabel('msAuthority');
+
+  // Biz type: only Restaurant
+  document.querySelectorAll('#msBizType .multi-select-dropdown input[type="checkbox"]').forEach(c => {
+    c.checked = c.value === 'Restaurant/Cafe/Canteen';
+  });
+  updateMSLabel('msBizType');
+
+  // Rated in
+  document.getElementById('ratedIn').value = '30';
+
+  // Sync filters
+  document.getElementById('syncAfter').value = '';
+  document.getElementById('syncBefore').value = '';
+  document.getElementById('onlyNew').checked = false;
+  document.getElementById('onlyUpdated').checked = false;
+  document.getElementById('onlyRatingChanges').checked = false;
+
+  // Checkboxes
+  document.getElementById('pendingOnly').checked = false;
+  document.getElementById('excludeContacted').checked = false;
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', e => {
+  if (!e.target.closest('.multi-select')) {
+    document.querySelectorAll('.multi-select-dropdown.open').forEach(d => d.classList.remove('open'));
+  }
+});
+
+// Attach change listeners to update labels
+document.querySelectorAll('.multi-select input[type="checkbox"]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    const ms = cb.closest('.multi-select');
+    if (ms) updateMSLabel(ms.id);
+  });
+});
+
 // Load stats on page load
 fetch(`${CRM_API}/api/stats`).then(r => r.json()).then(stats => {
   document.getElementById('clock').textContent = `${stats.total_businesses.toLocaleString()} businesses · ${stats.total_leads.toLocaleString()} leads`;
@@ -740,12 +988,12 @@ fetch(`${CRM_API}/api/stats`).then(r => r.json()).then(stats => {
 
 // Load local authorities for dropdown
 fetch(`${CRM_API}/api/authorities`).then(r => r.json()).then(authorities => {
-  const sel = document.getElementById('localAuthority');
+  const container = document.getElementById('msAuthorityOptions');
   authorities.forEach(a => {
-    const opt = document.createElement('option');
-    opt.value = a.name;
-    opt.textContent = `${a.name} (${a.count.toLocaleString()})`;
-    sel.appendChild(opt);
+    const label = document.createElement('label');
+    label.innerHTML = `<input type="checkbox" value="${a.name}"> ${a.name} (${a.count.toLocaleString()})`;
+    label.querySelector('input').addEventListener('change', () => updateMSLabel('msAuthority'));
+    container.appendChild(label);
   });
 }).catch(() => {});
 
@@ -1032,10 +1280,10 @@ async function searchFSA() {
   isCSVMode = false;
   document.getElementById('csvFilters').style.display = 'none';
 
-  const maxRating = parseInt(document.getElementById('maxRating').value);
+  const selectedRatings = getCheckedValues('msRating');
+  const selectedAuthorities = getCheckedValues('msAuthority');
+  const selectedTypes = getCheckedValues('msBizType');
   const location = document.getElementById('location').value.trim();
-  const localAuthority = document.getElementById('localAuthority').value;
-  const bizType = document.getElementById('bizType').value;
   const ratedInDays = parseInt(document.getElementById('ratedIn').value);
   const excludeContacted = document.getElementById('excludeContacted')?.checked || false;
 
@@ -1048,17 +1296,28 @@ async function searchFSA() {
 
   try {
     const params = new URLSearchParams({
-      rating_max: maxRating,
-      rating_min: minRatingOverride !== null ? minRatingOverride : 0,
       exclude_chains: 'true',
       exclude_contacted: excludeContacted ? 'true' : 'false',
       limit: 1000
     });
 
+    // Ratings: send as comma-separated list
+    if (selectedRatings.length > 0 && selectedRatings.length < 6) {
+      params.set('ratings', selectedRatings.join(','));
+    }
+
     if (ratedInDays > 0) params.set('days', ratedInDays);
     if (location) params.set('postcode', location);
-    if (localAuthority) params.set('local_authority', localAuthority);
-    if (bizType) params.set('type', bizType);
+
+    // Authorities: send as comma-separated
+    if (selectedAuthorities.length > 0) {
+      params.set('local_authorities', selectedAuthorities.join(','));
+    }
+
+    // Types: send as comma-separated
+    if (selectedTypes.length > 0) {
+      params.set('types', selectedTypes.join(','));
+    }
 
     // Sync filters
     const syncAfter = document.getElementById('syncAfter').value;
@@ -1072,8 +1331,7 @@ async function searchFSA() {
     if (onlyUpdated) params.set('only_updated', 'true');
     if (onlyRatingChanges) params.set('only_rating_changes', 'true');
     if (minRatingOverride !== null) {
-      params.set('rating_min', minRatingOverride);
-      params.set('rating_max', minRatingOverride);
+      params.set('ratings', String(minRatingOverride));
     }
     minRatingOverride = null;
 
@@ -1135,7 +1393,8 @@ function renderResults() {
   if (isCSVMode) {
     document.getElementById('resultSummary').textContent = `${allResults.length} leads — ${activeChannel === 'all' ? 'all channels' : activeChannel}`;
   } else {
-    document.getElementById('resultSummary').textContent = `${allResults.length} businesses rated ≤${document.getElementById('maxRating').value} in the last ${document.getElementById('ratedIn').value} days`;
+    const ratingsSummary = getCheckedValues('msRating');
+    document.getElementById('resultSummary').textContent = `${allResults.length} businesses (rating ${ratingsSummary.join(',')}) in the last ${document.getElementById('ratedIn').value} days`;
   }
 
   allResults.forEach((e, i) => {
@@ -1345,24 +1604,33 @@ async function quickFilter(preset) {
       }
       return; // Don't call searchFSA
     case 'pending':
-      document.getElementById('maxRating').value = '3';
+      document.querySelectorAll('#msRating .multi-select-dropdown input[type="checkbox"]').forEach(c => {
+        c.checked = ['0','1','2','3'].includes(c.value);
+      });
+      updateMSLabel('msRating');
       document.getElementById('location').value = '';
-      document.getElementById('bizType').value = '';
+      msNone('msBizType');
       document.getElementById('ratedIn').value = '90';
       document.getElementById('pendingOnly').checked = true;
       break;
     case 'fresh3':
-      document.getElementById('maxRating').value = '3';
+      document.querySelectorAll('#msRating .multi-select-dropdown input[type="checkbox"]').forEach(c => {
+        c.checked = false;
+      });
+      updateMSLabel('msRating');
       document.getElementById('location').value = '';
-      document.getElementById('bizType').value = '';
+      msNone('msBizType');
       document.getElementById('ratedIn').value = '30';
       document.getElementById('pendingOnly').checked = false;
       minRatingOverride = 3;
       break;
     case 'all_low':
-      document.getElementById('maxRating').value = '2';
+      document.querySelectorAll('#msRating .multi-select-dropdown input[type="checkbox"]').forEach(c => {
+        c.checked = ['0','1','2'].includes(c.value);
+      });
+      updateMSLabel('msRating');
       document.getElementById('location').value = '';
-      document.getElementById('bizType').value = '';
+      msNone('msBizType');
       document.getElementById('ratedIn').value = '365';
       document.getElementById('pendingOnly').checked = false;
       break;
