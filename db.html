@@ -609,7 +609,7 @@ function renderDetail(data) {
       <h3>Notes</h3>
       <div class="editable-field">
         <input id="edit_notes_${fhrsId}" value="${esc(b.notes || '')}" placeholder="Add notes...">
-        <button onclick="saveField(${fhrsId}, 'notes', document.getElementById('edit_notes_${fhrsId}').value)">Save</button>
+        <button onclick="saveField(${fhrsId}, 'notes', document.getElementById('edit_notes_${fhrsId}').value, this)">Save</button>
       </div>
     </div>
 
@@ -620,11 +620,11 @@ function renderDetail(data) {
 function editableField(fhrsId, field, value) {
   return `<div class="editable-field">
     <input id="edit_${field}_${fhrsId}" value="${esc(value || '')}" placeholder="—">
-    <button onclick="saveField(${fhrsId}, '${field}', document.getElementById('edit_${field}_${fhrsId}').value)">Save</button>
+    <button onclick="saveField(${fhrsId}, '${field}', document.getElementById('edit_${field}_${fhrsId}').value, this)">Save</button>
   </div>`;
 }
 
-async function saveField(fhrsId, field, value) {
+async function saveField(fhrsId, field, value, btn) {
   try {
     const body = { fhrs_id: fhrsId };
     body[field] = value || null;
@@ -633,8 +633,6 @@ async function saveField(fhrsId, field, value) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
     });
-    // Flash the button green
-    const btn = event.target;
     btn.textContent = '\u2713';
     btn.style.color = '#10B981';
     setTimeout(() => { btn.textContent = 'Save'; btn.style.color = ''; }, 1500);
