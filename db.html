@@ -438,7 +438,7 @@ tr:hover { background: rgba(16,185,129,0.03); }
     <!-- Google Places -->
     <div class="enrich-card">
       <h3>1. Google Places</h3>
-      <div class="desc">Finds phone, website, Google rating &amp; reviews via Google Places API</div>
+      <div class="desc">Finds phone, website, Google rating &amp; reviews via Google Places API. Requires API key above.</div>
       <div class="stat-row"><span>Matching targets</span><span class="val" id="googleTarget">—</span></div>
       <div class="stat-row"><span style="font-size:10px;color:var(--muted);">Without website or phone</span></div>
       <div style="display:flex;gap:8px;align-items:center;margin-top:12px;">
@@ -453,40 +453,22 @@ tr:hover { background: rgba(16,185,129,0.03); }
       <div class="enrich-progress" id="progressGoogle"></div>
     </div>
 
-    <!-- Email scraping -->
+    <!-- Website scraping (email + socials) -->
     <div class="enrich-card">
-      <h3>2. Email Scraping</h3>
-      <div class="desc">Scrapes email addresses from business websites (homepage + /contact)</div>
-      <div class="stat-row"><span>Matching targets</span><span class="val" id="emailTarget">—</span></div>
-      <div class="stat-row"><span style="font-size:10px;color:var(--muted);">Have website, no email</span></div>
+      <h3>2. Website Scraping</h3>
+      <div class="desc">One visit per website — extracts email (homepage + /contact), Instagram, Facebook, TikTok. Only scrapes fields not yet filled.</div>
+      <div class="stat-row"><span>Matching targets</span><span class="val" id="scrapeTarget">—</span></div>
+      <div class="stat-row"><span style="font-size:10px;color:var(--muted);">Have website, missing email or socials</span></div>
       <div style="display:flex;gap:8px;align-items:center;margin-top:12px;">
-        <select class="filter-select" id="emailLimit">
+        <select class="filter-select" id="scrapeLimit">
           <option value="50">50 records</option>
           <option value="100" selected>100 records</option>
           <option value="250">250 records</option>
           <option value="500">500 records</option>
         </select>
-        <button class="btn btn-accent" onclick="runEnrich('email')" id="btnEmail">Run Emails</button>
+        <button class="btn btn-accent" onclick="runEnrich('scrape')" id="btnScrape">Run Scrape</button>
       </div>
-      <div class="enrich-progress" id="progressEmail"></div>
-    </div>
-
-    <!-- Social scraping -->
-    <div class="enrich-card">
-      <h3>3. Social Media</h3>
-      <div class="desc">Extracts Instagram, Facebook, TikTok handles from business websites</div>
-      <div class="stat-row"><span>Matching targets</span><span class="val" id="socialsTarget">—</span></div>
-      <div class="stat-row"><span style="font-size:10px;color:var(--muted);">Have website, no socials</span></div>
-      <div style="display:flex;gap:8px;align-items:center;margin-top:12px;">
-        <select class="filter-select" id="socialsLimit">
-          <option value="50">50 records</option>
-          <option value="100" selected>100 records</option>
-          <option value="250">250 records</option>
-          <option value="500">500 records</option>
-        </select>
-        <button class="btn btn-accent" onclick="runEnrich('socials')" id="btnSocials">Run Socials</button>
-      </div>
-      <div class="enrich-progress" id="progressSocials"></div>
+      <div class="enrich-progress" id="progressScrape"></div>
     </div>
   </div>
 </div>
@@ -885,8 +867,7 @@ function clearEnrichFilters() {
   // Clear preview
   document.getElementById('previewResult').textContent = '';
   document.getElementById('googleTarget').textContent = '—';
-  document.getElementById('emailTarget').textContent = '—';
-  document.getElementById('socialsTarget').textContent = '—';
+  document.getElementById('scrapeTarget').textContent = '—';
 }
 
 async function loadEnrichDropdowns() {
@@ -993,9 +974,8 @@ async function previewTargets() {
     });
     const counts = await r.json();
     document.getElementById('googleTarget').textContent = counts.google.toLocaleString();
-    document.getElementById('emailTarget').textContent = counts.email.toLocaleString();
-    document.getElementById('socialsTarget').textContent = counts.socials.toLocaleString();
-    el.innerHTML = `Google: <span style="color:var(--accent);">${counts.google.toLocaleString()}</span> &middot; Email: <span style="color:var(--blue);">${counts.email.toLocaleString()}</span> &middot; Socials: <span style="color:var(--orange);">${counts.socials.toLocaleString()}</span>`;
+    document.getElementById('scrapeTarget').textContent = counts.scrape.toLocaleString();
+    el.innerHTML = `Google: <span style="color:var(--accent);">${counts.google.toLocaleString()}</span> &middot; Scrape: <span style="color:var(--blue);">${counts.scrape.toLocaleString()}</span>`;
   } catch (err) {
     el.innerHTML = `<span style="color:var(--red);">Error: ${err.message}</span>`;
   }
@@ -1008,7 +988,7 @@ async function runEnrich(stage) {
   const limit = parseInt(limitEl.value);
   const filters = getEnrichFilters();
   const api_key = document.getElementById('enrichApiKey').value.trim();
-  const btnName = stage === 'google' ? 'Google' : stage === 'email' ? 'Email' : 'Socials';
+  const btnName = stage === 'google' ? 'Google' : 'Scrape';
   const btn = document.getElementById('btn' + btnName);
 
   // Save API key to localStorage
