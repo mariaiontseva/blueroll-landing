@@ -321,11 +321,15 @@ tr:hover { background: rgba(16,185,129,0.03); }
       </div>
       <div>
         <label class="detail-label">Authority</label>
-        <input class="search-input" id="enrichAuthority" placeholder="e.g. Birmingham" style="width:100%;margin-top:4px;padding:9px 10px;font-size:12px;">
+        <select class="filter-select" id="enrichAuthority" style="width:100%;margin-top:4px;">
+          <option value="">All authorities</option>
+        </select>
       </div>
       <div>
         <label class="detail-label">Business Type</label>
-        <input class="search-input" id="enrichType" placeholder="e.g. Restaurant" style="width:100%;margin-top:4px;padding:9px 10px;font-size:12px;">
+        <select class="filter-select" id="enrichType" style="width:100%;margin-top:4px;">
+          <option value="">All types</option>
+        </select>
       </div>
     </div>
 
@@ -710,8 +714,41 @@ function getEnrichFilters() {
   };
 }
 
+async function loadEnrichDropdowns() {
+  // Authorities
+  try {
+    const r = await fetch(`${CRM_API}/api/authorities`);
+    const list = await r.json();
+    const sel = document.getElementById('enrichAuthority');
+    list.forEach(a => {
+      const opt = document.createElement('option');
+      opt.value = a.name;
+      opt.textContent = `${a.name} (${a.count.toLocaleString()})`;
+      sel.appendChild(opt);
+    });
+  } catch (e) {}
+  // Business types
+  try {
+    const r = await fetch(`${CRM_API}/api/business_types`);
+    const list = await r.json();
+    const sel = document.getElementById('enrichType');
+    list.forEach(t => {
+      const opt = document.createElement('option');
+      opt.value = t.name;
+      opt.textContent = `${t.name} (${t.count.toLocaleString()})`;
+      sel.appendChild(opt);
+    });
+  } catch (e) {}
+}
+
+let enrichDropdownsLoaded = false;
+
 async function loadEnrichStats() {
   loadSavedApiKey();
+  if (!enrichDropdownsLoaded) {
+    enrichDropdownsLoaded = true;
+    loadEnrichDropdowns();
+  }
   try {
     const r = await fetch(`${CRM_API}/api/enrichment/stats`);
     const s = r.ok ? await r.json() : null;
