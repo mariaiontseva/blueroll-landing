@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blueroll — Database Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #0a0f0d;
+  --surface: #111916;
+  --surface2: #192019;
+  --border: rgba(16,185,129,0.12);
+  --text: #e2e8e4;
+  --muted: rgba(226,232,228,0.4);
+  --accent: #10B981;
+  --accent-dim: rgba(16,185,129,0.1);
+  --red: #EF4444;
+  --orange: #F59E0B;
+  --blue: #3B82F6;
+  --font: -apple-system, 'SF Pro Text', system-ui, sans-serif;
+  --mono: 'SF Mono', 'Menlo', 'Consolas', monospace;
+}
+body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 13px; min-height: 100vh; }
+
+/* Header */
+.header {
+  padding: 16px 24px; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.header-left { display: flex; align-items: center; gap: 12px; }
+.header-left h1 { font-size: 15px; font-weight: 600; letter-spacing: -0.3px; }
+.header-left .tag {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--accent); background: var(--accent-dim);
+  padding: 2px 7px; border-radius: 3px; border: 0.5px solid rgba(16,185,129,0.2);
+}
+.header-right { display: flex; gap: 8px; align-items: center; }
+
+/* Tabs */
+.tabs { display: flex; border-bottom: 1px solid var(--border); padding: 0 24px; }
+.tab {
+  padding: 10px 20px; font-size: 12px; font-weight: 500; cursor: pointer;
+  color: var(--muted); border-bottom: 2px solid transparent; transition: all 0.15s;
+  font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.05em;
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* Panels */
+.panel { display: none; padding: 24px; }
+.panel.active { display: block; }
+
+/* Stats grid */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+  padding: 16px; text-align: center;
+}
+.stat-card .num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: var(--accent); }
+.stat-card .label { font-size: 10px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+.stat-card .pct { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* Progress bar */
+.progress-bar { height: 6px; background: var(--surface2); border-radius: 3px; margin-top: 8px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 3px; transition: width 0.3s; }
+
+/* Search bar */
+.search-bar {
+  display: flex; gap: 10px; margin-bottom: 16px; align-items: center; flex-wrap: wrap;
+}
+.search-input {
+  flex: 1; min-width: 200px; background: var(--surface2); border: 1px solid var(--border);
+  color: var(--text); padding: 9px 14px; border-radius: 6px; font-size: 13px;
+  font-family: inherit; outline: none;
+}
+.search-input:focus { border-color: var(--accent); }
+.search-input::placeholder { color: var(--muted); }
+select.filter-select {
+  background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+  padding: 9px 12px; border-radius: 6px; font-size: 12px; font-family: inherit;
+  cursor: pointer; outline: none;
+}
+
+/* Table */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th {
+  text-align: left; padding: 8px 10px; font-size: 10px; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.05em; font-family: var(--mono);
+  border-bottom: 1px solid var(--border); cursor: pointer; white-space: nowrap;
+  user-select: none;
+}
+th:hover { color: var(--accent); }
+th .sort-arrow { font-size: 8px; margin-left: 3px; }
+td {
+  padding: 7px 10px; border-bottom: 1px solid rgba(16,185,129,0.06);
+  white-space: nowrap; max-width: 200px; overflow: hidden; text-overflow: ellipsis;
+}
+tr:hover { background: rgba(16,185,129,0.03); }
+.rating-badge {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-family: var(--mono); font-weight: 600; font-size: 11px;
+}
+.r-0, .r-1 { background: rgba(239,68,68,0.15); color: #EF4444; }
+.r-2 { background: rgba(249,115,22,0.15); color: #F97316; }
+.r-3 { background: rgba(245,158,11,0.15); color: #F59E0B; }
+.r-4 { background: rgba(16,185,129,0.15); color: #10B981; }
+.r-5 { background: rgba(16,185,129,0.2); color: #34D399; }
+.enriched { color: var(--accent); }
+.not-enriched { color: var(--muted); font-size: 10px; }
+.chain-tag { font-size: 9px; color: var(--orange); background: rgba(245,158,11,0.1); padding: 1px 5px; border-radius: 3px; }
+
+/* Pagination */
+.pagination {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 16px; padding: 8px 0;
+}
+.pagination .info { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.pagination .pages { display: flex; gap: 4px; }
+.page-btn {
+  padding: 5px 10px; font-size: 11px; border-radius: 4px; cursor: pointer;
+  border: 1px solid var(--border); background: var(--surface2); color: var(--text);
+  font-family: var(--mono);
+}
+.page-btn:hover { border-color: var(--accent); }
+.page-btn.active { background: var(--accent); color: #0a0f0d; border-color: var(--accent); }
+.page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* Detail modal */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+  z-index: 100; justify-content: center; align-items: flex-start; padding: 40px 20px;
+  overflow-y: auto;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  width: 100%; max-width: 700px; padding: 28px; position: relative;
+}
+.modal-close {
+  position: absolute; top: 12px; right: 16px; background: none; border: none;
+  color: var(--muted); font-size: 20px; cursor: pointer;
+}
+.modal-close:hover { color: var(--text); }
+.modal h2 { font-size: 18px; margin-bottom: 4px; }
+.modal .subtitle { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.detail-item { }
+.detail-label { font-size: 10px; color: var(--muted); text-transform: uppercase; font-family: var(--mono); letter-spacing: 0.05em; }
+.detail-value { font-size: 13px; margin-top: 2px; word-break: break-all; }
+.detail-value a { color: var(--accent); text-decoration: none; }
+.detail-value a:hover { text-decoration: underline; }
+.detail-section { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+.detail-section h3 { font-size: 12px; color: var(--muted); text-transform: uppercase; font-family: var(--mono); margin-bottom: 10px; }
+.editable-field {
+  display: flex; gap: 6px; align-items: center; margin-top: 2px;
+}
+.editable-field input {
+  flex: 1; background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+  padding: 5px 8px; border-radius: 4px; font-size: 12px; font-family: inherit; outline: none;
+}
+.editable-field input:focus { border-color: var(--accent); }
+.editable-field button {
+  padding: 5px 10px; font-size: 11px; border-radius: 4px; cursor: pointer;
+  border: 1px solid var(--accent); background: var(--accent-dim); color: var(--accent);
+  font-family: var(--mono);
+}
+
+/* Enrichment panel */
+.enrich-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-top: 16px; }
+.enrich-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  padding: 20px;
+}
+.enrich-card h3 { font-size: 14px; margin-bottom: 4px; }
+.enrich-card .desc { font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+.enrich-card .stat-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; }
+.enrich-card .stat-row .val { font-family: var(--mono); color: var(--accent); }
+.btn {
+  padding: 10px 20px; border: none; border-radius: 6px; font-size: 13px;
+  font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.15s;
+}
+.btn-accent { background: var(--accent); color: #0a0f0d; }
+.btn-accent:hover { background: #34D399; }
+.btn-accent:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-sm {
+  padding: 6px 14px; font-size: 11px; border-radius: 4px;
+  border: 1px solid var(--border); background: var(--surface2);
+  color: var(--text); cursor: pointer; font-family: var(--mono);
+}
+.btn-sm:hover { border-color: var(--accent); color: var(--accent); }
+.enrich-progress { margin-top: 12px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.enrich-progress .live { color: var(--accent); }
+
+/* Sync panel */
+.sync-log { margin-top: 16px; }
+.sync-entry {
+  display: grid; grid-template-columns: 120px 1fr auto; gap: 12px; align-items: center;
+  padding: 8px 0; border-bottom: 1px solid rgba(16,185,129,0.06); font-size: 12px;
+}
+.sync-date { font-family: var(--mono); color: var(--muted); font-size: 11px; }
+.sync-stats { display: flex; gap: 12px; }
+.sync-stat { font-family: var(--mono); font-size: 11px; }
+.s-new { color: #10B981; }
+.s-upd { color: #3B82F6; }
+.s-chg { color: #F59E0B; }
+
+.nav-link { color: var(--accent); text-decoration: none; font-size: 12px; font-family: var(--mono); }
+.nav-link:hover { text-decoration: underline; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .detail-grid { grid-template-columns: 1fr; }
+  .enrich-cards { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-left">
+    <h1>Blueroll Database</h1>
+    <span class="tag">Admin</span>
+  </div>
+  <div class="header-right">
+    <a href="fsa.html" class="nav-link">Outreach Tool</a>
+  </div>
+</div>
+
+<!-- Tabs -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('browse')">Browse</div>
+  <div class="tab" onclick="switchTab('enrichment')">Enrichment</div>
+  <div class="tab" onclick="switchTab('sync')">Sync & Stats</div>
+</div>
+
+<!-- ═══ BROWSE PANEL ═══ -->
+<div class="panel active" id="panelBrowse">
+
+  <div class="search-bar">
+    <input class="search-input" id="searchQ" type="text"
+      placeholder="Search by name, postcode, address, email, FHRS ID..."
+      onkeydown="if(event.key==='Enter') loadBrowse(1)">
+    <select class="filter-select" id="filterEnrichment" onchange="loadBrowse(1)">
+      <option value="">All records</option>
+      <option value="enriched">Enriched</option>
+      <option value="not_enriched">Not enriched</option>
+    </select>
+    <select class="filter-select" id="filterHas" onchange="loadBrowse(1)">
+      <option value="">Has field...</option>
+      <option value="email">Has email</option>
+      <option value="phone">Has phone</option>
+      <option value="website">Has website</option>
+      <option value="instagram">Has Instagram</option>
+      <option value="facebook">Has Facebook</option>
+    </select>
+    <select class="filter-select" id="perPage" onchange="loadBrowse(1)">
+      <option value="50">50/page</option>
+      <option value="100">100/page</option>
+      <option value="200">200/page</option>
+    </select>
+    <button class="btn btn-accent" onclick="loadBrowse(1)" style="padding:9px 20px;">Search</button>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th onclick="setSort('name')">Name <span class="sort-arrow" id="sort_name"></span></th>
+          <th onclick="setSort('rating')">Rtg <span class="sort-arrow" id="sort_rating"></span></th>
+          <th onclick="setSort('postcode')">Postcode <span class="sort-arrow" id="sort_postcode"></span></th>
+          <th onclick="setSort('business_type')">Type <span class="sort-arrow" id="sort_business_type"></span></th>
+          <th onclick="setSort('local_authority')">Authority <span class="sort-arrow" id="sort_local_authority"></span></th>
+          <th onclick="setSort('rating_date')">Rated <span class="sort-arrow" id="sort_rating_date"></span></th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Insta</th>
+          <th>Web</th>
+          <th onclick="setSort('updated_at')">Updated <span class="sort-arrow" id="sort_updated_at"></span></th>
+        </tr>
+      </thead>
+      <tbody id="browseBody"></tbody>
+    </table>
+  </div>
+
+  <div class="pagination">
+    <div class="info" id="pageInfo">—</div>
+    <div class="pages" id="pageButtons"></div>
+  </div>
+</div>
+
+<!-- ═══ ENRICHMENT PANEL ═══ -->
+<div class="panel" id="panelEnrichment">
+
+  <div class="stats-grid" id="enrichStats"></div>
+
+  <h2 style="font-size:14px;margin-bottom:4px;">Enrichment Pipeline</h2>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:8px;">
+    Run enrichment stages on leads that are missing data. Each stage runs in the background on the server.
+  </p>
+
+  <div class="enrich-cards">
+    <!-- Google Places -->
+    <div class="enrich-card">
+      <h3>1. Google Places</h3>
+      <div class="desc">Finds phone, website, Google rating & reviews via Google Places API</div>
+      <div class="stat-row"><span>Target</span><span class="val" id="googleTarget">—</span></div>
+      <div class="stat-row"><span>Records without website or phone</span></div>
+      <div style="display:flex;gap:8px;align-items:center;margin-top:12px;">
+        <select class="filter-select" id="googleLimit">
+          <option value="50">50 records</option>
+          <option value="100" selected>100 records</option>
+          <option value="250">250 records</option>
+          <option value="500">500 records</option>
+        </select>
+        <button class="btn btn-accent" onclick="runEnrich('google')" id="btnGoogle">Run Google</button>
+      </div>
+      <div class="enrich-progress" id="progressGoogle"></div>
+    </div>
+
+    <!-- Email scraping -->
+    <div class="enrich-card">
+      <h3>2. Email Scraping</h3>
+      <div class="desc">Scrapes email addresses from business websites (homepage + /contact)</div>
+      <div class="stat-row"><span>Target</span><span class="val" id="emailTarget">—</span></div>
+      <div class="stat-row"><span>Have website, no email</span></div>
+      <div style="display:flex;gap:8px;align-items:center;margin-top:12px;">
+        <select class="filter-select" id="emailLimit">
+          <option value="50">50 records</option>
+          <option value="100" selected>100 records</option>
+          <option value="250">250 records</option>
+          <option value="500">500 records</option>
+        </select>
+        <button class="btn btn-accent" onclick="runEnrich('email')" id="btnEmail">Run Emails</button>
+      </div>
+      <div class="enrich-progress" id="progressEmail"></div>
+    </div>
+
+    <!-- Social scraping -->
+    <div class="enrich-card">
+      <h3>3. Social Media</h3>
+      <div class="desc">Extracts Instagram, Facebook, TikTok handles from business websites</div>
+      <div class="stat-row"><span>Target</span><span class="val" id="socialsTarget">—</span></div>
+      <div class="stat-row"><span>Have website, no socials</span></div>
+      <div style="display:flex;gap:8px;align-items:center;margin-top:12px;">
+        <select class="filter-select" id="socialsLimit">
+          <option value="50">50 records</option>
+          <option value="100" selected>100 records</option>
+          <option value="250">250 records</option>
+          <option value="500">500 records</option>
+        </select>
+        <button class="btn btn-accent" onclick="runEnrich('socials')" id="btnSocials">Run Socials</button>
+      </div>
+      <div class="enrich-progress" id="progressSocials"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SYNC & STATS PANEL ═══ -->
+<div class="panel" id="panelSync">
+
+  <div class="stats-grid" id="dbStats"></div>
+
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+    <h2 style="font-size:14px;">Sync History</h2>
+    <button class="btn-sm" onclick="triggerSync()" id="btnSync">Trigger FSA Sync</button>
+  </div>
+
+  <div class="sync-log" id="syncLog">Loading...</div>
+</div>
+
+<!-- Detail modal -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div id="modalContent">Loading...</div>
+  </div>
+</div>
+
+<script>
+const CRM_API = 'https://web-production-54cc.up.railway.app';
+
+let currentSort = 'name';
+let currentOrder = 'asc';
+let currentPage = 1;
+
+// ─── Tab switching ───
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+
+  const tabs = { browse: 0, enrichment: 1, sync: 2 };
+  document.querySelectorAll('.tab')[tabs[tab]].classList.add('active');
+  document.getElementById('panel' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+
+  if (tab === 'enrichment') loadEnrichStats();
+  if (tab === 'sync') loadSyncPanel();
+}
+
+// ─── BROWSE ───
+function setSort(col) {
+  if (currentSort === col) {
+    currentOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+  } else {
+    currentSort = col;
+    currentOrder = col === 'rating_date' || col === 'updated_at' ? 'desc' : 'asc';
+  }
+  // Update arrows
+  document.querySelectorAll('.sort-arrow').forEach(s => s.textContent = '');
+  const el = document.getElementById('sort_' + col);
+  if (el) el.textContent = currentOrder === 'asc' ? '\u25B2' : '\u25BC';
+  loadBrowse(currentPage);
+}
+
+async function loadBrowse(page) {
+  currentPage = page;
+  const q = document.getElementById('searchQ').value.trim();
+  const enrichment = document.getElementById('filterEnrichment').value;
+  const has = document.getElementById('filterHas').value;
+  const perPage = document.getElementById('perPage').value;
+
+  const params = new URLSearchParams({
+    page, per_page: perPage, sort: currentSort, order: currentOrder
+  });
+  if (q) params.set('q', q);
+  if (enrichment) params.set('enrichment', enrichment);
+  if (has) params.set('has', has);
+
+  try {
+    const r = await fetch(`${CRM_API}/api/browse?${params}`);
+    const data = await r.json();
+    renderBrowseTable(data);
+  } catch (err) {
+    document.getElementById('browseBody').innerHTML =
+      `<tr><td colspan="11" style="color:var(--red);padding:20px;">Error: ${err.message}</td></tr>`;
+  }
+}
+
+function renderBrowseTable(data) {
+  const tbody = document.getElementById('browseBody');
+  tbody.innerHTML = '';
+
+  if (data.results.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="11" style="color:var(--muted);padding:20px;text-align:center;">No records found</td></tr>';
+    document.getElementById('pageInfo').textContent = '0 records';
+    document.getElementById('pageButtons').innerHTML = '';
+    return;
+  }
+
+  data.results.forEach(r => {
+    const tr = document.createElement('tr');
+    tr.style.cursor = 'pointer';
+    tr.onclick = () => openDetail(r.fhrs_id);
+
+    const rClass = r.rating != null ? `r-${Math.min(r.rating, 5)}` : '';
+    const ratingDate = r.rating_date ? new Date(r.rating_date).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'2-digit'}) : '—';
+    const updated = r.updated_at ? new Date(r.updated_at).toLocaleDateString('en-GB', {day:'2-digit',month:'short'}) : '—';
+    const chain = r.is_chain ? ' <span class="chain-tag">chain</span>' : '';
+    const email = r.email ? `<span class="enriched" title="${esc(r.email)}">&#9679;</span>` : '<span class="not-enriched">—</span>';
+    const phone = r.phone ? `<span class="enriched" title="${esc(r.phone)}">&#9679;</span>` : '<span class="not-enriched">—</span>';
+    const insta = r.instagram ? `<span class="enriched" title="@${esc(r.instagram)}">&#9679;</span>` : '<span class="not-enriched">—</span>';
+    const web = r.website ? `<span class="enriched">&#9679;</span>` : '<span class="not-enriched">—</span>';
+
+    tr.innerHTML = `
+      <td title="${esc(r.name)}">${esc(r.name)}${chain}</td>
+      <td><span class="rating-badge ${rClass}">${r.rating != null ? r.rating : '?'}</span></td>
+      <td>${esc(r.postcode || '')}</td>
+      <td title="${esc(r.business_type || '')}">${esc((r.business_type || '').substring(0, 25))}</td>
+      <td title="${esc(r.local_authority || '')}">${esc((r.local_authority || '').substring(0, 20))}</td>
+      <td>${ratingDate}</td>
+      <td style="text-align:center;">${email}</td>
+      <td style="text-align:center;">${phone}</td>
+      <td style="text-align:center;">${insta}</td>
+      <td style="text-align:center;">${web}</td>
+      <td>${updated}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  // Pagination
+  const start = (data.page - 1) * data.per_page + 1;
+  const end = Math.min(data.page * data.per_page, data.total);
+  document.getElementById('pageInfo').textContent = `${start.toLocaleString()}-${end.toLocaleString()} of ${data.total.toLocaleString()}`;
+
+  const btns = document.getElementById('pageButtons');
+  btns.innerHTML = '';
+
+  const addBtn = (label, pg, disabled, active) => {
+    const b = document.createElement('button');
+    b.className = 'page-btn' + (active ? ' active' : '');
+    b.textContent = label;
+    b.disabled = disabled;
+    b.onclick = () => loadBrowse(pg);
+    btns.appendChild(b);
+  };
+
+  addBtn('\u25C0', data.page - 1, data.page <= 1, false);
+
+  // Show up to 7 page buttons
+  let startPage = Math.max(1, data.page - 3);
+  let endPage = Math.min(data.pages, startPage + 6);
+  if (endPage - startPage < 6) startPage = Math.max(1, endPage - 6);
+
+  for (let i = startPage; i <= endPage; i++) {
+    addBtn(i, i, false, i === data.page);
+  }
+
+  addBtn('\u25B6', data.page + 1, data.page >= data.pages, false);
+}
+
+// ─── DETAIL MODAL ───
+async function openDetail(fhrsId) {
+  document.getElementById('detailModal').classList.add('open');
+  document.getElementById('modalContent').innerHTML = '<p style="color:var(--muted);">Loading...</p>';
+
+  try {
+    const r = await fetch(`${CRM_API}/api/business/${fhrsId}`);
+    const data = await r.json();
+    renderDetail(data);
+  } catch (err) {
+    document.getElementById('modalContent').innerHTML = `<p style="color:var(--red);">Error: ${err.message}</p>`;
+  }
+}
+
+function renderDetail(data) {
+  const b = data.business;
+  const rClass = b.rating != null ? `r-${Math.min(b.rating, 5)}` : '';
+  const addr = [b.address_1, b.address_2, b.address_3, b.address_4, b.postcode].filter(Boolean).join(', ');
+  const ratingDate = b.rating_date ? new Date(b.rating_date).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'}) : '—';
+
+  let prevInfo = '';
+  if (b.prev_rating != null) {
+    const pDate = b.prev_rating_date ? new Date(b.prev_rating_date).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'}) : '';
+    prevInfo = `<div class="detail-item"><div class="detail-label">Previous Rating</div><div class="detail-value">${b.prev_rating} (${pDate})</div></div>`;
+  }
+
+  let outreachHTML = '';
+  if (data.outreach && data.outreach.length > 0) {
+    outreachHTML = '<div class="detail-section"><h3>Outreach History</h3>';
+    data.outreach.forEach(o => {
+      const d = new Date(o.sent_at).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
+      outreachHTML += `<div style="font-size:12px;margin-bottom:4px;">${d} — ${o.channel}${o.template ? ' (' + o.template + ')' : ''}</div>`;
+    });
+    outreachHTML += '</div>';
+  }
+
+  const fhrsId = b.fhrs_id;
+
+  document.getElementById('modalContent').innerHTML = `
+    <h2>${esc(b.name)} ${b.is_chain ? '<span class="chain-tag">chain</span>' : ''}</h2>
+    <div class="subtitle">${esc(addr)} &middot; FHRS ${fhrsId} &middot; ${esc(b.business_type || '')}</div>
+
+    <div class="detail-grid">
+      <div class="detail-item">
+        <div class="detail-label">Rating</div>
+        <div class="detail-value"><span class="rating-badge ${rClass}">${b.rating != null ? b.rating : '?'}</span> &mdash; ${ratingDate}</div>
+      </div>
+      ${prevInfo}
+      <div class="detail-item">
+        <div class="detail-label">Scores (H / S / C)</div>
+        <div class="detail-value">${b.hygiene_score ?? '—'} / ${b.structural_score ?? '—'} / ${b.confidence_score ?? '—'}</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">Authority</div>
+        <div class="detail-value">${esc(b.local_authority || '—')}</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">Google Rating</div>
+        <div class="detail-value">${b.google_rating ? b.google_rating + ' (' + (b.google_reviews || 0) + ' reviews)' : '—'}
+          ${b.google_maps_url ? ' <a href="' + esc(b.google_maps_url) + '" target="_blank">Maps</a>' : ''}</div>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <h3>Contact &amp; Enrichment</h3>
+      <div class="detail-grid">
+        <div class="detail-item">
+          <div class="detail-label">Email</div>
+          ${editableField(fhrsId, 'email', b.email)}
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Phone</div>
+          ${editableField(fhrsId, 'phone', b.phone)}
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Instagram</div>
+          ${editableField(fhrsId, 'instagram', b.instagram)}
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Facebook</div>
+          ${editableField(fhrsId, 'facebook', b.facebook)}
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Website</div>
+          <div class="detail-value">${b.website ? '<a href="' + esc(b.website) + '" target="_blank">' + esc(b.website.substring(0, 50)) + '</a>' : '—'}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">TikTok</div>
+          ${editableField(fhrsId, 'tiktok', b.tiktok)}
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <h3>Notes</h3>
+      <div class="editable-field">
+        <input id="edit_notes_${fhrsId}" value="${esc(b.notes || '')}" placeholder="Add notes...">
+        <button onclick="saveField(${fhrsId}, 'notes', document.getElementById('edit_notes_${fhrsId}').value)">Save</button>
+      </div>
+    </div>
+
+    ${outreachHTML}
+  `;
+}
+
+function editableField(fhrsId, field, value) {
+  return `<div class="editable-field">
+    <input id="edit_${field}_${fhrsId}" value="${esc(value || '')}" placeholder="—">
+    <button onclick="saveField(${fhrsId}, '${field}', document.getElementById('edit_${field}_${fhrsId}').value)">Save</button>
+  </div>`;
+}
+
+async function saveField(fhrsId, field, value) {
+  try {
+    const body = { fhrs_id: fhrsId };
+    body[field] = value || null;
+    await fetch(`${CRM_API}/api/enrich`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    // Flash the button green
+    const btn = event.target;
+    btn.textContent = '\u2713';
+    btn.style.color = '#10B981';
+    setTimeout(() => { btn.textContent = 'Save'; btn.style.color = ''; }, 1500);
+  } catch (err) {
+    alert('Save failed: ' + err.message);
+  }
+}
+
+function closeModal() {
+  document.getElementById('detailModal').classList.remove('open');
+}
+
+// Close on overlay click
+document.getElementById('detailModal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeModal();
+});
+
+// Close on Escape
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+
+// ─── ENRICHMENT ───
+async function loadEnrichStats() {
+  try {
+    const r = await fetch(`${CRM_API}/api/enrichment/stats`);
+    const s = r.ok ? await r.json() : null;
+    if (!s) return;
+
+    const pct = (n) => s.total > 0 ? ((n / s.total) * 100).toFixed(1) : '0';
+
+    document.getElementById('enrichStats').innerHTML = `
+      <div class="stat-card">
+        <div class="num">${s.total.toLocaleString()}</div>
+        <div class="label">Total Records</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">${s.any_enrichment.toLocaleString()}</div>
+        <div class="label">Any Enrichment</div>
+        <div class="pct">${pct(s.any_enrichment)}%</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct(s.any_enrichment)}%;background:var(--accent);"></div></div>
+      </div>
+      <div class="stat-card">
+        <div class="num">${s.with_email.toLocaleString()}</div>
+        <div class="label">With Email</div>
+        <div class="pct">${pct(s.with_email)}%</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct(s.with_email)}%;background:var(--blue);"></div></div>
+      </div>
+      <div class="stat-card">
+        <div class="num">${s.with_phone.toLocaleString()}</div>
+        <div class="label">With Phone</div>
+        <div class="pct">${pct(s.with_phone)}%</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct(s.with_phone)}%;background:var(--blue);"></div></div>
+      </div>
+      <div class="stat-card">
+        <div class="num">${s.with_website.toLocaleString()}</div>
+        <div class="label">With Website</div>
+        <div class="pct">${pct(s.with_website)}%</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct(s.with_website)}%;background:var(--blue);"></div></div>
+      </div>
+      <div class="stat-card">
+        <div class="num">${s.with_instagram.toLocaleString()}</div>
+        <div class="label">With Instagram</div>
+        <div class="pct">${pct(s.with_instagram)}%</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct(s.with_instagram)}%;background:var(--orange);"></div></div>
+      </div>
+      <div class="stat-card">
+        <div class="num">${s.with_facebook.toLocaleString()}</div>
+        <div class="label">With Facebook</div>
+        <div class="pct">${pct(s.with_facebook)}%</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct(s.with_facebook)}%;background:var(--orange);"></div></div>
+      </div>
+      <div class="stat-card">
+        <div class="num" style="color:var(--red);">${s.leads_needing_enrichment.toLocaleString()}</div>
+        <div class="label">Leads Need Enrichment</div>
+        <div class="pct">non-chain, rating 0-4, no data</div>
+      </div>
+    `;
+
+    // Update target counts on cards
+    document.getElementById('googleTarget').textContent = s.leads_needing_enrichment.toLocaleString();
+    // For email: have website but no email
+    const emailTarget = s.with_website - s.with_email;
+    document.getElementById('emailTarget').textContent = (emailTarget > 0 ? emailTarget : 0).toLocaleString();
+    // For socials: have website but no instagram/facebook
+    const socialsTarget = s.with_website - Math.max(s.with_instagram, s.with_facebook);
+    document.getElementById('socialsTarget').textContent = (socialsTarget > 0 ? socialsTarget : 0).toLocaleString();
+
+  } catch (err) {
+    document.getElementById('enrichStats').innerHTML = `<p style="color:var(--red);">Failed to load stats: ${err.message}</p>`;
+  }
+}
+
+let enrichPollTimer = null;
+
+async function runEnrich(stage) {
+  const limitEl = document.getElementById(stage + 'Limit') || document.getElementById('googleLimit');
+  const limit = parseInt(limitEl.value);
+  const btn = document.getElementById('btn' + stage.charAt(0).toUpperCase() + stage.slice(1));
+  btn.disabled = true;
+  btn.textContent = 'Running...';
+
+  try {
+    await fetch(`${CRM_API}/api/enrichment/run`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ stage, limit })
+    });
+
+    // Start polling
+    if (enrichPollTimer) clearInterval(enrichPollTimer);
+    const progressEl = document.getElementById('progress' + stage.charAt(0).toUpperCase() + stage.slice(1));
+    enrichPollTimer = setInterval(async () => {
+      try {
+        const r = await fetch(`${CRM_API}/api/enrichment/status`);
+        const s = await r.json();
+        if (s.running) {
+          progressEl.innerHTML = `<span class="live">\u25CF Running</span> ${s.processed}/${s.total} processed \u00b7 ${s.found} found \u00b7 ${s.errors} errors`;
+        } else {
+          progressEl.innerHTML = `\u2713 Done: ${s.processed} processed \u00b7 ${s.found} found \u00b7 ${s.errors} errors`;
+          clearInterval(enrichPollTimer);
+          btn.disabled = false;
+          btn.textContent = 'Run ' + stage.charAt(0).toUpperCase() + stage.slice(1);
+          loadEnrichStats();
+        }
+      } catch (e) {
+        progressEl.innerHTML = `<span style="color:var(--red);">Poll error</span>`;
+      }
+    }, 2000);
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = 'Run ' + stage.charAt(0).toUpperCase() + stage.slice(1);
+    alert('Failed to start: ' + err.message);
+  }
+}
+
+
+// ─── SYNC & STATS ───
+async function loadSyncPanel() {
+  // Load general stats
+  try {
+    const r = await fetch(`${CRM_API}/api/stats`);
+    const s = await r.json();
+    document.getElementById('dbStats').innerHTML = `
+      <div class="stat-card"><div class="num">${s.total_businesses.toLocaleString()}</div><div class="label">Total Businesses</div></div>
+      <div class="stat-card"><div class="num">${s.total_leads.toLocaleString()}</div><div class="label">Leads (0-4)</div></div>
+      <div class="stat-card"><div class="num">${s.letters_sent.toLocaleString()}</div><div class="label">Letters Sent</div></div>
+      <div class="stat-card"><div class="num">${s.emails_sent.toLocaleString()}</div><div class="label">Emails Sent</div></div>
+      <div class="stat-card"><div class="num">${s.dms_sent.toLocaleString()}</div><div class="label">DMs Sent</div></div>
+      <div class="stat-card"><div class="num">${s.with_email.toLocaleString()}</div><div class="label">With Email</div></div>
+      <div class="stat-card"><div class="num">${s.with_instagram.toLocaleString()}</div><div class="label">With Instagram</div></div>
+      <div class="stat-card"><div class="num" style="color:var(--orange);">${s.rating_drops_30d.toLocaleString()}</div><div class="label">Rating Drops (30d)</div></div>
+    `;
+  } catch (e) {}
+
+  // Load sync history
+  try {
+    const r = await fetch(`${CRM_API}/api/sync/history`);
+    const data = await r.json();
+    let html = '';
+    if (data.daily && data.daily.length > 0) {
+      data.daily.forEach(d => {
+        const date = new Date(d.sync_date).toLocaleDateString('en-GB', {weekday:'short', day:'2-digit', month:'short', year:'numeric'});
+        html += `<div class="sync-entry">
+          <div class="sync-date">${date}</div>
+          <div class="sync-stats">
+            <span class="sync-stat">${d.total_synced.toLocaleString()} synced</span>
+            ${d.new_records > 0 ? `<span class="sync-stat s-new">+${d.new_records} new</span>` : ''}
+            ${d.updated_records > 0 ? `<span class="sync-stat s-upd">${d.updated_records} updated</span>` : ''}
+            ${d.rating_changes > 0 ? `<span class="sync-stat s-chg">${d.rating_changes} rating \u0394</span>` : ''}
+          </div>
+          <div></div>
+        </div>`;
+      });
+    } else {
+      html = '<p style="color:var(--muted);">No sync data yet</p>';
+    }
+    document.getElementById('syncLog').innerHTML = html;
+  } catch (e) {
+    document.getElementById('syncLog').innerHTML = '<p style="color:var(--red);">Failed to load sync history</p>';
+  }
+}
+
+async function triggerSync() {
+  const btn = document.getElementById('btnSync');
+  btn.disabled = true;
+  btn.textContent = 'Starting...';
+  try {
+    await fetch(`${CRM_API}/api/sync`, { method: 'POST' });
+    btn.textContent = 'Sync running...';
+    setTimeout(() => { btn.disabled = false; btn.textContent = 'Trigger FSA Sync'; }, 30000);
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = 'Trigger FSA Sync';
+    alert('Failed: ' + err.message);
+  }
+}
+
+
+// ─── Helpers ───
+function esc(s) {
+  if (!s) return '';
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+// ─── Init ───
+loadBrowse(1);
+</script>
+</body>
+</html>
