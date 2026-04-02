@@ -210,6 +210,59 @@ tr:hover { background: rgba(16,185,129,0.03); }
 .nav-link { color: var(--accent); text-decoration: none; font-size: 12px; font-family: var(--mono); }
 .nav-link:hover { text-decoration: underline; }
 
+/* Multi-select (enrichment filters) */
+.ems { position: relative; }
+.ems-btn {
+  display: flex; align-items: center; justify-content: space-between; gap: 6px;
+  background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 10px; border-radius: 6px; font-size: 12px; cursor: pointer;
+  font-family: inherit; min-height: 36px;
+}
+.ems-btn:hover { border-color: var(--accent); }
+.ems-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); }
+.ems-label.has-val { color: var(--text); }
+.ems-count { font-family: var(--mono); font-size: 10px; background: var(--accent-dim); color: var(--accent); padding: 1px 5px; border-radius: 3px; }
+.ems-dd {
+  display: none; position: absolute; top: 100%; left: 0; right: 0;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  max-height: 250px; overflow-y: auto; z-index: 50; margin-top: 2px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.ems-dd.open { display: block; }
+.ems-dd .ems-search {
+  width: 100%; padding: 7px 10px; background: var(--surface2); border: none;
+  border-bottom: 1px solid var(--border); color: var(--text); font-size: 12px;
+  font-family: inherit; outline: none;
+}
+.ems-dd .ems-actions { display: flex; gap: 8px; padding: 4px 10px; border-bottom: 1px solid var(--border); }
+.ems-dd .ems-actions a {
+  font-size: 10px; color: var(--accent); cursor: pointer; font-family: var(--mono);
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.ems-dd .ems-actions a:hover { text-decoration: underline; }
+.ems-dd label {
+  display: flex; align-items: center; gap: 8px; padding: 5px 10px;
+  font-size: 12px; cursor: pointer;
+}
+.ems-dd label:hover { background: var(--accent-dim); }
+.ems-dd label input { accent-color: var(--accent); width: 14px; height: 14px; }
+.ems-dd label .cnt { font-family: var(--mono); font-size: 10px; color: var(--muted); margin-left: auto; }
+
+/* Rating checkbox row (enrichment) */
+.ems-ratings { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+.ems-rating-label {
+  display: flex; align-items: center; gap: 4px; padding: 5px 10px;
+  background: var(--surface2); border: 1px solid var(--border); border-radius: 5px;
+  font-size: 12px; cursor: pointer; font-family: var(--mono);
+}
+.ems-rating-label:hover { border-color: var(--accent); }
+.ems-rating-label input { accent-color: var(--accent); width: 14px; height: 14px; }
+.ems-rating-label input:checked + span { color: var(--accent); }
+
+/* Filter row layout */
+.filter-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.filter-row-2 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+
 /* Responsive */
 @media (max-width: 768px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -300,49 +353,84 @@ tr:hover { background: rgba(16,185,129,0.03); }
 
   <!-- Target Builder -->
   <div class="enrich-card" style="margin-bottom:20px;">
-    <h3 style="margin-bottom:12px;">Target Filters</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:12px;">
-      <div>
-        <label class="detail-label">Ratings</label>
-        <select class="filter-select" id="enrichRatings" style="width:100%;margin-top:4px;">
-          <option value="0,1,2" selected>0, 1, 2 (low)</option>
-          <option value="0,1,2,3">0–3</option>
-          <option value="0,1,2,3,4">0–4 (all leads)</option>
-          <option value="0">0 only</option>
-          <option value="1">1 only</option>
-          <option value="2">2 only</option>
-          <option value="3">3 only</option>
-          <option value="4">4 only</option>
-        </select>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <h3>Target Filters</h3>
+      <button class="btn-sm" onclick="clearEnrichFilters()">Clear All Filters</button>
+    </div>
+
+    <!-- Row 1: Rating checkboxes -->
+    <div style="margin-bottom:10px;">
+      <label class="detail-label">Rating</label>
+      <div class="ems-ratings" id="enrichRatings">
+        <label class="ems-rating-label"><input type="checkbox" value="0" checked><span>0</span></label>
+        <label class="ems-rating-label"><input type="checkbox" value="1" checked><span>1</span></label>
+        <label class="ems-rating-label"><input type="checkbox" value="2" checked><span>2</span></label>
+        <label class="ems-rating-label"><input type="checkbox" value="3"><span>3</span></label>
+        <label class="ems-rating-label"><input type="checkbox" value="4"><span>4</span></label>
+        <label class="ems-rating-label"><input type="checkbox" value="5"><span>5</span></label>
+        <label class="ems-rating-label"><input type="checkbox" value="null"><span>No rating</span></label>
       </div>
-      <div>
-        <label class="detail-label">Location</label>
-        <input class="search-input" id="enrichLocation" placeholder="Postcode or area..." style="width:100%;margin-top:4px;padding:9px 10px;font-size:12px;">
-      </div>
+    </div>
+
+    <!-- Row 2: Authority, Type, Location -->
+    <div class="filter-row" style="margin-bottom:10px;">
       <div>
         <label class="detail-label">Authority</label>
-        <select class="filter-select" id="enrichAuthority" style="width:100%;margin-top:4px;">
-          <option value="">All authorities</option>
-        </select>
+        <div class="ems" id="emsAuthority">
+          <div class="ems-btn" onclick="toggleEMS('emsAuthority')">
+            <span class="ems-label">All authorities</span>
+            <span class="ems-count" style="display:none;">0</span>
+          </div>
+          <div class="ems-dd">
+            <input class="ems-search" placeholder="Search..." oninput="filterEMS('emsAuthority', this.value)">
+            <div class="ems-actions"><a onclick="emsAll('emsAuthority')">All</a><a onclick="emsNone('emsAuthority')">None</a></div>
+            <div class="ems-options"></div>
+          </div>
+        </div>
       </div>
       <div>
         <label class="detail-label">Business Type</label>
-        <select class="filter-select" id="enrichType" style="width:100%;margin-top:4px;">
-          <option value="">All types</option>
-        </select>
+        <div class="ems" id="emsType">
+          <div class="ems-btn" onclick="toggleEMS('emsType')">
+            <span class="ems-label">All types</span>
+            <span class="ems-count" style="display:none;">0</span>
+          </div>
+          <div class="ems-dd">
+            <input class="ems-search" placeholder="Search..." oninput="filterEMS('emsType', this.value)">
+            <div class="ems-actions"><a onclick="emsAll('emsType')">All</a><a onclick="emsNone('emsType')">None</a></div>
+            <div class="ems-options"></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <label class="detail-label">Location</label>
+        <input class="search-input" id="enrichLocation" placeholder="Postcode or area..." style="width:100%;margin-top:4px;padding:8px 10px;font-size:12px;">
       </div>
     </div>
 
-    <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;">
-      <label class="detail-label" style="white-space:nowrap;">Google Places API Key</label>
-      <input class="search-input" id="enrichApiKey" type="password" placeholder="AIza..." style="flex:1;padding:9px 10px;font-size:12px;">
-      <button class="btn-sm" onclick="document.getElementById('enrichApiKey').type = document.getElementById('enrichApiKey').type === 'password' ? 'text' : 'password'">Show</button>
+    <!-- Row 3: Date filters -->
+    <div class="filter-row-2" style="margin-bottom:12px;">
+      <div>
+        <label class="detail-label">Inspected after</label>
+        <input class="search-input" id="enrichRatedAfter" type="date" style="width:100%;margin-top:4px;padding:8px 10px;font-size:12px;">
+      </div>
+      <div>
+        <label class="detail-label">Inspected before</label>
+        <input class="search-input" id="enrichRatedBefore" type="date" style="width:100%;margin-top:4px;padding:8px 10px;font-size:12px;">
+      </div>
+      <div>
+        <label class="detail-label">Google Places API Key</label>
+        <div style="display:flex;gap:4px;margin-top:4px;">
+          <input class="search-input" id="enrichApiKey" type="password" placeholder="AIza..." style="flex:1;padding:8px 10px;font-size:12px;">
+          <button class="btn-sm" onclick="document.getElementById('enrichApiKey').type = document.getElementById('enrichApiKey').type === 'password' ? 'text' : 'password'" style="white-space:nowrap;">Show</button>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-end;">
+        <button class="btn btn-accent" onclick="previewTargets()" style="padding:8px 20px;width:100%;">Preview Targets</button>
+      </div>
     </div>
 
-    <div style="display:flex;gap:10px;align-items:center;">
-      <button class="btn btn-accent" onclick="previewTargets()" style="padding:8px 20px;">Preview Targets</button>
-      <span id="previewResult" style="font-family:var(--mono);font-size:12px;color:var(--muted);"></span>
-    </div>
+    <div id="previewResult" style="font-family:var(--mono);font-size:12px;color:var(--muted);"></div>
   </div>
 
   <!-- Pipeline cards -->
@@ -699,6 +787,67 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
 
 // ─── ENRICHMENT ───
 
+// Multi-select helpers for enrichment
+function toggleEMS(id) {
+  const dd = document.querySelector(`#${id} .ems-dd`);
+  const wasOpen = dd.classList.contains('open');
+  document.querySelectorAll('.ems-dd.open').forEach(d => d.classList.remove('open'));
+  if (!wasOpen) {
+    dd.classList.add('open');
+    dd.querySelector('.ems-search').focus();
+  }
+}
+
+function filterEMS(id, query) {
+  const q = query.toLowerCase();
+  document.querySelectorAll(`#${id} .ems-options label`).forEach(l => {
+    l.style.display = l.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+function emsAll(id) {
+  document.querySelectorAll(`#${id} .ems-options input`).forEach(c => { if (c.closest('label').style.display !== 'none') c.checked = true; });
+  updateEMSLabel(id);
+}
+function emsNone(id) {
+  document.querySelectorAll(`#${id} .ems-options input`).forEach(c => c.checked = false);
+  updateEMSLabel(id);
+}
+
+function updateEMSLabel(id) {
+  const el = document.getElementById(id);
+  const checks = el.querySelectorAll('.ems-options input');
+  const checked = [...checks].filter(c => c.checked);
+  const label = el.querySelector('.ems-label');
+  const count = el.querySelector('.ems-count');
+  if (checked.length === 0) {
+    label.textContent = id === 'emsAuthority' ? 'All authorities' : 'All types';
+    label.classList.remove('has-val');
+    count.style.display = 'none';
+  } else if (checked.length <= 2) {
+    label.textContent = checked.map(c => c.value).join(', ');
+    label.classList.add('has-val');
+    count.textContent = checked.length;
+    count.style.display = '';
+  } else {
+    label.textContent = checked.slice(0, 2).map(c => c.value).join(', ') + '...';
+    label.classList.add('has-val');
+    count.textContent = checked.length;
+    count.style.display = '';
+  }
+}
+
+function getEMSValues(id) {
+  return [...document.querySelectorAll(`#${id} .ems-options input:checked`)].map(c => c.value);
+}
+
+// Close dropdowns on outside click
+document.addEventListener('click', e => {
+  if (!e.target.closest('.ems')) {
+    document.querySelectorAll('.ems-dd.open').forEach(d => d.classList.remove('open'));
+  }
+});
+
 // Load/save API key from localStorage
 function loadSavedApiKey() {
   const saved = localStorage.getItem('blueroll_google_api_key');
@@ -706,12 +855,38 @@ function loadSavedApiKey() {
 }
 
 function getEnrichFilters() {
+  // Ratings from checkboxes
+  const ratings = [...document.querySelectorAll('#enrichRatings input:checked')].map(c => c.value).join(',');
+  const authorities = getEMSValues('emsAuthority').join(',');
+  const types = getEMSValues('emsType').join(',');
   return {
-    ratings: document.getElementById('enrichRatings').value,
+    ratings,
+    authorities,
+    types,
     location: document.getElementById('enrichLocation').value.trim(),
-    authority: document.getElementById('enrichAuthority').value.trim(),
-    type: document.getElementById('enrichType').value.trim()
+    rated_after: document.getElementById('enrichRatedAfter').value,
+    rated_before: document.getElementById('enrichRatedBefore').value
   };
+}
+
+function clearEnrichFilters() {
+  // Ratings: check 0,1,2
+  document.querySelectorAll('#enrichRatings input').forEach(c => {
+    c.checked = ['0','1','2'].includes(c.value);
+  });
+  // Authority & Type: uncheck all
+  emsNone('emsAuthority');
+  emsNone('emsType');
+  // Location
+  document.getElementById('enrichLocation').value = '';
+  // Dates
+  document.getElementById('enrichRatedAfter').value = '';
+  document.getElementById('enrichRatedBefore').value = '';
+  // Clear preview
+  document.getElementById('previewResult').textContent = '';
+  document.getElementById('googleTarget').textContent = '—';
+  document.getElementById('emailTarget').textContent = '—';
+  document.getElementById('socialsTarget').textContent = '—';
 }
 
 async function loadEnrichDropdowns() {
@@ -719,24 +894,22 @@ async function loadEnrichDropdowns() {
   try {
     const r = await fetch(`${CRM_API}/api/authorities`);
     const list = await r.json();
-    const sel = document.getElementById('enrichAuthority');
+    const container = document.querySelector('#emsAuthority .ems-options');
     list.forEach(a => {
-      const opt = document.createElement('option');
-      opt.value = a.name;
-      opt.textContent = `${a.name} (${a.count.toLocaleString()})`;
-      sel.appendChild(opt);
+      const label = document.createElement('label');
+      label.innerHTML = `<input type="checkbox" value="${esc(a.name)}" onchange="updateEMSLabel('emsAuthority')"><span>${esc(a.name)}</span><span class="cnt">${a.count.toLocaleString()}</span>`;
+      container.appendChild(label);
     });
   } catch (e) {}
   // Business types
   try {
     const r = await fetch(`${CRM_API}/api/business_types`);
     const list = await r.json();
-    const sel = document.getElementById('enrichType');
+    const container = document.querySelector('#emsType .ems-options');
     list.forEach(t => {
-      const opt = document.createElement('option');
-      opt.value = t.name;
-      opt.textContent = `${t.name} (${t.count.toLocaleString()})`;
-      sel.appendChild(opt);
+      const label = document.createElement('label');
+      label.innerHTML = `<input type="checkbox" value="${esc(t.name)}" onchange="updateEMSLabel('emsType')"><span>${esc(t.name)}</span><span class="cnt">${t.count.toLocaleString()}</span>`;
+      container.appendChild(label);
     });
   } catch (e) {}
 }
