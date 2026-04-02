@@ -1224,8 +1224,8 @@ async function searchFSA() {
       limit: 1000
     });
 
-    // Ratings: send as comma-separated list
-    if (selectedRatings.length > 0 && selectedRatings.length < 6) {
+    // Ratings: always send as comma-separated list
+    if (selectedRatings.length > 0) {
       params.set('ratings', selectedRatings.join(','));
     }
 
