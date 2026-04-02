@@ -298,18 +298,57 @@ tr:hover { background: rgba(16,185,129,0.03); }
 
   <div class="stats-grid" id="enrichStats"></div>
 
-  <h2 style="font-size:14px;margin-bottom:4px;">Enrichment Pipeline</h2>
-  <p style="font-size:12px;color:var(--muted);margin-bottom:8px;">
-    Run enrichment stages on leads that are missing data. Each stage runs in the background on the server.
-  </p>
+  <!-- Target Builder -->
+  <div class="enrich-card" style="margin-bottom:20px;">
+    <h3 style="margin-bottom:12px;">Target Filters</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:12px;">
+      <div>
+        <label class="detail-label">Ratings</label>
+        <select class="filter-select" id="enrichRatings" style="width:100%;margin-top:4px;">
+          <option value="0,1,2" selected>0, 1, 2 (low)</option>
+          <option value="0,1,2,3">0–3</option>
+          <option value="0,1,2,3,4">0–4 (all leads)</option>
+          <option value="0">0 only</option>
+          <option value="1">1 only</option>
+          <option value="2">2 only</option>
+          <option value="3">3 only</option>
+          <option value="4">4 only</option>
+        </select>
+      </div>
+      <div>
+        <label class="detail-label">Location</label>
+        <input class="search-input" id="enrichLocation" placeholder="Postcode or area..." style="width:100%;margin-top:4px;padding:9px 10px;font-size:12px;">
+      </div>
+      <div>
+        <label class="detail-label">Authority</label>
+        <input class="search-input" id="enrichAuthority" placeholder="e.g. Birmingham" style="width:100%;margin-top:4px;padding:9px 10px;font-size:12px;">
+      </div>
+      <div>
+        <label class="detail-label">Business Type</label>
+        <input class="search-input" id="enrichType" placeholder="e.g. Restaurant" style="width:100%;margin-top:4px;padding:9px 10px;font-size:12px;">
+      </div>
+    </div>
 
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;">
+      <label class="detail-label" style="white-space:nowrap;">Google Places API Key</label>
+      <input class="search-input" id="enrichApiKey" type="password" placeholder="AIza..." style="flex:1;padding:9px 10px;font-size:12px;">
+      <button class="btn-sm" onclick="document.getElementById('enrichApiKey').type = document.getElementById('enrichApiKey').type === 'password' ? 'text' : 'password'">Show</button>
+    </div>
+
+    <div style="display:flex;gap:10px;align-items:center;">
+      <button class="btn btn-accent" onclick="previewTargets()" style="padding:8px 20px;">Preview Targets</button>
+      <span id="previewResult" style="font-family:var(--mono);font-size:12px;color:var(--muted);"></span>
+    </div>
+  </div>
+
+  <!-- Pipeline cards -->
   <div class="enrich-cards">
     <!-- Google Places -->
     <div class="enrich-card">
       <h3>1. Google Places</h3>
-      <div class="desc">Finds phone, website, Google rating & reviews via Google Places API</div>
-      <div class="stat-row"><span>Target</span><span class="val" id="googleTarget">—</span></div>
-      <div class="stat-row"><span>Records without website or phone</span></div>
+      <div class="desc">Finds phone, website, Google rating &amp; reviews via Google Places API</div>
+      <div class="stat-row"><span>Matching targets</span><span class="val" id="googleTarget">—</span></div>
+      <div class="stat-row"><span style="font-size:10px;color:var(--muted);">Without website or phone</span></div>
       <div style="display:flex;gap:8px;align-items:center;margin-top:12px;">
         <select class="filter-select" id="googleLimit">
           <option value="50">50 records</option>
@@ -326,8 +365,8 @@ tr:hover { background: rgba(16,185,129,0.03); }
     <div class="enrich-card">
       <h3>2. Email Scraping</h3>
       <div class="desc">Scrapes email addresses from business websites (homepage + /contact)</div>
-      <div class="stat-row"><span>Target</span><span class="val" id="emailTarget">—</span></div>
-      <div class="stat-row"><span>Have website, no email</span></div>
+      <div class="stat-row"><span>Matching targets</span><span class="val" id="emailTarget">—</span></div>
+      <div class="stat-row"><span style="font-size:10px;color:var(--muted);">Have website, no email</span></div>
       <div style="display:flex;gap:8px;align-items:center;margin-top:12px;">
         <select class="filter-select" id="emailLimit">
           <option value="50">50 records</option>
@@ -344,8 +383,8 @@ tr:hover { background: rgba(16,185,129,0.03); }
     <div class="enrich-card">
       <h3>3. Social Media</h3>
       <div class="desc">Extracts Instagram, Facebook, TikTok handles from business websites</div>
-      <div class="stat-row"><span>Target</span><span class="val" id="socialsTarget">—</span></div>
-      <div class="stat-row"><span>Have website, no socials</span></div>
+      <div class="stat-row"><span>Matching targets</span><span class="val" id="socialsTarget">—</span></div>
+      <div class="stat-row"><span style="font-size:10px;color:var(--muted);">Have website, no socials</span></div>
       <div style="display:flex;gap:8px;align-items:center;margin-top:12px;">
         <select class="filter-select" id="socialsLimit">
           <option value="50">50 records</option>
@@ -655,7 +694,24 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
 
 
 // ─── ENRICHMENT ───
+
+// Load/save API key from localStorage
+function loadSavedApiKey() {
+  const saved = localStorage.getItem('blueroll_google_api_key');
+  if (saved) document.getElementById('enrichApiKey').value = saved;
+}
+
+function getEnrichFilters() {
+  return {
+    ratings: document.getElementById('enrichRatings').value,
+    location: document.getElementById('enrichLocation').value.trim(),
+    authority: document.getElementById('enrichAuthority').value.trim(),
+    type: document.getElementById('enrichType').value.trim()
+  };
+}
+
 async function loadEnrichStats() {
+  loadSavedApiKey();
   try {
     const r = await fetch(`${CRM_API}/api/enrichment/stats`);
     const s = r.ok ? await r.json() : null;
@@ -710,18 +766,28 @@ async function loadEnrichStats() {
         <div class="pct">non-chain, rating 0-4, no data</div>
       </div>
     `;
-
-    // Update target counts on cards
-    document.getElementById('googleTarget').textContent = s.leads_needing_enrichment.toLocaleString();
-    // For email: have website but no email
-    const emailTarget = s.with_website - s.with_email;
-    document.getElementById('emailTarget').textContent = (emailTarget > 0 ? emailTarget : 0).toLocaleString();
-    // For socials: have website but no instagram/facebook
-    const socialsTarget = s.with_website - Math.max(s.with_instagram, s.with_facebook);
-    document.getElementById('socialsTarget').textContent = (socialsTarget > 0 ? socialsTarget : 0).toLocaleString();
-
   } catch (err) {
     document.getElementById('enrichStats').innerHTML = `<p style="color:var(--red);">Failed to load stats: ${err.message}</p>`;
+  }
+}
+
+async function previewTargets() {
+  const filters = getEnrichFilters();
+  const el = document.getElementById('previewResult');
+  el.textContent = 'Counting...';
+  try {
+    const r = await fetch(`${CRM_API}/api/enrichment/preview`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(filters)
+    });
+    const counts = await r.json();
+    document.getElementById('googleTarget').textContent = counts.google.toLocaleString();
+    document.getElementById('emailTarget').textContent = counts.email.toLocaleString();
+    document.getElementById('socialsTarget').textContent = counts.socials.toLocaleString();
+    el.innerHTML = `Google: <span style="color:var(--accent);">${counts.google.toLocaleString()}</span> &middot; Email: <span style="color:var(--blue);">${counts.email.toLocaleString()}</span> &middot; Socials: <span style="color:var(--orange);">${counts.socials.toLocaleString()}</span>`;
+  } catch (err) {
+    el.innerHTML = `<span style="color:var(--red);">Error: ${err.message}</span>`;
   }
 }
 
@@ -730,32 +796,52 @@ let enrichPollTimer = null;
 async function runEnrich(stage) {
   const limitEl = document.getElementById(stage + 'Limit') || document.getElementById('googleLimit');
   const limit = parseInt(limitEl.value);
-  const btn = document.getElementById('btn' + stage.charAt(0).toUpperCase() + stage.slice(1));
+  const filters = getEnrichFilters();
+  const api_key = document.getElementById('enrichApiKey').value.trim();
+  const btnName = stage === 'google' ? 'Google' : stage === 'email' ? 'Email' : 'Socials';
+  const btn = document.getElementById('btn' + btnName);
+
+  // Save API key to localStorage
+  if (api_key) localStorage.setItem('blueroll_google_api_key', api_key);
+
+  // Validate Google key
+  if (stage === 'google' && !api_key) {
+    alert('Enter your Google Places API Key first');
+    document.getElementById('enrichApiKey').focus();
+    return;
+  }
+
   btn.disabled = true;
   btn.textContent = 'Running...';
 
   try {
-    await fetch(`${CRM_API}/api/enrichment/run`, {
+    const r = await fetch(`${CRM_API}/api/enrichment/run`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ stage, limit })
+      body: JSON.stringify({ stage, limit, filters, api_key })
     });
+    if (!r.ok) {
+      const err = await r.json();
+      throw new Error(err.error || 'Server error');
+    }
 
     // Start polling
     if (enrichPollTimer) clearInterval(enrichPollTimer);
-    const progressEl = document.getElementById('progress' + stage.charAt(0).toUpperCase() + stage.slice(1));
+    const progressEl = document.getElementById('progress' + btnName);
     enrichPollTimer = setInterval(async () => {
       try {
         const r = await fetch(`${CRM_API}/api/enrichment/status`);
         const s = await r.json();
+        const errMsg = s.error_msg ? ` \u00b7 ${s.error_msg.substring(0, 80)}` : '';
         if (s.running) {
-          progressEl.innerHTML = `<span class="live">\u25CF Running</span> ${s.processed}/${s.total} processed \u00b7 ${s.found} found \u00b7 ${s.errors} errors`;
+          progressEl.innerHTML = `<span class="live">\u25CF Running</span> ${s.processed}/${s.total} processed \u00b7 ${s.found} found \u00b7 ${s.errors} errors${errMsg}`;
         } else {
-          progressEl.innerHTML = `\u2713 Done: ${s.processed} processed \u00b7 ${s.found} found \u00b7 ${s.errors} errors`;
+          progressEl.innerHTML = `\u2713 Done: ${s.processed} processed \u00b7 ${s.found} found \u00b7 ${s.errors} errors${errMsg}`;
           clearInterval(enrichPollTimer);
           btn.disabled = false;
-          btn.textContent = 'Run ' + stage.charAt(0).toUpperCase() + stage.slice(1);
+          btn.textContent = 'Run ' + btnName;
           loadEnrichStats();
+          previewTargets();
         }
       } catch (e) {
         progressEl.innerHTML = `<span style="color:var(--red);">Poll error</span>`;
@@ -763,7 +849,7 @@ async function runEnrich(stage) {
     }, 2000);
   } catch (err) {
     btn.disabled = false;
-    btn.textContent = 'Run ' + stage.charAt(0).toUpperCase() + stage.slice(1);
+    btn.textContent = 'Run ' + btnName;
     alert('Failed to start: ' + err.message);
   }
 }
