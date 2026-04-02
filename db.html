@@ -409,7 +409,7 @@ tr:hover { background: rgba(16,185,129,0.03); }
     </div>
 
     <!-- Row 3: Date filters + skip days -->
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:10px;margin-bottom:12px;">
+    <div class="filter-row-2" style="margin-bottom:12px;">
       <div>
         <label class="detail-label">Inspected after</label>
         <input class="search-input" id="enrichRatedAfter" type="date" style="width:100%;margin-top:4px;padding:8px 10px;font-size:12px;">
@@ -428,13 +428,6 @@ tr:hover { background: rgba(16,185,129,0.03); }
           <option value="180">6 months</option>
         </select>
       </div>
-      <div>
-        <label class="detail-label">Google API Key</label>
-        <div style="display:flex;gap:4px;margin-top:4px;">
-          <input class="search-input" id="enrichApiKey" type="password" placeholder="AIza..." style="flex:1;padding:8px 10px;font-size:12px;">
-          <button class="btn-sm" onclick="document.getElementById('enrichApiKey').type = document.getElementById('enrichApiKey').type === 'password' ? 'text' : 'password'" style="white-space:nowrap;">Show</button>
-        </div>
-      </div>
       <div style="display:flex;align-items:flex-end;">
         <button class="btn btn-accent" onclick="previewTargets()" style="padding:8px 20px;width:100%;">Preview Targets</button>
       </div>
@@ -448,10 +441,17 @@ tr:hover { background: rgba(16,185,129,0.03); }
     <!-- Google Places -->
     <div class="enrich-card">
       <h3>1. Google Places</h3>
-      <div class="desc">Finds phone, website, Google rating &amp; reviews via Google Places API. Requires API key above.</div>
+      <div class="desc">Finds phone, website, Google rating &amp; reviews via Google Places API</div>
       <div class="stat-row"><span>Matching targets</span><span class="val" id="googleTarget">—</span></div>
       <div class="stat-row"><span style="font-size:10px;color:var(--muted);">Without website or phone</span></div>
-      <div style="display:flex;gap:8px;align-items:center;margin-top:12px;">
+      <div style="margin-top:10px;">
+        <label class="detail-label">API Key</label>
+        <div style="display:flex;gap:4px;margin-top:4px;">
+          <input class="search-input" id="enrichApiKey" type="password" placeholder="AIza..." style="flex:1;padding:7px 10px;font-size:12px;">
+          <button class="btn-sm" onclick="document.getElementById('enrichApiKey').type = document.getElementById('enrichApiKey').type === 'password' ? 'text' : 'password'">Show</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;margin-top:10px;">
         <select class="filter-select" id="googleLimit">
           <option value="50">50 records</option>
           <option value="100" selected>100 records</option>
