@@ -434,11 +434,12 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
     <div class="form-group">
       <label class="form-label">Max Rating</label>
       <select class="form-select" id="maxRating">
-        <option value="0">0 — Urgent improvement necessary</option>
-        <option value="1">1 — Major improvement necessary</option>
+        <option value="0">0 — Urgent improvement</option>
+        <option value="1">1 — Major improvement</option>
         <option value="2" selected>2 — Improvement necessary</option>
         <option value="3">3 — Generally satisfactory</option>
         <option value="4">4 — Good</option>
+        <option value="5">5 — Very Good</option>
       </select>
     </div>
 
@@ -448,16 +449,30 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
     </div>
 
     <div class="form-group">
+      <label class="form-label">Local Authority</label>
+      <select class="form-select" id="localAuthority">
+        <option value="">All authorities</option>
+      </select>
+    </div>
+
+    <div class="form-group">
       <label class="form-label">Business Type</label>
       <select class="form-select" id="bizType">
         <option value="">All types</option>
         <option value="Restaurant/Cafe/Canteen" selected>Restaurant/Cafe/Canteen</option>
-        <option value="Takeaway/Sandwich shop">Takeaway/Sandwich shop</option>
+        <option value="Takeaway/sandwich shop">Takeaway/Sandwich shop</option>
         <option value="Pub/bar/nightclub">Pub/bar/nightclub</option>
-        <option value="Hotel/B&B/Guest house">Hotel/B&B/Guest house</option>
-        <option value="Retailers - other">Retailers</option>
+        <option value="Hotel/bed & breakfast/guest house">Hotel/B&B/Guest house</option>
+        <option value="Retailers - other">Retailers - other</option>
+        <option value="Retailers - supermarkets/hypermarkets">Retailers - supermarkets</option>
+        <option value="Other catering premises">Other catering premises</option>
         <option value="Caring Premises">Care homes</option>
-        <option value="School/College/University">Schools/Universities</option>
+        <option value="School/college/university">Schools/Universities</option>
+        <option value="Mobile caterer">Mobile caterer</option>
+        <option value="Manufacturers/packers">Manufacturers/packers</option>
+        <option value="Distributors/Transporters">Distributors/Transporters</option>
+        <option value="Farmers/growers">Farmers/growers</option>
+        <option value="Importers/Exporters">Importers/Exporters</option>
       </select>
     </div>
 
@@ -469,6 +484,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
         <option value="30" selected>30 days</option>
         <option value="90">90 days</option>
         <option value="365">1 year</option>
+        <option value="0">All time</option>
       </select>
     </div>
 
@@ -688,6 +704,17 @@ fetch(`${CRM_API}/api/stats`).then(r => r.json()).then(stats => {
     day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'
   });
 });
+
+// Load local authorities for dropdown
+fetch(`${CRM_API}/api/authorities`).then(r => r.json()).then(authorities => {
+  const sel = document.getElementById('localAuthority');
+  authorities.forEach(a => {
+    const opt = document.createElement('option');
+    opt.value = a.name;
+    opt.textContent = `${a.name} (${a.count.toLocaleString()})`;
+    sel.appendChild(opt);
+  });
+}).catch(() => {});
 
 // ─── CSV Drag & Drop ─────────────────────────────────────────
 const csvDrop = document.getElementById('csvDrop');
@@ -953,6 +980,7 @@ async function searchFSA() {
 
   const maxRating = parseInt(document.getElementById('maxRating').value);
   const location = document.getElementById('location').value.trim();
+  const localAuthority = document.getElementById('localAuthority').value;
   const bizType = document.getElementById('bizType').value;
   const ratedInDays = parseInt(document.getElementById('ratedIn').value);
   const excludeContacted = document.getElementById('excludeContacted')?.checked || false;
@@ -968,13 +996,14 @@ async function searchFSA() {
     const params = new URLSearchParams({
       rating_max: maxRating,
       rating_min: minRatingOverride !== null ? minRatingOverride : 0,
-      days: ratedInDays,
       exclude_chains: 'true',
       exclude_contacted: excludeContacted ? 'true' : 'false',
       limit: 1000
     });
 
+    if (ratedInDays > 0) params.set('days', ratedInDays);
     if (location) params.set('postcode', location);
+    if (localAuthority) params.set('local_authority', localAuthority);
     if (bizType) params.set('type', bizType);
     if (minRatingOverride !== null) {
       params.set('rating_min', minRatingOverride);
