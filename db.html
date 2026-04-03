@@ -349,6 +349,46 @@ tr:hover { background: rgba(16,185,129,0.03); }
 <!-- ═══ ENRICHMENT PANEL ═══ -->
 <div class="panel" id="panelEnrichment">
 
+  <!-- Auto-enrichment live status -->
+  <div id="autoEnrichBar" style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin-bottom:16px;display:none;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span id="autoEnrichDot" style="width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;"></span>
+        <span style="font-size:13px;font-weight:600;">Auto-Enrichment Pipeline</span>
+        <span id="autoEnrichStatus" style="font-family:var(--mono);font-size:11px;color:var(--accent);"></span>
+      </div>
+      <span id="autoEnrichUptime" style="font-family:var(--mono);font-size:10px;color:var(--muted);"></span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;">
+      <div style="text-align:center;">
+        <div style="font-family:var(--mono);font-size:18px;font-weight:700;color:var(--accent);" id="aeRunsToday">—</div>
+        <div style="font-size:9px;color:var(--muted);text-transform:uppercase;">Cycles today</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-family:var(--mono);font-size:18px;font-weight:700;color:var(--blue);" id="aeProcessedToday">—</div>
+        <div style="font-size:9px;color:var(--muted);text-transform:uppercase;">Processed today</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-family:var(--mono);font-size:18px;font-weight:700;color:var(--accent);" id="aeFoundToday">—</div>
+        <div style="font-size:9px;color:var(--muted);text-transform:uppercase;">Found today</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-family:var(--mono);font-size:18px;font-weight:700;" id="aeLastStage">—</div>
+        <div style="font-size:9px;color:var(--muted);text-transform:uppercase;">Last stage</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-family:var(--mono);font-size:18px;font-weight:700;" id="aeLastRun">—</div>
+        <div style="font-size:9px;color:var(--muted);text-transform:uppercase;">Last run</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-family:var(--mono);font-size:18px;font-weight:700;" id="aeNextRun">—</div>
+        <div style="font-size:9px;color:var(--muted);text-transform:uppercase;">Next run</div>
+      </div>
+    </div>
+    <div id="aeHourly" style="margin-top:12px;display:flex;gap:2px;align-items:flex-end;height:40px;"></div>
+    <div id="aeError" style="font-family:var(--mono);font-size:11px;color:var(--red);margin-top:6px;display:none;"></div>
+  </div>
+
   <div class="stats-grid" id="enrichStats"></div>
 
   <!-- Target Builder -->
@@ -908,8 +948,75 @@ async function loadEnrichDropdowns() {
 
 let enrichDropdownsLoaded = false;
 
+async function loadAutoEnrichStatus() {
+  try {
+    const r = await fetch(`${CRM_API}/api/auto-enrich/status`);
+    const s = await r.json();
+    const bar = document.getElementById('autoEnrichBar');
+
+    if (!s.enabled && !s.last_run) {
+      bar.style.display = 'none';
+      return;
+    }
+    bar.style.display = 'block';
+
+    // Status dot
+    const dot = document.getElementById('autoEnrichDot');
+    dot.style.background = s.enabled ? 'var(--accent)' : 'var(--red)';
+    document.getElementById('autoEnrichStatus').textContent = s.enabled ? 'RUNNING' : 'STOPPED';
+
+    // Uptime
+    if (s.started_at) {
+      const mins = Math.floor((Date.now() - new Date(s.started_at)) / 60000);
+      const h = Math.floor(mins / 60);
+      document.getElementById('autoEnrichUptime').textContent = h > 0 ? `Up ${h}h ${mins % 60}m` : `Up ${mins}m`;
+    }
+
+    // Stats
+    document.getElementById('aeRunsToday').textContent = s.total_runs || 0;
+    const processed = Object.values(s.today_processed || {}).reduce((a, b) => a + b, 0);
+    document.getElementById('aeProcessedToday').textContent = processed;
+    document.getElementById('aeFoundToday').textContent = s.db_found_today || 0;
+    document.getElementById('aeLastStage').textContent = s.last_stage || '—';
+
+    // Last run
+    if (s.last_run) {
+      const ago = Math.floor((Date.now() - new Date(s.last_run)) / 60000);
+      document.getElementById('aeLastRun').textContent = ago < 1 ? 'now' : `${ago}m ago`;
+      document.getElementById('aeNextRun').textContent = `${Math.max(0, 10 - ago)}m`;
+    }
+
+    // Hourly chart
+    if (s.hourly && s.hourly.length > 0) {
+      const maxVal = Math.max(...s.hourly.map(h => h.attempted || 0), 1);
+      let chartHTML = '';
+      s.hourly.slice(0, 24).reverse().forEach(h => {
+        const height = Math.max(2, (h.attempted / maxVal) * 36);
+        const foundH = Math.max(0, (h.found / maxVal) * 36);
+        const hour = new Date(h.hour).getHours();
+        chartHTML += `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;" title="${hour}:00 — ${h.attempted} attempted, ${h.found} found">
+          <div style="width:100%;height:${height}px;background:var(--accent-dim);border-radius:2px;position:relative;">
+            <div style="position:absolute;bottom:0;width:100%;height:${foundH}px;background:var(--accent);border-radius:2px;"></div>
+          </div>
+        </div>`;
+      });
+      document.getElementById('aeHourly').innerHTML = chartHTML;
+    }
+
+    // Error
+    const errEl = document.getElementById('aeError');
+    if (s.last_error) {
+      errEl.textContent = s.last_error;
+      errEl.style.display = 'block';
+    } else {
+      errEl.style.display = 'none';
+    }
+  } catch (e) {}
+}
+
 async function loadEnrichStats() {
   loadSavedApiKey();
+  loadAutoEnrichStatus();
   if (!enrichDropdownsLoaded) {
     enrichDropdownsLoaded = true;
     loadEnrichDropdowns();
