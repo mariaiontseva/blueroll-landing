@@ -1,27 +1,43 @@
 # Blueroll
-> Food safety management app for UK restaurants
+> Food safety management app for restaurants in the US, UK, and Europe
 
-Blueroll is a mobile app that replaces paper HACCP records with digital checklists, AI-powered recipe import, allergen tracking, and one-tap compliance reports. Built for independent UK restaurants at £14.99/month with a 14-day free trial.
+Blueroll is a mobile app that replaces paper HACCP records with digital checklists, AI-powered recipe import, allergen tracking, and one-tap compliance reports. Built for independent restaurants at $14.99/month with a 14-day free trial.
 
 ## Features
 - Digital HACCP checklists (daily, weekly, monthly)
 - AI recipe import (photo, text, PDF)
-- Allergen matrix (14 EU allergens)
-- Compliance PDF reports for EHO inspections
+- Allergen matrix (9 US allergens + 14 EU allergens)
+- Compliance PDF reports for health inspections
 - Team management with check-in/check-out
 - Temperature logging with alerts
 - Document storage with expiry reminders
-- FSA rating integration
+- Restaurant rating integration (US + UK)
 
 ## Free Tools
-- Food Hygiene Rating Badge: https://blueroll.app/free-food-hygiene-rating-badge.html
-- Check Rating: https://blueroll.app/check-food-hygiene-rating.html
-- Ratings Explained: https://blueroll.app/food-hygiene-ratings-explained.html
-- Improve Rating Guide: https://blueroll.app/how-to-improve-food-hygiene-rating.html
+- Rating Badge Widget (US + UK): https://blueroll.app/free-food-hygiene-rating-badge.html
+- HACCP Template Pack (free PDF): https://blueroll.app/free-haccp-template.html
+- Check Your Rating: https://blueroll.app/check-food-hygiene-rating.html
+
+## City Guides — US
+- NYC Restaurant Grade — How to Get an A: https://blueroll.app/nyc-restaurant-grade.html
+- NYC Restaurant Inspection Map (interactive): https://blueroll.app/nyc-restaurant-map.html
+- Chicago Restaurant Inspection — How to Pass: https://blueroll.app/chicago-restaurant-inspection.html
+- Chicago Restaurant Inspection Map (interactive): https://blueroll.app/chicago-restaurant-map.html
+- San Francisco Restaurant Score — How to Score 90+: https://blueroll.app/sf-restaurant-inspection.html
+- San Francisco Restaurant Inspection Map (interactive): https://blueroll.app/sf-restaurant-map.html
+- LA Restaurant Grade — How to Get an A: https://blueroll.app/la-restaurant-grade.html
+- Seattle Restaurant Inspection — How to Pass: https://blueroll.app/seattle-restaurant-inspection.html
+
+## City Guides — UK
+- Food Hygiene Ratings Explained: https://blueroll.app/food-hygiene-ratings-explained.html
+- How to Improve Your Food Hygiene Rating: https://blueroll.app/how-to-improve-food-hygiene-rating.html
+- SFBB Guide: https://blueroll.app/sfbb-guide.html
+- EHO Inspection Checklist: https://blueroll.app/eho-inspection-checklist.html
+- 14 Allergens UK Guide: https://blueroll.app/14-allergens-uk.html
 
 ## Links
 - Website: https://blueroll.app
-- App Store: Coming soon
+- App Store: https://apps.apple.com/app/blueroll/id6760937451
 - Contact: hello@blueroll.app
 - Privacy: https://blueroll.app/privacy.html
 - Terms: https://blueroll.app/terms.html

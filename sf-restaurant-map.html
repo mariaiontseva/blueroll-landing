@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>San Francisco Restaurant Inspection Map — Live Scores | Blueroll</title>
+<meta name="description" content="Interactive map of San Francisco restaurant health inspection scores. See which restaurants near you score 90+, 80-89, or below 80. Live data from SF Open Data.">
+<meta name="keywords" content="SF restaurant map, restaurant health scores map, San Francisco inspection map, restaurant scores near me, food safety map San Francisco">
+<link rel="canonical" href="https://blueroll.app/sf-restaurant-map.html">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://blueroll.app/sf-restaurant-map.html">
+<meta property="og:title" content="San Francisco Restaurant Inspection Map — Live Scores">
+<meta property="og:description" content="Interactive map of every SF restaurant with their health inspection score. Live data.">
+<meta property="og:image" content="https://blueroll.app/og-image.png">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZFY0GPZYYQ');</script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --green: #047857; --green-dark: #065F46; --green-deep: #022c22;
+  --bg: #FAFAF7; --ink: #111; --mid: #555; --light: #999; --border: #E8E5DF;
+}
+body { font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+/* Nav */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; background: rgba(250,250,247,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,0.06); }
+.nav-left { display: flex; align-items: center; gap: 6px; text-decoration: none; color: inherit; }
+.nav-left img { width: 22px; height: auto; }
+.nav-left span { font-size: 17px; font-weight: 800; letter-spacing: -0.5px; }
+.nav-right { display: flex; gap: 16px; align-items: center; }
+.nav-right a { text-decoration: none; color: var(--mid); font-size: 13px; font-weight: 600; }
+.nav-btn { background: var(--green) !important; color: white !important; padding: 8px 18px !important; border-radius: 8px !important; font-weight: 700 !important; }
+
+/* Map container */
+#map { position: fixed; top: 56px; left: 0; right: 0; bottom: 0; z-index: 1; }
+
+/* Controls overlay */
+.controls {
+  position: fixed; top: 68px; left: 12px; z-index: 900;
+  display: flex; flex-direction: column; gap: 8px;
+}
+
+.search-box {
+  background: white; border-radius: 12px; padding: 10px 14px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12); width: 320px;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.search-box input {
+  width: 100%; border: none; outline: none; font-size: 15px;
+  font-family: inherit; color: var(--ink); background: transparent;
+}
+.search-box input::placeholder { color: var(--light); }
+
+.filter-pills {
+  display: flex; gap: 6px;
+}
+.pill {
+  padding: 8px 16px; border-radius: 20px; border: none;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  font-family: inherit; transition: all 0.15s;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.pill-excellent { background: #047857; color: white; }
+.pill-needs { background: #F59E0B; color: white; }
+.pill-poor { background: #EF4444; color: white; }
+.pill.off { opacity: 0.35; }
+
+/* Stats bar */
+.stats-bar {
+  position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
+  z-index: 900; background: white; border-radius: 14px;
+  padding: 10px 24px; display: flex; gap: 24px; align-items: center;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12); border: 1px solid rgba(0,0,0,0.06);
+  font-size: 13px;
+}
+.stats-bar .stat { display: flex; align-items: center; gap: 6px; }
+.stats-bar .stat-dot { width: 10px; height: 10px; border-radius: 50%; }
+.stats-bar .stat-num { font-weight: 800; font-size: 15px; }
+.stats-bar .stat-label { color: var(--light); }
+
+.stats-bar .blueroll-link {
+  font-size: 11px; font-weight: 700; color: var(--green);
+  text-decoration: none; border-left: 1px solid var(--border);
+  padding-left: 16px; margin-left: 8px;
+}
+
+/* Loading */
+.loading-overlay {
+  position: fixed; top: 56px; left: 0; right: 0; bottom: 0;
+  z-index: 500; background: rgba(250,250,247,0.9);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 12px;
+}
+.loading-overlay .spinner {
+  width: 32px; height: 32px; border: 3px solid var(--border);
+  border-top-color: var(--green); border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-overlay p { color: var(--light); font-size: 14px; }
+.loading-overlay.hidden { display: none; }
+
+/* Custom marker */
+.grade-marker {
+  width: 26px; height: 26px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800; color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  border: 2px solid white;
+  transition: transform 0.1s;
+}
+.grade-marker:hover { transform: scale(1.3); z-index: 999 !important; }
+.gm-excellent { background: #047857; }
+.gm-needs { background: #F59E0B; }
+.gm-poor { background: #EF4444; }
+
+/* Popup */
+.leaflet-popup-content-wrapper { border-radius: 12px !important; box-shadow: 0 8px 30px rgba(0,0,0,0.15) !important; }
+.leaflet-popup-content { margin: 14px 16px !important; font-family: -apple-system, system-ui, sans-serif !important; }
+.popup-grade { display: inline-block; padding: 2px 10px; border-radius: 6px; font-weight: 800; font-size: 14px; color: white; margin-right: 8px; }
+.popup-name { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+.popup-addr { font-size: 12px; color: #999; margin-bottom: 6px; }
+.popup-score { font-size: 12px; color: #555; }
+.popup-cta { display: inline-block; margin-top: 8px; font-size: 11px; font-weight: 700; color: #047857; text-decoration: none; }
+
+@media (max-width: 600px) {
+  .search-box { width: calc(100vw - 24px); }
+  .stats-bar { width: calc(100vw - 24px); gap: 12px; padding: 10px 16px; font-size: 12px; }
+  .stats-bar .blueroll-link { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-left">
+    <img src="blueroll-logo.svg" alt="Blueroll">
+    <span>Blueroll</span>
+  </a>
+  <div class="nav-right">
+    <a href="sf-restaurant-inspection.html">SF Guide</a>
+    <a href="index.html" class="nav-btn">Try Blueroll</a>
+  </div>
+</nav>
+
+<div id="map"></div>
+
+<div class="controls">
+  <div class="search-box">
+    <input id="searchInput" placeholder="Search restaurant or zip code...">
+  </div>
+  <div class="filter-pills">
+    <button class="pill pill-excellent" onclick="toggleGrade('excellent',this)">90+</button>
+    <button class="pill pill-needs" onclick="toggleGrade('needs',this)">80-89</button>
+    <button class="pill pill-poor" onclick="toggleGrade('poor',this)">&lt;80</button>
+  </div>
+</div>
+
+<div class="stats-bar" id="statsBar">
+  <div class="stat"><div class="stat-dot" style="background:#047857;"></div><span class="stat-num" id="countExcellent">-</span><span class="stat-label">90+</span></div>
+  <div class="stat"><div class="stat-dot" style="background:#F59E0B;"></div><span class="stat-num" id="countNeeds">-</span><span class="stat-label">80-89</span></div>
+  <div class="stat"><div class="stat-dot" style="background:#EF4444;"></div><span class="stat-num" id="countPoor">-</span><span class="stat-label">&lt;80</span></div>
+  <a href="sf-restaurant-inspection.html" class="blueroll-link">How to score 90+ →</a>
+</div>
+
+<div class="loading-overlay" id="loading">
+  <div class="spinner"></div>
+  <p>Loading SF restaurant data...</p>
+</div>
+
+<script>
+// Map setup — centered on San Francisco
+const map = L.map('map', {
+  center: [37.7749, -122.4194],
+  zoom: 13,
+  zoomControl: false
+});
+
+L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+  maxZoom: 19
+}).addTo(map);
+
+const gradeColors = { excellent: '#047857', needs: '#F59E0B', poor: '#EF4444' };
+const gradeVisible = { excellent: true, needs: true, poor: true };
+let allData = [];
+let filtered = [];
+let popup = L.popup({ maxWidth: 280 });
+
+function titleCase(s) { return s ? s.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()) : ''; }
+
+function scoreToGrade(score) {
+  if (score >= 90) return 'excellent';
+  if (score >= 80) return 'needs';
+  return 'poor';
+}
+
+function scoreToLabel(score) {
+  if (score >= 90) return '90+';
+  if (score >= 80) return '80s';
+  return '<80';
+}
+
+// === Raw canvas overlay — no Leaflet markers, pure pixel drawing ===
+const CanvasOverlay = L.Layer.extend({
+  onAdd(map) {
+    this._map = map;
+    const size = map.getSize();
+    const canvas = L.DomUtil.create('canvas', 'leaflet-layer');
+    canvas.width = size.x * (window.devicePixelRatio || 1);
+    canvas.height = size.y * (window.devicePixelRatio || 1);
+    canvas.style.width = size.x + 'px';
+    canvas.style.height = size.y + 'px';
+    this._canvas = canvas;
+    this._ctx = canvas.getContext('2d');
+    map.getPanes().overlayPane.appendChild(canvas);
+    this._throttledRedraw = () => {
+      if (this._rafId) return;
+      this._rafId = requestAnimationFrame(() => { this._rafId = null; this._redraw(); });
+    };
+    map.on('moveend zoomend resize', this._redraw, this);
+    map.on('move zoom', this._throttledRedraw, this);
+    canvas.addEventListener('click', (e) => this._onTap(e));
+    canvas.addEventListener('touchend', (e) => {
+      if (e.changedTouches.length === 1) {
+        const t = e.changedTouches[0];
+        this._onTap({ clientX: t.clientX, clientY: t.clientY });
+      }
+    });
+    this._redraw();
+  },
+  onRemove(map) {
+    L.DomUtil.remove(this._canvas);
+    map.off('moveend zoomend resize', this._redraw, this);
+    map.off('move zoom', this._throttledRedraw, this);
+  },
+  _redraw() {
+    const map = this._map;
+    const size = map.getSize();
+    const dpr = window.devicePixelRatio || 1;
+    const canvas = this._canvas;
+    canvas.width = size.x * dpr;
+    canvas.height = size.y * dpr;
+    canvas.style.width = size.x + 'px';
+    canvas.style.height = size.y + 'px';
+    // Position canvas at map origin
+    const topLeft = map.containerPointToLayerPoint([0, 0]);
+    L.DomUtil.setPosition(canvas, topLeft);
+
+    const ctx = this._ctx;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, size.x, size.y);
+
+    const zoom = map.getZoom();
+    const r = zoom >= 17 ? 7 : zoom >= 15 ? 5 : zoom >= 13 ? 3.5 : zoom >= 11 ? 2 : 1.5;
+    const bounds = map.getBounds();
+
+    // Draw excellent first (bottom), then needs, then poor (top)
+    const order = ['excellent', 'needs', 'poor'];
+    for (const grade of order) {
+      if (!gradeVisible[grade]) continue;
+      ctx.fillStyle = gradeColors[grade];
+      ctx.globalAlpha = grade === 'excellent' ? 0.55 : 0.85;
+
+      for (const d of filtered) {
+        if (d.grade !== grade) continue;
+        if (!bounds.contains([d.lat, d.lng])) continue;
+        const pt = map.latLngToContainerPoint([d.lat, d.lng]);
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+
+    // White border on zoomed in
+    if (zoom >= 15) {
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 1;
+      for (const grade of order) {
+        if (!gradeVisible[grade]) continue;
+        for (const d of filtered) {
+          if (d.grade !== grade) continue;
+          if (!bounds.contains([d.lat, d.lng])) continue;
+          const pt = map.latLngToContainerPoint([d.lat, d.lng]);
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+      }
+    }
+  },
+  _onTap(e) {
+    const map = this._map;
+    const rect = this._canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const zoom = map.getZoom();
+    const hitR = 'ontouchstart' in window ? 18 : (zoom >= 15 ? 10 : 8);
+
+    // Find closest point (poor/needs priority over excellent)
+    let best = null, bestDist = Infinity;
+    for (const d of filtered) {
+      if (!gradeVisible[d.grade]) continue;
+      const pt = map.latLngToContainerPoint([d.lat, d.lng]);
+      const dist = Math.hypot(pt.x - x, pt.y - y);
+      if (dist < hitR) {
+        const priority = d.grade === 'poor' ? 0 : d.grade === 'needs' ? 1 : 2;
+        const adjDist = dist + priority * 0.1;
+        if (adjDist < bestDist) { bestDist = adjDist; best = d; }
+      }
+    }
+
+    if (best) {
+      const name = titleCase(best.name);
+      const addr = best.address || '';
+      const scoreColor = gradeColors[best.grade];
+      popup.setLatLng([best.lat, best.lng]).setContent(`
+        <div class="popup-name"><span class="popup-grade" style="background:${scoreColor}">${best.score}</span>${name}</div>
+        <div class="popup-addr">${addr}</div>
+        <div class="popup-score">${best.date ? 'Inspected ' + best.date : ''}</div>
+        <a class="popup-cta" href="sf-restaurant-inspection.html">How to score 90+ →</a>
+      `).openOn(map);
+    }
+  }
+});
+
+const overlay = new CanvasOverlay();
+map.addLayer(overlay);
+
+async function loadData() {
+  const SF_API = 'https://data.sfgov.org/resource/pyih-qa8i.json';
+  const fields = 'business_name,business_address,business_postal_code,inspection_score,inspection_date,business_latitude,business_longitude,violation_description';
+  const where = `inspection_score IS NOT NULL AND business_latitude IS NOT NULL`;
+  const url = `${SF_API}?$where=${where}&$select=${fields}&$order=inspection_date DESC&$limit=50000`;
+
+  try {
+    const resp = await fetch(url);
+    const data = await resp.json();
+
+    // Dedupe by business_name + business_address, keep most recent
+    const seen = new Map();
+    for (const d of data) {
+      const key = (d.business_name || '').toLowerCase() + '|' + (d.business_address || '').toLowerCase();
+      if (!seen.has(key) && d.business_latitude && d.business_longitude && d.inspection_score) {
+        const score = parseInt(d.inspection_score);
+        if (isNaN(score)) continue;
+        const date = d.inspection_date ? new Date(d.inspection_date).toLocaleDateString('en-US', {month:'short', year:'numeric'}) : '';
+        seen.set(key, {
+          lat: parseFloat(d.business_latitude),
+          lng: parseFloat(d.business_longitude),
+          score: score,
+          grade: scoreToGrade(score),
+          name: d.business_name || '',
+          address: d.business_address || '',
+          zip: d.business_postal_code || '',
+          date: date,
+          nameLower: (d.business_name || '').toLowerCase()
+        });
+      }
+    }
+    allData = [...seen.values()];
+    applyFilter();
+    document.getElementById('loading').classList.add('hidden');
+  } catch (err) {
+    document.getElementById('loading').innerHTML = '<p style="color:#EF4444;">Failed to load data. Please refresh.</p>';
+  }
+}
+
+function applyFilter() {
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  let countExcellent = 0, countNeeds = 0, countPoor = 0;
+  filtered = [];
+  for (const d of allData) {
+    if (!gradeVisible[d.grade]) continue;
+    if (q && !d.nameLower.includes(q) && !d.zip.startsWith(q)) continue;
+    filtered.push(d);
+    if (d.grade === 'excellent') countExcellent++;
+    else if (d.grade === 'needs') countNeeds++;
+    else if (d.grade === 'poor') countPoor++;
+  }
+  document.getElementById('countExcellent').textContent = countExcellent.toLocaleString();
+  document.getElementById('countNeeds').textContent = countNeeds.toLocaleString();
+  document.getElementById('countPoor').textContent = countPoor.toLocaleString();
+  overlay._redraw();
+}
+
+function toggleGrade(grade, btn) {
+  gradeVisible[grade] = !gradeVisible[grade];
+  btn.classList.toggle('off');
+  applyFilter();
+}
+
+let debounce = null;
+document.getElementById('searchInput').addEventListener('input', () => {
+  clearTimeout(debounce);
+  debounce = setTimeout(applyFilter, 300);
+});
+
+loadData();
+</script>
+
+</body>
+</html>
