@@ -205,6 +205,7 @@ nav {
 .footer-social svg { width: 18px; height: 18px; }
 
 /* Confetti */
+@keyframes spin { to { transform: rotate(360deg); } }
 @keyframes confetti-fall {
   0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
   100% { transform: translateY(100px) rotate(720deg); opacity: 0; }
@@ -398,7 +399,18 @@ let selectedBiz = null, currentStyle = 'card', currentCountry = 'us';
 
 const T = { bg: '#0D1B2A', bg2: '#1B2D45', accent: '#E2B55A', text: '#F0ECE3' };
 
-document.getElementById('postcode').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+let debounceTimer = null;
+const input = document.getElementById('postcode');
+input.addEventListener('keydown', e => { if (e.key === 'Enter') { clearTimeout(debounceTimer); doSearch(); } });
+input.addEventListener('input', () => {
+  clearTimeout(debounceTimer);
+  const v = input.value.trim();
+  if (v.length >= 2) {
+    debounceTimer = setTimeout(() => doSearch(), 400);
+  } else {
+    document.getElementById('results').innerHTML = '';
+  }
+});
 
 function setCountry(c) {
   currentCountry = c;
@@ -429,7 +441,7 @@ async function doSearch() {
   if (!q) return;
   document.getElementById('searchBtn').disabled = true;
   document.getElementById('searchBtn').textContent = 'Searching...';
-  document.getElementById('results').innerHTML = '';
+  document.getElementById('results').innerHTML = '<div style="padding:16px;text-align:center;color:var(--light);font-size:13px;"><div style="display:inline-block;width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .6s linear infinite;margin-right:8px;vertical-align:middle;"></div>Searching…</div>';
   try {
     if (currentCountry === 'uk') {
       await searchUK(q);
