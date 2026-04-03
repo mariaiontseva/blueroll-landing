@@ -972,18 +972,25 @@ async function loadAutoEnrichStatus() {
       document.getElementById('autoEnrichUptime').textContent = h > 0 ? `Up ${h}h ${mins % 60}m` : `Up ${mins}m`;
     }
 
-    // Stats
-    document.getElementById('aeRunsToday').textContent = s.total_runs || 0;
-    const processed = Object.values(s.today_processed || {}).reduce((a, b) => a + b, 0);
-    document.getElementById('aeProcessedToday').textContent = processed;
-    document.getElementById('aeFoundToday').textContent = s.db_found_today || 0;
-    document.getElementById('aeLastStage').textContent = s.last_stage || '—';
+    // Stats — use DB data (survives redeploys)
+    document.getElementById('aeProcessedToday').textContent = (s.db_attempted_today || 0).toLocaleString();
+    document.getElementById('aeFoundToday').textContent = (s.db_found_today || 0).toLocaleString();
+    document.getElementById('aeLastStage').textContent = s.last_stage || (s.hourly && s.hourly.length > 0 ? 'scrape' : '—');
 
-    // Last run
+    // Cycles = hourly entries with data
+    const totalCycles = s.hourly ? s.hourly.reduce((sum, h) => sum + Math.ceil((h.attempted || 0) / 30), 0) : (s.total_runs || 0);
+    document.getElementById('aeRunsToday').textContent = totalCycles;
+
+    // Last run — use latest hourly entry if in-memory is empty
     if (s.last_run) {
       const ago = Math.floor((Date.now() - new Date(s.last_run)) / 60000);
       document.getElementById('aeLastRun').textContent = ago < 1 ? 'now' : `${ago}m ago`;
       document.getElementById('aeNextRun').textContent = `${Math.max(0, 10 - ago)}m`;
+    } else if (s.hourly && s.hourly.length > 0) {
+      const lastHour = new Date(s.hourly[0].hour);
+      const ago = Math.floor((Date.now() - lastHour) / 60000);
+      document.getElementById('aeLastRun').textContent = ago < 60 ? `~${ago}m ago` : `~${Math.floor(ago/60)}h ago`;
+      document.getElementById('aeNextRun').textContent = '< 10m';
     }
 
     // Hourly chart
