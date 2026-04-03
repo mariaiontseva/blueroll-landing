@@ -192,11 +192,126 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
 
 const gradeColors = { A: '#047857', B: '#F59E0B', C: '#EF4444' };
 const gradeVisible = { A: true, B: true, C: true };
-let allData = []; // raw restaurant objects
-let circleLayer = L.layerGroup().addTo(map);
-const canvasRenderer = L.canvas({ padding: 0.5 });
+let allData = [];
+let filtered = [];
+let popup = L.popup({ maxWidth: 280 });
 
 function titleCase(s) { return s ? s.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()) : ''; }
+
+// === Raw canvas overlay — no Leaflet markers, pure pixel drawing ===
+const CanvasOverlay = L.Layer.extend({
+  onAdd(map) {
+    this._map = map;
+    const size = map.getSize();
+    const canvas = L.DomUtil.create('canvas', 'leaflet-layer');
+    canvas.width = size.x * (window.devicePixelRatio || 1);
+    canvas.height = size.y * (window.devicePixelRatio || 1);
+    canvas.style.width = size.x + 'px';
+    canvas.style.height = size.y + 'px';
+    this._canvas = canvas;
+    this._ctx = canvas.getContext('2d');
+    map.getPanes().overlayPane.appendChild(canvas);
+    map.on('moveend zoomend resize', this._redraw, this);
+    canvas.addEventListener('click', (e) => this._onClick(e));
+    this._redraw();
+  },
+  onRemove(map) {
+    L.DomUtil.remove(this._canvas);
+    map.off('moveend zoomend resize', this._redraw, this);
+  },
+  _redraw() {
+    const map = this._map;
+    const size = map.getSize();
+    const dpr = window.devicePixelRatio || 1;
+    const canvas = this._canvas;
+    canvas.width = size.x * dpr;
+    canvas.height = size.y * dpr;
+    canvas.style.width = size.x + 'px';
+    canvas.style.height = size.y + 'px';
+    // Position canvas at map origin
+    const topLeft = map.containerPointToLayerPoint([0, 0]);
+    L.DomUtil.setPosition(canvas, topLeft);
+
+    const ctx = this._ctx;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, size.x, size.y);
+
+    const zoom = map.getZoom();
+    const r = zoom >= 17 ? 7 : zoom >= 15 ? 5 : zoom >= 13 ? 3.5 : zoom >= 11 ? 2 : 1.5;
+    const bounds = map.getBounds();
+
+    // Draw A first (bottom), then B, then C (top)
+    const order = ['A', 'B', 'C'];
+    for (const grade of order) {
+      if (!gradeVisible[grade]) continue;
+      ctx.fillStyle = gradeColors[grade];
+      ctx.globalAlpha = grade === 'A' ? 0.55 : 0.85;
+
+      for (const d of filtered) {
+        if (d.grade !== grade) continue;
+        if (!bounds.contains([d.lat, d.lng])) continue;
+        const pt = map.latLngToContainerPoint([d.lat, d.lng]);
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+
+    // White border on zoomed in
+    if (zoom >= 15) {
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 1;
+      for (const grade of order) {
+        if (!gradeVisible[grade]) continue;
+        for (const d of filtered) {
+          if (d.grade !== grade) continue;
+          if (!bounds.contains([d.lat, d.lng])) continue;
+          const pt = map.latLngToContainerPoint([d.lat, d.lng]);
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+      }
+    }
+  },
+  _onClick(e) {
+    const map = this._map;
+    const rect = this._canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const zoom = map.getZoom();
+    const hitR = Math.max(zoom >= 15 ? 8 : 6, 6);
+
+    // Find closest point (B/C priority)
+    let best = null, bestDist = Infinity;
+    for (const d of filtered) {
+      if (!gradeVisible[d.grade]) continue;
+      const pt = map.latLngToContainerPoint([d.lat, d.lng]);
+      const dist = Math.hypot(pt.x - x, pt.y - y);
+      if (dist < hitR) {
+        // Prefer B/C over A at same distance
+        const priority = d.grade === 'C' ? 0 : d.grade === 'B' ? 1 : 2;
+        const adjDist = dist + priority * 0.1;
+        if (adjDist < bestDist) { bestDist = adjDist; best = d; }
+      }
+    }
+
+    if (best) {
+      const name = titleCase(best.dba);
+      const addr = [best.building, best.street, best.boro].filter(Boolean).join(', ');
+      popup.setLatLng([best.lat, best.lng]).setContent(`
+        <div class="popup-name"><span class="popup-grade" style="background:${gradeColors[best.grade]}">${best.grade}</span>${name}</div>
+        <div class="popup-addr">${addr}</div>
+        <div class="popup-score">${best.score ? best.score + ' points' : ''} · ${best.cuisine || ''}</div>
+        <a class="popup-cta" href="nyc-restaurant-grade.html">How to improve your grade →</a>
+      `).openOn(map);
+    }
+  }
+});
+
+const overlay = new CanvasOverlay();
+map.addLayer(overlay);
 
 async function loadData() {
   const NYC_API = 'https://data.cityofnewyork.us/resource/43nn-pn8j.json';
@@ -210,84 +325,57 @@ async function loadData() {
     fetch(`${base} AND boro='Staten Island'&$select=${fields}&$order=inspection_date DESC&$limit=50000`).then(r => r.json()),
   ]);
 
-  // Dedupe by camis — keep most recent
   const seen = new Map();
   for (const d of chunks.flat()) {
     if (!seen.has(d.camis) && d.latitude && d.longitude) {
-      seen.set(d.camis, d);
+      seen.set(d.camis, {
+        lat: parseFloat(d.latitude),
+        lng: parseFloat(d.longitude),
+        grade: d.grade,
+        dba: d.dba || '',
+        boro: d.boro || '',
+        building: d.building || '',
+        street: d.street || '',
+        zipcode: d.zipcode || '',
+        score: d.score,
+        cuisine: d.cuisine_description || '',
+        nameLower: (d.dba || '').toLowerCase()
+      });
     }
   }
   allData = [...seen.values()];
-  renderMarkers();
+  applyFilter();
   document.getElementById('loading').classList.add('hidden');
 }
 
-function renderMarkers() {
-  circleLayer.clearLayers();
+function applyFilter() {
   const q = document.getElementById('searchInput').value.trim().toLowerCase();
   let countA = 0, countB = 0, countC = 0;
-  const zoom = map.getZoom();
-  const radius = zoom >= 16 ? 8 : zoom >= 14 ? 5 : zoom >= 12 ? 3 : 2;
-
-  for (const r of allData) {
-    const grade = r.grade;
-    if (!gradeVisible[grade]) continue;
-
-    if (q) {
-      const name = (r.dba || '').toLowerCase();
-      const zip = r.zipcode || '';
-      if (!name.includes(q) && !zip.startsWith(q)) continue;
-    }
-
-    const lat = parseFloat(r.latitude);
-    const lng = parseFloat(r.longitude);
-
-    if (grade === 'A') countA++;
-    else if (grade === 'B') countB++;
-    else if (grade === 'C') countC++;
-
-    const circle = L.circleMarker([lat, lng], {
-      renderer: canvasRenderer,
-      radius: radius,
-      fillColor: gradeColors[grade],
-      fillOpacity: grade === 'A' ? 0.6 : 0.85,
-      color: '#fff',
-      weight: zoom >= 15 ? 1.5 : 0.5,
-      // B and C on top
-      pane: grade === 'A' ? 'markerPane' : 'tooltipPane'
-    });
-
-    const name = titleCase(r.dba);
-    const addr = [r.building, r.street, r.boro].filter(Boolean).join(', ');
-    circle.bindPopup(`
-      <div class="popup-name"><span class="popup-grade" style="background:${gradeColors[grade]}">${grade}</span>${name}</div>
-      <div class="popup-addr">${addr}</div>
-      <div class="popup-score">${r.score ? r.score + ' points' : ''} · ${r.cuisine_description || ''}</div>
-      <a class="popup-cta" href="nyc-restaurant-grade.html">How to improve your grade →</a>
-    `, { maxWidth: 280 });
-
-    circleLayer.addLayer(circle);
+  filtered = [];
+  for (const d of allData) {
+    if (!gradeVisible[d.grade]) continue;
+    if (q && !d.nameLower.includes(q) && !d.zipcode.startsWith(q)) continue;
+    filtered.push(d);
+    if (d.grade === 'A') countA++;
+    else if (d.grade === 'B') countB++;
+    else if (d.grade === 'C') countC++;
   }
-
   document.getElementById('countA').textContent = countA.toLocaleString();
   document.getElementById('countB').textContent = countB.toLocaleString();
   document.getElementById('countC').textContent = countC.toLocaleString();
+  overlay._redraw();
 }
-
-// Re-render on zoom to adjust dot size
-map.on('zoomend', renderMarkers);
 
 function toggleGrade(grade, btn) {
   gradeVisible[grade] = !gradeVisible[grade];
   btn.classList.toggle('off');
-  renderMarkers();
+  applyFilter();
 }
 
-// Search
 let debounce = null;
 document.getElementById('searchInput').addEventListener('input', () => {
   clearTimeout(debounce);
-  debounce = setTimeout(renderMarkers, 300);
+  debounce = setTimeout(applyFilter, 300);
 });
 
 loadData();
