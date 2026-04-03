@@ -209,13 +209,15 @@ function titleCase(s) { return s ? s.toLowerCase().replace(/\b\w/g, c => c.toUpp
 async function loadData() {
   const NYC_API = 'https://data.cityofnewyork.us/resource/43nn-pn8j.json';
 
-  // Load B and C grades (fewer, load all) + sample of A grades
-  const [bcData, aData] = await Promise.all([
-    fetch(`${NYC_API}?$where=grade in('B','C') AND latitude IS NOT NULL&$select=camis,dba,boro,building,street,zipcode,grade,score,latitude,longitude,cuisine_description,inspection_date&$order=inspection_date DESC&$limit=5000`).then(r => r.json()),
-    fetch(`${NYC_API}?$where=grade='A' AND latitude IS NOT NULL AND boro='Manhattan'&$select=camis,dba,boro,building,street,zipcode,grade,score,latitude,longitude,cuisine_description,inspection_date&$order=inspection_date DESC&$limit=3000`).then(r => r.json())
+  // Load all grades across all boroughs
+  const fields = 'camis,dba,boro,building,street,zipcode,grade,score,latitude,longitude,cuisine_description,inspection_date';
+  const [bcData, aData1, aData2] = await Promise.all([
+    fetch(`${NYC_API}?$where=grade in('B','C') AND latitude IS NOT NULL&$select=${fields}&$order=inspection_date DESC&$limit=5000`).then(r => r.json()),
+    fetch(`${NYC_API}?$where=grade='A' AND latitude IS NOT NULL AND boro in('Manhattan','Brooklyn')&$select=${fields}&$order=inspection_date DESC&$limit=5000`).then(r => r.json()),
+    fetch(`${NYC_API}?$where=grade='A' AND latitude IS NOT NULL AND boro in('Queens','Bronx','Staten Island')&$select=${fields}&$order=inspection_date DESC&$limit=5000`).then(r => r.json())
   ]);
 
-  const all = [...bcData, ...aData];
+  const all = [...bcData, ...aData1, ...aData2];
 
   // Dedupe by camis — keep most recent
   const seen = new Map();
