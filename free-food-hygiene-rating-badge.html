@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="alternate" hreflang="en-gb" href="https://blueroll.app/free-food-hygiene-rating-badge.html">
 <link rel="alternate" hreflang="en" href="https://blueroll.app/free-food-hygiene-rating-badge.html">
-<title>Free Food Hygiene Rating Widget for Your Website — Blueroll</title>
-<meta name="description" content="Add a free food hygiene rating badge to your restaurant website. Show customers your FSA rating with a beautiful, auto-updating widget. 3 styles to choose from.">
-<meta name="keywords" content="food hygiene rating widget, FSA rating badge, restaurant website widget, food safety badge, free rating widget, FHRS widget">
+<title>Free Restaurant Health Inspection Badge for Your Website — Blueroll</title>
+<meta name="description" content="Add a free health inspection rating badge to your restaurant website. Works for UK (FSA ratings) and US (NYC, LA, Chicago, SF grades). Auto-updating widget, 2 styles.">
+<meta name="keywords" content="food hygiene rating widget, FSA rating badge, restaurant website widget, food safety badge, NYC restaurant grade widget, health inspection badge, restaurant rating widget free">
 <link rel="canonical" href="https://blueroll.app/free-food-hygiene-rating-badge.html">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://blueroll.app/free-food-hygiene-rating-badge.html">
@@ -241,16 +241,22 @@ nav {
 <section class="hero">
   <div class="label">Free Tool</div>
   <h1>Your rating, on <span>your website</span></h1>
-  <p>Add a food hygiene rating badge to your restaurant website. Auto-updates from FSA data. Free forever.</p>
+  <p>Add your health inspection grade to your restaurant website. Works in the UK and US. Free forever.</p>
 </section>
 
 <section class="search-section">
   <div class="search-box">
-    <div class="search-label">Find your business</div>
+    <!-- Country toggle -->
+    <div style="display:flex;gap:4px;margin-bottom:16px;background:#EDEAE4;border-radius:10px;padding:3px;width:fit-content;">
+      <button class="country-tab" id="tabUS" onclick="setCountry('us')" style="padding:8px 24px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s;background:white;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,0.08);">🇺🇸 United States</button>
+      <button class="country-tab" id="tabUK" onclick="setCountry('uk')" style="padding:8px 24px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s;background:transparent;color:var(--light);">🇬🇧 United Kingdom</button>
+    </div>
+    <div class="search-label" id="searchLabel">Search by restaurant name or zip code</div>
     <div class="search-row">
-      <input class="search-input" id="postcode" placeholder="Enter your postcode" autofocus>
+      <input class="search-input" id="postcode" placeholder="e.g. Sai's Cafe or 10001" autofocus>
       <button class="search-btn" id="searchBtn" onclick="doSearch()">Search</button>
     </div>
+    <div id="cityNote" style="font-size:12px;color:var(--light);margin-top:8px;">Available in NYC, Los Angeles, Chicago, and San Francisco</div>
     <div class="results-list" id="results"></div>
   </div>
 </section>
@@ -324,11 +330,14 @@ nav {
     <li><strong>Food safety management</strong> — HACCP procedures, training, temperature records</li>
   </ul>
 
+  <h3>US restaurant grades</h3>
+  <p>In the US, health inspections are run by local departments. <strong>NYC</strong> uses letter grades (A/B/C) displayed in restaurant windows. <strong>Los Angeles</strong> and <strong>San Francisco</strong> use numeric scores (0-100). <strong>Chicago</strong> uses Pass/Fail. Our widget supports all formats.</p>
+
   <h3>Improve your score with Blueroll</h3>
-  <p>Digital HACCP checklists, AI recipe import, allergen tracking, and one-tap compliance reports. <a href="/">Try Blueroll free →</a></p>
+  <p>Digital HACCP checklists, AI recipe import, allergen tracking, and one-tap compliance reports. Works for restaurants in the US and UK. <a href="/">Try Blueroll free →</a></p>
 
   <h3>About Blueroll</h3>
-  <p>Blueroll is a food safety management app for UK restaurants offering digital HACCP checklists, AI recipe import, allergen tracking, and compliance reports at £14.99/month. Start your 14-day free trial at <a href="/">blueroll.app</a>.</p>
+  <p>Blueroll is a food safety management app for restaurants offering digital HACCP checklists, AI recipe import, allergen tracking, and compliance reports at $14.99/month. Start your 14-day free trial at <a href="/">blueroll.app</a>.</p>
 </section>
 
 <footer class="site-footer">
@@ -376,39 +385,145 @@ nav {
 </footer>
 
 <script>
-const API = 'https://api.ratings.food.gov.uk';
-const HDR = { 'x-api-version': '2', 'Accept': 'application/json' };
-let selectedBiz = null, currentStyle = 'card';
+const FSA_API = 'https://api.ratings.food.gov.uk';
+const FSA_HDR = { 'x-api-version': '2', 'Accept': 'application/json' };
+const NYC_API = 'https://data.cityofnewyork.us/resource/43nn-pn8j.json';
+const LA_API = 'https://data.lacity.org/resource/ckya-qgbj.json';
+const CHI_API = 'https://data.cityofchicago.org/resource/4ijn-s7e5.json';
+const SF_API = 'https://data.sfgov.org/resource/pyih-qa8i.json';
 
-// Deep navy + bright warm gold
+let selectedBiz = null, currentStyle = 'card', currentCountry = 'us';
+
 const T = { bg: '#0D1B2A', bg2: '#1B2D45', accent: '#E2B55A', text: '#F0ECE3' };
 
 document.getElementById('postcode').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
 
+function setCountry(c) {
+  currentCountry = c;
+  const usTab = document.getElementById('tabUS');
+  const ukTab = document.getElementById('tabUK');
+  const label = document.getElementById('searchLabel');
+  const input = document.getElementById('postcode');
+  const note = document.getElementById('cityNote');
+  if (c === 'us') {
+    usTab.style.cssText = 'padding:8px 24px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s;background:white;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,0.08);';
+    ukTab.style.cssText = 'padding:8px 24px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s;background:transparent;color:var(--light);';
+    label.textContent = 'Search by restaurant name or zip code';
+    input.placeholder = "e.g. Sai's Cafe or 10001";
+    note.style.display = '';
+  } else {
+    ukTab.style.cssText = 'padding:8px 24px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s;background:white;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,0.08);';
+    usTab.style.cssText = 'padding:8px 24px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s;background:transparent;color:var(--light);';
+    label.textContent = 'Find your business by postcode';
+    input.placeholder = 'e.g. SW1A 1AA';
+    note.style.display = 'none';
+  }
+  input.value = '';
+  document.getElementById('results').innerHTML = '';
+}
+
 async function doSearch() {
-  const pc = document.getElementById('postcode').value.trim();
-  if (!pc) return;
+  const q = document.getElementById('postcode').value.trim();
+  if (!q) return;
   document.getElementById('searchBtn').disabled = true;
   document.getElementById('searchBtn').textContent = 'Searching...';
   document.getElementById('results').innerHTML = '';
   try {
-    const resp = await fetch(`${API}/Establishments?address=${encodeURIComponent(pc)}&pageSize=50`, { headers: HDR });
-    const data = await resp.json();
-    const list = (data.establishments || []).filter(e => e.RatingValue && !isNaN(parseInt(e.RatingValue)));
-    renderResults(list);
-  } catch { document.getElementById('results').innerHTML = '<p style="padding:12px;color:#999;font-size:13px;">Search failed. Try again.</p>'; }
+    if (currentCountry === 'uk') {
+      await searchUK(q);
+    } else {
+      await searchUS(q);
+    }
+  } catch(e) {
+    document.getElementById('results').innerHTML = '<p style="padding:12px;color:#999;font-size:13px;">Search failed. Try again.</p>';
+  }
   document.getElementById('searchBtn').disabled = false;
   document.getElementById('searchBtn').textContent = 'Search';
 }
 
+async function searchUK(pc) {
+  const resp = await fetch(`${FSA_API}/Establishments?address=${encodeURIComponent(pc)}&pageSize=50`, { headers: FSA_HDR });
+  const data = await resp.json();
+  const list = (data.establishments || []).filter(e => e.RatingValue && !isNaN(parseInt(e.RatingValue)));
+  const normalized = list.map(e => ({
+    name: e.BusinessName,
+    address: [e.AddressLine1, e.AddressLine2, e.PostCode].filter(s => s && s !== e.BusinessName).join(', '),
+    rating: parseInt(e.RatingValue) || 0,
+    ratingType: 'numeric', // 0-5
+    grade: String(parseInt(e.RatingValue) || 0),
+    source: 'FSA',
+    scores: e.scores || {},
+    fhrsId: e.FHRSID,
+    _raw: e
+  }));
+  renderResults(normalized);
+}
+
+async function searchUS(q) {
+  // Search all US city APIs in parallel
+  const isZip = /^\d{5}$/.test(q);
+  const results = [];
+
+  const queries = [
+    // NYC
+    fetch(`${NYC_API}?$where=${isZip ? `zipcode='${q}'` : `upper(dba) like '%25${q.toUpperCase().replace(/'/g,"''")}%25'`}&$limit=20&$group=camis,dba,boro,building,street,zipcode,phone,cuisine_description&$select=camis,dba,boro,building,street,zipcode,phone,cuisine_description,max(grade) as grade,max(score) as score,max(inspection_date) as inspection_date`)
+      .then(r => r.json()).then(data => data.filter(d => d.grade).map(d => ({
+        name: titleCase(d.dba),
+        address: [d.building, d.street, d.boro, d.zipcode].filter(Boolean).join(', '),
+        rating: gradeToNum(d.grade),
+        ratingType: 'letter',
+        grade: d.grade,
+        score: d.score,
+        source: 'NYC Health',
+        city: 'NYC'
+      }))).catch(() => []),
+    // Chicago
+    fetch(`${CHI_API}?$where=${isZip ? `zip='${q}'` : `upper(dba_name) like '%25${q.toUpperCase().replace(/'/g,"''")}%25'`}&$limit=20&$order=inspection_date DESC`)
+      .then(r => r.json()).then(data => {
+        const seen = new Set();
+        return data.filter(d => { if (seen.has(d.dba_name)) return false; seen.add(d.dba_name); return true; }).map(d => ({
+          name: titleCase(d.dba_name || d.aka_name || ''),
+          address: [d.address, d.city, d.zip].filter(Boolean).join(', '),
+          rating: d.results === 'Pass' ? 5 : d.results === 'Pass w/ Conditions' ? 3 : 1,
+          ratingType: 'passfail',
+          grade: d.results || '?',
+          source: 'Chicago CDPH',
+          city: 'Chicago'
+        }));
+      }).catch(() => []),
+    // SF
+    fetch(`${SF_API}?$where=${isZip ? `business_postal_code='${q}'` : `upper(business_name) like '%25${q.toUpperCase().replace(/'/g,"''")}%25'`}&$limit=20&$order=inspection_date DESC`)
+      .then(r => r.json()).then(data => {
+        const seen = new Set();
+        return data.filter(d => { if (seen.has(d.business_name)) return false; seen.add(d.business_name); return d.inspection_score; }).map(d => ({
+          name: titleCase(d.business_name || ''),
+          address: [d.business_address, d.business_city, d.business_postal_code].filter(Boolean).join(', '),
+          rating: scoreToGrade(parseInt(d.inspection_score)),
+          ratingType: 'score100',
+          grade: d.inspection_score,
+          source: 'SF DPH',
+          city: 'San Francisco'
+        }));
+      }).catch(() => [])
+  ];
+
+  const allResults = await Promise.all(queries);
+  const merged = allResults.flat();
+  renderResults(merged);
+}
+
+function gradeToNum(g) { return g === 'A' ? 5 : g === 'B' ? 3 : g === 'C' ? 1 : 0; }
+function scoreToGrade(s) { return s >= 90 ? 5 : s >= 80 ? 4 : s >= 70 ? 3 : 2; }
+function titleCase(s) { return s.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()); }
+
 function renderResults(list) {
   const c = document.getElementById('results');
-  if (!list.length) { c.innerHTML = '<p style="padding:12px;color:#999;font-size:13px;">No businesses found.</p>'; return; }
+  if (!list.length) { c.innerHTML = '<p style="padding:12px;color:#999;font-size:13px;">No businesses found. Try a different name or zip code.</p>'; return; }
   c.innerHTML = list.map((e, i) => {
-    const r = parseInt(e.RatingValue) || 0;
-    const addrParts = [e.AddressLine1, e.AddressLine2, e.PostCode].filter(s => s && s !== e.BusinessName);
-    const addr = addrParts.join(', ');
-    return `<div class="result-item" onclick="pick(${i})"><div class="result-rating r${r}">${r}</div><div class="result-info"><div class="result-name">${e.BusinessName}</div><div class="result-addr">${addr}</div></div><div class="result-arrow">›</div></div>`;
+    const r = Math.min(Math.max(e.rating, 0), 5);
+    const badge = e.ratingType === 'letter' ? e.grade : e.ratingType === 'passfail' ? e.grade : e.ratingType === 'score100' ? e.grade : r;
+    const src = e.source ? `<span style="font-size:10px;color:#999;margin-left:4px;">${e.source}</span>` : '';
+    return `<div class="result-item" onclick="pick(${i})"><div class="result-rating r${r}">${badge}</div><div class="result-info"><div class="result-name">${e.name}${src}</div><div class="result-addr">${e.address}</div></div><div class="result-arrow">›</div></div>`;
   }).join('');
   window._r = list;
 }
@@ -419,6 +534,8 @@ function pick(i) {
   document.getElementById('widgetSection').scrollIntoView({ behavior: 'smooth' });
   renderWidget();
   confetti();
+  // Track
+  if (typeof gtag === 'function') gtag('event', 'badge_pick', { country: currentCountry, source: selectedBiz.source });
 }
 
 function setStyle(s) {
@@ -430,10 +547,15 @@ function setStyle(s) {
 
 function renderWidget() {
   if (!selectedBiz) return;
-  const e = selectedBiz, r = parseInt(e.RatingValue) || 0;
-  const name = e.BusinessName, addr = [e.AddressLine1, e.PostCode].filter(Boolean).join(', ');
+  const e = selectedBiz, r = Math.min(Math.max(e.rating, 0), 5);
+  const name = e.name, addr = e.address;
+  const displayGrade = e.ratingType === 'letter' ? e.grade : e.ratingType === 'score100' ? e.grade : r;
+  const ratingLabel = currentCountry === 'uk' ? 'Food Hygiene Rating' : e.source === 'NYC Health' ? 'NYC Health Grade' : e.source === 'Chicago CDPH' ? 'Chicago Inspection' : e.source === 'SF DPH' ? 'SF Health Score' : 'Health Inspection';
+  // Link to blueroll
   const scores = e.scores || {};
-  const link = `https://blueroll.app/r.html?name=${encodeURIComponent(name)}&rating=${r}&addr=${encodeURIComponent(addr)}&fhrsid=${e.FHRSID||''}&h=${scores.Hygiene||''}&s=${scores.Structural||''}&m=${scores.ConfidenceInManagement||''}`;
+  const link = currentCountry === 'uk'
+    ? `https://blueroll.app/r.html?name=${encodeURIComponent(name)}&rating=${r}&addr=${encodeURIComponent(addr)}&fhrsid=${e.fhrsId||''}&h=${scores.Hygiene||''}&s=${scores.Structural||''}&m=${scores.ConfidenceInManagement||''}`
+    : `https://blueroll.app/free-food-hygiene-rating-badge.html`;
   const a = T.accent;
   const starSvg = (filled, sz) => filled
     ? `<svg width="${sz}" height="${sz}" viewBox="0 0 16 16" fill="${a}"><path d="M8 0l2.47 4.94L16 5.76l-4 3.84.94 5.4L8 12.46 3.06 15l.94-5.4-4-3.84 5.53-.82z"/></svg>`
@@ -447,23 +569,23 @@ function renderWidget() {
   let html = '', code = '';
   if (currentStyle === 'badge') {
     html = `<a href="${link}" target="_blank" style="display:inline-flex;align-items:center;gap:18px;padding:20px 28px 20px 20px;border-radius:18px;${bg};${border};box-shadow:0 8px 32px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.04);text-decoration:none;font-family:-apple-system,system-ui,sans-serif">
-      <div style="width:58px;height:58px;border-radius:15px;${accentBg};display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:${T.bg};box-shadow:0 4px 12px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.2)">${r}</div>
+      <div style="width:58px;height:58px;border-radius:15px;${accentBg};display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:${T.bg};box-shadow:0 4px 12px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.2)">${displayGrade}</div>
       <div style="text-align:left">
-        <div style="font-size:10px;color:${a};font-weight:600;text-transform:uppercase;letter-spacing:.12em;margin-bottom:3px">Food Hygiene Rating</div>
+        <div style="font-size:10px;color:${a};font-weight:600;text-transform:uppercase;letter-spacing:.12em;margin-bottom:3px">${ratingLabel}</div>
         <div style="display:flex;gap:2px;margin-bottom:5px">${stars(r,'12')}</div>
         <div style="font-size:16px;font-weight:700;color:${T.text};letter-spacing:-.3px">${name}</div>
         <div style="font-size:9px;color:${a};opacity:0.5;margin-top:4px;letter-spacing:.05em">Powered by Blueroll</div>
       </div></a>`;
-    code = `<!-- Food Hygiene Rating Badge — blueroll.app -->\n` + html.replace(/\n\s*/g, '');
+    code = `<!-- ${ratingLabel} Badge — blueroll.app -->\n` + html.replace(/\n\s*/g, '');
   } else {
     html = `<a href="${link}" target="_blank" style="display:inline-block;width:240px;padding:32px 28px;border-radius:22px;${bg};${border};box-shadow:0 12px 40px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.04);text-decoration:none;font-family:-apple-system,system-ui,sans-serif;text-align:center">
-      <div style="width:80px;height:80px;border-radius:20px;${accentBg};display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:800;color:${T.bg};margin:0 auto 14px;box-shadow:0 4px 16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.2)">${r}</div>
+      <div style="width:80px;height:80px;border-radius:20px;${accentBg};display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:800;color:${T.bg};margin:0 auto 14px;box-shadow:0 4px 16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.2)">${displayGrade}</div>
       <div style="display:flex;justify-content:center;gap:3px;margin-bottom:12px">${stars(r,'15')}</div>
-      <div style="font-size:9px;color:${a};font-weight:600;text-transform:uppercase;letter-spacing:.12em">Food Hygiene Rating</div>
+      <div style="font-size:9px;color:${a};font-weight:600;text-transform:uppercase;letter-spacing:.12em">${ratingLabel}</div>
       <div style="font-size:16px;font-weight:700;color:${T.text};margin:8px 0 4px;letter-spacing:-.2px">${name}</div>
       <div style="font-size:11px;color:rgba(255,255,255,0.45);line-height:1.3">${addr}</div>
       <div style="font-size:9px;color:${a};opacity:0.5;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.08);letter-spacing:.05em">Powered by Blueroll</div></a>`;
-    code = `<!-- Rating Card — blueroll.app -->\n` + html.replace(/\n\s*/g, '');
+    code = `<!-- ${ratingLabel} Card — blueroll.app -->\n` + html.replace(/\n\s*/g, '');
   }
   document.getElementById('previewArea').innerHTML = html;
   document.getElementById('codeOutput').textContent = code;
