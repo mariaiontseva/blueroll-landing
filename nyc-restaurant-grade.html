@@ -416,11 +416,15 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 48px;
       </div>
       <div class="footer-col">
         <h4>Free Tools</h4>
-        <a href="free-food-hygiene-rating-badge.html">Rating Badge Widget</a>
+        <a href="free-food-hygiene-rating-badge.html">Hygiene Rating Badge</a>
+        <a href="check-food-hygiene-rating.html">Ratings Near You</a>
+        <a href="food-hygiene-ratings-explained.html">Ratings Explained</a>
+        <a href="how-to-improve-food-hygiene-rating.html">How to Improve</a>
         <a href="free-haccp-template.html">HACCP Template</a>
+        <a href="sfbb-guide.html">SFBB Guide</a>
+        <a href="eho-inspection-checklist.html">EHO Checklist</a>
+        <a href="14-allergens-uk.html">14 Allergens Guide</a>
         <a href="nyc-restaurant-grade.html">NYC Grade Guide</a>
-        <a href="how-to-improve-food-hygiene-rating.html">UK: How to Improve</a>
-        <a href="food-hygiene-ratings-explained.html">UK: Ratings Explained</a>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
@@ -441,6 +445,16 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 48px;
   </div>
 </footer>
 
+<style>
+@keyframes confetti-pop { 0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; } 100% { transform: translateY(-120px) rotate(720deg) scale(0); opacity: 0; } }
+@keyframes shake { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-4px); } 40%,80% { transform: translateX(4px); } }
+@keyframes pulse-green { 0%,100% { box-shadow: 0 0 0 0 rgba(4,120,87,0.3); } 50% { box-shadow: 0 0 0 12px rgba(4,120,87,0); } }
+.cr-item { cursor: pointer; transition: background 0.12s; position: relative; overflow: hidden; }
+.cr-item:hover { background: #F0FAF5; }
+.confetti-piece { position: absolute; width: 8px; height: 8px; border-radius: 2px; animation: confetti-pop 1s ease-out forwards; pointer-events: none; }
+.cr-item.revealed .cr-grade { animation: pulse-green 0.6s ease; }
+.cr-item.bad-grade { animation: shake 0.4s ease; }
+</style>
 <script>
 const NYC_API = 'https://data.cityofnewyork.us/resource/43nn-pn8j.json';
 let debounce = null;
@@ -465,26 +479,34 @@ async function search(q) {
   try {
     const isZip = /^\d{5}$/.test(q);
     const where = isZip ? `zipcode='${q}'` : `upper(dba) like '%25${q.toUpperCase().replace(/'/g,"''")}%25'`;
-    const url = `${NYC_API}?$select=camis,dba,boro,building,street,zipcode,phone,cuisine_description,max(grade) as grade,max(score) as score,max(inspection_date) as inspection_date&$where=${where}&$group=camis,dba,boro,building,street,zipcode,phone,cuisine_description&$limit=15&$order=max(inspection_date) DESC`;
+    // Get all rows with grades, sorted by inspection date desc — we'll dedupe client-side
+    const url = `${NYC_API}?$where=${where} AND grade in('A','B','C')&$order=inspection_date DESC&$limit=200&$select=camis,dba,boro,building,street,zipcode,phone,cuisine_description,grade,score,inspection_date`;
 
     const resp = await fetch(url);
     const data = await resp.json();
-    const filtered = data.filter(d => d.grade && ['A','B','C'].includes(d.grade));
+
+    // Dedupe: keep only the most recent graded inspection per restaurant (camis)
+    const seen = new Map();
+    for (const d of data) {
+      if (!seen.has(d.camis)) seen.set(d.camis, d);
+    }
+    const filtered = [...seen.values()].slice(0, 15);
 
     if (!filtered.length) {
       r.innerHTML = '<div style="padding:16px;color:#999;font-size:13px;">No restaurants found. Try a different name or zip code.</div>';
       return;
     }
 
-    r.innerHTML = filtered.map(d => {
+    r.innerHTML = filtered.map((d, i) => {
       const name = titleCase(d.dba);
       const addr = [d.building, d.street, d.boro].filter(Boolean).join(', ');
       const score = d.score || '—';
-      return `<div class="cr-item">
+      const date = d.inspection_date ? new Date(d.inspection_date).toLocaleDateString('en-US', {month:'short', year:'numeric'}) : '';
+      return `<div class="cr-item" onclick="showReaction(this, '${d.grade}')" data-grade="${d.grade}">
         <div class="cr-grade ${d.grade}">${d.grade}</div>
         <div class="cr-info">
           <div class="cr-name">${name}</div>
-          <div class="cr-detail">${addr} · ${d.cuisine_description || ''}</div>
+          <div class="cr-detail">${addr} · ${d.cuisine_description || ''}${date ? ' · ' + date : ''}</div>
         </div>
         <div class="cr-score">
           <div class="cr-score-num">${score}</div>
@@ -494,6 +516,42 @@ async function search(q) {
     }).join('');
   } catch {
     r.innerHTML = '<div style="padding:16px;color:#999;font-size:13px;">Search failed. Try again.</div>';
+  }
+}
+
+function showReaction(el, grade) {
+  // Remove previous reactions
+  el.querySelectorAll('.confetti-piece,.reaction-emoji').forEach(e => e.remove());
+
+  if (grade === 'A') {
+    // Confetti burst
+    el.classList.add('revealed');
+    const colors = ['#047857','#10B981','#34D399','#FCD34D','#FB923C','#F472B6','#818CF8'];
+    for (let i = 0; i < 16; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti-piece';
+      c.style.cssText = `left:${30+Math.random()*40}%;top:50%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-delay:${Math.random()*0.2}s;animation-duration:${0.6+Math.random()*0.5}s;`;
+      el.appendChild(c);
+      setTimeout(() => c.remove(), 1500);
+    }
+  } else if (grade === 'B') {
+    // Warning shake + emoji
+    el.classList.add('bad-grade');
+    const emoji = document.createElement('div');
+    emoji.className = 'reaction-emoji';
+    emoji.style.cssText = 'position:absolute;right:100px;top:50%;transform:translateY(-50%);font-size:24px;animation:confetti-pop 1.2s ease-out forwards;pointer-events:none;';
+    emoji.textContent = '😬';
+    el.appendChild(emoji);
+    setTimeout(() => { el.classList.remove('bad-grade'); emoji.remove(); }, 1200);
+  } else if (grade === 'C') {
+    // Bigger shake + skull emoji
+    el.classList.add('bad-grade');
+    const emoji = document.createElement('div');
+    emoji.className = 'reaction-emoji';
+    emoji.style.cssText = 'position:absolute;right:100px;top:50%;transform:translateY(-50%);font-size:28px;animation:confetti-pop 1.2s ease-out forwards;pointer-events:none;';
+    emoji.textContent = '💀';
+    el.appendChild(emoji);
+    setTimeout(() => { el.classList.remove('bad-grade'); emoji.remove(); }, 1200);
   }
 }
 
