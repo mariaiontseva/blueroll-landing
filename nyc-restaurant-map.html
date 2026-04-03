@@ -211,13 +211,25 @@ const CanvasOverlay = L.Layer.extend({
     this._canvas = canvas;
     this._ctx = canvas.getContext('2d');
     map.getPanes().overlayPane.appendChild(canvas);
+    this._throttledRedraw = () => {
+      if (this._rafId) return;
+      this._rafId = requestAnimationFrame(() => { this._rafId = null; this._redraw(); });
+    };
     map.on('moveend zoomend resize', this._redraw, this);
-    canvas.addEventListener('click', (e) => this._onClick(e));
+    map.on('move zoom', this._throttledRedraw, this);
+    canvas.addEventListener('click', (e) => this._onTap(e));
+    canvas.addEventListener('touchend', (e) => {
+      if (e.changedTouches.length === 1) {
+        const t = e.changedTouches[0];
+        this._onTap({ clientX: t.clientX, clientY: t.clientY });
+      }
+    });
     this._redraw();
   },
   onRemove(map) {
     L.DomUtil.remove(this._canvas);
     map.off('moveend zoomend resize', this._redraw, this);
+    map.off('move zoom', this._throttledRedraw, this);
   },
   _redraw() {
     const map = this._map;
@@ -275,13 +287,14 @@ const CanvasOverlay = L.Layer.extend({
       }
     }
   },
-  _onClick(e) {
+  _onTap(e) {
     const map = this._map;
     const rect = this._canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     const zoom = map.getZoom();
-    const hitR = Math.max(zoom >= 15 ? 8 : 6, 6);
+    // Bigger hit area on mobile
+    const hitR = 'ontouchstart' in window ? 18 : (zoom >= 15 ? 10 : 8);
 
     // Find closest point (B/C priority)
     let best = null, bestDist = Infinity;
