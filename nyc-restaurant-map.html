@@ -192,26 +192,14 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
 
 const gradeColors = { A: '#047857', B: '#F59E0B', C: '#EF4444' };
 const gradeVisible = { A: true, B: true, C: true };
-let allMarkers = [];
-let markerLayer = L.layerGroup().addTo(map);
-
-function createMarkerIcon(grade) {
-  return L.divIcon({
-    className: '',
-    html: `<div class="grade-marker gm-${grade.toLowerCase()}">${grade}</div>`,
-    iconSize: [26, 26],
-    iconAnchor: [13, 13]
-  });
-}
+let allData = []; // raw restaurant objects
+let circleLayer = L.layerGroup().addTo(map);
+const canvasRenderer = L.canvas({ padding: 0.5 });
 
 function titleCase(s) { return s ? s.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()) : ''; }
 
 async function loadData() {
   const NYC_API = 'https://data.cityofnewyork.us/resource/43nn-pn8j.json';
-
-  // Load ALL graded restaurants across all boroughs
-  // NYC API limit is 50k rows — we need ~40-50k rows to cover ~25k unique restaurants
-  // Split into parallel requests by borough to stay under limits
   const fields = 'camis,dba,boro,building,street,zipcode,grade,score,latitude,longitude,cuisine_description,inspection_date';
   const base = `${NYC_API}?$where=grade in('A','B','C') AND latitude IS NOT NULL`;
   const chunks = await Promise.all([
@@ -222,77 +210,84 @@ async function loadData() {
     fetch(`${base} AND boro='Staten Island'&$select=${fields}&$order=inspection_date DESC&$limit=50000`).then(r => r.json()),
   ]);
 
-  const all = chunks.flat();
-
   // Dedupe by camis — keep most recent
   const seen = new Map();
-  for (const d of all) {
+  for (const d of chunks.flat()) {
     if (!seen.has(d.camis) && d.latitude && d.longitude) {
       seen.set(d.camis, d);
     }
   }
+  allData = [...seen.values()];
+  renderMarkers();
+  document.getElementById('loading').classList.add('hidden');
+}
 
-  const restaurants = [...seen.values()];
-
+function renderMarkers() {
+  circleLayer.clearLayers();
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
   let countA = 0, countB = 0, countC = 0;
+  const zoom = map.getZoom();
+  const radius = zoom >= 16 ? 8 : zoom >= 14 ? 5 : zoom >= 12 ? 3 : 2;
 
-  for (const r of restaurants) {
+  for (const r of allData) {
+    const grade = r.grade;
+    if (!gradeVisible[grade]) continue;
+
+    if (q) {
+      const name = (r.dba || '').toLowerCase();
+      const zip = r.zipcode || '';
+      if (!name.includes(q) && !zip.startsWith(q)) continue;
+    }
+
     const lat = parseFloat(r.latitude);
     const lng = parseFloat(r.longitude);
-    if (isNaN(lat) || isNaN(lng)) continue;
 
-    const grade = r.grade;
     if (grade === 'A') countA++;
     else if (grade === 'B') countB++;
     else if (grade === 'C') countC++;
 
+    const circle = L.circleMarker([lat, lng], {
+      renderer: canvasRenderer,
+      radius: radius,
+      fillColor: gradeColors[grade],
+      fillOpacity: grade === 'A' ? 0.6 : 0.85,
+      color: '#fff',
+      weight: zoom >= 15 ? 1.5 : 0.5,
+      // B and C on top
+      pane: grade === 'A' ? 'markerPane' : 'tooltipPane'
+    });
+
     const name = titleCase(r.dba);
     const addr = [r.building, r.street, r.boro].filter(Boolean).join(', ');
-    const gradeClass = grade === 'A' ? '#047857' : grade === 'B' ? '#F59E0B' : '#EF4444';
-
-    const marker = L.marker([lat, lng], { icon: createMarkerIcon(grade) });
-    marker._grade = grade;
-    marker._name = name.toLowerCase();
-    marker._zip = r.zipcode || '';
-
-    marker.bindPopup(`
-      <div class="popup-name"><span class="popup-grade" style="background:${gradeClass}">${grade}</span>${name}</div>
+    circle.bindPopup(`
+      <div class="popup-name"><span class="popup-grade" style="background:${gradeColors[grade]}">${grade}</span>${name}</div>
       <div class="popup-addr">${addr}</div>
       <div class="popup-score">${r.score ? r.score + ' points' : ''} · ${r.cuisine_description || ''}</div>
       <a class="popup-cta" href="nyc-restaurant-grade.html">How to improve your grade →</a>
     `, { maxWidth: 280 });
 
-    allMarkers.push(marker);
-    markerLayer.addLayer(marker);
+    circleLayer.addLayer(circle);
   }
 
   document.getElementById('countA').textContent = countA.toLocaleString();
   document.getElementById('countB').textContent = countB.toLocaleString();
   document.getElementById('countC').textContent = countC.toLocaleString();
-  document.getElementById('loading').classList.add('hidden');
 }
+
+// Re-render on zoom to adjust dot size
+map.on('zoomend', renderMarkers);
 
 function toggleGrade(grade, btn) {
   gradeVisible[grade] = !gradeVisible[grade];
   btn.classList.toggle('off');
-  refreshMarkers();
-}
-
-function refreshMarkers() {
-  const q = document.getElementById('searchInput').value.trim().toLowerCase();
-  markerLayer.clearLayers();
-  for (const m of allMarkers) {
-    if (!gradeVisible[m._grade]) continue;
-    if (q && !m._name.includes(q) && !m._zip.startsWith(q)) continue;
-    markerLayer.addLayer(m);
-  }
+  renderMarkers();
 }
 
 // Search
 let debounce = null;
 document.getElementById('searchInput').addEventListener('input', () => {
   clearTimeout(debounce);
-  debounce = setTimeout(refreshMarkers, 300);
+  debounce = setTimeout(renderMarkers, 300);
 });
 
 loadData();
