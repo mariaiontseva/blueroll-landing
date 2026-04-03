@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NYC Restaurant Health Inspection Map — Live Grades | Blueroll</title>
+<meta name="description" content="Interactive map of NYC restaurant health inspection grades. See which restaurants near you have A, B, or C grades. Live data from NYC Open Data.">
+<meta name="keywords" content="NYC restaurant map, restaurant health grades map, NYC health inspection map, restaurant grades near me, food safety map New York">
+<link rel="canonical" href="https://blueroll.app/nyc-restaurant-map.html">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://blueroll.app/nyc-restaurant-map.html">
+<meta property="og:title" content="NYC Restaurant Health Inspection Map — Live Grades">
+<meta property="og:description" content="Interactive map of every NYC restaurant with their health inspection grade. Live data.">
+<meta property="og:image" content="https://blueroll.app/og-image.png">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZFY0GPZYYQ');</script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --green: #047857; --green-dark: #065F46; --green-deep: #022c22;
+  --bg: #FAFAF7; --ink: #111; --mid: #555; --light: #999; --border: #E8E5DF;
+}
+body { font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+/* Nav */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; background: rgba(250,250,247,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,0.06); }
+.nav-left { display: flex; align-items: center; gap: 6px; text-decoration: none; color: inherit; }
+.nav-left img { width: 22px; height: auto; }
+.nav-left span { font-size: 17px; font-weight: 800; letter-spacing: -0.5px; }
+.nav-right { display: flex; gap: 16px; align-items: center; }
+.nav-right a { text-decoration: none; color: var(--mid); font-size: 13px; font-weight: 600; }
+.nav-btn { background: var(--green) !important; color: white !important; padding: 8px 18px !important; border-radius: 8px !important; font-weight: 700 !important; }
+
+/* Map container */
+#map { position: fixed; top: 56px; left: 0; right: 0; bottom: 0; z-index: 1; }
+
+/* Controls overlay */
+.controls {
+  position: fixed; top: 68px; left: 12px; z-index: 900;
+  display: flex; flex-direction: column; gap: 8px;
+}
+
+.search-box {
+  background: white; border-radius: 12px; padding: 10px 14px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12); width: 320px;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.search-box input {
+  width: 100%; border: none; outline: none; font-size: 15px;
+  font-family: inherit; color: var(--ink); background: transparent;
+}
+.search-box input::placeholder { color: var(--light); }
+
+.filter-pills {
+  display: flex; gap: 6px;
+}
+.pill {
+  padding: 8px 16px; border-radius: 20px; border: none;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  font-family: inherit; transition: all 0.15s;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.pill-a { background: #047857; color: white; }
+.pill-b { background: #F59E0B; color: white; }
+.pill-c { background: #EF4444; color: white; }
+.pill.off { opacity: 0.35; }
+
+/* Stats bar */
+.stats-bar {
+  position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
+  z-index: 900; background: white; border-radius: 14px;
+  padding: 10px 24px; display: flex; gap: 24px; align-items: center;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12); border: 1px solid rgba(0,0,0,0.06);
+  font-size: 13px;
+}
+.stats-bar .stat { display: flex; align-items: center; gap: 6px; }
+.stats-bar .stat-dot { width: 10px; height: 10px; border-radius: 50%; }
+.stats-bar .stat-num { font-weight: 800; font-size: 15px; }
+.stats-bar .stat-label { color: var(--light); }
+
+.stats-bar .blueroll-link {
+  font-size: 11px; font-weight: 700; color: var(--green);
+  text-decoration: none; border-left: 1px solid var(--border);
+  padding-left: 16px; margin-left: 8px;
+}
+
+/* Loading */
+.loading-overlay {
+  position: fixed; top: 56px; left: 0; right: 0; bottom: 0;
+  z-index: 500; background: rgba(250,250,247,0.9);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 12px;
+}
+.loading-overlay .spinner {
+  width: 32px; height: 32px; border: 3px solid var(--border);
+  border-top-color: var(--green); border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-overlay p { color: var(--light); font-size: 14px; }
+.loading-overlay.hidden { display: none; }
+
+/* Custom marker */
+.grade-marker {
+  width: 26px; height: 26px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800; color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  border: 2px solid white;
+  transition: transform 0.1s;
+}
+.grade-marker:hover { transform: scale(1.3); z-index: 999 !important; }
+.gm-a { background: #047857; }
+.gm-b { background: #F59E0B; }
+.gm-c { background: #EF4444; }
+
+/* Popup */
+.leaflet-popup-content-wrapper { border-radius: 12px !important; box-shadow: 0 8px 30px rgba(0,0,0,0.15) !important; }
+.leaflet-popup-content { margin: 14px 16px !important; font-family: -apple-system, system-ui, sans-serif !important; }
+.popup-grade { display: inline-block; padding: 2px 10px; border-radius: 6px; font-weight: 800; font-size: 14px; color: white; margin-right: 8px; }
+.popup-name { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+.popup-addr { font-size: 12px; color: #999; margin-bottom: 6px; }
+.popup-score { font-size: 12px; color: #555; }
+.popup-cta { display: inline-block; margin-top: 8px; font-size: 11px; font-weight: 700; color: #047857; text-decoration: none; }
+
+@media (max-width: 600px) {
+  .search-box { width: calc(100vw - 24px); }
+  .stats-bar { width: calc(100vw - 24px); gap: 12px; padding: 10px 16px; font-size: 12px; }
+  .stats-bar .blueroll-link { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-left">
+    <img src="blueroll-logo.svg" alt="Blueroll">
+    <span>Blueroll</span>
+  </a>
+  <div class="nav-right">
+    <a href="nyc-restaurant-grade.html">NYC Guide</a>
+    <a href="index.html" class="nav-btn">Try Blueroll</a>
+  </div>
+</nav>
+
+<div id="map"></div>
+
+<div class="controls">
+  <div class="search-box">
+    <input id="searchInput" placeholder="Search restaurant or zip code…">
+  </div>
+  <div class="filter-pills">
+    <button class="pill pill-a" onclick="toggleGrade('A',this)">A</button>
+    <button class="pill pill-b" onclick="toggleGrade('B',this)">B</button>
+    <button class="pill pill-c" onclick="toggleGrade('C',this)">C</button>
+  </div>
+</div>
+
+<div class="stats-bar" id="statsBar">
+  <div class="stat"><div class="stat-dot" style="background:#047857;"></div><span class="stat-num" id="countA">-</span><span class="stat-label">A</span></div>
+  <div class="stat"><div class="stat-dot" style="background:#F59E0B;"></div><span class="stat-num" id="countB">-</span><span class="stat-label">B</span></div>
+  <div class="stat"><div class="stat-dot" style="background:#EF4444;"></div><span class="stat-num" id="countC">-</span><span class="stat-label">C</span></div>
+  <a href="nyc-restaurant-grade.html" class="blueroll-link">How to get an A →</a>
+</div>
+
+<div class="loading-overlay" id="loading">
+  <div class="spinner"></div>
+  <p>Loading NYC restaurant data…</p>
+</div>
+
+<script>
+// Map setup — centered on Manhattan
+const map = L.map('map', {
+  center: [40.758, -73.985],
+  zoom: 14,
+  zoomControl: false
+});
+
+L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+  maxZoom: 19
+}).addTo(map);
+
+const gradeColors = { A: '#047857', B: '#F59E0B', C: '#EF4444' };
+const gradeVisible = { A: true, B: true, C: true };
+let allMarkers = [];
+let markerLayer = L.layerGroup().addTo(map);
+
+function createMarkerIcon(grade) {
+  return L.divIcon({
+    className: '',
+    html: `<div class="grade-marker gm-${grade.toLowerCase()}">${grade}</div>`,
+    iconSize: [26, 26],
+    iconAnchor: [13, 13]
+  });
+}
+
+function titleCase(s) { return s ? s.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()) : ''; }
+
+async function loadData() {
+  const NYC_API = 'https://data.cityofnewyork.us/resource/43nn-pn8j.json';
+
+  // Load B and C grades (fewer, load all) + sample of A grades
+  const [bcData, aData] = await Promise.all([
+    fetch(`${NYC_API}?$where=grade in('B','C') AND latitude IS NOT NULL&$select=camis,dba,boro,building,street,zipcode,grade,score,latitude,longitude,cuisine_description,inspection_date&$order=inspection_date DESC&$limit=5000`).then(r => r.json()),
+    fetch(`${NYC_API}?$where=grade='A' AND latitude IS NOT NULL AND boro='Manhattan'&$select=camis,dba,boro,building,street,zipcode,grade,score,latitude,longitude,cuisine_description,inspection_date&$order=inspection_date DESC&$limit=3000`).then(r => r.json())
+  ]);
+
+  const all = [...bcData, ...aData];
+
+  // Dedupe by camis — keep most recent
+  const seen = new Map();
+  for (const d of all) {
+    if (!seen.has(d.camis) && d.latitude && d.longitude) {
+      seen.set(d.camis, d);
+    }
+  }
+
+  const restaurants = [...seen.values()];
+
+  let countA = 0, countB = 0, countC = 0;
+
+  for (const r of restaurants) {
+    const lat = parseFloat(r.latitude);
+    const lng = parseFloat(r.longitude);
+    if (isNaN(lat) || isNaN(lng)) continue;
+
+    const grade = r.grade;
+    if (grade === 'A') countA++;
+    else if (grade === 'B') countB++;
+    else if (grade === 'C') countC++;
+
+    const name = titleCase(r.dba);
+    const addr = [r.building, r.street, r.boro].filter(Boolean).join(', ');
+    const gradeClass = grade === 'A' ? '#047857' : grade === 'B' ? '#F59E0B' : '#EF4444';
+
+    const marker = L.marker([lat, lng], { icon: createMarkerIcon(grade) });
+    marker._grade = grade;
+    marker._name = name.toLowerCase();
+    marker._zip = r.zipcode || '';
+
+    marker.bindPopup(`
+      <div class="popup-name"><span class="popup-grade" style="background:${gradeClass}">${grade}</span>${name}</div>
+      <div class="popup-addr">${addr}</div>
+      <div class="popup-score">${r.score ? r.score + ' points' : ''} · ${r.cuisine_description || ''}</div>
+      <a class="popup-cta" href="nyc-restaurant-grade.html">How to improve your grade →</a>
+    `, { maxWidth: 280 });
+
+    allMarkers.push(marker);
+    markerLayer.addLayer(marker);
+  }
+
+  document.getElementById('countA').textContent = countA.toLocaleString();
+  document.getElementById('countB').textContent = countB.toLocaleString();
+  document.getElementById('countC').textContent = countC.toLocaleString();
+  document.getElementById('loading').classList.add('hidden');
+}
+
+function toggleGrade(grade, btn) {
+  gradeVisible[grade] = !gradeVisible[grade];
+  btn.classList.toggle('off');
+  refreshMarkers();
+}
+
+function refreshMarkers() {
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  markerLayer.clearLayers();
+  for (const m of allMarkers) {
+    if (!gradeVisible[m._grade]) continue;
+    if (q && !m._name.includes(q) && !m._zip.startsWith(q)) continue;
+    markerLayer.addLayer(m);
+  }
+}
+
+// Search
+let debounce = null;
+document.getElementById('searchInput').addEventListener('input', () => {
+  clearTimeout(debounce);
+  debounce = setTimeout(refreshMarkers, 300);
+});
+
+loadData();
+</script>
+
+</body>
+</html>
