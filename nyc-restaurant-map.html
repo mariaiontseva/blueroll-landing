@@ -209,15 +209,20 @@ function titleCase(s) { return s ? s.toLowerCase().replace(/\b\w/g, c => c.toUpp
 async function loadData() {
   const NYC_API = 'https://data.cityofnewyork.us/resource/43nn-pn8j.json';
 
-  // Load all grades across all boroughs
+  // Load ALL graded restaurants across all boroughs
+  // NYC API limit is 50k rows — we need ~40-50k rows to cover ~25k unique restaurants
+  // Split into parallel requests by borough to stay under limits
   const fields = 'camis,dba,boro,building,street,zipcode,grade,score,latitude,longitude,cuisine_description,inspection_date';
-  const [bcData, aData1, aData2] = await Promise.all([
-    fetch(`${NYC_API}?$where=grade in('B','C') AND latitude IS NOT NULL&$select=${fields}&$order=inspection_date DESC&$limit=5000`).then(r => r.json()),
-    fetch(`${NYC_API}?$where=grade='A' AND latitude IS NOT NULL AND boro in('Manhattan','Brooklyn')&$select=${fields}&$order=inspection_date DESC&$limit=5000`).then(r => r.json()),
-    fetch(`${NYC_API}?$where=grade='A' AND latitude IS NOT NULL AND boro in('Queens','Bronx','Staten Island')&$select=${fields}&$order=inspection_date DESC&$limit=5000`).then(r => r.json())
+  const base = `${NYC_API}?$where=grade in('A','B','C') AND latitude IS NOT NULL`;
+  const chunks = await Promise.all([
+    fetch(`${base} AND boro='Manhattan'&$select=${fields}&$order=inspection_date DESC&$limit=50000`).then(r => r.json()),
+    fetch(`${base} AND boro='Brooklyn'&$select=${fields}&$order=inspection_date DESC&$limit=50000`).then(r => r.json()),
+    fetch(`${base} AND boro='Queens'&$select=${fields}&$order=inspection_date DESC&$limit=50000`).then(r => r.json()),
+    fetch(`${base} AND boro='Bronx'&$select=${fields}&$order=inspection_date DESC&$limit=50000`).then(r => r.json()),
+    fetch(`${base} AND boro='Staten Island'&$select=${fields}&$order=inspection_date DESC&$limit=50000`).then(r => r.json()),
   ]);
 
-  const all = [...bcData, ...aData1, ...aData2];
+  const all = chunks.flat();
 
   // Dedupe by camis — keep most recent
   const seen = new Map();
