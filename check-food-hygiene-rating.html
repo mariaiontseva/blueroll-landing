@@ -3,217 +3,85 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>London Food Hygiene Ratings Map — Live Ratings | Blueroll</title>
+<meta name="description" content="Interactive map of London restaurant food hygiene ratings. See which restaurants near you have a 5, 4, 3 or lower. Live data from the Food Standards Agency.">
+<meta name="keywords" content="food hygiene ratings near me, london food hygiene map, restaurant ratings london, check food hygiene rating, food hygiene rating map UK">
+<link rel="canonical" href="https://blueroll.app/check-food-hygiene-rating.html">
 <link rel="alternate" hreflang="en-gb" href="https://blueroll.app/check-food-hygiene-rating.html">
 <link rel="alternate" hreflang="en" href="https://blueroll.app/check-food-hygiene-rating.html">
-<title>London Food Hygiene Ratings — Check & Improve Your Rating | Blueroll</title>
-<meta name="description" content="Check food hygiene ratings for London restaurants on an interactive map. Complete guide to how ratings work, what EHO inspectors check, and how to get and keep a 5. Free postcode search included.">
-<meta name="keywords" content="london food hygiene rating, check food hygiene rating, food hygiene ratings near me, restaurant hygiene rating london, food hygiene rating 5, EHO inspection London, food hygiene certificate London">
-<link rel="canonical" href="https://blueroll.app/check-food-hygiene-rating.html">
-
 <link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 
-<meta property="og:type" content="article">
+<meta property="og:type" content="website">
 <meta property="og:url" content="https://blueroll.app/check-food-hygiene-rating.html">
-<meta property="og:title" content="London Food Hygiene Ratings — Check & Improve Your Rating">
-<meta property="og:description" content="Check food hygiene ratings for London restaurants. Complete guide to the 0-5 rating scale, EHO inspections, and how to get a 5.">
+<meta property="og:title" content="London Food Hygiene Ratings Map — Live Ratings">
+<meta property="og:description" content="Interactive map of every London restaurant with their food hygiene rating. Live FSA data.">
 <meta property="og:image" content="https://blueroll.app/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="London Food Hygiene Ratings — Check & Improve Your Rating">
-<meta name="twitter:description" content="Check food hygiene ratings for London restaurants. Guide to the 0-5 scale and how to get a 5.">
-<meta name="twitter:image" content="https://blueroll.app/og-image.png">
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZFY0GPZYYQ');</script>
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {"@type": "Question", "name": "How do food hygiene ratings work in London?", "acceptedAnswer": {"@type": "Answer", "text": "Every food business in London is inspected by Environmental Health Officers (EHOs) from the local borough council. Inspectors score three areas: food hygiene and safety (max 25 points), structural compliance (max 20 points), and confidence in management (max 30 points). The total determines your rating from 0 (urgent improvement necessary) to 5 (very good). Lower scores mean better hygiene — you need 0-15 total points for a rating of 5."}},
-    {"@type": "Question", "name": "How often are London restaurants inspected?", "acceptedAnswer": {"@type": "Answer", "text": "Inspection frequency depends on the type of business and its previous rating. High-risk businesses (restaurants, takeaways) are inspected every 6-12 months. Low-risk businesses may be inspected every 2-3 years. A business with a rating of 0 or 1 will be re-inspected within 6 months. All inspections are unannounced."}},
-    {"@type": "Question", "name": "Do London restaurants have to display their food hygiene rating?", "acceptedAnswer": {"@type": "Answer", "text": "In England, displaying the food hygiene rating sticker is voluntary, though the Food Standards Agency encourages it. However, in Wales and Northern Ireland, display is mandatory by law. Many delivery platforms including Just Eat and Deliveroo now show ratings online, so customers can check regardless of whether a sticker is displayed."}},
-    {"@type": "Question", "name": "Can I appeal my food hygiene rating?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. You have 21 days from receiving your rating to appeal to the local authority. You can also request a re-inspection if you have made improvements, though most councils ask you to wait at least 3 months. A re-inspection request may incur a fee (typically around £150-£200 depending on the borough)."}},
-    {"@type": "Question", "name": "What is the most common reason for a low food hygiene rating?", "acceptedAnswer": {"@type": "Answer", "text": "The most common reasons for low ratings in London are: inadequate temperature control (food not kept hot enough or cold enough), poor cleaning schedules and dirty equipment, lack of documented food safety management procedures (such as Safer Food Better Business), inadequate pest control, and staff not trained in food hygiene. Poor management confidence — meaning inspectors believe the business cannot maintain standards — is the single biggest factor in low ratings."}},
-    {"@type": "Question", "name": "What do I need to get a food hygiene rating of 5?", "acceptedAnswer": {"@type": "Answer", "text": "To achieve a 5, you need to score well in all three areas: hygiene (0-5 points), structure (0-5 points), and management confidence (0-5 points), totalling no more than 15 points. In practice, this means: consistent temperature monitoring with written records, a documented food safety system like SFBB, clean premises and equipment, trained staff, effective pest control, and evidence that you are proactively managing food safety rather than just reacting to problems."}}
-  ]
-}
-</script>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
   --green: #047857; --green-dark: #065F46; --green-deep: #022c22;
-  --bg: #FAFAF7; --card: #FFFFFF; --border: #E8E5DF;
-  --ink: #111; --mid: #555; --light: #999;
+  --bg: #FAFAF7; --ink: #111; --mid: #555; --light: #999; --border: #E8E5DF;
 }
-html { scroll-behavior: smooth; }
-body { font-family: 'Plus Jakarta Sans', -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
+body { font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
 
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 48px; height: 80px; display: flex; align-items: center; justify-content: space-between; background: rgba(250,250,247,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,0.06); }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; background: rgba(250,250,247,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,0.06); }
 .nav-left { display: flex; align-items: center; gap: 6px; text-decoration: none; color: inherit; }
-.nav-left img { width: 24px; height: auto; }
-.nav-left span { font-size: 20px; font-weight: 800; letter-spacing: -0.6px; }
-.nav-right { display: flex; gap: 32px; align-items: center; }
-.nav-right a { text-decoration: none; color: var(--mid); font-size: 15px; font-weight: 600; letter-spacing: -0.1px; transition: color 0.15s; }
-.nav-right a:hover { color: var(--ink); }
-.nav-btn { background: var(--green) !important; color: white !important; padding: 14px 32px !important; border-radius: 10px !important; font-weight: 700 !important; font-size: 16px !important; letter-spacing: -0.3px; transition: background 0.15s !important; }
-.nav-btn:hover { background: #036B4E !important; }
+.nav-left img { width: 22px; height: auto; }
+.nav-left span { font-size: 17px; font-weight: 800; letter-spacing: -0.5px; }
+.nav-right { display: flex; gap: 16px; align-items: center; }
+.nav-right a { text-decoration: none; color: var(--mid); font-size: 13px; font-weight: 600; }
+.nav-btn { background: var(--green) !important; color: white !important; padding: 8px 18px !important; border-radius: 8px !important; font-weight: 700 !important; }
 
-.hero { max-width: 720px; margin: 0 auto; padding: 140px 24px 56px; text-align: center; }
-.hero .label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--green); margin-bottom: 20px; }
-.hero h1 { font-size: 48px; font-weight: 800; letter-spacing: -2px; line-height: 1.08; margin-bottom: 20px; }
-.hero h1 em { color: var(--green); font-style: normal; }
-.hero p { font-size: 18px; color: var(--mid); line-height: 1.6; max-width: 540px; margin: 0 auto; }
+#map { position: fixed; top: 56px; left: 0; right: 0; bottom: 0; z-index: 1; }
 
-.search-bar { max-width: 480px; margin: 0 auto 48px; display: flex; gap: 0; border-radius: 12px; overflow: hidden; border: 2px solid var(--border); background: var(--card); transition: border-color 0.15s; }
-.search-bar:focus-within { border-color: var(--green); }
-.search-bar input { flex: 1; border: none; outline: none; padding: 16px 20px; font-family: inherit; font-size: 16px; font-weight: 600; background: transparent; color: var(--ink); }
-.search-bar input::placeholder { color: var(--light); font-weight: 500; }
-.search-bar button { padding: 16px 28px; border: none; cursor: pointer; background: var(--green); color: white; font-family: inherit; font-size: 15px; font-weight: 700; transition: background 0.15s; }
-.search-bar button:hover { background: var(--green-dark); }
+.controls { position: fixed; top: 68px; left: 12px; z-index: 900; display: flex; flex-direction: column; gap: 8px; }
+.search-box { background: white; border-radius: 12px; padding: 10px 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.12); width: 320px; border: 1px solid rgba(0,0,0,0.06); }
+.search-box input { width: 100%; border: none; outline: none; font-size: 15px; font-family: inherit; color: var(--ink); background: transparent; }
+.search-box input::placeholder { color: var(--light); }
 
-.map-container { max-width: 960px; margin: 0 auto; padding: 0 24px 16px; }
-#map { width: 100%; height: 640px; border-radius: 16px; border: 1px solid var(--border); overflow: hidden; }
-.map-info { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; font-size: 13px; color: var(--light); }
-#result-count { font-weight: 600; color: var(--mid); }
+.filter-pills { display: flex; gap: 4px; flex-wrap: wrap; }
+.pill { padding: 7px 12px; border-radius: 20px; border: none; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.15s; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+.pill.off { opacity: 0.35; }
 
-.legend { max-width: 960px; margin: 0 auto; padding: 0 24px 56px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-.legend-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--mid); font-weight: 500; }
-.legend-dot { width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: white; }
+.stats-bar {
+  position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
+  z-index: 900; background: white; border-radius: 14px;
+  padding: 10px 20px; display: flex; gap: 12px; align-items: center;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12); border: 1px solid rgba(0,0,0,0.06);
+  font-size: 12px; flex-wrap: wrap; justify-content: center;
+}
+.stats-bar .stat { display: flex; align-items: center; gap: 5px; }
+.stats-bar .stat-dot { width: 10px; height: 10px; border-radius: 50%; }
+.stats-bar .stat-num { font-weight: 800; font-size: 14px; }
+.stats-bar .stat-label { color: var(--light); font-size: 11px; }
+.stats-bar .blueroll-link { font-size: 11px; font-weight: 700; color: var(--green); text-decoration: none; border-left: 1px solid var(--border); padding-left: 12px; margin-left: 4px; }
 
-/* Rating cards */
-.rating-cards { max-width: 720px; margin: 0 auto; padding: 0 24px 56px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.rating-card { border-radius: 14px; padding: 28px 20px; text-align: center; border: 2px solid; }
-.rating-card-number { font-size: 48px; font-weight: 800; margin-bottom: 4px; }
-.rating-card-label { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
-.rating-card-desc { font-size: 12px; line-height: 1.5; }
-.rc-5 { border-color: #A7F3D0; background: #ECFDF5; }
-.rc-5 .rating-card-number { color: #047857; }
-.rc-5 .rating-card-label { color: #065F46; }
-.rc-5 .rating-card-desc { color: #047857; }
-.rc-4 { border-color: #BBF7D0; background: #F0FDF4; }
-.rc-4 .rating-card-number { color: #10B981; }
-.rc-4 .rating-card-label { color: #065F46; }
-.rc-4 .rating-card-desc { color: #047857; }
-.rc-3 { border-color: #FDE68A; background: #FFFBEB; }
-.rc-3 .rating-card-number { color: #D97706; }
-.rc-3 .rating-card-label { color: #92400E; }
-.rc-3 .rating-card-desc { color: #B45309; }
-.rc-2 { border-color: #FED7AA; background: #FFF7ED; }
-.rc-2 .rating-card-number { color: #F97316; }
-.rc-2 .rating-card-label { color: #9A3412; }
-.rc-2 .rating-card-desc { color: #C2410C; }
-.rc-1 { border-color: #FECACA; background: #FEF2F2; }
-.rc-1 .rating-card-number { color: #EF4444; }
-.rc-1 .rating-card-label { color: #991B1B; }
-.rc-1 .rating-card-desc { color: #B91C1C; }
-.rc-0 { border-color: #E2B4B4; background: #FBE9E9; }
-.rc-0 .rating-card-number { color: #7F1D1D; }
-.rc-0 .rating-card-label { color: #7F1D1D; }
-.rc-0 .rating-card-desc { color: #991B1B; }
+.loading-overlay { position: fixed; top: 56px; left: 0; right: 0; bottom: 0; z-index: 500; background: rgba(250,250,247,0.9); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; }
+.loading-overlay .spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-overlay p { color: var(--light); font-size: 14px; }
+.loading-overlay.hidden { display: none; }
 
-.stats-strip { max-width: 720px; margin: 0 auto; padding: 0 24px 56px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
-.stats-strip .ss { padding: 24px; text-align: center; }
-.ss-num { font-size: 32px; font-weight: 800; letter-spacing: -1.5px; color: var(--ink); margin-bottom: 4px; }
-.ss-text { font-size: 12px; color: var(--light); line-height: 1.4; }
-
-.content { max-width: 720px; margin: 0 auto; padding: 0 24px 56px; }
-.content-section { padding: 48px 0; border-top: 1px solid var(--border); }
-.content-section:first-child { border-top: none; padding-top: 0; }
-.content h2 { font-size: 28px; font-weight: 800; letter-spacing: -0.8px; margin-bottom: 20px; }
-.content h3 { font-size: 17px; font-weight: 700; margin: 24px 0 8px; }
-.content p { font-size: 15px; color: var(--mid); line-height: 1.75; margin-bottom: 12px; }
-.content a { color: var(--green); font-weight: 600; text-decoration: none; }
-.content a:hover { text-decoration: underline; }
-.content ul, .content ol { margin: 8px 0 16px 20px; }
-.content li { font-size: 15px; color: var(--mid); line-height: 1.75; margin-bottom: 4px; }
-
-.info-box { border-radius: 12px; padding: 24px 28px; margin: 24px 0; border: 2px solid; }
-.info-box p { margin-bottom: 0; font-size: 14px; line-height: 1.65; }
-.info-green { background: #DFF5EA; border-color: #4ABA7D; }
-.info-green p { color: #0A6640; }
-.info-green strong { color: #064E30; }
-.info-amber { background: #FDF3D7; border-color: #E2BA3E; }
-.info-amber p { color: #7A5A00; }
-.info-amber strong { color: #5C4300; }
-.info-red { background: #FCE8E8; border-color: #E87C7C; }
-.info-red p { color: #9B2222; }
-.info-red strong { color: #6B1111; }
-.info-blue { background: #E8EDFB; border-color: #93A8E0; }
-.info-blue p { color: #2E4A8A; }
-.info-blue strong { color: #1C2F5E; }
-
-.viol-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
-.viol-table th { text-align: left; padding: 10px 12px; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--light); border-bottom: 2px solid var(--border); }
-.viol-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--mid); font-size: 14px; }
-.viol-table tr:last-child td { border-bottom: none; }
-.viol-table .vt-pts { font-weight: 700; color: var(--ink); }
-
-.checklist { list-style: none; margin: 16px 0; padding: 0; }
-.checklist li { padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; color: var(--mid); display: flex; align-items: flex-start; gap: 10px; }
-.checklist li:last-child { border-bottom: none; }
-.checklist li::before { content: ''; width: 18px; height: 18px; border: 2px solid var(--border); border-radius: 4px; flex-shrink: 0; margin-top: 1px; }
-
-.cta-banner { max-width: 720px; margin: 0 auto; padding: 0 24px 64px; }
-.cta-inner { background: var(--green-deep); border-radius: 16px; padding: 48px; text-align: center; position: relative; overflow: hidden; }
-.cta-inner::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 400px 300px at 20% 50%, rgba(4,120,87,0.3), transparent); pointer-events: none; }
-.cta-inner h3 { color: white; font-size: 24px; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.5px; position: relative; }
-.cta-inner p { color: rgba(255,255,255,0.45); font-size: 15px; margin-bottom: 24px; line-height: 1.6; position: relative; }
-.cta-inner a { display: inline-block; padding: 14px 32px; background: white; color: var(--green-dark); border-radius: 10px; font-weight: 700; font-size: 15px; text-decoration: none; transition: opacity 0.15s; position: relative; }
-.cta-inner a:hover { opacity: 0.9; }
-
-.leaflet-popup-content-wrapper { border-radius: 12px !important; font-family: 'Plus Jakarta Sans', sans-serif !important; box-shadow: 0 8px 30px rgba(0,0,0,0.12) !important; padding: 0 !important; }
-.leaflet-popup-content { margin: 0 !important; padding: 16px 20px !important; min-width: 200px; }
-.leaflet-popup-tip { box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important; }
-.popup-name { font-size: 15px; font-weight: 700; color: #111; margin-bottom: 2px; }
-.popup-type { font-size: 12px; color: #999; margin-bottom: 8px; }
-.popup-rating { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 6px; }
-.popup-address { font-size: 12px; color: #999; margin-top: 8px; line-height: 1.4; }
-.popup-date { font-size: 11px; color: #bbb; margin-top: 4px; }
-
-.site-footer { background: var(--ink); color: rgba(255,255,255,0.5); padding: 64px 48px 40px; }
-.footer-inner { max-width: 900px; margin: 0 auto; }
-.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-.footer-brand img { width: 24px; height: auto; margin-bottom: 12px; }
-.footer-brand p { font-size: 13px; line-height: 1.6; color: rgba(255,255,255,0.35); max-width: 220px; }
-.footer-col h4 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.25); margin-bottom: 16px; }
-.footer-col a { display: block; font-size: 13px; color: rgba(255,255,255,0.5); text-decoration: none; padding: 5px 0; transition: color 0.15s; }
-.footer-col a:hover { color: white; }
-.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 24px; }
-.footer-bottom span { font-size: 12px; color: rgba(255,255,255,0.25); }
-.footer-social { display: flex; gap: 16px; }
-.footer-social a { color: rgba(255,255,255,0.3); transition: color 0.15s; text-decoration: none; }
-.footer-social a:hover { color: white; }
-.footer-social svg { width: 18px; height: 18px; }
+.leaflet-popup-content-wrapper { border-radius: 12px !important; box-shadow: 0 8px 30px rgba(0,0,0,0.15) !important; }
+.leaflet-popup-content { margin: 14px 16px !important; font-family: -apple-system, system-ui, sans-serif !important; }
+.popup-grade { display: inline-block; padding: 2px 10px; border-radius: 6px; font-weight: 800; font-size: 14px; color: white; margin-right: 8px; }
+.popup-name { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+.popup-addr { font-size: 12px; color: #999; margin-bottom: 6px; }
+.popup-score { font-size: 12px; color: #555; }
+.popup-cta { display: inline-block; margin-top: 8px; font-size: 11px; font-weight: 700; color: #047857; text-decoration: none; }
 
 @media (max-width: 600px) {
-  nav { padding: 0 20px; height: 68px; }
-  .nav-left img { width: 20px; }
-  .nav-left span { font-size: 17px; }
-  .nav-right a:not(.nav-btn) { display: none; }
-  .nav-btn { padding: 12px 24px !important; font-size: 15px !important; }
-  .hero { padding: 120px 16px 40px; }
-  .hero h1 { font-size: 32px; letter-spacing: -1.2px; }
-  .search-bar { margin: 0 16px 32px; }
-  .map-container { padding: 0 16px 12px; }
-  #map { height: 400px; border-radius: 12px; }
-  .legend { padding: 0 16px 40px; }
-  .rating-cards { grid-template-columns: 1fr 1fr; padding: 0 16px 40px; }
-  .stats-strip { grid-template-columns: 1fr; padding: 0 16px 40px; }
-  .content { padding: 0 16px 40px; }
-  .cta-banner { padding: 0 16px 48px; }
-  .cta-inner { padding: 32px 24px; }
-  .site-footer { padding: 48px 20px 32px; }
-  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
-  .footer-bottom { flex-direction: column; gap: 12px; }
+  .search-box { width: calc(100vw - 24px); }
+  .stats-bar { width: calc(100vw - 24px); gap: 8px; padding: 8px 12px; }
+  .stats-bar .blueroll-link { display: none; }
 }
 </style>
 </head>
@@ -225,438 +93,257 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 48px
     <span>Blueroll</span>
   </a>
   <div class="nav-right">
-    <a href="index.html#features">Features</a>
-    <a href="index.html#pricing">Pricing</a>
-    <a href="index.html" class="nav-btn">Get started</a>
+    <a href="how-to-improve-food-hygiene-rating.html">UK Guide</a>
+    <a href="index.html" class="nav-btn">Try Blueroll</a>
   </div>
 </nav>
 
-<section class="hero">
-  <div class="label">London Restaurants</div>
-  <h1>Check your <em>food hygiene rating</em></h1>
-  <p>Search any London postcode to see food hygiene ratings nearby. Everything restaurant owners need to know about EHO inspections and how to get a 5.</p>
-</section>
+<div id="map"></div>
 
-<div class="search-bar">
-  <input type="text" id="postcode-input" placeholder="Enter a London postcode" value="W1D 3SE">
-  <button id="search-btn">Search</button>
-</div>
-
-<div class="map-container">
-  <div id="map"></div>
-  <div class="map-info">
-    <span id="result-count">Loading...</span>
-    <span>Data from Food Standards Agency</span>
+<div class="controls">
+  <div class="search-box">
+    <input id="searchInput" placeholder="Search restaurant or postcode…">
+  </div>
+  <div class="filter-pills">
+    <button class="pill" style="background:#047857;color:white;" onclick="toggleRating(5,this)">5</button>
+    <button class="pill" style="background:#10B981;color:white;" onclick="toggleRating(4,this)">4</button>
+    <button class="pill" style="background:#F59E0B;color:white;" onclick="toggleRating(3,this)">3</button>
+    <button class="pill" style="background:#F97316;color:white;" onclick="toggleRating(2,this)">2</button>
+    <button class="pill" style="background:#EF4444;color:white;" onclick="toggleRating(1,this)">1</button>
+    <button class="pill" style="background:#7F1D1D;color:white;" onclick="toggleRating(0,this)">0</button>
   </div>
 </div>
 
-<div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:#047857;">5</div> Very good</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#10B981;">4</div> Good</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#F59E0B;">3</div> Satisfactory</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#F97316;">2</div> Improvement needed</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#EF4444;">1</div> Major improvement</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#7F1D1D;">0</div> Urgent</div>
+<div class="stats-bar">
+  <div class="stat"><div class="stat-dot" style="background:#047857;"></div><span class="stat-num" id="count5">-</span><span class="stat-label">5</span></div>
+  <div class="stat"><div class="stat-dot" style="background:#10B981;"></div><span class="stat-num" id="count4">-</span><span class="stat-label">4</span></div>
+  <div class="stat"><div class="stat-dot" style="background:#F59E0B;"></div><span class="stat-num" id="count3">-</span><span class="stat-label">3</span></div>
+  <div class="stat"><div class="stat-dot" style="background:#F97316;"></div><span class="stat-num" id="count2">-</span><span class="stat-label">2</span></div>
+  <div class="stat"><div class="stat-dot" style="background:#EF4444;"></div><span class="stat-num" id="count1">-</span><span class="stat-label">1</span></div>
+  <div class="stat"><div class="stat-dot" style="background:#7F1D1D;"></div><span class="stat-num" id="count0">-</span><span class="stat-label">0</span></div>
+  <a href="how-to-improve-food-hygiene-rating.html" class="blueroll-link">How to get a 5 →</a>
 </div>
 
-<!-- Rating cards -->
-<div class="rating-cards">
-  <div class="rating-card rc-5">
-    <div class="rating-card-number">5</div>
-    <div class="rating-card-label">Very good</div>
-    <div class="rating-card-desc">Hygiene standards are very good. High confidence in management.</div>
-  </div>
-  <div class="rating-card rc-4">
-    <div class="rating-card-number">4</div>
-    <div class="rating-card-label">Good</div>
-    <div class="rating-card-desc">Good standards overall. Minor improvements needed to reach a 5.</div>
-  </div>
-  <div class="rating-card rc-3">
-    <div class="rating-card-number">3</div>
-    <div class="rating-card-label">Generally satisfactory</div>
-    <div class="rating-card-desc">Acceptable standards but some areas need attention.</div>
-  </div>
-  <div class="rating-card rc-2">
-    <div class="rating-card-number">2</div>
-    <div class="rating-card-label">Improvement necessary</div>
-    <div class="rating-card-desc">Significant issues found. Improvements required.</div>
-  </div>
-  <div class="rating-card rc-1">
-    <div class="rating-card-number">1</div>
-    <div class="rating-card-label">Major improvement necessary</div>
-    <div class="rating-card-desc">Serious problems with hygiene. Action needed urgently.</div>
-  </div>
-  <div class="rating-card rc-0">
-    <div class="rating-card-number">0</div>
-    <div class="rating-card-label">Urgent improvement necessary</div>
-    <div class="rating-card-desc">Immediate action required. Risk of enforcement or closure.</div>
-  </div>
+<div class="loading-overlay" id="loading">
+  <div class="spinner"></div>
+  <p>Loading London restaurant data…</p>
 </div>
 
-<div class="stats-strip">
-  <div class="ss"><div class="ss-num">87,000+</div><div class="ss-text">Food businesses registered in London</div></div>
-  <div class="ss"><div class="ss-num">78%</div><div class="ss-text">Have a food hygiene rating of 5</div></div>
-  <div class="ss"><div class="ss-num">32</div><div class="ss-text">London borough councils carry out inspections</div></div>
-</div>
-
-<div class="content">
-
-  <div class="content-section">
-    <h2>How London food hygiene ratings work</h2>
-    <p>Every food business in England, Wales, and Northern Ireland is given a food hygiene rating from <strong>0</strong> (urgent improvement necessary) to <strong>5</strong> (very good) under the Food Hygiene Rating Scheme (FHRS), run by the Food Standards Agency in partnership with local authorities.</p>
-    <p>In London, inspections are carried out by Environmental Health Officers (EHOs) employed by your local borough council — Westminster, Camden, Tower Hamlets, and so on. There are 32 London boroughs plus the City of London Corporation, each with its own EHO team.</p>
-    <p>Your rating is based on three scoring areas. Each area is scored, and the scores are combined to produce your overall rating. The lower your total score, the higher your rating — it is a penalty-point system, not a reward system.</p>
-
-    <div class="info-box info-amber">
-      <p><strong>Your rating is public.</strong> It appears on the FSA website, on Just Eat, Deliveroo, Uber Eats, and Google. In England, displaying the green sticker is technically voluntary — but customers check online. A rating below 4 directly impacts footfall, delivery orders, and revenue.</p>
-    </div>
-  </div>
-
-  <div class="content-section">
-    <h2>The inspection process</h2>
-
-    <h3>Unannounced visits</h3>
-    <p>EHO inspectors arrive without notice during normal working hours. The inspection typically takes 1-3 hours depending on the size and complexity of your business. They will inspect every area where food is stored, prepared, cooked, or served — kitchens, walk-in fridges, dry stores, prep areas, and front of house.</p>
-
-    <h3>What inspectors check</h3>
-    <p>The inspector assesses your business against three areas, each scored separately:</p>
-    <ul>
-      <li><strong>Hygiene:</strong> How food is handled, prepared, cooked, cooled, reheated, and stored. Cross-contamination controls. Personal hygiene of staff.</li>
-      <li><strong>Structure:</strong> The physical condition of the building, equipment, cleanliness, layout, lighting, ventilation, and pest control.</li>
-      <li><strong>Confidence in management:</strong> Your food safety management system (e.g., SFBB), staff training records, track record of compliance, and whether you can demonstrate ongoing control.</li>
-    </ul>
-
-    <h3>After the inspection</h3>
-    <p>You receive a written report detailing any contraventions found and the improvements required. Your rating is published on the FSA website, usually within a few days. If you are unhappy with your rating, you can appeal within 21 days or request a re-inspection after making improvements (typically after a minimum 3-month wait).</p>
-  </div>
-
-  <div class="content-section">
-    <h2>The three scoring areas</h2>
-    <p>Each scoring area uses a points system. Lower points are better. The three area scores are combined to produce your overall rating.</p>
-
-    <table class="viol-table">
-      <thead><tr><th>Scoring area</th><th>Point range</th><th>What it covers</th></tr></thead>
-      <tbody>
-        <tr><td>Hygiene</td><td class="vt-pts">0, 5, 10, 15, 20, 25</td><td>Food handling, preparation, cooking, cooling, cross-contamination, personal hygiene</td></tr>
-        <tr><td>Structure</td><td class="vt-pts">0, 5, 10, 15, 20</td><td>Cleanliness, condition of building, layout, lighting, ventilation, pest control facilities</td></tr>
-        <tr><td>Confidence in management</td><td class="vt-pts">0, 5, 10, 20, 30</td><td>Food safety procedures (SFBB/HACCP), staff training, compliance history, ability to maintain standards</td></tr>
-      </tbody>
-    </table>
-
-    <div class="info-box info-blue">
-      <p><strong>Management confidence is the swing factor.</strong> A score of 0 in management (excellent) versus 20 (poor) is the difference between a rating of 5 and a rating of 2 — even if your hygiene and structure scores are identical. Inspectors want to see documented systems that prove you are in control.</p>
-    </div>
-
-    <h3>How scores map to ratings</h3>
-    <table class="viol-table">
-      <thead><tr><th>Total score</th><th>Rating</th><th>Meaning</th></tr></thead>
-      <tbody>
-        <tr><td class="vt-pts">0 – 15</td><td>5</td><td>Very good</td></tr>
-        <tr><td class="vt-pts">20</td><td>4</td><td>Good</td></tr>
-        <tr><td class="vt-pts">25 – 30</td><td>3</td><td>Generally satisfactory</td></tr>
-        <tr><td class="vt-pts">35 – 40</td><td>2</td><td>Improvement necessary</td></tr>
-        <tr><td class="vt-pts">45 – 50</td><td>1</td><td>Major improvement necessary</td></tr>
-        <tr><td class="vt-pts">50+</td><td>0</td><td>Urgent improvement necessary</td></tr>
-      </tbody>
-    </table>
-    <p><em>Note: Any single area scoring very poorly can cap your overall rating regardless of the total. For example, a management confidence score of 30 will result in a rating of 0 even if hygiene and structure are good.</em></p>
-  </div>
-
-  <div class="content-section">
-    <h2>Most common violations in London restaurants</h2>
-    <p>These are the issues that appear most frequently in London EHO inspection reports. Addressing these alone would move most businesses from a 3 to a 5.</p>
-
-    <table class="viol-table">
-      <thead><tr><th>Violation</th><th>Scoring area</th><th>Impact</th></tr></thead>
-      <tbody>
-        <tr><td>No documented food safety management system (SFBB or equivalent)</td><td>Management</td><td class="vt-pts">High</td></tr>
-        <tr><td>Food not stored at correct temperatures (cold food above 8°C, hot food below 63°C)</td><td>Hygiene</td><td class="vt-pts">High</td></tr>
-        <tr><td>Inadequate hand washing facilities or no soap/towels</td><td>Structure</td><td class="vt-pts">High</td></tr>
-        <tr><td>Cross-contamination risk — raw and ready-to-eat food stored together</td><td>Hygiene</td><td class="vt-pts">High</td></tr>
-        <tr><td>Dirty or poorly maintained equipment, surfaces, or structure</td><td>Structure</td><td class="vt-pts">Medium</td></tr>
-        <tr><td>Evidence of pest activity (mice, cockroaches, flies)</td><td>Structure</td><td class="vt-pts">High</td></tr>
-        <tr><td>Staff cannot demonstrate food hygiene knowledge</td><td>Management</td><td class="vt-pts">Medium</td></tr>
-        <tr><td>No temperature monitoring records kept</td><td>Management</td><td class="vt-pts">High</td></tr>
-        <tr><td>Food past its use-by date found on premises</td><td>Hygiene</td><td class="vt-pts">High</td></tr>
-        <tr><td>Inadequate cleaning schedule — no documented routine</td><td>Management</td><td class="vt-pts">Medium</td></tr>
-      </tbody>
-    </table>
-
-    <div class="info-box info-red">
-      <p><strong>No SFBB pack = almost guaranteed to lose points.</strong> The single most common reason London restaurants score poorly in the management category is having no documented food safety management system. The FSA provides the Safer Food Better Business (SFBB) pack free of charge — there is no excuse for not having one. Digital alternatives like Blueroll make this even easier.</p>
-    </div>
-  </div>
-
-  <div class="content-section">
-    <h2>How to get and keep a rating of 5</h2>
-    <p>Most restaurants that drop from a 5 do so because of inconsistent daily practices, not one-off disasters. The key is systematic daily monitoring and documentation.</p>
-
-    <h3>Temperature control</h3>
-    <ul class="checklist">
-      <li>Check fridge temperatures at least twice daily — must be 8°C or below (ideally 5°C or below)</li>
-      <li>Check freezer temperature daily — must be -18°C or below</li>
-      <li>Hot food must be held at 63°C or above</li>
-      <li>Probe-check cooking temperatures for every batch — poultry core 75°C</li>
-      <li>Record all temperatures with time, date, and initials</li>
-      <li>Cool cooked food to below 8°C within 90 minutes, then refrigerate</li>
-    </ul>
-
-    <h3>Hand washing</h3>
-    <ul class="checklist">
-      <li>Dedicated hand wash basin in every food preparation area — not used for food or dishes</li>
-      <li>Hot and cold running water, antibacterial soap, and disposable paper towels</li>
-      <li>Hand wash sign posted at every basin</li>
-      <li>Check and restock soap and towels at opening, mid-service, and close</li>
-    </ul>
-
-    <h3>Cross-contamination</h3>
-    <ul class="checklist">
-      <li>Raw meat and fish stored separately from ready-to-eat food (raw below, cooked above)</li>
-      <li>Colour-coded chopping boards used consistently</li>
-      <li>Separate utensils for raw and cooked food</li>
-      <li>Allergen information documented for every dish and available to customers</li>
-    </ul>
-
-    <h3>Documentation (management confidence)</h3>
-    <ul class="checklist">
-      <li>SFBB pack or equivalent HACCP-based system completed and up to date</li>
-      <li>Daily temperature logs, opening/closing checks, and cleaning schedules recorded</li>
-      <li>Staff food hygiene training records on file (Level 2 minimum for food handlers)</li>
-      <li>Pest control contract in place with records of visits</li>
-      <li>Corrective actions documented when something goes wrong</li>
-      <li>Supplier records and traceability information kept for at least 3 months</li>
-    </ul>
-
-    <div class="info-box info-green">
-      <p><strong>Blueroll replaces your paper SFBB pack.</strong> Digital temperature logs, cleaning checklists, opening/closing checks, and corrective action tracking — all on your team's phones. Export a full inspection-ready PDF report in one tap. <a href="index.html" style="color:#047857;">Try free for 14 days &rarr;</a></p>
-    </div>
-  </div>
-
-  <div class="content-section">
-    <h2>Temperature requirements (UK)</h2>
-    <table class="viol-table">
-      <thead><tr><th>Control point</th><th>Required temperature</th><th>How often to check</th></tr></thead>
-      <tbody>
-        <tr><td>Fridge (cold holding)</td><td class="vt-pts">8°C or below (aim for 5°C)</td><td>Twice daily minimum</td></tr>
-        <tr><td>Freezer</td><td class="vt-pts">-18°C or below</td><td>Once daily</td></tr>
-        <tr><td>Cooking (core temperature)</td><td class="vt-pts">75°C for poultry; 70°C for 2 mins as general safe minimum</td><td>Every batch</td></tr>
-        <tr><td>Hot holding</td><td class="vt-pts">63°C or above</td><td>Every 2 hours</td></tr>
-        <tr><td>Reheating</td><td class="vt-pts">75°C core (England); 82°C in Scotland</td><td>Every batch</td></tr>
-        <tr><td>Cooling</td><td class="vt-pts">Below 8°C within 90 minutes of cooking</td><td>Timed and recorded</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="content-section">
-    <h2>Frequently asked questions</h2>
-
-    <h3>How do food hygiene ratings work in London?</h3>
-    <p>Environmental Health Officers from your local borough council inspect three areas: food hygiene and safety, structural compliance, and confidence in management. Each area is scored using a penalty-point system. Your total score determines your rating from 0 (urgent improvement) to 5 (very good). You need 15 points or fewer to achieve a 5.</p>
-
-    <h3>How often are London restaurants inspected?</h3>
-    <p>Inspection frequency depends on your risk level and previous rating. High-risk businesses like restaurants and takeaways are typically inspected every 6-12 months. Lower-risk businesses may be inspected every 2-3 years. A business with a rating of 0 or 1 will be re-inspected within 6 months. All inspections are unannounced.</p>
-
-    <h3>Do I have to display my food hygiene rating?</h3>
-    <p>In England, display is voluntary — though the FSA strongly encourages it and many customers expect it. In Wales and Northern Ireland, display is mandatory by law. Regardless, your rating is visible on the FSA website, Google, and most food delivery platforms.</p>
-
-    <h3>Can I appeal or request a re-inspection?</h3>
-    <p>Yes. You have 21 days from receiving your rating to lodge a formal appeal with the local authority. You can also request a re-inspection after making improvements, though most boroughs require a minimum 3-month wait and may charge a fee (typically around £150-£200).</p>
-
-    <h3>What is the most common reason for a low rating?</h3>
-    <p>Lack of a documented food safety management system. If you have no SFBB pack (or HACCP-based equivalent) in place, you will almost certainly score poorly in the management category — which is the single biggest factor in your overall rating. Temperature control and cleanliness are the next most common issues.</p>
-
-    <h3>What is SFBB and do I need it?</h3>
-    <p>Safer Food Better Business (SFBB) is the FSA's free food safety management system designed for small food businesses. It is not strictly mandatory — the law requires a documented system based on HACCP principles, and SFBB satisfies this requirement. You can use SFBB, a commercial alternative like Blueroll, or your own HACCP plan. What matters is that you have a system, it is documented, and your team follows it.</p>
-  </div>
-
-</div>
-
-<div class="cta-banner">
-  <div class="cta-inner">
-    <h3>Stop worrying about your next inspection</h3>
-    <p>Blueroll replaces your paper food safety binder with digital checklists, automatic temperature logging, and one-tap compliance reports. Used by restaurants across London, the UK, and the US.</p>
-    <a href="index.html">Try Blueroll free for 14 days</a>
-  </div>
-</div>
-
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <img src="blueroll-logo.svg" alt="Blueroll">
-        <p>Food safety management for restaurants in the US, UK, and Europe.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Product</h4>
-        <a href="index.html#features">Features</a>
-        <a href="index.html#ai">AI Import</a>
-        <a href="index.html#pricing">Pricing</a>
-        <a href="index.html#faq">FAQ</a>
-      </div>
-      <div class="footer-col">
-        <h4>Free Tools</h4>
-        <a href="free-food-hygiene-rating-badge.html">Rating Badge Widget</a>
-        <a href="free-haccp-template.html">HACCP Template</a>
-        <a href="check-food-hygiene-rating.html">London Ratings Map</a>
-        <a href="nyc-restaurant-map.html">NYC Map</a>
-        <a href="chicago-restaurant-map.html">Chicago Map</a>
-        <a href="sf-restaurant-map.html">SF Map</a>
-      </div>
-      <div class="footer-col">
-        <h4>US Guides</h4>
-        <a href="nyc-restaurant-grade.html">New York City</a>
-        <a href="la-restaurant-grade.html">Los Angeles</a>
-        <a href="chicago-restaurant-inspection.html">Chicago</a>
-        <a href="sf-restaurant-inspection.html">San Francisco</a>
-        <a href="seattle-restaurant-inspection.html">Seattle</a>
-      </div>
-      <div class="footer-col">
-        <h4>UK Guides</h4>
-        <a href="how-to-improve-food-hygiene-rating.html">Improve Your Rating</a>
-        <a href="food-hygiene-ratings-explained.html">Ratings Explained</a>
-        <a href="sfbb-guide.html">SFBB Guide</a>
-        <a href="eho-inspection-checklist.html">EHO Checklist</a>
-        <a href="14-allergens-uk.html">14 Allergens</a>
-      </div>
-      <div class="footer-col">
-        <h4>Company</h4>
-        <a href="pitch.html">Pitch Deck</a>
-        <a href="mailto:hello@blueroll.app">Contact</a>
-        <a href="privacy-policy.html">Privacy Policy</a>
-        <a href="terms.html">Terms of Use</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>&copy; 2026 Blueroll. London &amp; New York.</span>
-      <div class="footer-social">
-        <a href="https://www.instagram.com/blueroll.app" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
-        <a href="https://www.facebook.com/bluerollapp/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
-        <a href="https://www.linkedin.com/company/bluerollapp" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
-        <a href="mailto:hello@blueroll.app" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg></a>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-var COLORS = { '5': '#047857', '4': '#10B981', '3': '#F59E0B', '2': '#F97316', '1': '#EF4444', '0': '#7F1D1D' };
-var LABELS = { '5': 'Very good', '4': 'Good', '3': 'Generally satisfactory', '2': 'Improvement necessary', '1': 'Major improvement necessary', '0': 'Urgent improvement necessary' };
-var FSA = 'https://api.ratings.food.gov.uk';
-var HDR = { 'x-api-version': '2', 'Accept': 'application/json' };
-var map, markerLayer;
+const map = L.map('map', { center: [51.509, -0.118], zoom: 13, zoomControl: false });
+L.control.zoom({ position: 'bottomright' }).addTo(map);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+  maxZoom: 19
+}).addTo(map);
 
-function initMap(lat, lng) {
-  if (map) map.remove();
-  map = L.map('map', { preferCanvas: true }).setView([lat, lng], 15);
-  var isRetina = window.devicePixelRatio > 1;
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}' + (isRetina ? '@2x' : '') + '.png', {
-    attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/">CARTO</a>',
-    maxZoom: 20,
-    tileSize: 256
-  }).addTo(map);
-  markerLayer = L.layerGroup().addTo(map);
-}
-
-var canvasRenderer = L.canvas({ padding: 0.5 });
-
-function addMarker(est) {
-  var lat = parseFloat(est.geocode.latitude);
-  var lng = parseFloat(est.geocode.longitude);
-  if (!lat || !lng) return null;
-  var rating = est.RatingValue;
-  var color = COLORS[rating] || '#999';
-  var label = LABELS[rating] || rating;
-  var date = est.RatingDate ? new Date(est.RatingDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
-  var addr = [est.AddressLine1, est.AddressLine2, est.PostCode].filter(Boolean).join(', ');
-
-  var popup = '<div class="popup-name">' + est.BusinessName + '</div>' +
-    '<div class="popup-type">' + (est.BusinessType || '') + '</div>' +
-    '<div class="popup-rating" style="background:' + color + ';color:white;">' + rating + ' &mdash; ' + label + '</div>' +
-    '<div class="popup-address">' + addr + '</div>' +
-    (date ? '<div class="popup-date">Inspected ' + date + '</div>' : '');
-
-  var marker = L.circleMarker([lat, lng], {
-    renderer: canvasRenderer,
-    radius: 8,
-    fillColor: color,
-    color: '#fff',
-    weight: 2,
-    opacity: 1,
-    fillOpacity: 0.9
-  }).bindPopup(popup);
-
-  markerLayer.addLayer(marker);
-  return marker;
-}
-
-function search(postcode) {
-  document.getElementById('result-count').textContent = 'Searching...';
-  document.getElementById('search-btn').textContent = '...';
-
-  fetch('https://api.postcodes.io/postcodes/' + encodeURIComponent(postcode.replace(/\s/g, '')))
-    .then(function(r) { return r.json(); })
-    .then(function(geo) {
-      if (geo.status !== 200) {
-        document.getElementById('result-count').textContent = 'Postcode not found. Try another.';
-        document.getElementById('search-btn').textContent = 'Search';
-        return;
-      }
-      var lat = geo.result.latitude;
-      var lng = geo.result.longitude;
-      initMap(lat, lng);
-
-      return fetch(FSA + '/Establishments?latitude=' + lat + '&longitude=' + lng +
-        '&maxDistanceLimit=1&pageSize=200&sortOptionKey=distance', { headers: HDR })
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          var establishments = data.establishments || [];
-          var markers = [];
-          establishments.forEach(function(est) {
-            var m = addMarker(est);
-            if (m) markers.push(m);
-          });
-          document.getElementById('result-count').textContent = establishments.length + ' businesses within 1 mile of ' + postcode.toUpperCase();
-          document.getElementById('search-btn').textContent = 'Search';
-          if (markers.length > 0) {
-            var group = L.featureGroup(markers);
-            map.fitBounds(group.getBounds().pad(0.1));
-          }
-        });
-    })
-    .catch(function() {
-      document.getElementById('result-count').textContent = 'Error loading data. Please try again.';
-      document.getElementById('search-btn').textContent = 'Search';
-    });
-}
-
-document.getElementById('search-btn').addEventListener('click', function() {
-  search(document.getElementById('postcode-input').value.trim());
-});
-document.getElementById('postcode-input').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') search(this.value.trim());
-});
-
-search('W1D 3SE');
-</script>
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-Tawk_API.onLoad = function(){
-  // Hide eye catcher by cycling widget
-  Tawk_API.hideWidget();
-  setTimeout(function(){ Tawk_API.showWidget(); }, 500);
+const ratingColors = {
+  5: '#047857', 4: '#10B981', 3: '#F59E0B',
+  2: '#F97316', 1: '#EF4444', 0: '#7F1D1D'
 };
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/69cba0ffccae3e1c351e960f/1jl1mppsi';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
+const ratingLabels = {
+  5: 'Very good', 4: 'Good', 3: 'Generally satisfactory',
+  2: 'Improvement necessary', 1: 'Major improvement necessary', 0: 'Urgent improvement necessary'
+};
+const ratingVisible = { 5: true, 4: true, 3: true, 2: true, 1: true, 0: true };
+let allData = [], filtered = [];
+let popup = L.popup({ maxWidth: 280 });
+
+// Canvas overlay — same as NYC map
+const CanvasOverlay = L.Layer.extend({
+  onAdd(map) {
+    this._map = map;
+    const size = map.getSize();
+    const canvas = L.DomUtil.create('canvas', 'leaflet-layer');
+    canvas.width = size.x * (window.devicePixelRatio || 1);
+    canvas.height = size.y * (window.devicePixelRatio || 1);
+    canvas.style.width = size.x + 'px';
+    canvas.style.height = size.y + 'px';
+    this._canvas = canvas;
+    this._ctx = canvas.getContext('2d');
+    map.getPanes().overlayPane.appendChild(canvas);
+    this._throttledRedraw = () => {
+      if (this._rafId) return;
+      this._rafId = requestAnimationFrame(() => { this._rafId = null; this._redraw(); });
+    };
+    map.on('moveend zoomend resize', this._redraw, this);
+    map.on('move zoom', this._throttledRedraw, this);
+    canvas.addEventListener('click', (e) => this._onTap(e));
+    canvas.addEventListener('touchend', (e) => {
+      if (e.changedTouches.length === 1) {
+        const t = e.changedTouches[0];
+        this._onTap({ clientX: t.clientX, clientY: t.clientY });
+      }
+    });
+    this._redraw();
+  },
+  onRemove(map) {
+    L.DomUtil.remove(this._canvas);
+    map.off('moveend zoomend resize', this._redraw, this);
+    map.off('move zoom', this._throttledRedraw, this);
+  },
+  _redraw() {
+    const map = this._map;
+    const size = map.getSize();
+    const dpr = window.devicePixelRatio || 1;
+    const canvas = this._canvas;
+    canvas.width = size.x * dpr;
+    canvas.height = size.y * dpr;
+    canvas.style.width = size.x + 'px';
+    canvas.style.height = size.y + 'px';
+    const topLeft = map.containerPointToLayerPoint([0, 0]);
+    L.DomUtil.setPosition(canvas, topLeft);
+
+    const ctx = this._ctx;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, size.x, size.y);
+
+    const zoom = map.getZoom();
+    const r = zoom >= 17 ? 7 : zoom >= 15 ? 5 : zoom >= 13 ? 3.5 : zoom >= 11 ? 2 : 1.5;
+    const bounds = map.getBounds();
+
+    // Draw 5 first (bottom) → 0 last (top) so low ratings are visible
+    const order = [5, 4, 3, 2, 1, 0];
+    for (const rating of order) {
+      if (!ratingVisible[rating]) continue;
+      ctx.fillStyle = ratingColors[rating];
+      ctx.globalAlpha = rating >= 4 ? 0.55 : 0.85;
+
+      for (const d of filtered) {
+        if (d.rating !== rating) continue;
+        if (!bounds.contains([d.lat, d.lng])) continue;
+        const pt = map.latLngToContainerPoint([d.lat, d.lng]);
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+
+    if (zoom >= 15) {
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 1;
+      for (const rating of order) {
+        if (!ratingVisible[rating]) continue;
+        for (const d of filtered) {
+          if (d.rating !== rating) continue;
+          if (!bounds.contains([d.lat, d.lng])) continue;
+          const pt = map.latLngToContainerPoint([d.lat, d.lng]);
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+      }
+    }
+  },
+  _onTap(e) {
+    const map = this._map;
+    const rect = this._canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const zoom = map.getZoom();
+    const hitR = 'ontouchstart' in window ? 18 : (zoom >= 15 ? 10 : 8);
+
+    let best = null, bestDist = Infinity;
+    for (const d of filtered) {
+      if (!ratingVisible[d.rating]) continue;
+      const pt = map.latLngToContainerPoint([d.lat, d.lng]);
+      const dist = Math.hypot(pt.x - x, pt.y - y);
+      if (dist < hitR) {
+        // Prefer lower ratings (more interesting)
+        const priority = 5 - d.rating;
+        const adjDist = dist - priority * 0.1;
+        if (adjDist < bestDist) { bestDist = adjDist; best = d; }
+      }
+    }
+
+    if (best) {
+      const color = ratingColors[best.rating];
+      const label = ratingLabels[best.rating];
+      popup.setLatLng([best.lat, best.lng]).setContent(`
+        <div class="popup-name"><span class="popup-grade" style="background:${color}">${best.rating}</span>${best.name}</div>
+        <div class="popup-addr">${best.addr}</div>
+        <div class="popup-score">${label} · ${best.type || ''}</div>
+        <a class="popup-cta" href="how-to-improve-food-hygiene-rating.html">How to improve your rating →</a>
+      `).openOn(map);
+    }
+  }
+});
+
+const overlay = new CanvasOverlay();
+map.addLayer(overlay);
+
+async function loadData() {
+  const FSA = 'https://api.ratings.food.gov.uk';
+  const HDR = { 'x-api-version': '2', 'Accept': 'application/json' };
+
+  // 33 London local authority IDs
+  const londonIds = [88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120];
+
+  // Fetch all in parallel (33 requests, ~0.5s each, parallel = ~1-2s total)
+  const chunks = await Promise.all(
+    londonIds.map(id =>
+      fetch(`${FSA}/Establishments?localAuthorityId=${id}&pageSize=0`, { headers: HDR })
+        .then(r => r.json())
+        .then(d => d.establishments || [])
+        .catch(() => [])
+    )
+  );
+
+  for (const establishments of chunks) {
+    for (const e of establishments) {
+      const rating = parseInt(e.RatingValue);
+      if (isNaN(rating) || rating < 0 || rating > 5) continue;
+      const geo = e.geocode || {};
+      const lat = parseFloat(geo.latitude);
+      const lng = parseFloat(geo.longitude);
+      if (isNaN(lat) || isNaN(lng)) continue;
+
+      allData.push({
+        lat, lng, rating,
+        name: e.BusinessName || '',
+        addr: [e.AddressLine1, e.AddressLine2, e.PostCode].filter(s => s && s !== e.BusinessName).join(', '),
+        type: e.BusinessType || '',
+        postcode: (e.PostCode || '').toLowerCase(),
+        nameLower: (e.BusinessName || '').toLowerCase()
+      });
+    }
+  }
+
+  applyFilter();
+  document.getElementById('loading').classList.add('hidden');
+}
+
+function applyFilter() {
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const counts = { 5:0, 4:0, 3:0, 2:0, 1:0, 0:0 };
+  filtered = [];
+  for (const d of allData) {
+    if (!ratingVisible[d.rating]) continue;
+    if (q && !d.nameLower.includes(q) && !d.postcode.startsWith(q)) continue;
+    filtered.push(d);
+    counts[d.rating]++;
+  }
+  for (let i = 0; i <= 5; i++) {
+    document.getElementById('count' + i).textContent = counts[i].toLocaleString();
+  }
+  overlay._redraw();
+}
+
+function toggleRating(rating, btn) {
+  ratingVisible[rating] = !ratingVisible[rating];
+  btn.classList.toggle('off');
+  applyFilter();
+}
+
+let debounce = null;
+document.getElementById('searchInput').addEventListener('input', () => {
+  clearTimeout(debounce);
+  debounce = setTimeout(applyFilter, 300);
+});
+
+loadData();
 </script>
-<!--End of Tawk.to Script-->
 
 </body>
 </html>
