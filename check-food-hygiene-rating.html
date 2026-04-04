@@ -279,16 +279,27 @@ async function loadData() {
 
   // 33 London local authority IDs
   const londonIds = [88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120];
+  const loadingEl = document.querySelector('#loading p');
+  let loaded = 0;
 
-  // Fetch all in parallel (33 requests, ~0.5s each, parallel = ~1-2s total)
-  const chunks = await Promise.all(
-    londonIds.map(id =>
-      fetch(`${FSA}/Establishments?localAuthorityId=${id}&pageSize=0`, { headers: HDR })
-        .then(r => r.json())
-        .then(d => d.establishments || [])
-        .catch(() => [])
-    )
-  );
+  // Fetch in batches of 8 to avoid browser connection limits
+  const chunks = [];
+  for (let i = 0; i < londonIds.length; i += 8) {
+    const batch = londonIds.slice(i, i + 8);
+    const results = await Promise.all(
+      batch.map(id =>
+        fetch(`${FSA}/Establishments?localAuthorityId=${id}&pageSize=5000`, { headers: HDR })
+          .then(r => r.json())
+          .then(d => {
+            loaded++;
+            loadingEl.textContent = `Loading London boroughs… ${loaded}/${londonIds.length}`;
+            return d.establishments || [];
+          })
+          .catch(() => { loaded++; return []; })
+      )
+    );
+    chunks.push(...results);
+  }
 
   for (const establishments of chunks) {
     for (const e of establishments) {
