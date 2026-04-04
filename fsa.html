@@ -418,58 +418,95 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
   body.print-combined .modal .letter-page { display: none !important; }
   body.print-combined .modal .combined-page { display: block !important; }
 
+  body.print-combined .modal {
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
   .combined-page {
     page-break-after: always !important;
+    page-break-inside: avoid !important;
     position: relative !important;
-    height: 257mm !important; /* 297 - margins (15+10) - label area ~105 */
+    width: 100% !important;
+    height: 267mm !important; /* 297 - 15 top margin - 10 bottom margin - 5 safety */
     overflow: hidden !important;
-    margin: 0 !important; padding: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
   .combined-page:last-child { page-break-after: avoid !important; }
 
   .combined-letter-area {
-    height: 152mm !important;
+    height: 160mm !important; /* 267 - 107 label */
     overflow: hidden !important;
-    padding: 25mm 0 0 0 !important;
+    padding: 15mm 0 0 0 !important;
   }
   .combined-letter-area .letter-top {
-    max-width: 85mm !important;
-    margin-bottom: 3mm !important;
-    padding-bottom: 2mm !important;
+    max-width: 80mm !important;
+    margin-bottom: 2mm !important;
+    padding-bottom: 1mm !important;
     border-bottom: 0.5px solid #ccc !important;
   }
-  .combined-letter-area .letter-content {
+  .combined-letter-area .letter-sender {
+    margin-bottom: 2mm !important;
+  }
+  .combined-letter-area .letter-sender-logo {
+    height: 14px !important;
+  }
+  .combined-letter-area .letter-sender-info {
+    font-size: 8px !important;
+  }
+  .combined-letter-area .letter-biz-name {
     font-size: 11px !important;
-    line-height: 1.4 !important;
+  }
+  .combined-letter-area .letter-biz-addr {
+    font-size: 10px !important;
+  }
+  .combined-letter-area .letter-content {
+    font-size: 9.5px !important;
+    line-height: 1.35 !important;
+    margin-top: 2mm !important;
+  }
+  .combined-letter-area .letter-content .highlight {
+    background: none !important;
+    font-weight: 700 !important;
+    padding: 0 !important;
   }
   .combined-letter-area .letter-qr-inline {
-    margin: 2mm 0 !important;
-    padding: 2mm !important;
+    margin: 1.5mm 0 !important;
+    padding: 1.5mm !important;
+    display: inline-block !important;
+    float: right !important;
+    width: 30mm !important;
+    border: none !important;
+    background: none !important;
   }
   .combined-letter-area .letter-qr-inline img {
-    width: 22mm !important;
-    height: 22mm !important;
+    width: 18mm !important;
+    height: 18mm !important;
   }
   .combined-letter-area .letter-qr-inline .qr-caption {
-    font-size: 7px !important;
+    font-size: 6px !important;
+    margin-top: 0.5mm !important;
   }
   .combined-letter-area .letter-content2 {
-    font-size: 11px !important;
-    line-height: 1.4 !important;
+    font-size: 9.5px !important;
+    line-height: 1.35 !important;
   }
   .combined-letter-area .letter-footer {
-    font-size: 8px !important;
-    margin-top: 2mm !important;
-    padding-top: 1mm !important;
+    font-size: 7px !important;
+    margin-top: 1mm !important;
+    padding-top: 0.5mm !important;
   }
+  .combined-letter-area .letter-postage { display: none !important; }
 
   .combined-label-area {
     position: absolute !important;
-    bottom: -10mm !important;
+    bottom: 0 !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     width: 160mm !important;
-    height: 105mm !important;
+    height: 107mm !important; /* S19 label area */
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -1780,10 +1817,13 @@ async function importLabelsPDF(file) {
   const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
   const numPages = pdf.numPages;
 
+  // Extract image + text from each label page
   labelImages = [];
+  labelTexts = [];
   for (let p = 1; p <= numPages; p++) {
     const page = await pdf.getPage(p);
-    const scale = 2; // high res for print
+    // Render to image
+    const scale = 3; // high res for print
     const viewport = page.getViewport({ scale });
     const canvas = document.createElement('canvas');
     canvas.width = viewport.width;
@@ -1791,56 +1831,111 @@ async function importLabelsPDF(file) {
     const ctx = canvas.getContext('2d');
     await page.render({ canvasContext: ctx, viewport }).promise;
     labelImages.push(canvas.toDataURL('image/png'));
+    // Extract text for matching
+    const textContent = await page.getTextContent();
+    const text = textContent.items.map(item => item.str).join(' ');
+    labelTexts.push(text);
   }
+
+  // Match labels to businesses by postcode/name
+  matchLabelsToLetters();
 
   // Show combined print button
   document.getElementById('btnPrintCombined').style.display = '';
 
-  // Build combined preview if letters are showing
+  // Build combined preview
   buildCombinedPages();
 
+  const matched = Object.keys(labelMatchMap).length;
   const status = document.getElementById('cdStatusModal');
   status.style.display = 'block';
   status.className = 'cd-status success';
-  status.textContent = `✓ ${numPages} label(s) imported from ${file.name}. Click "Print Combined" to print on integrated label paper.`;
+  status.textContent = `✓ ${numPages} label(s) imported, ${matched} matched to letters. Click "Print Combined" to print.`;
+}
+
+// Match labels to letters by postcode extracted from label text
+let labelTexts = [];
+let labelMatchMap = {}; // bizIdx -> labelIdx
+
+function matchLabelsToLetters() {
+  labelMatchMap = {};
+  if (!labelTexts.length || !allResults.length) return;
+
+  // For each business, find the label whose text contains its postcode
+  const usedLabels = new Set();
+
+  allResults.forEach((e, bizIdx) => {
+    const pc = (e.PostCode || '').trim().toUpperCase();
+    const name = (e.BusinessName || '').trim().toUpperCase();
+    if (!pc && !name) return;
+
+    // Try postcode match first (most reliable)
+    for (let li = 0; li < labelTexts.length; li++) {
+      if (usedLabels.has(li)) continue;
+      const lt = labelTexts[li].toUpperCase();
+      if (pc && lt.includes(pc)) {
+        // Double-check with name fragment if possible
+        const nameWords = name.split(/\s+/).filter(w => w.length > 3);
+        const nameMatch = nameWords.length === 0 || nameWords.some(w => lt.includes(w));
+        if (nameMatch) {
+          labelMatchMap[bizIdx] = li;
+          usedLabels.add(li);
+          return;
+        }
+      }
+    }
+    // Fallback: just postcode
+    for (let li = 0; li < labelTexts.length; li++) {
+      if (usedLabels.has(li)) continue;
+      const lt = labelTexts[li].toUpperCase();
+      if (pc && lt.includes(pc)) {
+        labelMatchMap[bizIdx] = li;
+        usedLabels.add(li);
+        return;
+      }
+    }
+  });
 }
 
 // ─── Build Combined Pages (letter + label) ──────────────
+
+function getLabelForBiz(bizIdx) {
+  // Use matched label if available, fallback to sequential
+  if (labelMatchMap[bizIdx] !== undefined) {
+    return labelImages[labelMatchMap[bizIdx]] || null;
+  }
+  return null;
+}
 
 function buildCombinedPages() {
   const container = document.getElementById('combinedContainer');
   container.innerHTML = '';
 
-  // Get letter indices currently showing in the modal
   const letterPages = document.querySelectorAll('#lettersContainer .letter-page');
   if (letterPages.length === 0) return;
 
-  // Determine which business indices are being shown
-  let indices = [];
-  if (clickDropQueue.length > 0) {
-    indices = clickDropQueue;
-  } else {
-    // Fallback: use selected or all shown letters
-    indices = [...selected].length > 0 ? [...selected] : allResults.map((_, i) => i).slice(0, letterPages.length);
-  }
+  let indices = [...selected].length > 0 ? [...selected] : allResults.map((_, i) => i).slice(0, letterPages.length);
 
-  indices.forEach((bizIdx, pageIdx) => {
+  // Only show pages that have a matching label
+  indices.forEach((bizIdx) => {
     const e = allResults[bizIdx];
     if (!e) return;
 
+    const labelImg = getLabelForBiz(bizIdx);
     const letterHTML = buildLetterPage(bizIdx);
-    const labelImg = labelImages[pageIdx] || null;
 
+    const matchInfo = labelImg ? '✓ matched' : '✗ no label';
     const div = document.createElement('div');
     div.className = 'combined-page preview';
     div.innerHTML = `
+      <div style="font-size:10px;color:#666;margin-bottom:4px;">${e.BusinessName} — ${e.PostCode} — ${matchInfo}</div>
       <div class="combined-letter-area preview">
         ${letterHTML.replace('class="letter-page"', 'style="border:none;margin:0;padding:0;"')}
       </div>
       <div class="combined-label-area preview">
         ${labelImg
-          ? `<img src="${labelImg}" alt="Label ${pageIdx + 1}">`
-          : '<div class="no-label" style="color:#999;font-size:12px;">No label for this page</div>'}
+          ? `<img src="${labelImg}" alt="Label">`
+          : '<div class="no-label" style="color:#999;font-size:12px;">No matching label found</div>'}
       </div>
     `;
     container.appendChild(div);
@@ -1848,29 +1943,25 @@ function buildCombinedPages() {
 }
 
 function printCombined() {
-  // Rebuild combined pages for print
   const container = document.getElementById('combinedContainer');
   container.innerHTML = '';
 
-  let indices = [];
-  if (clickDropQueue.length > 0) {
-    indices = clickDropQueue;
-  } else {
-    indices = [...selected].length > 0 ? [...selected] : [];
-  }
-
+  let indices = [...selected].length > 0 ? [...selected] : [];
   if (indices.length === 0) {
-    // Fallback: use whatever letters are showing
     const letterPages = document.querySelectorAll('#lettersContainer .letter-page');
     indices = Array.from({ length: letterPages.length }, (_, i) => i);
   }
 
-  indices.forEach((bizIdx, pageIdx) => {
-    const e = allResults[bizIdx];
-    if (!e) return;
+  // Only print pages with matched labels
+  const printable = indices.filter(i => getLabelForBiz(i) !== null);
+  if (printable.length === 0) {
+    alert('No labels matched to letters. Check that the imported PDF contains labels for these businesses.');
+    return;
+  }
 
+  printable.forEach((bizIdx) => {
     const letterHTML = buildLetterPage(bizIdx);
-    const labelImg = labelImages[pageIdx] || null;
+    const labelImg = getLabelForBiz(bizIdx);
 
     const div = document.createElement('div');
     div.className = 'combined-page';
@@ -1879,19 +1970,15 @@ function printCombined() {
         ${letterHTML.replace('class="letter-page"', 'style="border:none;margin:0;padding:0;"')}
       </div>
       <div class="combined-label-area">
-        ${labelImg
-          ? `<img src="${labelImg}" alt="Label">`
-          : '<div class="no-label">No label</div>'}
+        <img src="${labelImg}" alt="Label">
       </div>
     `;
     container.appendChild(div);
   });
 
-  // Add class to body so print CSS switches to combined mode
   document.body.classList.add('print-combined');
   setTimeout(() => {
     window.print();
-    // Remove combined class after print dialog
     setTimeout(() => document.body.classList.remove('print-combined'), 500);
   }, 100);
 }
