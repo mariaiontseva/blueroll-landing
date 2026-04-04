@@ -124,13 +124,22 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 24px
   <a href="how-to-improve-food-hygiene-rating.html" class="blueroll-link">How to get a 5 →</a>
 </div>
 
+<!-- Search this area button -->
+<button id="searchAreaBtn" onclick="searchArea()" style="
+  display:none; position:fixed; top:68px; left:50%; transform:translateX(-50%);
+  z-index:950; padding:10px 24px; background:white; color:var(--ink);
+  border:1px solid rgba(0,0,0,0.1); border-radius:24px; font-size:14px;
+  font-weight:700; font-family:inherit; cursor:pointer;
+  box-shadow:0 4px 20px rgba(0,0,0,0.15); transition:all 0.15s;
+">Search this area</button>
+
 <div class="loading-overlay" id="loading">
   <div class="spinner"></div>
   <p>Loading London restaurant data…</p>
 </div>
 
 <script>
-const map = L.map('map', { center: [51.509, -0.118], zoom: 13, zoomControl: false });
+const map = L.map('map', { center: [51.512, -0.14], zoom: 14, zoomControl: false });
 L.control.zoom({ position: 'bottomright' }).addTo(map);
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
   attribution: '&copy; <a href="https://www.openstreetmap.org/">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
@@ -273,35 +282,35 @@ const CanvasOverlay = L.Layer.extend({
 const overlay = new CanvasOverlay();
 map.addLayer(overlay);
 
-async function loadData() {
-  const FSA = 'https://api.ratings.food.gov.uk';
-  const HDR = { 'x-api-version': '2', 'Accept': 'application/json' };
+const FSA = 'https://api.ratings.food.gov.uk';
+const HDR = { 'x-api-version': '2', 'Accept': 'application/json' };
+let isLoading = false;
 
-  // 33 London local authority IDs
-  const londonIds = [88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120];
-  const loadingEl = document.querySelector('#loading p');
-  let loaded = 0;
+// Load data for current map viewport using FSA lat/lng search
+async function searchArea() {
+  if (isLoading) return;
+  isLoading = true;
+  const btn = document.getElementById('searchAreaBtn');
+  btn.style.display = 'none';
+  document.getElementById('loading').classList.remove('hidden');
+  document.querySelector('#loading p').textContent = 'Loading restaurants…';
 
-  // Fetch in batches of 8 to avoid browser connection limits
-  const chunks = [];
-  for (let i = 0; i < londonIds.length; i += 8) {
-    const batch = londonIds.slice(i, i + 8);
-    const results = await Promise.all(
-      batch.map(id =>
-        fetch(`${FSA}/Establishments?localAuthorityId=${id}&pageSize=10000`, { headers: HDR })
-          .then(r => r.json())
-          .then(d => {
-            loaded++;
-            loadingEl.textContent = `Loading London boroughs… ${loaded}/${londonIds.length}`;
-            return d.establishments || [];
-          })
-          .catch(() => { loaded++; return []; })
-      )
+  const center = map.getCenter();
+  // Calculate radius from viewport (approx miles)
+  const bounds = map.getBounds();
+  const ne = bounds.getNorthEast();
+  const distKm = center.distanceTo(ne) / 1000;
+  const distMiles = Math.min(Math.ceil(distKm * 0.621), 5); // max 5 miles
+
+  try {
+    const resp = await fetch(
+      `${FSA}/Establishments?latitude=${center.lat}&longitude=${center.lng}&maxDistanceLimit=${distMiles}&pageSize=2000&sortOptionKey=distance`,
+      { headers: HDR }
     );
-    chunks.push(...results);
-  }
+    const data = await resp.json();
+    const establishments = data.establishments || [];
 
-  for (const establishments of chunks) {
+    allData = [];
     for (const e of establishments) {
       const rating = parseInt(e.RatingValue);
       if (isNaN(rating) || rating < 0 || rating > 5) continue;
@@ -319,10 +328,13 @@ async function loadData() {
         nameLower: (e.BusinessName || '').toLowerCase()
       });
     }
+    applyFilter();
+  } catch(err) {
+    console.error('FSA load error:', err);
   }
 
-  applyFilter();
   document.getElementById('loading').classList.add('hidden');
+  isLoading = false;
 }
 
 function applyFilter() {
@@ -347,13 +359,25 @@ function toggleRating(rating, btn) {
   applyFilter();
 }
 
+// Show "Search this area" button when map moves
+let moveTimeout = null;
+map.on('moveend', () => {
+  clearTimeout(moveTimeout);
+  moveTimeout = setTimeout(() => {
+    if (!isLoading) {
+      document.getElementById('searchAreaBtn').style.display = 'block';
+    }
+  }, 500);
+});
+
 let debounce = null;
 document.getElementById('searchInput').addEventListener('input', () => {
   clearTimeout(debounce);
   debounce = setTimeout(applyFilter, 300);
 });
 
-loadData();
+// Initial load
+searchArea();
 </script>
 
 </body>
