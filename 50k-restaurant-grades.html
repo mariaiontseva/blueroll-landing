@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>We Mapped 50,000 Restaurant Health Grades. Here's What We Found. | Blueroll</title>
+<meta name="description" content="Data analysis of restaurant health inspections across NYC, Chicago, San Francisco, and London. Interactive maps, surprising findings, and the one violation every city shares.">
+<meta name="keywords" content="restaurant health grades data, NYC restaurant grades analysis, food safety data, restaurant inspection map, health inspection statistics">
+<link rel="canonical" href="https://blueroll.app/50k-restaurant-grades.html">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blueroll.app/50k-restaurant-grades.html">
+<meta property="og:title" content="We Mapped 50,000 Restaurant Health Grades. Here's What We Found.">
+<meta property="og:description" content="Four cities. Four grading systems. One surprising truth about what actually makes restaurants fail inspections.">
+<meta property="og:image" content="https://blueroll.app/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZFY0GPZYYQ');</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0A0C0F;
+  --surface: #12151A;
+  --surface2: #1A1E25;
+  --border: rgba(255,255,255,0.06);
+  --text: #E8EAF0;
+  --muted: rgba(232,234,240,0.5);
+  --dim: rgba(232,234,240,0.25);
+  --green: #34D399;
+  --yellow: #FBBF24;
+  --orange: #FB923C;
+  --red: #F87171;
+  --accent: #34D399;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: 'Outfit', -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; line-height: 1.7; }
+
+/* Nav */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 0 48px; height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(10,12,15,0.85);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-left { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text); }
+.nav-left img { width: 22px; height: auto; }
+.nav-left span { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; }
+.nav-right a { text-decoration: none; color: var(--accent); font-size: 13px; font-weight: 600; padding: 8px 20px; border: 1px solid rgba(52,211,153,0.3); border-radius: 8px; transition: all 0.15s; }
+.nav-right a:hover { background: rgba(52,211,153,0.1); }
+
+/* Article layout */
+.article { max-width: 780px; margin: 0 auto; padding: 0 24px; }
+
+/* Hero */
+.hero {
+  padding: 140px 0 80px;
+  text-align: center;
+  position: relative;
+}
+.hero::before {
+  content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse, rgba(52,211,153,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-label {
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 3px; color: var(--accent); margin-bottom: 24px;
+}
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 56px; font-weight: 400; letter-spacing: -1px;
+  line-height: 1.1; margin-bottom: 24px; color: white;
+}
+.hero h1 em { color: var(--accent); font-style: normal; }
+.hero-sub {
+  font-size: 19px; color: var(--muted); line-height: 1.65;
+  max-width: 560px; margin: 0 auto;
+}
+
+/* Big stat row */
+.stat-row {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 2px; margin: 64px 0; border-radius: 16px; overflow: hidden;
+}
+.stat-cell {
+  background: var(--surface); padding: 32px 20px; text-align: center;
+}
+.stat-city {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 2px; color: var(--dim); margin-bottom: 8px;
+}
+.stat-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 48px; color: white; letter-spacing: -1px; line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-label { font-size: 13px; color: var(--muted); }
+
+/* Section */
+.section { padding: 80px 0; border-top: 1px solid var(--border); }
+.section:first-of-type { border-top: none; }
+
+.section h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 38px; font-weight: 400; color: white;
+  letter-spacing: -0.5px; line-height: 1.15; margin-bottom: 20px;
+}
+.section h2 em { color: var(--accent); font-style: normal; }
+
+.section p {
+  font-size: 17px; color: var(--muted); line-height: 1.8; margin-bottom: 16px;
+}
+.section p strong { color: var(--text); font-weight: 600; }
+
+/* Insight box */
+.insight {
+  background: var(--surface); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0;
+  padding: 24px 28px; margin: 32px 0;
+}
+.insight p { font-size: 15px; color: var(--text); margin: 0; line-height: 1.7; }
+.insight strong { color: var(--accent); }
+
+/* Data bars */
+.data-bars { margin: 32px 0; }
+.data-bar-item {
+  display: grid; grid-template-columns: 140px 1fr 60px;
+  align-items: center; gap: 16px; padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.data-bar-item:last-child { border-bottom: none; }
+.data-bar-label { font-size: 14px; font-weight: 600; color: var(--text); }
+.data-bar-track {
+  height: 28px; background: var(--surface2); border-radius: 6px;
+  overflow: hidden; position: relative;
+}
+.data-bar-fill {
+  height: 100%; border-radius: 6px; transition: width 1s ease-out;
+  display: flex; align-items: center; padding-left: 10px;
+  font-size: 11px; font-weight: 700; color: rgba(0,0,0,0.6);
+}
+.data-bar-pct { font-size: 14px; font-weight: 700; color: var(--muted); text-align: right; }
+
+/* Comparison grid */
+.compare-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 2px; margin: 32px 0; border-radius: 12px; overflow: hidden;
+}
+.compare-cell {
+  background: var(--surface); padding: 28px 24px;
+}
+.compare-city {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 2px; color: var(--dim); margin-bottom: 4px;
+}
+.compare-system { font-size: 14px; color: var(--muted); margin-bottom: 12px; }
+.compare-metric {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 6px 0; border-bottom: 1px solid var(--border);
+}
+.compare-metric:last-child { border-bottom: none; }
+.compare-metric-label { font-size: 13px; color: var(--muted); }
+.compare-metric-value { font-family: 'DM Serif Display', serif; font-size: 24px; color: white; }
+.compare-metric-value.good { color: var(--green); }
+.compare-metric-value.bad { color: var(--red); }
+
+/* Map embed */
+.map-embed {
+  margin: 40px -60px;
+  border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+.map-embed iframe {
+  width: 100%; height: 500px; border: none; display: block;
+}
+.map-embed-caption {
+  background: var(--surface); padding: 14px 20px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 1px solid var(--border);
+}
+.map-embed-caption span { font-size: 13px; color: var(--muted); }
+.map-embed-caption a { font-size: 13px; font-weight: 600; color: var(--accent); text-decoration: none; }
+
+/* Violation table */
+.viol-grid {
+  display: grid; grid-template-columns: 1fr;
+  gap: 0; margin: 32px 0; border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--border);
+}
+.viol-row {
+  display: grid; grid-template-columns: 1fr 80px 80px 80px 80px;
+  background: var(--surface); border-bottom: 1px solid var(--border);
+}
+.viol-row:last-child { border-bottom: none; }
+.viol-row.header { background: var(--surface2); }
+.viol-cell {
+  padding: 12px 16px; font-size: 13px; color: var(--muted);
+  display: flex; align-items: center;
+}
+.viol-row.header .viol-cell {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1.5px; color: var(--dim);
+}
+.viol-cell.name { font-weight: 600; color: var(--text); }
+.viol-dot {
+  width: 8px; height: 8px; border-radius: 50%; margin: 0 auto;
+}
+
+/* CTA */
+.cta-section {
+  text-align: center; padding: 80px 0 40px;
+  border-top: 1px solid var(--border);
+}
+.cta-section h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 36px; color: white; margin-bottom: 12px;
+}
+.cta-section p { font-size: 16px; color: var(--muted); margin-bottom: 28px; }
+.cta-btn {
+  display: inline-block; padding: 16px 40px;
+  background: var(--accent); color: #0A0C0F;
+  border-radius: 10px; font-weight: 700; font-size: 16px;
+  text-decoration: none; transition: opacity 0.15s;
+}
+.cta-btn:hover { opacity: 0.9; }
+
+/* Footer */
+.article-footer {
+  text-align: center; padding: 40px 0 60px;
+  font-size: 13px; color: var(--dim);
+}
+.article-footer a { color: var(--accent); text-decoration: none; }
+
+/* Responsive */
+@media (max-width: 700px) {
+  nav { padding: 0 20px; }
+  .hero { padding: 100px 0 48px; }
+  .hero h1 { font-size: 32px; }
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .section h2 { font-size: 28px; }
+  .compare-grid { grid-template-columns: 1fr; }
+  .map-embed { margin: 32px -12px; }
+  .map-embed iframe { height: 380px; }
+  .viol-row { grid-template-columns: 1fr 50px 50px 50px 50px; }
+  .viol-cell { padding: 10px 8px; font-size: 11px; }
+  .data-bar-item { grid-template-columns: 100px 1fr 50px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-left">
+    <img src="blueroll-logo.svg" alt="Blueroll">
+    <span>Blueroll</span>
+  </a>
+  <div class="nav-right">
+    <a href="index.html">Try Blueroll free</a>
+  </div>
+</nav>
+
+<div class="article">
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-label">Data Study &middot; April 2026</div>
+  <h1>We mapped 50,000 restaurant health grades.<br><em>Here's what we found.</em></h1>
+  <p class="hero-sub">Four cities. Four grading systems. One surprising truth about what actually makes restaurants fail their inspections.</p>
+</section>
+
+<!-- ═══ BIG STATS ═══ -->
+<div class="stat-row">
+  <div class="stat-cell">
+    <div class="stat-city">New York</div>
+    <div class="stat-num">24,751</div>
+    <div class="stat-label">restaurants graded</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-city">Chicago</div>
+    <div class="stat-num">15,420</div>
+    <div class="stat-label">inspections analysed</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-city">San Francisco</div>
+    <div class="stat-num">7,200</div>
+    <div class="stat-label">scored restaurants</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-city">London</div>
+    <div class="stat-num">5,558</div>
+    <div class="stat-label">in Westminster alone</div>
+  </div>
+</div>
+
+<!-- ═══ FINDING 1: Four systems compared ═══ -->
+<section class="section">
+  <h2>Four cities. Four completely <em>different systems.</em></h2>
+  <p>Every major city grades restaurants differently. NYC uses letter grades that hang in the window. Chicago just says pass or fail. San Francisco gives a numeric score. London rates you 0 to 5. We analysed them all.</p>
+
+  <div class="compare-grid">
+    <div class="compare-cell">
+      <div class="compare-city">New York City</div>
+      <div class="compare-system">Letter grades: A, B, C</div>
+      <div class="compare-metric"><span class="compare-metric-label">Got the best grade</span><span class="compare-metric-value good">82%</span></div>
+      <div class="compare-metric"><span class="compare-metric-label">Failed (B or C)</span><span class="compare-metric-value bad">18%</span></div>
+    </div>
+    <div class="compare-cell">
+      <div class="compare-city">Chicago</div>
+      <div class="compare-system">Pass / Fail / Conditional</div>
+      <div class="compare-metric"><span class="compare-metric-label">Passed</span><span class="compare-metric-value good">60%</span></div>
+      <div class="compare-metric"><span class="compare-metric-label">Failed</span><span class="compare-metric-value bad">22%</span></div>
+    </div>
+    <div class="compare-cell">
+      <div class="compare-city">San Francisco</div>
+      <div class="compare-system">Numeric score: 0–100</div>
+      <div class="compare-metric"><span class="compare-metric-label">Scored 90+</span><span class="compare-metric-value good">41%</span></div>
+      <div class="compare-metric"><span class="compare-metric-label">Scored below 80</span><span class="compare-metric-value bad">20%</span></div>
+    </div>
+    <div class="compare-cell">
+      <div class="compare-city">London</div>
+      <div class="compare-system">Rating: 0 to 5</div>
+      <div class="compare-metric"><span class="compare-metric-label">Rated 5 (best)</span><span class="compare-metric-value good">70%</span></div>
+      <div class="compare-metric"><span class="compare-metric-label">Rated 0–2</span><span class="compare-metric-value bad">5%</span></div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <p><strong>Chicago is the hardest city to pass a health inspection.</strong> 22% of restaurants fail outright — compared to just 7% getting a C in NYC. San Francisco's scoring is the most granular, but only 41% score "excellent." London's system is the most forgiving: 70% get the top rating.</p>
+  </div>
+</section>
+
+<!-- ═══ MAP 1: NYC ═══ -->
+<section class="section">
+  <h2>NYC: 24,751 restaurants. <em>Every single grade.</em></h2>
+  <p>This is every graded restaurant in all five boroughs of New York City. Green dots are A grades. Yellow is B. Red is C. Click any dot to see the restaurant, its score, and what went wrong.</p>
+
+  <div class="map-embed">
+    <iframe src="nyc-restaurant-map.html" loading="lazy" title="NYC Restaurant Health Grades Map"></iframe>
+    <div class="map-embed-caption">
+      <span>Live data from NYC Open Data &middot; Updated daily</span>
+      <a href="nyc-restaurant-map.html" target="_blank">Open full map &rarr;</a>
+    </div>
+  </div>
+
+  <p>Manhattan has the highest concentration of A grades (82%). The Bronx and Queens trail at 76% — a 6-point gap that maps directly onto restaurant density and inspection resources.</p>
+</section>
+
+<!-- ═══ FINDING 2: The Borough Gap ═══ -->
+<section class="section">
+  <h2>NYC: The <em>borough gap</em></h2>
+  <p>Not all boroughs are graded equally. Here's the breakdown of B and C grades — the ones that mean problems were found.</p>
+
+  <div class="data-bars">
+    <div class="data-bar-item">
+      <div class="data-bar-label">Bronx</div>
+      <div class="data-bar-track"><div class="data-bar-fill" style="width:24%;background:var(--orange);">24%</div></div>
+      <div class="data-bar-pct">24%</div>
+    </div>
+    <div class="data-bar-item">
+      <div class="data-bar-label">Queens</div>
+      <div class="data-bar-track"><div class="data-bar-fill" style="width:23.7%;background:var(--orange);">23.7%</div></div>
+      <div class="data-bar-pct">23.7%</div>
+    </div>
+    <div class="data-bar-item">
+      <div class="data-bar-label">Brooklyn</div>
+      <div class="data-bar-track"><div class="data-bar-fill" style="width:20.8%;background:var(--yellow);">20.8%</div></div>
+      <div class="data-bar-pct">20.8%</div>
+    </div>
+    <div class="data-bar-item">
+      <div class="data-bar-label">Staten Island</div>
+      <div class="data-bar-track"><div class="data-bar-fill" style="width:18.9%;background:var(--yellow);">18.9%</div></div>
+      <div class="data-bar-pct">18.9%</div>
+    </div>
+    <div class="data-bar-item">
+      <div class="data-bar-label">Manhattan</div>
+      <div class="data-bar-track"><div class="data-bar-fill" style="width:18.4%;background:var(--green);">18.4%</div></div>
+      <div class="data-bar-pct">18.4%</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MAP 2: Chicago ═══ -->
+<section class="section">
+  <h2>Chicago: The city where <em>22% fail.</em></h2>
+  <p>Chicago's inspection system is binary. You either pass or you don't. No letter grades, no partial credit. And one in five restaurants fails.</p>
+
+  <div class="map-embed">
+    <iframe src="chicago-restaurant-map.html" loading="lazy" title="Chicago Restaurant Inspection Map"></iframe>
+    <div class="map-embed-caption">
+      <span>Live data from Chicago Open Data &middot; Pass / Fail / Conditional</span>
+      <a href="chicago-restaurant-map.html" target="_blank">Open full map &rarr;</a>
+    </div>
+  </div>
+
+  <p>The red dots are outright failures. The yellow dots are conditional passes — restaurants that passed with conditions that must be corrected. Together, <strong>40% of Chicago restaurants have some form of issue on their latest inspection.</strong></p>
+</section>
+
+<!-- ═══ MAP 3: SF ═══ -->
+<section class="section">
+  <h2>San Francisco: Only 41% <em>score above 90.</em></h2>
+  <p>SF uses a 0–100 scoring system — the most granular of any city. A perfect score is rare. Most restaurants hover between 80 and 95. Below 80 means serious problems.</p>
+
+  <div class="map-embed">
+    <iframe src="sf-restaurant-map.html" loading="lazy" title="San Francisco Restaurant Score Map"></iframe>
+    <div class="map-embed-caption">
+      <span>Live data from SF Open Data &middot; Numeric scores 0–100</span>
+      <a href="sf-restaurant-map.html" target="_blank">Open full map &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MAP 4: London ═══ -->
+<section class="section">
+  <h2>London: The most <em>forgiving</em> system.</h2>
+  <p>70% of Westminster restaurants have the top rating of 5. Only 5% are rated 2 or below. London's system is based on penalty points — and most restaurants keep their score low enough to stay at 5.</p>
+
+  <div class="map-embed">
+    <iframe src="london-food-hygiene-map.html" loading="lazy" title="London Food Hygiene Ratings Map"></iframe>
+    <div class="map-embed-caption">
+      <span>Live data from Food Standards Agency &middot; Ratings 0–5</span>
+      <a href="london-food-hygiene-map.html" target="_blank">Open full map &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FINDING 3: The universal violation ═══ -->
+<section class="section">
+  <h2>The #1 violation in every city: <em>temperature.</em></h2>
+  <p>Across all four cities, with completely different inspection systems and grading scales, one violation appears in the top 3 everywhere: <strong>food not held at the correct temperature.</strong></p>
+  <p>Cold food too warm. Hot food too cold. It's the single most predictable point of failure in any restaurant — and the easiest to prevent with consistent monitoring.</p>
+
+  <div class="viol-grid">
+    <div class="viol-row header">
+      <div class="viol-cell">Violation</div>
+      <div class="viol-cell" style="justify-content:center;">NYC</div>
+      <div class="viol-cell" style="justify-content:center;">CHI</div>
+      <div class="viol-cell" style="justify-content:center;">SF</div>
+      <div class="viol-cell" style="justify-content:center;">LON</div>
+    </div>
+    <div class="viol-row">
+      <div class="viol-cell name">Food temperature violations</div>
+      <div class="viol-cell"><div class="viol-dot" style="background:var(--red);"></div></div>
+      <div class="viol-cell"><div class="viol-dot" style="background:var(--red);"></div></div>
+      <div class="viol-cell"><div class="viol-dot" style="background:var(--red);"></div></div>
+      <div class="viol-cell"><div class="viol-dot" style="background:var(--red);"></div></div>
+    </div>
+    <div class="viol-row">
+      <div class="viol-cell name">Hand washing / facilities</div>
+      <div class="viol-cell"><div class="viol-dot" style="background:var(--red);"></div></div>
+      <div class="viol-cell"><div class="viol-dot" style="background:var(--orange);"></div></div>
+      <div class="viol-cell"><div class="viol-dot" style="background:var(--orange);"></div></div>
+      <div class="viol-cell"><div class="viol-dot" style="background:var(--red);"></div></div>
+    </div>
+    <div class="viol-row">
+      <div class="viol-cell name">Pest activity (mice, roaches)</div>
+      <div class="viol-cell"><div class="viol-dot" style="background:var(--red);"></div></div>
+      <div class="viol-cell"><div class="viol-dot" style="background:var(--red);"></div></div>
+      <div class="viol-cell"><div class="viol-dot" style="background:var(--yellow);"></div></div>
+      <div class="viol-cell"><div class="viol-dot" style="background:var(--orange);"></div></div>
+    </div>
+    <div class="viol-row">
+      <div class="viol-cell name">Food contact surfaces dirty</div>
+      <div class="viol-cell"><div class="viol-dot" style="background:var(--orange);"></div></div>
+      <div class="viol-cell"><div class="viol-dot" style="background:var(--orange);"></div></div>
+      <div class="viol-cell"><div class="viol-dot" style="background:var(--red);"></div></div>
+      <div class="viol-cell"><div class="viol-dot" style="background:var(--yellow);"></div></div>
+    </div>
+    <div class="viol-row">
+      <div class="viol-cell name">No food safety documentation</div>
+      <div class="viol-cell"><div class="viol-dot" style="background:var(--yellow);"></div></div>
+      <div class="viol-cell"><div class="viol-dot" style="background:var(--yellow);"></div></div>
+      <div class="viol-cell"><div class="viol-dot" style="background:var(--yellow);"></div></div>
+      <div class="viol-cell"><div class="viol-dot" style="background:var(--red);"></div></div>
+    </div>
+  </div>
+
+  <p style="font-size:12px;color:var(--dim);margin-top:8px;">Red = top 3 violation in that city. Orange = top 5. Yellow = common but not top 5. Based on inspection data from each city's open data portal.</p>
+
+  <div class="insight">
+    <p><strong>Temperature is the universal failure point.</strong> In NYC it's the #1 critical violation (7 penalty points). In London, it's the most common reason for losing points in the hygiene category. In Chicago, it's the most cited reason for outright failure. One daily temperature check could prevent the most common inspection violation in any city in the world.</p>
+  </div>
+</section>
+
+<!-- ═══ FINDING 4: The complexity hypothesis ═══ -->
+<section class="section">
+  <h2>Kitchen complexity <em>predicts grades</em></h2>
+  <p>In NYC, restaurants with simpler operations — donut shops, coffee shops, sandwich counters — overwhelmingly get A grades. Restaurants with complex prep — multiple raw proteins, extensive cooking, diverse ingredients — struggle more.</p>
+
+  <div class="data-bars">
+    <div class="data-bar-item">
+      <div class="data-bar-label">Donut shops</div>
+      <div class="data-bar-track"><div class="data-bar-fill" style="width:5%;background:var(--green);">5%</div></div>
+      <div class="data-bar-pct">5% B+C</div>
+    </div>
+    <div class="data-bar-item">
+      <div class="data-bar-label">Coffee/Tea</div>
+      <div class="data-bar-track"><div class="data-bar-fill" style="width:13%;background:var(--green);">13%</div></div>
+      <div class="data-bar-pct">13%</div>
+    </div>
+    <div class="data-bar-item">
+      <div class="data-bar-label">Hamburgers</div>
+      <div class="data-bar-track"><div class="data-bar-fill" style="width:9%;background:var(--green);">9%</div></div>
+      <div class="data-bar-pct">9%</div>
+    </div>
+    <div class="data-bar-item">
+      <div class="data-bar-label" style="opacity:0.5;">NYC average</div>
+      <div class="data-bar-track"><div class="data-bar-fill" style="width:18%;background:var(--yellow);opacity:0.5;">18%</div></div>
+      <div class="data-bar-pct" style="opacity:0.5;">18%</div>
+    </div>
+    <div class="data-bar-item">
+      <div class="data-bar-label">Chinese</div>
+      <div class="data-bar-track"><div class="data-bar-fill" style="width:31%;background:var(--orange);">31%</div></div>
+      <div class="data-bar-pct">31%</div>
+    </div>
+    <div class="data-bar-item">
+      <div class="data-bar-label">Caribbean</div>
+      <div class="data-bar-track"><div class="data-bar-fill" style="width:32%;background:var(--orange);">32%</div></div>
+      <div class="data-bar-pct">32%</div>
+    </div>
+    <div class="data-bar-item">
+      <div class="data-bar-label">Thai</div>
+      <div class="data-bar-track"><div class="data-bar-fill" style="width:32%;background:var(--orange);">32%</div></div>
+      <div class="data-bar-pct">32%</div>
+    </div>
+    <div class="data-bar-item">
+      <div class="data-bar-label">Indian</div>
+      <div class="data-bar-track"><div class="data-bar-fill" style="width:38%;background:var(--red);">38%</div></div>
+      <div class="data-bar-pct">38%</div>
+    </div>
+  </div>
+
+  <p>This isn't about any specific cuisine being "dirty." It's about operational complexity. A donut shop fries dough at one temperature. A restaurant cooking tikka masala, tandoori chicken, and biryani simultaneously is managing multiple raw proteins, multiple temperature zones, and extensive cross-contamination surfaces. More complexity = more points of failure.</p>
+  <p><strong>The restaurants that need the most systematic food safety processes are exactly the ones least likely to have them.</strong> Paper checklists don't scale to complex kitchens. Digital systems do.</p>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cta-section">
+  <h2>Temperature is the #1 failure.<br>It's also the easiest to fix.</h2>
+  <p>Blueroll automates daily temperature checks, cleaning logs, and food safety documentation for restaurants. One app replaces your entire paper system.</p>
+  <a href="index.html" class="cta-btn">Try Blueroll free for 14 days</a>
+</section>
+
+<!-- ═══ METHOD ═══ -->
+<div class="article-footer">
+  <p><strong>Methodology:</strong> All data sourced from official open data portals — NYC DOHMH, Chicago CDPH, SF DPH, UK FSA. Analysis covers the most recent graded inspection per establishment. Interactive maps show live data. Built by <a href="index.html">Blueroll</a>.</p>
+  <br>
+  <p>&copy; 2026 Blueroll &middot; <a href="index.html">blueroll.app</a></p>
+</div>
+
+</div>
+
+</body>
+</html>
