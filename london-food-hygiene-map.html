@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>London Food Hygiene Ratings Map — Live Ratings | Blueroll</title>
+<meta name="description" content="Interactive map of London restaurant food hygiene ratings. See which restaurants near you have a 5, 4, 3 or lower. Live data from the Food Standards Agency.">
+<meta name="keywords" content="food hygiene ratings near me, london food hygiene map, restaurant ratings london, check food hygiene rating, food hygiene rating map UK">
+<link rel="canonical" href="https://blueroll.app/london-food-hygiene-map.html">
+<link rel="alternate" hreflang="en-gb" href="https://blueroll.app/london-food-hygiene-map.html">
+<link rel="alternate" hreflang="en" href="https://blueroll.app/london-food-hygiene-map.html">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://blueroll.app/london-food-hygiene-map.html">
+<meta property="og:title" content="London Food Hygiene Ratings Map — Live Ratings">
+<meta property="og:description" content="Interactive map of every London restaurant with their food hygiene rating. Live FSA data.">
+<meta property="og:image" content="https://blueroll.app/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZFY0GPZYYQ');</script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --green: #047857; --green-dark: #065F46; --green-deep: #022c22;
+  --bg: #FAFAF7; --ink: #111; --mid: #555; --light: #999; --border: #E8E5DF;
+}
+body { font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; background: rgba(250,250,247,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,0.06); }
+.nav-left { display: flex; align-items: center; gap: 6px; text-decoration: none; color: inherit; }
+.nav-left img { width: 22px; height: auto; }
+.nav-left span { font-size: 17px; font-weight: 800; letter-spacing: -0.5px; }
+.nav-right { display: flex; gap: 16px; align-items: center; }
+.nav-right a { text-decoration: none; color: var(--mid); font-size: 13px; font-weight: 600; }
+.nav-btn { background: var(--green) !important; color: white !important; padding: 8px 18px !important; border-radius: 8px !important; font-weight: 700 !important; }
+
+#map { position: fixed; top: 56px; left: 0; right: 0; bottom: 0; z-index: 1; }
+
+.controls { position: fixed; top: 68px; left: 12px; z-index: 900; display: flex; flex-direction: column; gap: 8px; }
+.search-box { background: white; border-radius: 12px; padding: 10px 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.12); width: 320px; border: 1px solid rgba(0,0,0,0.06); }
+.search-box input { width: 100%; border: none; outline: none; font-size: 15px; font-family: inherit; color: var(--ink); background: transparent; }
+.search-box input::placeholder { color: var(--light); }
+
+.filter-pills { display: flex; gap: 4px; flex-wrap: wrap; }
+.pill { padding: 7px 12px; border-radius: 20px; border: none; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.15s; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+.pill.off { opacity: 0.35; }
+
+.stats-bar {
+  position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
+  z-index: 900; background: white; border-radius: 14px;
+  padding: 10px 20px; display: flex; gap: 12px; align-items: center;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12); border: 1px solid rgba(0,0,0,0.06);
+  font-size: 12px; flex-wrap: wrap; justify-content: center;
+}
+.stats-bar .stat { display: flex; align-items: center; gap: 5px; }
+.stats-bar .stat-dot { width: 10px; height: 10px; border-radius: 50%; }
+.stats-bar .stat-num { font-weight: 800; font-size: 14px; }
+.stats-bar .stat-label { color: var(--light); font-size: 11px; }
+.stats-bar .blueroll-link { font-size: 11px; font-weight: 700; color: var(--green); text-decoration: none; border-left: 1px solid var(--border); padding-left: 12px; margin-left: 4px; }
+
+.loading-overlay { position: fixed; top: 56px; left: 0; right: 0; bottom: 0; z-index: 500; background: rgba(250,250,247,0.9); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; }
+.loading-overlay .spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-overlay p { color: var(--light); font-size: 14px; }
+.loading-overlay.hidden { display: none; }
+
+.leaflet-popup-content-wrapper { border-radius: 12px !important; box-shadow: 0 8px 30px rgba(0,0,0,0.15) !important; }
+.leaflet-popup-content { margin: 14px 16px !important; font-family: -apple-system, system-ui, sans-serif !important; }
+.popup-grade { display: inline-block; padding: 2px 10px; border-radius: 6px; font-weight: 800; font-size: 14px; color: white; margin-right: 8px; }
+.popup-name { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+.popup-addr { font-size: 12px; color: #999; margin-bottom: 6px; }
+.popup-score { font-size: 12px; color: #555; }
+.popup-cta { display: inline-block; margin-top: 8px; font-size: 11px; font-weight: 700; color: #047857; text-decoration: none; }
+
+@media (max-width: 600px) {
+  .search-box { width: calc(100vw - 24px); }
+  .stats-bar { width: calc(100vw - 24px); gap: 8px; padding: 8px 12px; }
+  .stats-bar .blueroll-link { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-left">
+    <img src="blueroll-logo.svg" alt="Blueroll">
+    <span>Blueroll</span>
+  </a>
+  <div class="nav-right">
+    <a href="how-to-improve-food-hygiene-rating.html">UK Guide</a>
+    <a href="index.html" class="nav-btn">Try Blueroll</a>
+  </div>
+</nav>
+
+<div id="map"></div>
+
+<div class="controls">
+  <div class="search-box">
+    <input id="searchInput" placeholder="Search restaurant or postcode…">
+  </div>
+  <div class="filter-pills">
+    <button class="pill" style="background:#047857;color:white;" onclick="toggleRating(5,this)">5</button>
+    <button class="pill" style="background:#10B981;color:white;" onclick="toggleRating(4,this)">4</button>
+    <button class="pill" style="background:#F59E0B;color:white;" onclick="toggleRating(3,this)">3</button>
+    <button class="pill" style="background:#F97316;color:white;" onclick="toggleRating(2,this)">2</button>
+    <button class="pill" style="background:#EF4444;color:white;" onclick="toggleRating(1,this)">1</button>
+    <button class="pill" style="background:#7F1D1D;color:white;" onclick="toggleRating(0,this)">0</button>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-dot" style="background:#047857;"></div><span class="stat-num" id="count5">-</span><span class="stat-label">5</span></div>
+  <div class="stat"><div class="stat-dot" style="background:#10B981;"></div><span class="stat-num" id="count4">-</span><span class="stat-label">4</span></div>
+  <div class="stat"><div class="stat-dot" style="background:#F59E0B;"></div><span class="stat-num" id="count3">-</span><span class="stat-label">3</span></div>
+  <div class="stat"><div class="stat-dot" style="background:#F97316;"></div><span class="stat-num" id="count2">-</span><span class="stat-label">2</span></div>
+  <div class="stat"><div class="stat-dot" style="background:#EF4444;"></div><span class="stat-num" id="count1">-</span><span class="stat-label">1</span></div>
+  <div class="stat"><div class="stat-dot" style="background:#7F1D1D;"></div><span class="stat-num" id="count0">-</span><span class="stat-label">0</span></div>
+  <a href="how-to-improve-food-hygiene-rating.html" class="blueroll-link">How to get a 5 →</a>
+</div>
+
+<div class="loading-overlay" id="loading">
+  <div class="spinner"></div>
+  <p>Loading London restaurant data…</p>
+</div>
+
+<script>
+const map = L.map('map', { center: [51.509, -0.118], zoom: 13, zoomControl: false });
+L.control.zoom({ position: 'bottomright' }).addTo(map);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+  maxZoom: 19
+}).addTo(map);
+
+const ratingColors = {
+  5: '#047857', 4: '#10B981', 3: '#F59E0B',
+  2: '#F97316', 1: '#EF4444', 0: '#7F1D1D'
+};
+const ratingLabels = {
+  5: 'Very good', 4: 'Good', 3: 'Generally satisfactory',
+  2: 'Improvement necessary', 1: 'Major improvement necessary', 0: 'Urgent improvement necessary'
+};
+const ratingVisible = { 5: true, 4: true, 3: true, 2: true, 1: true, 0: true };
+let allData = [], filtered = [];
+let popup = L.popup({ maxWidth: 280 });
+
+// Canvas overlay — same as NYC map
+const CanvasOverlay = L.Layer.extend({
+  onAdd(map) {
+    this._map = map;
+    const size = map.getSize();
+    const canvas = L.DomUtil.create('canvas', 'leaflet-layer');
+    canvas.width = size.x * (window.devicePixelRatio || 1);
+    canvas.height = size.y * (window.devicePixelRatio || 1);
+    canvas.style.width = size.x + 'px';
+    canvas.style.height = size.y + 'px';
+    this._canvas = canvas;
+    this._ctx = canvas.getContext('2d');
+    map.getPanes().overlayPane.appendChild(canvas);
+    this._throttledRedraw = () => {
+      if (this._rafId) return;
+      this._rafId = requestAnimationFrame(() => { this._rafId = null; this._redraw(); });
+    };
+    map.on('moveend zoomend resize', this._redraw, this);
+    map.on('move zoom', this._throttledRedraw, this);
+    canvas.addEventListener('click', (e) => this._onTap(e));
+    canvas.addEventListener('touchend', (e) => {
+      if (e.changedTouches.length === 1) {
+        const t = e.changedTouches[0];
+        this._onTap({ clientX: t.clientX, clientY: t.clientY });
+      }
+    });
+    this._redraw();
+  },
+  onRemove(map) {
+    L.DomUtil.remove(this._canvas);
+    map.off('moveend zoomend resize', this._redraw, this);
+    map.off('move zoom', this._throttledRedraw, this);
+  },
+  _redraw() {
+    const map = this._map;
+    const size = map.getSize();
+    const dpr = window.devicePixelRatio || 1;
+    const canvas = this._canvas;
+    canvas.width = size.x * dpr;
+    canvas.height = size.y * dpr;
+    canvas.style.width = size.x + 'px';
+    canvas.style.height = size.y + 'px';
+    const topLeft = map.containerPointToLayerPoint([0, 0]);
+    L.DomUtil.setPosition(canvas, topLeft);
+
+    const ctx = this._ctx;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, size.x, size.y);
+
+    const zoom = map.getZoom();
+    const r = zoom >= 17 ? 7 : zoom >= 15 ? 5 : zoom >= 13 ? 3.5 : zoom >= 11 ? 2 : 1.5;
+    const bounds = map.getBounds();
+
+    // Draw 5 first (bottom) → 0 last (top) so low ratings are visible
+    const order = [5, 4, 3, 2, 1, 0];
+    for (const rating of order) {
+      if (!ratingVisible[rating]) continue;
+      ctx.fillStyle = ratingColors[rating];
+      ctx.globalAlpha = rating >= 4 ? 0.55 : 0.85;
+
+      for (const d of filtered) {
+        if (d.rating !== rating) continue;
+        if (!bounds.contains([d.lat, d.lng])) continue;
+        const pt = map.latLngToContainerPoint([d.lat, d.lng]);
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+
+    if (zoom >= 15) {
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 1;
+      for (const rating of order) {
+        if (!ratingVisible[rating]) continue;
+        for (const d of filtered) {
+          if (d.rating !== rating) continue;
+          if (!bounds.contains([d.lat, d.lng])) continue;
+          const pt = map.latLngToContainerPoint([d.lat, d.lng]);
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+      }
+    }
+  },
+  _onTap(e) {
+    const map = this._map;
+    const rect = this._canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const zoom = map.getZoom();
+    const hitR = 'ontouchstart' in window ? 18 : (zoom >= 15 ? 10 : 8);
+
+    let best = null, bestDist = Infinity;
+    for (const d of filtered) {
+      if (!ratingVisible[d.rating]) continue;
+      const pt = map.latLngToContainerPoint([d.lat, d.lng]);
+      const dist = Math.hypot(pt.x - x, pt.y - y);
+      if (dist < hitR) {
+        // Prefer lower ratings (more interesting)
+        const priority = 5 - d.rating;
+        const adjDist = dist - priority * 0.1;
+        if (adjDist < bestDist) { bestDist = adjDist; best = d; }
+      }
+    }
+
+    if (best) {
+      const color = ratingColors[best.rating];
+      const label = ratingLabels[best.rating];
+      popup.setLatLng([best.lat, best.lng]).setContent(`
+        <div class="popup-name"><span class="popup-grade" style="background:${color}">${best.rating}</span>${best.name}</div>
+        <div class="popup-addr">${best.addr}</div>
+        <div class="popup-score">${label} · ${best.type || ''}</div>
+        <a class="popup-cta" href="how-to-improve-food-hygiene-rating.html">How to improve your rating →</a>
+      `).openOn(map);
+    }
+  }
+});
+
+const overlay = new CanvasOverlay();
+map.addLayer(overlay);
+
+async function loadData() {
+  const FSA = 'https://api.ratings.food.gov.uk';
+  const HDR = { 'x-api-version': '2', 'Accept': 'application/json' };
+
+  // 33 London local authority IDs
+  const londonIds = [88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120];
+  const loadingEl = document.querySelector('#loading p');
+  let loaded = 0;
+
+  // Fetch in batches of 8 to avoid browser connection limits
+  const chunks = [];
+  for (let i = 0; i < londonIds.length; i += 8) {
+    const batch = londonIds.slice(i, i + 8);
+    const results = await Promise.all(
+      batch.map(id =>
+        fetch(`${FSA}/Establishments?localAuthorityId=${id}&pageSize=5000`, { headers: HDR })
+          .then(r => r.json())
+          .then(d => {
+            loaded++;
+            loadingEl.textContent = `Loading London boroughs… ${loaded}/${londonIds.length}`;
+            return d.establishments || [];
+          })
+          .catch(() => { loaded++; return []; })
+      )
+    );
+    chunks.push(...results);
+  }
+
+  for (const establishments of chunks) {
+    for (const e of establishments) {
+      const rating = parseInt(e.RatingValue);
+      if (isNaN(rating) || rating < 0 || rating > 5) continue;
+      const geo = e.geocode || {};
+      const lat = parseFloat(geo.latitude);
+      const lng = parseFloat(geo.longitude);
+      if (isNaN(lat) || isNaN(lng)) continue;
+
+      allData.push({
+        lat, lng, rating,
+        name: e.BusinessName || '',
+        addr: [e.AddressLine1, e.AddressLine2, e.PostCode].filter(s => s && s !== e.BusinessName).join(', '),
+        type: e.BusinessType || '',
+        postcode: (e.PostCode || '').toLowerCase(),
+        nameLower: (e.BusinessName || '').toLowerCase()
+      });
+    }
+  }
+
+  applyFilter();
+  document.getElementById('loading').classList.add('hidden');
+}
+
+function applyFilter() {
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const counts = { 5:0, 4:0, 3:0, 2:0, 1:0, 0:0 };
+  filtered = [];
+  for (const d of allData) {
+    if (!ratingVisible[d.rating]) continue;
+    if (q && !d.nameLower.includes(q) && !d.postcode.startsWith(q)) continue;
+    filtered.push(d);
+    counts[d.rating]++;
+  }
+  for (let i = 0; i <= 5; i++) {
+    document.getElementById('count' + i).textContent = counts[i].toLocaleString();
+  }
+  overlay._redraw();
+}
+
+function toggleRating(rating, btn) {
+  ratingVisible[rating] = !ratingVisible[rating];
+  btn.classList.toggle('off');
+  applyFilter();
+}
+
+let debounce = null;
+document.getElementById('searchInput').addEventListener('input', () => {
+  clearTimeout(debounce);
+  debounce = setTimeout(applyFilter, 300);
+});
+
+loadData();
+</script>
+
+</body>
+</html>

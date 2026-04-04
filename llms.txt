@@ -16,7 +16,7 @@ Blueroll is a mobile app that replaces paper HACCP records with digital checklis
 ## Free Tools
 - Rating Badge Widget (US + UK): https://blueroll.app/free-food-hygiene-rating-badge.html
 - HACCP Template Pack (free PDF): https://blueroll.app/free-haccp-template.html
-- Check Your Rating: https://blueroll.app/check-food-hygiene-rating.html
+- Check Your Rating: https://blueroll.app/london-food-hygiene-map.html
 
 ## City Guides — US
 - NYC Restaurant Grade — How to Get an A: https://blueroll.app/nyc-restaurant-grade.html
