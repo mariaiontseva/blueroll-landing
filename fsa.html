@@ -413,7 +413,98 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
     margin: 15mm 15mm 10mm 18mm;
     size: A4;
   }
+
+  /* === COMBINED MODE: letter + label on integrated label paper === */
+  body.print-combined .modal .letter-page { display: none !important; }
+  body.print-combined .modal .combined-page { display: block !important; }
+
+  .combined-page {
+    page-break-after: always !important;
+    position: relative !important;
+    height: 257mm !important; /* 297 - margins (15+10) - label area ~105 */
+    overflow: hidden !important;
+    margin: 0 !important; padding: 0 !important;
+  }
+  .combined-page:last-child { page-break-after: avoid !important; }
+
+  .combined-letter-area {
+    height: 152mm !important;
+    overflow: hidden !important;
+    padding: 25mm 0 0 0 !important;
+  }
+  .combined-letter-area .letter-top {
+    max-width: 85mm !important;
+    margin-bottom: 3mm !important;
+    padding-bottom: 2mm !important;
+    border-bottom: 0.5px solid #ccc !important;
+  }
+  .combined-letter-area .letter-content {
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+  }
+  .combined-letter-area .letter-qr-inline {
+    margin: 2mm 0 !important;
+    padding: 2mm !important;
+  }
+  .combined-letter-area .letter-qr-inline img {
+    width: 22mm !important;
+    height: 22mm !important;
+  }
+  .combined-letter-area .letter-qr-inline .qr-caption {
+    font-size: 7px !important;
+  }
+  .combined-letter-area .letter-content2 {
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+  }
+  .combined-letter-area .letter-footer {
+    font-size: 8px !important;
+    margin-top: 2mm !important;
+    padding-top: 1mm !important;
+  }
+
+  .combined-label-area {
+    position: absolute !important;
+    bottom: -10mm !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 160mm !important;
+    height: 105mm !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+  }
+  .combined-label-area img {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+  }
+  .combined-label-area .no-label {
+    font-size: 10px !important;
+    color: #999 !important;
+    text-align: center !important;
+  }
 }
+
+/* Combined page — screen preview */
+.combined-page { display: none; }
+.combined-page.preview {
+  display: block; background: white; color: #111; border: 2px dashed #e5e7eb;
+  margin-bottom: 24px; padding: 24px; position: relative; min-height: 400px;
+}
+.combined-letter-area.preview { max-height: 55%; overflow: hidden; }
+.combined-label-area.preview {
+  border-top: 2px dashed #10B981; margin-top: 16px; padding-top: 16px;
+  text-align: center; min-height: 120px;
+  display: flex; align-items: center; justify-content: center;
+}
+.combined-label-area.preview img { max-width: 400px; max-height: 200px; }
+
+/* Click & Drop status */
+.cd-status { font-size: 11px; color: var(--muted); margin-top: 8px; }
+.cd-status.success { color: var(--accent); }
+.cd-status.error { color: var(--red); }
 
 /* Multi-select dropdown */
 .multi-select {
@@ -636,6 +727,14 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
       📋 All rated ≤2 (full UK)
     </button>
 
+    <!-- Click & Drop -->
+    <hr class="sidebar-divider">
+    <h2>Royal Mail</h2>
+    <div class="form-group">
+      <label class="form-label">Click & Drop API Key</label>
+      <input type="password" class="form-input" id="cdApiKey" placeholder="Enter API key" style="font-size:12px;">
+    </div>
+
     <!-- CSV Import Section -->
     <hr class="sidebar-divider">
     <h2>CSV Import</h2>
@@ -694,6 +793,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
         <button class="btn-sm" onclick="selectAll()">Select All</button>
         <button class="btn-sm" onclick="deselectAll()">Deselect All</button>
         <button class="btn-sm btn-sm-primary" onclick="generateLetters()">Generate Letters</button>
+        <button class="btn-sm" onclick="pushToClickDrop()" id="cdPushBtn" style="background:rgba(220,38,38,0.1);color:#DC2626;border-color:rgba(220,38,38,0.3);">Push to Click & Drop</button>
       </div>
     </div>
 
@@ -739,13 +839,24 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
     <div class="modal-toolbar">
       <span id="letterCount">1 letter</span>
       <div class="modal-actions">
-        <button class="btn-print" onclick="window.print()">🖨 Print All</button>
+        <button class="btn-print" onclick="window.print()">🖨 Print Letters</button>
+        <button class="btn-print" onclick="printCombined()" id="btnPrintCombined" style="display:none;">🖨 Print Combined</button>
+        <label class="btn-print" style="cursor:pointer;">
+          📎 Import Labels
+          <input type="file" accept=".pdf" onchange="importLabelsPDF(this.files[0])" style="display:none;">
+        </label>
         <button class="btn-copy" onclick="copyLetter()">Copy Text</button>
       </div>
     </div>
     <div id="lettersContainer"></div>
+    <div id="combinedContainer"></div>
+    <div id="cdStatusModal" class="cd-status" style="display:none;"></div>
   </div>
 </div>
+
+<!-- pdf.js for label PDF rendering -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>if(window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
 
 <script>
 const API = 'https://api.ratings.food.gov.uk';
@@ -1548,6 +1659,241 @@ async function quickFilter(preset) {
       break;
   }
   searchFSA();
+}
+
+// ─── Click & Drop Integration ───────────────────────────
+
+let clickDropQueue = []; // indices of businesses pushed to C&D
+let labelImages = [];    // data URLs of rendered label pages
+
+async function pushToClickDrop() {
+  if (selected.size === 0) { alert('Select businesses first'); return; }
+
+  const apiKey = document.getElementById('cdApiKey').value.trim();
+  if (!apiKey) { alert('Enter your Click & Drop API key in the sidebar'); return; }
+
+  const indices = [...selected];
+  const btn = document.getElementById('cdPushBtn');
+  btn.disabled = true;
+  btn.textContent = 'Pushing...';
+
+  const items = indices.map(i => {
+    const e = allResults[i];
+    const addr1 = e.AddressLine1 || '';
+    const addr2 = e.AddressLine2 || '';
+    const addr3 = e.AddressLine3 || '';
+    const city = e.AddressLine3 || e.AddressLine2 || '';
+    const pc = e.PostCode || '';
+    const ref = 'BR-' + (e.FHRSID || i);
+
+    return {
+      recipient: {
+        address: {
+          fullName: e.BusinessName,
+          addressLine1: addr1,
+          addressLine2: addr2,
+          addressLine3: addr3,
+          city: city,
+          postcode: pc,
+          countryCode: 'GB'
+        }
+      },
+      sender: {
+        tradingName: 'Blueroll',
+        emailAddress: 'hello@blueroll.app'
+      },
+      billing: {
+        address: {
+          fullName: 'Blueroll',
+          addressLine1: '71-75 Shelton Street',
+          city: 'London',
+          postcode: 'WC2H 9JQ',
+          countryCode: 'GB'
+        }
+      },
+      packages: {
+        weightInGrams: 30,
+        packageFormatIdentifier: 'largeLetter',
+        contents: []
+      },
+      orderDate: new Date().toISOString().split('T')[0] + 'T00:00:00',
+      subtotal: 0,
+      shippingCostCharged: 0,
+      total: 0,
+      currencyCode: 'GBP',
+      label: { includeLabelInResponse: false, includeCN: false, includeReturnsLabel: false },
+      orderReference: ref
+    };
+  });
+
+  try {
+    const resp = await fetch(`${CRM_API}/api/clickdrop/orders`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ api_key: apiKey, items: items })
+    });
+    const data = await resp.json();
+
+    if (resp.ok && !data.error) {
+      clickDropQueue = indices;
+      const created = data.createdOrders ? data.createdOrders.length : indices.length;
+      btn.textContent = `✓ ${created} orders created`;
+      btn.style.color = '#10B981';
+      btn.style.borderColor = 'rgba(16,185,129,0.3)';
+      btn.style.background = 'rgba(16,185,129,0.1)';
+
+      // Also mark as contacted in CRM
+      const fhrsIds = indices.map(i => allResults[i].FHRSID).filter(Boolean);
+      if (fhrsIds.length > 0) {
+        fetch(`${CRM_API}/api/contact`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fhrs_ids: fhrsIds, channel: 'paper', template: 'rating_low' })
+        }).catch(() => {});
+      }
+    } else {
+      const errMsg = data.error || JSON.stringify(data).substring(0, 200);
+      alert('Click & Drop error: ' + errMsg);
+      btn.textContent = 'Push to Click & Drop';
+    }
+  } catch (err) {
+    alert('Network error: ' + err.message);
+    btn.textContent = 'Push to Click & Drop';
+  } finally {
+    btn.disabled = false;
+    setTimeout(() => {
+      btn.textContent = 'Push to Click & Drop';
+      btn.style.color = '#DC2626';
+      btn.style.borderColor = 'rgba(220,38,38,0.3)';
+      btn.style.background = 'rgba(220,38,38,0.1)';
+    }, 5000);
+  }
+}
+
+// ─── Import Labels PDF ──────────────────────────────────
+
+async function importLabelsPDF(file) {
+  if (!file) return;
+  if (!window.pdfjsLib) { alert('PDF.js not loaded. Please refresh the page.'); return; }
+
+  const arrayBuffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+  const numPages = pdf.numPages;
+
+  labelImages = [];
+  for (let p = 1; p <= numPages; p++) {
+    const page = await pdf.getPage(p);
+    const scale = 2; // high res for print
+    const viewport = page.getViewport({ scale });
+    const canvas = document.createElement('canvas');
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    const ctx = canvas.getContext('2d');
+    await page.render({ canvasContext: ctx, viewport }).promise;
+    labelImages.push(canvas.toDataURL('image/png'));
+  }
+
+  // Show combined print button
+  document.getElementById('btnPrintCombined').style.display = '';
+
+  // Build combined preview if letters are showing
+  buildCombinedPages();
+
+  const status = document.getElementById('cdStatusModal');
+  status.style.display = 'block';
+  status.className = 'cd-status success';
+  status.textContent = `✓ ${numPages} label(s) imported from ${file.name}. Click "Print Combined" to print on integrated label paper.`;
+}
+
+// ─── Build Combined Pages (letter + label) ──────────────
+
+function buildCombinedPages() {
+  const container = document.getElementById('combinedContainer');
+  container.innerHTML = '';
+
+  // Get letter indices currently showing in the modal
+  const letterPages = document.querySelectorAll('#lettersContainer .letter-page');
+  if (letterPages.length === 0) return;
+
+  // Determine which business indices are being shown
+  let indices = [];
+  if (clickDropQueue.length > 0) {
+    indices = clickDropQueue;
+  } else {
+    // Fallback: use selected or all shown letters
+    indices = [...selected].length > 0 ? [...selected] : allResults.map((_, i) => i).slice(0, letterPages.length);
+  }
+
+  indices.forEach((bizIdx, pageIdx) => {
+    const e = allResults[bizIdx];
+    if (!e) return;
+
+    const letterHTML = buildLetterPage(bizIdx);
+    const labelImg = labelImages[pageIdx] || null;
+
+    const div = document.createElement('div');
+    div.className = 'combined-page preview';
+    div.innerHTML = `
+      <div class="combined-letter-area preview">
+        ${letterHTML.replace('class="letter-page"', 'style="border:none;margin:0;padding:0;"')}
+      </div>
+      <div class="combined-label-area preview">
+        ${labelImg
+          ? `<img src="${labelImg}" alt="Label ${pageIdx + 1}">`
+          : '<div class="no-label" style="color:#999;font-size:12px;">No label for this page</div>'}
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function printCombined() {
+  // Rebuild combined pages for print
+  const container = document.getElementById('combinedContainer');
+  container.innerHTML = '';
+
+  let indices = [];
+  if (clickDropQueue.length > 0) {
+    indices = clickDropQueue;
+  } else {
+    indices = [...selected].length > 0 ? [...selected] : [];
+  }
+
+  if (indices.length === 0) {
+    // Fallback: use whatever letters are showing
+    const letterPages = document.querySelectorAll('#lettersContainer .letter-page');
+    indices = Array.from({ length: letterPages.length }, (_, i) => i);
+  }
+
+  indices.forEach((bizIdx, pageIdx) => {
+    const e = allResults[bizIdx];
+    if (!e) return;
+
+    const letterHTML = buildLetterPage(bizIdx);
+    const labelImg = labelImages[pageIdx] || null;
+
+    const div = document.createElement('div');
+    div.className = 'combined-page';
+    div.innerHTML = `
+      <div class="combined-letter-area">
+        ${letterHTML.replace('class="letter-page"', 'style="border:none;margin:0;padding:0;"')}
+      </div>
+      <div class="combined-label-area">
+        ${labelImg
+          ? `<img src="${labelImg}" alt="Label">`
+          : '<div class="no-label">No label</div>'}
+      </div>
+    `;
+    container.appendChild(div);
+  });
+
+  // Add class to body so print CSS switches to combined mode
+  document.body.classList.add('print-combined');
+  setTimeout(() => {
+    window.print();
+    // Remove combined class after print dialog
+    setTimeout(() => document.body.classList.remove('print-combined'), 500);
+  }, 100);
 }
 
 // Close modal on Escape
