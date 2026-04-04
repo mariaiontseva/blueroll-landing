@@ -288,7 +288,7 @@ async function loadData() {
     const batch = londonIds.slice(i, i + 8);
     const results = await Promise.all(
       batch.map(id =>
-        fetch(`${FSA}/Establishments?localAuthorityId=${id}&pageSize=5000`, { headers: HDR })
+        fetch(`${FSA}/Establishments?localAuthorityId=${id}&pageSize=10000`, { headers: HDR })
           .then(r => r.json())
           .then(d => {
             loaded++;
