@@ -1853,12 +1853,12 @@ function printCombined() {
   let pagesHTML = '';
   withLabels.forEach((bizIdx, pi) => {
     const e = allResults[bizIdx];
-    const letterHTML = buildLetterPage(bizIdx);
+    const letterHTML = buildLetterPage(bizIdx).replace('class="letter-page"', 'style="border:none;margin:0;padding:0;"');
     const labelImg = businessLabels[parseInt(e.FHRSID)];
     const isLast = pi === withLabels.length - 1;
     pagesHTML += `<div class="cp-page" ${isLast ? '' : 'style="page-break-after:always;"'}>
       <div class="cp-letter">
-        ${letterHTML.replace('class="letter-page"', 'style="border:none;margin:0;padding:0;"')}
+        ${letterHTML}
       </div>
       <div class="cp-label">
         <img src="${labelImg}">
@@ -1874,8 +1874,8 @@ function printCombined() {
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: -apple-system, 'SF Pro Text', system-ui, sans-serif; color: #111; }
   .cp-page { position: relative; width: 100%; height: 282mm; overflow: hidden; }
-  .cp-letter { height: 175mm; overflow: hidden; padding-top: 20mm; }
-  .letter-top { margin-bottom: 2mm; padding-bottom: 1mm; border-bottom: 0.5px solid #ccc; max-width: 80mm; }
+  .cp-letter { height: 175mm; overflow: hidden; padding-top: 10mm; }
+  .letter-top { display: none; }
   .letter-sender { display: flex; align-items: center; gap: 2mm; margin-bottom: 2mm; }
   .letter-sender-logo { height: 16px; border-radius: 3px; }
   .letter-sender-info { font-size: 8px; color: #888; line-height: 1.3; }
