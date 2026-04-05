@@ -389,6 +389,43 @@ tr:hover { background: rgba(16,185,129,0.03); }
     <div id="aeError" style="font-family:var(--mono);font-size:11px;color:var(--red);margin-top:6px;display:none;"></div>
   </div>
 
+  <!-- Live feed — last 20 enrichments in real time -->
+  <div id="liveFeedCard" style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin-bottom:16px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;animation:pulse 1.5s ease-in-out infinite;"></span>
+        <span style="font-size:13px;font-weight:600;">Live Feed</span>
+        <span id="liveFeedStatus" style="font-family:var(--mono);font-size:11px;color:var(--muted);">polling every 3s…</span>
+      </div>
+      <span id="liveFeedCount" style="font-family:var(--mono);font-size:10px;color:var(--muted);"></span>
+    </div>
+    <div id="liveFeedList" style="display:flex;flex-direction:column;gap:4px;max-height:360px;overflow-y:auto;"></div>
+  </div>
+
+  <style>
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.4;transform:scale(1.3);} }
+    @keyframes slideIn { from{opacity:0;transform:translateX(-20px);background:rgba(16,185,129,0.15);} to{opacity:1;transform:translateX(0);background:var(--surface2);} }
+    .lf-row {
+      display:grid;grid-template-columns:70px 1fr 80px 100px 120px;gap:12px;align-items:center;
+      padding:8px 12px;background:var(--surface2);border-radius:6px;font-size:12px;
+      animation:slideIn 0.4s ease-out;
+      border-left:3px solid transparent;
+    }
+    .lf-row.found { border-left-color:var(--accent); }
+    .lf-row.empty { border-left-color:rgba(255,255,255,0.05); opacity:0.55; }
+    .lf-time { font-family:var(--mono); font-size:10px; color:var(--muted); }
+    .lf-name { color:var(--text); font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .lf-rating { display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:5px;font-weight:700;font-size:11px; }
+    .lf-r5 { background:#047857; color:white; } .lf-r4 { background:#10B981; color:white; }
+    .lf-r3 { background:#F59E0B; color:white; } .lf-r2 { background:#F97316; color:white; }
+    .lf-r1 { background:#EF4444; color:white; } .lf-r0 { background:#7F1D1D; color:white; }
+    .lf-loc { color:var(--muted); font-size:11px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .lf-fields { display:flex; gap:3px; flex-wrap:wrap; }
+    .lf-chip { padding:2px 7px; border-radius:3px; background:rgba(16,185,129,0.15); color:var(--accent); font-family:var(--mono); font-size:9px; text-transform:uppercase; letter-spacing:0.05em; }
+    .lf-empty-text { color:var(--muted); font-family:var(--mono); font-size:10px; font-style:italic; }
+    @media(max-width:800px) { .lf-row { grid-template-columns:50px 1fr 70px; } .lf-row > .lf-loc, .lf-row > .lf-fields { display:none; } }
+  </style>
+
   <div class="stats-grid" id="enrichStats"></div>
 
   <!-- Target Builder -->
@@ -560,7 +597,8 @@ function switchTab(tab) {
   document.querySelectorAll('.tab')[tabs[tab]].classList.add('active');
   document.getElementById('panel' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
 
-  if (tab === 'enrichment') loadEnrichStats();
+  if (tab === 'enrichment') { loadEnrichStats(); startLiveFeed(); }
+  else { stopLiveFeed(); }
   if (tab === 'sync') loadSyncPanel();
 }
 
@@ -1019,6 +1057,78 @@ async function loadAutoEnrichStatus() {
       errEl.style.display = 'none';
     }
   } catch (e) {}
+}
+
+// ═══ LIVE FEED — polls every 3s ═══
+let liveFeedSeen = new Set();
+let liveFeedInterval = null;
+
+function renderFeedRow(e, isNew) {
+  const time = e.attempted_at ? new Date(e.attempted_at) : null;
+  const timeStr = time ? time.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '—';
+  const rating = e.rating != null ? e.rating : '?';
+  const ratingClass = `lf-r${rating}`;
+  const foundClass = e.found_count > 0 ? 'found' : 'empty';
+  const fields = e.found_fields && e.found_fields.length
+    ? e.found_fields.map(f => `<span class="lf-chip">${f}</span>`).join('')
+    : '<span class="lf-empty-text">no data found</span>';
+  return `
+    <div class="lf-row ${foundClass}" data-id="${e.fhrs_id}">
+      <div class="lf-time">${timeStr}</div>
+      <div class="lf-name">${esc(e.name || '?')}</div>
+      <div><span class="lf-rating ${ratingClass}">${rating}</span></div>
+      <div class="lf-loc">${esc(e.local_authority || e.postcode || '')}</div>
+      <div class="lf-fields">${fields}</div>
+    </div>`;
+}
+
+async function loadLiveFeed() {
+  try {
+    const r = await fetch(`${CRM_API}/api/auto-enrich/recent`);
+    if (!r.ok) {
+      document.getElementById('liveFeedStatus').textContent = 'waiting for data…';
+      return;
+    }
+    const data = await r.json();
+    const events = data.events || [];
+
+    const list = document.getElementById('liveFeedList');
+    if (events.length === 0) {
+      list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted);font-size:12px;">Waiting for first enrichment cycle… <br><span style="font-size:10px;">Scheduler runs every 10 minutes. First run starts shortly after service start.</span></div>';
+      document.getElementById('liveFeedCount').textContent = '';
+      return;
+    }
+
+    // Render top 20
+    list.innerHTML = events.slice(0, 20).map(e => renderFeedRow(e, !liveFeedSeen.has(e.fhrs_id))).join('');
+
+    // Track what we've seen
+    events.forEach(e => liveFeedSeen.add(e.fhrs_id));
+
+    // Update count
+    const foundCount = events.filter(e => e.found_count > 0).length;
+    document.getElementById('liveFeedCount').textContent = `${events.length} recent · ${foundCount} with data`;
+    document.getElementById('liveFeedStatus').textContent = `updated ${new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}`;
+  } catch (e) {
+    document.getElementById('liveFeedStatus').textContent = 'error';
+  }
+}
+
+function startLiveFeed() {
+  if (liveFeedInterval) return;
+  loadLiveFeed();
+  loadAutoEnrichStatus();
+  liveFeedInterval = setInterval(() => {
+    loadLiveFeed();
+    loadAutoEnrichStatus();
+  }, 3000);
+}
+
+function stopLiveFeed() {
+  if (liveFeedInterval) {
+    clearInterval(liveFeedInterval);
+    liveFeedInterval = null;
+  }
 }
 
 async function loadEnrichStats() {
