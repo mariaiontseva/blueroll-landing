@@ -389,17 +389,29 @@ tr:hover { background: rgba(16,185,129,0.03); }
     <div id="aeError" style="font-family:var(--mono);font-size:11px;color:var(--red);margin-top:6px;display:none;"></div>
   </div>
 
+  <!-- Currently processing card -->
+  <div id="currentCard" style="background:linear-gradient(135deg, rgba(16,185,129,0.15), rgba(16,185,129,0.05));border:1px solid rgba(16,185,129,0.3);border-radius:10px;padding:16px 20px;margin-bottom:16px;display:none;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:12px;height:12px;border-radius:50%;background:var(--accent);animation:pulse 1s ease-in-out infinite;flex-shrink:0;"></div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);font-weight:700;">Now processing <span id="currentStage"></span></div>
+        <div id="currentName" style="font-size:18px;font-weight:700;color:var(--text);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+        <div id="currentMeta" style="font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:2px;"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Live feed — last 20 enrichments in real time -->
   <div id="liveFeedCard" style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin-bottom:16px;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
       <div style="display:flex;align-items:center;gap:8px;">
         <span style="width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;animation:pulse 1.5s ease-in-out infinite;"></span>
         <span style="font-size:13px;font-weight:600;">Live Feed</span>
-        <span id="liveFeedStatus" style="font-family:var(--mono);font-size:11px;color:var(--muted);">polling every 3s…</span>
+        <span id="liveFeedStatus" style="font-family:var(--mono);font-size:11px;color:var(--muted);">polling every 2s…</span>
       </div>
       <span id="liveFeedCount" style="font-family:var(--mono);font-size:10px;color:var(--muted);"></span>
     </div>
-    <div id="liveFeedList" style="display:flex;flex-direction:column;gap:4px;max-height:360px;overflow-y:auto;"></div>
+    <div id="liveFeedList" style="display:flex;flex-direction:column;gap:4px;max-height:500px;overflow-y:auto;"></div>
   </div>
 
   <style>
@@ -1059,55 +1071,72 @@ async function loadAutoEnrichStatus() {
   } catch (e) {}
 }
 
-// ═══ LIVE FEED — polls every 3s ═══
+// ═══ LIVE FEED — polls every 2s ═══
 let liveFeedSeen = new Set();
 let liveFeedInterval = null;
 
-function renderFeedRow(e, isNew) {
-  const time = e.attempted_at ? new Date(e.attempted_at) : null;
+function renderFeedRow(e) {
+  const time = e.time ? new Date(e.time) : null;
   const timeStr = time ? time.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '—';
   const rating = e.rating != null ? e.rating : '?';
   const ratingClass = `lf-r${rating}`;
   const foundClass = e.found_count > 0 ? 'found' : 'empty';
   const fields = e.found_fields && e.found_fields.length
-    ? e.found_fields.map(f => `<span class="lf-chip">${f}</span>`).join('')
-    : '<span class="lf-empty-text">no data found</span>';
+    ? e.found_fields.map(f => `<span class="lf-chip">+${f}</span>`).join('')
+    : '<span class="lf-empty-text">nothing found</span>';
+  const key = `${e.time}-${e.name}`;
   return `
-    <div class="lf-row ${foundClass}" data-id="${e.fhrs_id}">
+    <div class="lf-row ${foundClass}" data-key="${esc(key)}">
       <div class="lf-time">${timeStr}</div>
       <div class="lf-name">${esc(e.name || '?')}</div>
       <div><span class="lf-rating ${ratingClass}">${rating}</span></div>
-      <div class="lf-loc">${esc(e.local_authority || e.postcode || '')}</div>
+      <div class="lf-loc">${esc(e.stage || '')} · ${esc(e.postcode || '')}</div>
       <div class="lf-fields">${fields}</div>
     </div>`;
 }
 
 async function loadLiveFeed() {
   try {
-    const r = await fetch(`${CRM_API}/api/auto-enrich/recent`);
+    const r = await fetch(`${CRM_API}/api/auto-enrich/recent?t=` + Date.now());
     if (!r.ok) {
       document.getElementById('liveFeedStatus').textContent = 'waiting for data…';
       return;
     }
     const data = await r.json();
     const events = data.events || [];
+    const current = data.current;
 
+    // Update currently processing card
+    const currentCard = document.getElementById('currentCard');
+    if (current && current.name) {
+      currentCard.style.display = 'block';
+      document.getElementById('currentName').textContent = current.name;
+      document.getElementById('currentStage').textContent = (current.stage || '').toUpperCase();
+      const started = current.started_at ? new Date(current.started_at) : null;
+      const elapsed = started ? Math.floor((Date.now() - started) / 1000) : 0;
+      document.getElementById('currentMeta').textContent = `${current.postcode || ''} · ${elapsed}s elapsed`;
+    } else {
+      currentCard.style.display = 'none';
+    }
+
+    // Live feed list
     const list = document.getElementById('liveFeedList');
     if (events.length === 0) {
-      list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted);font-size:12px;">Waiting for first enrichment cycle… <br><span style="font-size:10px;">Scheduler runs every 10 minutes. First run starts shortly after service start.</span></div>';
+      list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted);font-size:12px;">Waiting for first enrichment cycle… <br><span style="font-size:10px;">Scheduler runs every 10 minutes. First batch starts shortly after service boot.</span></div>';
       document.getElementById('liveFeedCount').textContent = '';
       return;
     }
 
-    // Render top 20
-    list.innerHTML = events.slice(0, 20).map(e => renderFeedRow(e, !liveFeedSeen.has(e.fhrs_id))).join('');
-
-    // Track what we've seen
-    events.forEach(e => liveFeedSeen.add(e.fhrs_id));
+    // Only re-render if there are new events (top event changed)
+    const topKey = events[0] ? `${events[0].time}-${events[0].name}` : null;
+    const existingTop = list.firstElementChild?.getAttribute('data-key');
+    if (topKey !== existingTop) {
+      list.innerHTML = events.slice(0, 30).map(e => renderFeedRow(e)).join('');
+    }
 
     // Update count
     const foundCount = events.filter(e => e.found_count > 0).length;
-    document.getElementById('liveFeedCount').textContent = `${events.length} recent · ${foundCount} with data`;
+    document.getElementById('liveFeedCount').textContent = `${events.length} events · ${foundCount} with data`;
     document.getElementById('liveFeedStatus').textContent = `updated ${new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}`;
   } catch (e) {
     document.getElementById('liveFeedStatus').textContent = 'error';
@@ -1121,7 +1150,7 @@ function startLiveFeed() {
   liveFeedInterval = setInterval(() => {
     loadLiveFeed();
     loadAutoEnrichStatus();
-  }, 3000);
+  }, 2000);
 }
 
 function stopLiveFeed() {
