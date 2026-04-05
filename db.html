@@ -418,24 +418,34 @@ tr:hover { background: rgba(16,185,129,0.03); }
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.4;transform:scale(1.3);} }
     @keyframes slideIn { from{opacity:0;transform:translateX(-20px);background:rgba(16,185,129,0.15);} to{opacity:1;transform:translateX(0);background:var(--surface2);} }
     .lf-row {
-      display:grid;grid-template-columns:70px 1fr 80px 100px 120px;gap:12px;align-items:center;
-      padding:8px 12px;background:var(--surface2);border-radius:6px;font-size:12px;
+      padding:10px 14px;background:var(--surface2);border-radius:8px;font-size:12px;
       animation:slideIn 0.4s ease-out;
       border-left:3px solid transparent;
+      transition:background 0.15s;
     }
+    .lf-row:hover { background:rgba(16,185,129,0.08); }
     .lf-row.found { border-left-color:var(--accent); }
-    .lf-row.empty { border-left-color:rgba(255,255,255,0.05); opacity:0.55; }
-    .lf-time { font-family:var(--mono); font-size:10px; color:var(--muted); }
-    .lf-name { color:var(--text); font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .lf-rating { display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:5px;font-weight:700;font-size:11px; }
+    .lf-row.empty { border-left-color:rgba(255,255,255,0.05); opacity:0.45; }
+    .lf-top { display:flex; align-items:center; gap:10px; margin-bottom:4px; }
+    .lf-time { font-family:var(--mono); font-size:10px; color:var(--muted); flex-shrink:0; width:60px; }
+    .lf-stage { font-family:var(--mono); font-size:9px; color:var(--blue); padding:2px 6px; background:rgba(59,130,246,0.1); border-radius:3px; flex-shrink:0; letter-spacing:0.08em; }
+    .lf-rating { display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:5px;font-weight:700;font-size:11px;flex-shrink:0; }
     .lf-r5 { background:#047857; color:white; } .lf-r4 { background:#10B981; color:white; }
     .lf-r3 { background:#F59E0B; color:white; } .lf-r2 { background:#F97316; color:white; }
     .lf-r1 { background:#EF4444; color:white; } .lf-r0 { background:#7F1D1D; color:white; }
-    .lf-loc { color:var(--muted); font-size:11px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .lf-fields { display:flex; gap:3px; flex-wrap:wrap; }
-    .lf-chip { padding:2px 7px; border-radius:3px; background:rgba(16,185,129,0.15); color:var(--accent); font-family:var(--mono); font-size:9px; text-transform:uppercase; letter-spacing:0.05em; }
-    .lf-empty-text { color:var(--muted); font-family:var(--mono); font-size:10px; font-style:italic; }
-    @media(max-width:800px) { .lf-row { grid-template-columns:50px 1fr 70px; } .lf-row > .lf-loc, .lf-row > .lf-fields { display:none; } }
+    .lf-name { color:var(--text); font-weight:600; font-size:13px; flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .lf-loc { color:var(--muted); font-size:10px; font-family:var(--mono); flex-shrink:0; }
+    .lf-bottom { display:flex; flex-wrap:wrap; gap:16px; padding-left:70px; font-family:var(--mono); font-size:11px; }
+    .lf-val { display:inline-flex; align-items:center; gap:6px; color:var(--text); }
+    .lf-val-label { font-size:9px; font-weight:700; color:var(--muted); letter-spacing:0.08em; padding:1px 5px; background:rgba(255,255,255,0.06); border-radius:3px; }
+    .lf-val a { color:var(--accent); text-decoration:none; }
+    .lf-val a:hover { text-decoration:underline; }
+    .lf-empty-text { color:var(--muted); font-family:var(--mono); font-size:10px; font-style:italic; padding-left:70px; }
+    @media(max-width:800px) {
+      .lf-bottom { padding-left:0; flex-direction:column; gap:4px; }
+      .lf-empty-text { padding-left:0; }
+      .lf-top { flex-wrap:wrap; }
+    }
   </style>
 
   <div class="stats-grid" id="enrichStats"></div>
@@ -1081,18 +1091,51 @@ function renderFeedRow(e) {
   const rating = e.rating != null ? e.rating : '?';
   const ratingClass = `lf-r${rating}`;
   const foundClass = e.found_count > 0 ? 'found' : 'empty';
-  const fields = e.found_fields && e.found_fields.length
-    ? e.found_fields.map(f => `<span class="lf-chip">+${f}</span>`).join('')
-    : '<span class="lf-empty-text">nothing found</span>';
+  const values = e.found_values || {};
+
+  // Build detail view with actual values
+  let detailHtml = '';
+  if (e.found_count > 0) {
+    const parts = [];
+    if (values.phone) parts.push(`<span class="lf-val"><span class="lf-val-label">TEL</span> <a href="tel:${esc(values.phone)}" onclick="event.stopPropagation()">${esc(values.phone)}</a></span>`);
+    if (values.website) {
+      const shortUrl = values.website.replace(/^https?:\/\/(www\.)?/,'').split('/')[0];
+      parts.push(`<span class="lf-val"><span class="lf-val-label">WEB</span> <a href="${esc(values.website)}" target="_blank" onclick="event.stopPropagation()">${esc(shortUrl)}</a></span>`);
+    }
+    if (values.email) parts.push(`<span class="lf-val"><span class="lf-val-label">MAIL</span> <a href="mailto:${esc(values.email)}" onclick="event.stopPropagation()">${esc(values.email)}</a></span>`);
+    if (values.instagram) parts.push(`<span class="lf-val"><span class="lf-val-label">IG</span> <a href="https://instagram.com/${esc(values.instagram)}" target="_blank" onclick="event.stopPropagation()">@${esc(values.instagram)}</a></span>`);
+    if (values.facebook) parts.push(`<span class="lf-val"><span class="lf-val-label">FB</span> <a href="https://facebook.com/${esc(values.facebook)}" target="_blank" onclick="event.stopPropagation()">${esc(values.facebook)}</a></span>`);
+    if (values.google_rating) parts.push(`<span class="lf-val"><span class="lf-val-label">G★</span> ${values.google_rating}${values.google_reviews ? ` (${values.google_reviews} reviews)` : ''}</span>`);
+    detailHtml = parts.join('');
+  } else {
+    detailHtml = '<span class="lf-empty-text">nothing found</span>';
+  }
+
   const key = `${e.time}-${e.name}`;
+  const clickable = e.fhrs_id ? `onclick="openRecord('${e.fhrs_id}')"` : '';
   return `
-    <div class="lf-row ${foundClass}" data-key="${esc(key)}">
-      <div class="lf-time">${timeStr}</div>
-      <div class="lf-name">${esc(e.name || '?')}</div>
-      <div><span class="lf-rating ${ratingClass}">${rating}</span></div>
-      <div class="lf-loc">${esc(e.stage || '')} · ${esc(e.postcode || '')}</div>
-      <div class="lf-fields">${fields}</div>
+    <div class="lf-row ${foundClass}" data-key="${esc(key)}" ${clickable} style="cursor:${e.fhrs_id ? 'pointer' : 'default'}">
+      <div class="lf-left">
+        <div class="lf-top">
+          <span class="lf-time">${timeStr}</span>
+          <span class="lf-stage">${esc((e.stage || '').toUpperCase())}</span>
+          <span class="lf-rating ${ratingClass}">${rating}</span>
+          <span class="lf-name">${esc(e.name || '?')}</span>
+          <span class="lf-loc">${esc(e.postcode || '')}</span>
+        </div>
+        <div class="lf-bottom">${detailHtml}</div>
+      </div>
     </div>`;
+}
+
+async function openRecord(fhrsId) {
+  try {
+    const r = await fetch(`${CRM_API}/api/business/${fhrsId}`);
+    if (r.ok) {
+      const data = await r.json();
+      showDetailModal(data);
+    }
+  } catch (e) {}
 }
 
 async function loadLiveFeed() {
