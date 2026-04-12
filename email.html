@@ -891,29 +891,34 @@ function generateStoryPNG(idx) {
 
   // ─── Below badge ───
   if (handle) {
-    ctx.font = '500 40px "DM Sans", sans-serif';
-    ctx.fillStyle = 'rgba(240,236,227,0.65)';
+    ctx.font = '500 34px "DM Sans", sans-serif';
+    ctx.fillStyle = 'rgba(240,236,227,0.6)';
     ctx.textAlign = 'center';
-    ctx.fillText(handle + ' — here\u2019s your badge', W/2, 1500);
+    ctx.fillText(handle + ' — here\u2019s your badge', W/2, 1490);
   }
 
-  // HUGE CTA: DM for the code
-  ctx.font = '800 88px "DM Sans", sans-serif';
+  // Main CTA: Free badge for your website
+  ctx.font = '800 64px "DM Sans", sans-serif';
   ctx.fillStyle = '#E2B55A';
   ctx.textAlign = 'center';
-  ctx.fillText('DM for the code', W/2, 1620);
+  ctx.fillText('Free badge for your website', W/2, 1585);
 
-  ctx.font = '500 28px "DM Sans", sans-serif';
-  ctx.fillStyle = 'rgba(255,255,255,0.45)';
-  ctx.fillText('Free · Auto-updating · No code required', W/2, 1670);
+  // Sub-CTA: how to get it
+  ctx.font = '500 36px "DM Sans", sans-serif';
+  ctx.fillStyle = 'rgba(240,236,227,0.9)';
+  ctx.fillText('DM us for the embed code \u2192', W/2, 1640);
 
-  // blueroll.app — MASSIVE footer brand
-  ctx.font = '800 108px "DM Sans", sans-serif';
+  ctx.font = '400 24px "DM Sans", sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.4)';
+  ctx.fillText('Auto-updating. 2-line HTML snippet. Free forever.', W/2, 1685);
+
+  // blueroll.app — footer brand
+  ctx.font = '800 88px "DM Sans", sans-serif';
   ctx.fillStyle = '#F0ECE3';
   ctx.fillText('blueroll.app', W/2, 1820);
 
-  setLetterSpacing(ctx, 5);
-  ctx.font = '600 22px "DM Sans", sans-serif';
+  setLetterSpacing(ctx, 4);
+  ctx.font = '600 20px "DM Sans", sans-serif';
   ctx.fillStyle = 'rgba(226,181,90,0.7)';
   ctx.fillText('FOOD SAFETY MADE SIMPLE', W/2, 1870);
   setLetterSpacing(ctx, 0);
