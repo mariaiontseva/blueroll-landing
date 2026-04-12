@@ -216,7 +216,18 @@ if (h !== null && s !== null && m !== null) {
   renderScore('scoreM', 'verdictM', m, 30);
 }
 
-const utm = `?utm_source=fsa_letter&utm_medium=qr&utm_campaign=${encodeURIComponent(name)}`;
+// ─── Click tracking ───
+const src = p.get('src');
+const fhrsid = p.get('fhrsid');
+if (src === 'email' && fhrsid) {
+  fetch('https://web-production-54cc.up.railway.app/api/contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ fhrs_ids: [parseInt(fhrsid)], channel: 'email_click', template: 'rating_page' })
+  }).catch(() => {});
+}
+
+const utm = `?utm_source=${src === 'email' ? 'email_outreach' : 'fsa_letter'}&utm_medium=${src === 'email' ? 'email' : 'qr'}&utm_campaign=${encodeURIComponent(name)}`;
 document.getElementById('appleBtn').href = 'https://apps.apple.com/app/blueroll/id6760937451' + utm;
 document.getElementById('googleBtn').href = 'https://blueroll.app' + utm;
 </script>

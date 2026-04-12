@@ -1572,7 +1572,7 @@ function buildEmailHTMLDb(r) {
   if (r.structural_score != null) scores.Structural = r.structural_score;
   if (r.confidence_score != null) scores.ConfidenceInManagement = r.confidence_score;
 
-  const rPage = `https://blueroll.app/r.html?name=${encodeURIComponent(name)}&addr=${encodeURIComponent(addr)}&rating=${encodeURIComponent(rating)}&date=${encodeURIComponent(ratedDate)}&fhrsid=${r.fhrs_id || ''}&h=${scores.Hygiene||''}&s=${scores.Structural||''}&m=${scores.ConfidenceInManagement||''}`;
+  const rPage = `https://blueroll.app/r.html?name=${encodeURIComponent(name)}&addr=${encodeURIComponent(addr)}&rating=${encodeURIComponent(rating)}&date=${encodeURIComponent(ratedDate)}&fhrsid=${r.fhrs_id || ''}&h=${scores.Hygiene||''}&s=${scores.Structural||''}&m=${scores.ConfidenceInManagement||''}&src=email`;
 
   const overdue = isOverdueDb(r);
   const monthsAgo = getMonthsAgoDb(r.rating_date);

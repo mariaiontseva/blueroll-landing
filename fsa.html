@@ -1934,7 +1934,7 @@ function buildEmailHTML(idx) {
   }[rating] || rating;
 
   const scores = e.scores || {};
-  const rPage = `https://blueroll.app/r.html?name=${encodeURIComponent(e.BusinessName)}&addr=${encodeURIComponent(addr)}&rating=${encodeURIComponent(rating)}&date=${encodeURIComponent(ratedDate)}&fhrsid=${e.FHRSID || ''}&h=${scores.Hygiene||''}&s=${scores.Structural||''}&m=${scores.ConfidenceInManagement||''}`;
+  const rPage = `https://blueroll.app/r.html?name=${encodeURIComponent(e.BusinessName)}&addr=${encodeURIComponent(addr)}&rating=${encodeURIComponent(rating)}&date=${encodeURIComponent(ratedDate)}&fhrsid=${e.FHRSID || ''}&h=${scores.Hygiene||''}&s=${scores.Structural||''}&m=${scores.ConfidenceInManagement||''}&src=email`;
 
   const overdue = isOverdue(e);
   const monthsAgo = getMonthsAgo(e.RatingDate);

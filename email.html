@@ -504,7 +504,7 @@ function exportCSV() {
     const subject = getSubject(r);
 
     const fullAddr = [r.address_1,r.address_2,r.address_3,r.postcode].filter(Boolean).join(', ');
-    const rPage = `https://blueroll.app/r.html?name=${encodeURIComponent(r.name)}&addr=${encodeURIComponent(fullAddr)}&rating=${encodeURIComponent(rating)}&fhrsid=${r.fhrs_id||''}&h=${r.hygiene_score||''}&s=${r.structural_score||''}&m=${r.confidence_score||''}`;
+    const rPage = `https://blueroll.app/r.html?name=${encodeURIComponent(r.name)}&addr=${encodeURIComponent(fullAddr)}&rating=${encodeURIComponent(rating)}&fhrsid=${r.fhrs_id||''}&h=${r.hygiene_score||''}&s=${r.structural_score||''}&m=${r.confidence_score||''}&src=email`;
 
     rows.push([
       r.email, r.name.split(/\s/)[0], r.name, rating, ratingText,
@@ -639,7 +639,7 @@ function buildEmailHTML(r) {
   const addr = [r.address_1, r.address_2, r.address_3, r.postcode].filter(Boolean).join(', ');
   const name = r.name || '';
   const ratingText = {0:'Urgent Improvement Necessary',1:'Major Improvement Necessary',2:'Improvement Necessary',3:'Generally Satisfactory',4:'Good',5:'Very Good'}[rating] || rating;
-  const rPage = `https://blueroll.app/r.html?name=${encodeURIComponent(name)}&addr=${encodeURIComponent(addr)}&rating=${encodeURIComponent(rating)}&fhrsid=${r.fhrs_id||''}&h=${r.hygiene_score||''}&s=${r.structural_score||''}&m=${r.confidence_score||''}`;
+  const rPage = `https://blueroll.app/r.html?name=${encodeURIComponent(name)}&addr=${encodeURIComponent(addr)}&rating=${encodeURIComponent(rating)}&fhrsid=${r.fhrs_id||''}&h=${r.hygiene_score||''}&s=${r.structural_score||''}&m=${r.confidence_score||''}&src=email`;
 
   const overdue = isOverdue(r);
   const monthsAgo = getMonthsAgo(r.rating_date);
