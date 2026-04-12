@@ -112,6 +112,74 @@ tr:hover { background: rgba(16,185,129,0.03); }
 .not-enriched { color: var(--muted); font-size: 10px; }
 .chain-tag { font-size: 9px; color: var(--orange); background: rgba(245,158,11,0.1); padding: 1px 5px; border-radius: 3px; }
 
+/* Select bar */
+.select-bar {
+  display: none; padding: 10px 24px; background: rgba(59,130,246,0.08);
+  border-bottom: 1px solid rgba(59,130,246,0.15); font-size: 13px; color: #3B82F6;
+  align-items: center; gap: 12px;
+}
+.select-bar.active { display: flex; }
+.select-bar strong { font-weight: 600; }
+.select-bar .btn-email-gen {
+  padding: 7px 18px; font-size: 12px; border-radius: 6px; border: none;
+  background: #3B82F6; color: white; cursor: pointer; font-weight: 600;
+  font-family: inherit; margin-left: auto; transition: background 0.15s;
+}
+.select-bar .btn-email-gen:hover { background: #2563EB; }
+.select-bar .btn-deselect {
+  padding: 5px 12px; font-size: 11px; border-radius: 4px;
+  border: 1px solid rgba(59,130,246,0.3); background: none; color: #3B82F6;
+  cursor: pointer; font-family: var(--mono);
+}
+
+/* Email modal */
+.email-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+  z-index: 200; justify-content: center; align-items: flex-start; padding: 40px 20px;
+  overflow-y: auto; backdrop-filter: blur(4px);
+}
+.email-overlay.open { display: flex; }
+.email-modal {
+  background: white; color: #111; border-radius: 12px; width: 640px; max-height: 90vh;
+  overflow-y: auto; padding: 0; position: relative;
+}
+.email-modal-toolbar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 24px; border-bottom: 1px solid #eee; position: sticky; top: 0;
+  background: white; z-index: 10; border-radius: 12px 12px 0 0;
+}
+.email-modal-toolbar span { font-size: 13px; color: #888; font-weight: 500; }
+.email-modal-toolbar .em-actions { display: flex; gap: 8px; }
+.email-modal-toolbar .em-btn {
+  padding: 8px 16px; border: 1px solid #ddd; background: white; border-radius: 8px;
+  font-size: 12px; font-weight: 500; cursor: pointer; font-family: inherit; transition: all 0.15s;
+}
+.email-modal-toolbar .em-btn:hover { border-color: #047857; color: #047857; }
+.email-modal-toolbar .em-btn-primary {
+  background: #047857; color: white; border-color: #047857;
+}
+.email-modal-toolbar .em-btn-primary:hover { background: #065F46; }
+.email-modal-toolbar .em-btn-sent {
+  background: #3B82F6; color: white; border-color: #3B82F6;
+}
+.email-modal-toolbar .em-btn-sent:hover { background: #2563EB; }
+.email-modal-close {
+  position: absolute; top: 12px; right: 16px; background: none; border: none;
+  font-size: 22px; cursor: pointer; color: #999; z-index: 11;
+}
+.email-modal-body { padding: 24px; }
+.email-page {
+  background: #FAFAFA; border-radius: 8px; padding: 28px; margin-bottom: 16px;
+  border: 1px solid #eee;
+}
+.email-page:last-child { margin-bottom: 0; }
+.email-page-header {
+  margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #eee;
+}
+.email-page-to { font-size: 11px; color: #888; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.05em; }
+.email-page-name { font-size: 14px; font-weight: 600; color: #111; }
+.email-page-addr { font-size: 11px; color: #999; margin-top: 2px; }
+
 /* Pagination */
 .pagination {
   display: flex; justify-content: space-between; align-items: center;
@@ -319,10 +387,17 @@ tr:hover { background: rgba(16,185,129,0.03); }
     <button class="btn btn-accent" onclick="loadBrowse(1)" style="padding:9px 20px;">Search</button>
   </div>
 
+  <div class="select-bar" id="selectBar">
+    <strong id="selectCount">0</strong> selected with email
+    <button class="btn-deselect" onclick="deselectAllDb()">Deselect</button>
+    <button class="btn-email-gen" onclick="openEmailModal()">📧 Generate Emails</button>
+  </div>
+
   <div class="table-wrap">
     <table>
       <thead>
         <tr>
+          <th style="width:36px;"><input type="checkbox" id="checkAllDb" onchange="toggleAllDb(this.checked)" style="accent-color:#3B82F6;width:14px;height:14px;cursor:pointer;"></th>
           <th onclick="setSort('name')">Name <span class="sort-arrow" id="sort_name"></span></th>
           <th onclick="setSort('rating')">Rtg <span class="sort-arrow" id="sort_rating"></span></th>
           <th onclick="setSort('postcode')">Postcode <span class="sort-arrow" id="sort_postcode"></span></th>
@@ -603,12 +678,31 @@ tr:hover { background: rgba(16,185,129,0.03); }
   </div>
 </div>
 
+<!-- Email modal -->
+<div class="email-overlay" id="emailOverlay">
+  <div class="email-modal">
+    <button class="email-modal-close" onclick="closeEmailModal()">&times;</button>
+    <div class="email-modal-toolbar">
+      <span id="emailCount">0 emails</span>
+      <div class="em-actions">
+        <button class="em-btn" onclick="copyEmailForGmail()" title="Copy as rich text — paste into Gmail compose">📋 Copy for Gmail</button>
+        <button class="em-btn" onclick="copyEmailRawHTML()" title="Copy raw HTML for Instantly">📄 Copy HTML</button>
+        <button class="em-btn" onclick="copyEmailSubjects()">📝 Subjects</button>
+        <button class="em-btn em-btn-sent" onclick="markSelectedAsSent()">✓ Mark as Sent</button>
+      </div>
+    </div>
+    <div class="email-modal-body" id="emailModalBody"></div>
+  </div>
+</div>
+
 <script>
 const CRM_API = 'https://web-production-54cc.up.railway.app';
 
 let currentSort = 'name';
 let currentOrder = 'asc';
 let currentPage = 1;
+let browseData = []; // current page results
+let selectedDb = new Set(); // indices of selected rows (with email)
 
 // ─── Tab switching ───
 function switchTab(tab) {
@@ -659,47 +753,52 @@ async function loadBrowse(page) {
     renderBrowseTable(data);
   } catch (err) {
     document.getElementById('browseBody').innerHTML =
-      `<tr><td colspan="11" style="color:var(--red);padding:20px;">Error: ${err.message}</td></tr>`;
+      `<tr><td colspan="12" style="color:var(--red);padding:20px;">Error: ${err.message}</td></tr>`;
   }
 }
 
 function renderBrowseTable(data) {
   const tbody = document.getElementById('browseBody');
   tbody.innerHTML = '';
+  browseData = data.results;
+  selectedDb.clear();
+  updateSelectBar();
 
   if (data.results.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="11" style="color:var(--muted);padding:20px;text-align:center;">No records found</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="12" style="color:var(--muted);padding:20px;text-align:center;">No records found</td></tr>';
     document.getElementById('pageInfo').textContent = '0 records';
     document.getElementById('pageButtons').innerHTML = '';
     return;
   }
 
-  data.results.forEach(r => {
+  data.results.forEach((r, idx) => {
     const tr = document.createElement('tr');
     tr.style.cursor = 'pointer';
-    tr.onclick = () => openDetail(r.fhrs_id);
 
     const rClass = r.rating != null ? `r-${Math.min(r.rating, 5)}` : '';
     const ratingDate = r.rating_date ? new Date(r.rating_date).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'2-digit'}) : '—';
     const updated = r.updated_at ? new Date(r.updated_at).toLocaleDateString('en-GB', {day:'2-digit',month:'short'}) : '—';
     const chain = r.is_chain ? ' <span class="chain-tag">chain</span>' : '';
-    const email = r.email ? `<span class="enriched" title="${esc(r.email)}">&#9679;</span>` : '<span class="not-enriched">—</span>';
+    const emailSent = r.email_sent_at ? ' <span style="font-size:9px;color:#3B82F6;" title="Email sent">✓</span>' : '';
+    const email = r.email ? `<span class="enriched" title="${esc(r.email)}">&#9679;</span>${emailSent}` : '<span class="not-enriched">—</span>';
     const phone = r.phone ? `<span class="enriched" title="${esc(r.phone)}">&#9679;</span>` : '<span class="not-enriched">—</span>';
     const insta = r.instagram ? `<span class="enriched" title="@${esc(r.instagram)}">&#9679;</span>` : '<span class="not-enriched">—</span>';
     const web = r.website ? `<span class="enriched">&#9679;</span>` : '<span class="not-enriched">—</span>';
+    const hasEmail = !!r.email;
 
     tr.innerHTML = `
-      <td title="${esc(r.name)}">${esc(r.name)}${chain}</td>
-      <td><span class="rating-badge ${rClass}">${r.rating != null ? r.rating : '?'}</span></td>
-      <td>${esc(r.postcode || '')}</td>
-      <td title="${esc(r.business_type || '')}">${esc((r.business_type || '').substring(0, 25))}</td>
-      <td title="${esc(r.local_authority || '')}">${esc((r.local_authority || '').substring(0, 20))}</td>
-      <td>${ratingDate}</td>
-      <td style="text-align:center;">${email}</td>
-      <td style="text-align:center;">${phone}</td>
-      <td style="text-align:center;">${insta}</td>
-      <td style="text-align:center;">${web}</td>
-      <td>${updated}</td>
+      <td onclick="event.stopPropagation()"><input type="checkbox" data-idx="${idx}" ${hasEmail ? '' : 'disabled title="No email"'} onchange="toggleDbSelect(${idx}, this.checked)" style="accent-color:#3B82F6;width:14px;height:14px;cursor:${hasEmail ? 'pointer' : 'not-allowed'};${hasEmail ? '' : 'opacity:0.2;'}"></td>
+      <td onclick="openDetail(${r.fhrs_id})" title="${esc(r.name)}">${esc(r.name)}${chain}</td>
+      <td onclick="openDetail(${r.fhrs_id})"><span class="rating-badge ${rClass}">${r.rating != null ? r.rating : '?'}</span></td>
+      <td onclick="openDetail(${r.fhrs_id})">${esc(r.postcode || '')}</td>
+      <td onclick="openDetail(${r.fhrs_id})" title="${esc(r.business_type || '')}">${esc((r.business_type || '').substring(0, 25))}</td>
+      <td onclick="openDetail(${r.fhrs_id})" title="${esc(r.local_authority || '')}">${esc((r.local_authority || '').substring(0, 20))}</td>
+      <td onclick="openDetail(${r.fhrs_id})">${ratingDate}</td>
+      <td onclick="openDetail(${r.fhrs_id})" style="text-align:center;">${email}</td>
+      <td onclick="openDetail(${r.fhrs_id})" style="text-align:center;">${phone}</td>
+      <td onclick="openDetail(${r.fhrs_id})" style="text-align:center;">${insta}</td>
+      <td onclick="openDetail(${r.fhrs_id})" style="text-align:center;">${web}</td>
+      <td onclick="openDetail(${r.fhrs_id})">${updated}</td>
     `;
     tbody.appendChild(tr);
   });
@@ -1421,6 +1520,273 @@ function esc(s) {
   d.textContent = s;
   return d.innerHTML;
 }
+
+// ─── Selection & Email Generation ───
+
+function toggleDbSelect(idx, checked) {
+  if (checked) selectedDb.add(idx); else selectedDb.delete(idx);
+  updateSelectBar();
+}
+
+function toggleAllDb(checked) {
+  document.querySelectorAll('#browseBody input[type="checkbox"]:not(:disabled)').forEach(cb => {
+    cb.checked = checked;
+    toggleDbSelect(parseInt(cb.dataset.idx), checked);
+  });
+}
+
+function deselectAllDb() {
+  document.getElementById('checkAllDb').checked = false;
+  toggleAllDb(false);
+}
+
+function updateSelectBar() {
+  const bar = document.getElementById('selectBar');
+  document.getElementById('selectCount').textContent = selectedDb.size;
+  bar.classList.toggle('active', selectedDb.size > 0);
+}
+
+function getMonthsAgoDb(dateStr) {
+  if (!dateStr) return 0;
+  const d = new Date(dateStr);
+  const now = new Date();
+  return Math.round((now - d) / (1000 * 60 * 60 * 24 * 30));
+}
+
+function isOverdueDb(r) {
+  if (!r.rating_date) return false;
+  return getMonthsAgoDb(r.rating_date) >= 12;
+}
+
+function buildEmailHTMLDb(r) {
+  const rating = r.rating != null ? String(r.rating) : '?';
+  const ratingNum = parseInt(rating) || 0;
+  const addr = [r.address_1, r.address_2, r.address_3, r.postcode].filter(Boolean).join(', ');
+  const ratedDate = r.rating_date ? new Date(r.rating_date).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }) : 'recently';
+  const name = r.name || '';
+
+  const ratingText = { '0': 'Urgent Improvement Necessary', '1': 'Major Improvement Necessary', '2': 'Improvement Necessary', '3': 'Generally Satisfactory', '4': 'Good', '5': 'Very Good' }[rating] || rating;
+
+  const scores = {};
+  if (r.hygiene_score != null) scores.Hygiene = r.hygiene_score;
+  if (r.structural_score != null) scores.Structural = r.structural_score;
+  if (r.confidence_score != null) scores.ConfidenceInManagement = r.confidence_score;
+
+  const rPage = `https://blueroll.app/r.html?name=${encodeURIComponent(name)}&addr=${encodeURIComponent(addr)}&rating=${encodeURIComponent(rating)}&date=${encodeURIComponent(ratedDate)}&fhrsid=${r.fhrs_id || ''}&h=${scores.Hygiene||''}&s=${scores.Structural||''}&m=${scores.ConfidenceInManagement||''}`;
+
+  const overdue = isOverdueDb(r);
+  const monthsAgo = getMonthsAgoDb(r.rating_date);
+
+  const _p = `margin:0 0 18px;font-size:15px;line-height:1.7;color:#2D3748;`;
+  const font = `-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif`;
+
+  let intro = '';
+  if (overdue) {
+    intro = `<p style="${_p}">Dear ${name} team,</p>
+<p style="${_p}">Your last food hygiene inspection was <strong style="background:#FEF3C7;padding:2px 6px;border-radius:4px;color:#92400E;">${monthsAgo} months ago</strong>. Your next EHO visit could be any day now — are your HACCP records up to date?</p>
+<p style="${_p}">If you're still using paper records, an unannounced inspection can catch gaps you didn't know existed. <strong style="color:#1A202C;">Blueroll</strong> replaces paper with a simple app that keeps everything digital, current, and inspection-ready.</p>`;
+  } else if (ratingNum === 4) {
+    intro = `<p style="${_p}">Dear ${name} team,</p>
+<p style="${_p}">Your recent food hygiene inspection scored <strong style="background:#FEF3C7;padding:2px 6px;border-radius:4px;color:#92400E;">4 out of 5</strong> — so close to perfect! The most common reasons for missing a 5 are paperwork gaps and inconsistent records.</p>
+<p style="${_p}"><strong style="color:#1A202C;">Blueroll</strong> is a simple app that replaces paper HACCP records with digital checklists. It takes 2 minutes to set up and helps you close that gap to a perfect score.</p>`;
+  } else {
+    intro = `<p style="${_p}">Dear ${name} team,</p>
+<p style="${_p}">We noticed your recent food hygiene inspection resulted in a rating of <strong style="background:#FEF3C7;padding:2px 6px;border-radius:4px;color:#92400E;">${rating} — ${ratingText}</strong>.</p>
+<p style="${_p}">We know how frustrating that can be, especially when you're working hard to keep standards up. <strong style="color:#1A202C;">Blueroll</strong> is a simple app that replaces paper HACCP records with digital checklists your team can complete in seconds.</p>`;
+  }
+
+  let closingLine = '';
+  if (overdue) closingLine = `Restaurants using Blueroll report feeling significantly more confident before inspections. We'd love to help ${name} be fully prepared.`;
+  else if (ratingNum === 4) closingLine = `Many restaurants have gone from 4 to 5 after switching to digital records. We'd love to help ${name} get there.`;
+  else closingLine = `Restaurants using Blueroll typically improve their rating by 1\u20132 points at their next inspection. We'd love to help ${name} get back to 5 stars.`;
+
+  // Badge card
+  const starFilled = `<td style="padding:0 1px;"><span style="color:#E2B55A;font-size:15px;">&#9733;</span></td>`;
+  const starEmpty = `<td style="padding:0 1px;"><span style="color:#E2B55A;font-size:15px;opacity:0.25;">&#9734;</span></td>`;
+  const starsHTML = Array.from({length:5}, (_,i) => i < ratingNum ? starFilled : starEmpty).join('');
+
+  const badgeCard = `<table cellpadding="0" cellspacing="0" border="0" width="240" style="margin:0 auto;border-radius:22px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.25);">
+  <tr><td style="background:linear-gradient(145deg,#0D1B2A,#1B2D45);padding:32px 28px;text-align:center;border-radius:22px;">
+    <table cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 14px;">
+      <tr><td style="width:80px;height:80px;border-radius:20px;background:linear-gradient(145deg,#ECC55B,#D4A843);text-align:center;vertical-align:middle;font-size:40px;font-weight:800;color:#0D1B2A;box-shadow:0 4px 16px rgba(0,0,0,0.3);">${rating}</td></tr>
+    </table>
+    <table cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 12px;"><tr>${starsHTML}</tr></table>
+    <p style="margin:0 0 8px;font-size:9px;color:#E2B55A;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;">Food Hygiene Rating</p>
+    <p style="margin:0 0 4px;font-size:16px;font-weight:700;color:#F0ECE3;letter-spacing:-0.2px;">${name}</p>
+    <p style="margin:0 0 0;font-size:11px;color:rgba(255,255,255,0.45);line-height:1.3;">${addr}</p>
+    <p style="margin:16px 0 0;padding-top:14px;border-top:1px solid rgba(255,255,255,0.08);font-size:9px;color:#E2B55A;opacity:0.5;letter-spacing:.6px;">Powered by Blueroll</p>
+  </td></tr>
+</table>`;
+
+  return `<div style="max-width:560px;margin:0 auto;padding:0 8px;font-family:${font};-webkit-font-smoothing:antialiased;">
+${intro}
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 8px;">
+  <tr><td style="text-align:center;padding:20px 0 24px;">
+    <a href="${rPage}" target="_blank" style="text-decoration:none;">${badgeCard}</a>
+  </td></tr>
+</table>
+
+<p style="margin:0 0 20px;font-size:13px;color:#A0AEC0;text-align:center;line-height:1.6;font-family:${font};letter-spacing:0.01em;">This is your current rating. Tap the badge or the button below<br>to see a full breakdown and how to improve.</p>
+
+<table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 0 28px;">
+  <tr><td style="text-align:center;">
+    <a href="${rPage}" target="_blank" style="display:inline-block;background:#047857;color:#ffffff;text-decoration:none;padding:15px 36px;border-radius:12px;font-size:15px;font-weight:600;font-family:${font};letter-spacing:-0.01em;">See Your Full Rating Breakdown &nbsp;&rarr;</a>
+  </td></tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px;border-top:1px solid #EDF2F7;padding-top:24px;">
+  <tr><td style="${_p}font-weight:600;font-size:14px;color:#1A202C;letter-spacing:-0.01em;margin:0 0 12px;">What Blueroll does</td></tr>
+  <tr><td style="font-size:14px;line-height:2;color:#4A5568;padding:4px 0 0;font-family:${font};">
+    <span style="color:#047857;">&#10003;</span>&ensp;Ready-made HACCP checklists \u2014 complete in seconds<br>
+    <span style="color:#047857;">&#10003;</span>&ensp;AI recipe import \u2014 snap a photo, get allergens instantly<br>
+    <span style="color:#047857;">&#10003;</span>&ensp;One-tap PDF compliance report for your EHO<br>
+    <span style="color:#047857;">&#10003;</span>&ensp;Temperature logs with out-of-range alerts<br>
+    <span style="color:#047857;">&#10003;</span>&ensp;Team tasks \u2014 see who completed what
+  </td></tr>
+</table>
+
+<p style="${_p}">${closingLine}</p>
+<p style="${_p}font-weight:600;">Try free for 14 days<span style="font-weight:400;"> \u2014 no credit card needed.</span></p>
+<p style="${_p}margin:24px 0 0;">Best regards,<br><span style="color:#4A5568;">The Blueroll Team</span></p>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:28px 0 0;padding-top:20px;border-top:1px solid #EDF2F7;">
+  <tr>
+    <td style="vertical-align:middle;padding:0 14px 0 0;width:40px;">
+      <img src="https://blueroll.app/app_icon.png" alt="Blueroll" width="36" height="36" style="border-radius:8px;display:block;border:0;" />
+    </td>
+    <td style="vertical-align:middle;">
+      <span style="font-size:14px;font-weight:700;color:#1A202C;font-family:${font};">Blueroll</span><br>
+      <span style="font-size:12px;color:#A0AEC0;font-family:${font};">Food Safety Made Simple</span><br>
+      <a href="https://blueroll.app" style="font-size:12px;color:#047857;text-decoration:none;font-family:${font};">blueroll.app</a><span style="color:#CBD5E0;"> &nbsp;&middot;&nbsp; </span><a href="mailto:hello@blueroll.app" style="font-size:12px;color:#047857;text-decoration:none;font-family:${font};">hello@blueroll.app</a>
+    </td>
+  </tr>
+</table>
+</div>`;
+}
+
+function openEmailModal() {
+  if (selectedDb.size === 0) return;
+  const indices = [...selectedDb];
+  const body = document.getElementById('emailModalBody');
+
+  body.innerHTML = indices.map(idx => {
+    const r = browseData[idx];
+    const addr = [r.address_1, r.address_2, r.address_3, r.postcode].filter(Boolean).join(', ');
+    return `<div class="email-page">
+      <div class="email-page-header">
+        <div class="email-page-to">To</div>
+        <div class="email-page-name">${esc(r.name)} <span style="font-weight:400;color:#888;">&lt;${esc(r.email)}&gt;</span></div>
+        <div class="email-page-addr">${esc(addr)}</div>
+      </div>
+      ${buildEmailHTMLDb(r)}
+    </div>`;
+  }).join('');
+
+  document.getElementById('emailCount').textContent = indices.length + (indices.length === 1 ? ' email' : ' emails');
+  document.getElementById('emailOverlay').classList.add('open');
+}
+
+function closeEmailModal() {
+  document.getElementById('emailOverlay').classList.remove('open');
+}
+
+function copyEmailForGmail() {
+  const indices = [...selectedDb];
+  if (indices.length === 0) return;
+  const html = buildEmailHTMLDb(browseData[indices[0]]);
+  const blob = new Blob([html], { type: 'text/html' });
+  const page = document.querySelector('#emailModalBody .email-page');
+  const plainText = page ? page.innerText : '';
+  const textBlob = new Blob([plainText], { type: 'text/plain' });
+  navigator.clipboard.write([new ClipboardItem({ 'text/html': blob, 'text/plain': textBlob })]).then(() => {
+    emBtnFeedback('📋 Copy for Gmail', 'Copied! Paste into Gmail ✓');
+  }).catch(() => {
+    navigator.clipboard.writeText(plainText);
+    emBtnFeedback('📋 Copy for Gmail', 'Copied (text) ✓');
+  });
+}
+
+function copyEmailRawHTML() {
+  const indices = [...selectedDb];
+  if (indices.length === 0) return;
+  const html = indices.length === 1
+    ? buildEmailHTMLDb(browseData[indices[0]])
+    : indices.map(idx => `<!-- ${browseData[idx].name} -->\n` + buildEmailHTMLDb(browseData[idx])).join('\n\n');
+  navigator.clipboard.writeText(html).then(() => {
+    emBtnFeedback('📄 Copy HTML', 'HTML copied! ✓');
+  });
+}
+
+function copyEmailSubjects() {
+  const indices = [...selectedDb];
+  if (indices.length === 0) return;
+  const subjects = indices.map(idx => {
+    const r = browseData[idx];
+    const ratingNum = parseInt(r.rating) || 0;
+    if (isOverdueDb(r)) return `${r.name} \u2014 is your kitchen ready for the next EHO visit?`;
+    if (ratingNum === 4) return `${r.name} \u2014 one step away from a perfect 5`;
+    return `${r.name} \u2014 a quick way to improve your food hygiene rating`;
+  });
+  navigator.clipboard.writeText(subjects.join('\n')).then(() => {
+    emBtnFeedback('📝 Subjects', 'Copied! ✓');
+  });
+}
+
+async function markSelectedAsSent() {
+  const indices = [...selectedDb];
+  if (indices.length === 0) return;
+  const fhrsIds = indices.map(idx => browseData[idx].fhrs_id).filter(Boolean);
+  if (fhrsIds.length === 0) return;
+
+  const btn = document.querySelector('.em-btn-sent');
+  btn.textContent = 'Saving...';
+  btn.disabled = true;
+
+  try {
+    await fetch(`${CRM_API}/api/contact`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fhrs_ids: fhrsIds, channel: 'email', template: 'rating_badge' })
+    });
+    btn.textContent = '✓ Marked as Sent!';
+    btn.style.background = '#059669';
+    setTimeout(() => {
+      btn.textContent = '✓ Mark as Sent';
+      btn.style.background = '';
+      btn.disabled = false;
+      closeEmailModal();
+      deselectAllDb();
+      loadBrowse(currentPage);
+    }, 1500);
+  } catch (err) {
+    alert('Error: ' + err.message);
+    btn.textContent = '✓ Mark as Sent';
+    btn.disabled = false;
+  }
+}
+
+function emBtnFeedback(label, feedback) {
+  document.querySelectorAll('.em-actions .em-btn').forEach(btn => {
+    if (btn.textContent.trim().includes(label.replace(/^[^\s]+\s/, '').trim())) {
+      const orig = btn.textContent;
+      btn.textContent = feedback;
+      btn.style.color = '#047857';
+      setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 2000);
+    }
+  });
+}
+
+// Close email modal on overlay click & escape
+document.getElementById('emailOverlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeEmailModal();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.getElementById('emailOverlay').classList.contains('open')) {
+    closeEmailModal();
+    e.stopPropagation();
+  }
+});
 
 // ─── Init ───
 loadBrowse(1);
