@@ -903,9 +903,10 @@ async function loadNYC() {
       const address = `${r.building || ''} ${r.street || ''}`.trim();
       const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((r.dba || '') + ' ' + address + ' NYC')}`;
       const lead = leads[r.camis];
-      const enrichIcon = lead
-        ? `<span title="Enriched${lead.email ? ' · email' : ''}${lead.instagram ? ' · IG' : ''}" style="color:var(--accent);font-size:11px;">✓ saved</span>`
-        : `<button class="btn-sm" onclick="openNYCEnrich('${r.camis}')" style="background:rgba(59,130,246,0.1);color:var(--blue);border-color:rgba(59,130,246,0.3);">🔍 Enrich</button>`;
+      const savedBadge = lead
+        ? `<span title="Enriched${lead.email ? ' · email' : ''}${lead.instagram ? ' · IG' : ''}" style="color:var(--accent);font-size:10px;font-weight:600;margin-right:6px;">✓</span>`
+        : '';
+      const enrichBtn = `<button class="btn-sm" onclick="openNYCEnrich('${r.camis}')" style="background:rgba(59,130,246,0.1);color:var(--blue);border-color:rgba(59,130,246,0.3);">🔍 ${lead ? 'Edit' : 'Enrich'}</button>`;
       return `<tr>
         <td style="font-weight:600;" title="${esc(r.dba || '')}">${esc(r.dba || '—')}</td>
         <td><span class="rating-badge ${gradeClass}">${esc(r.grade || '?')}</span></td>
@@ -916,7 +917,7 @@ async function loadNYC() {
         <td style="font-family:var(--mono);font-size:11px;color:var(--muted);">${date}</td>
         <td style="font-size:11px;color:var(--muted);" title="${esc(r.violation_description || '')}">${esc(viol)}${viol.length >= 60 ? '…' : ''}</td>
         <td style="white-space:nowrap;">
-          ${enrichIcon}
+          ${savedBadge}${enrichBtn}
           <button class="btn-sm" onclick="generateNYCStoryPNG('${r.camis}')" title="Download IG story image" style="background:rgba(124,58,237,0.1);color:#7C3AED;border-color:rgba(124,58,237,0.3);margin-left:4px;">📸 Story</button>
         </td>
       </tr>`;
