@@ -436,6 +436,7 @@ function renderTable(data) {
       <td title="${esc(r.name)}">${esc(r.name)}${sentBadge}</td>
       <td style="white-space:nowrap;">
         <button onclick="event.stopPropagation();sendViaGmail(${idx})" style="padding:5px 12px;font-size:12px;border-radius:6px;border:1px solid #E5E7EB;background:white;color:var(--blue);cursor:pointer;font-family:inherit;font-weight:600;transition:all 0.15s;" onmouseover="this.style.borderColor='#2563EB';this.style.background='#EFF4FF'" onmouseout="this.style.borderColor='#E5E7EB';this.style.background='white'">Gmail</button>
+        <button onclick="event.stopPropagation();generateStoryPNG(${idx})" style="padding:5px 10px;font-size:11px;border-radius:6px;border:1px solid #E5E7EB;background:white;color:#7C3AED;cursor:pointer;font-family:inherit;font-weight:600;margin-left:4px;transition:all 0.15s;" onmouseover="this.style.borderColor='#7C3AED';this.style.background='#F5F3FF'" onmouseout="this.style.borderColor='#E5E7EB';this.style.background='white'">📸 Story</button>
         <button onclick="event.stopPropagation();markOneSent(${idx},this)" style="padding:5px 10px;font-size:11px;border-radius:6px;border:1px solid #E5E7EB;background:white;color:var(--text-secondary);cursor:pointer;font-family:inherit;font-weight:500;margin-left:4px;transition:all 0.15s;" onmouseover="this.style.borderColor='#059669';this.style.color='#059669'" onmouseout="this.style.borderColor='#E5E7EB';this.style.color=''">Sent</button>
       </td>
       <td><span class="rating-badge ${rc}">${r.rating != null ? r.rating : '?'}</span></td>
@@ -721,6 +722,207 @@ ${intro}
   </div>
 </div>
 </div>`;
+}
+
+// ─── Generate Story PNG (1080x1920) for Instagram ───
+
+function generateStoryPNG(idx) {
+  const r = allData[idx];
+  const rating = r.rating != null ? String(r.rating) : '?';
+  const ratingNum = parseInt(rating) || 0;
+  const addr = [r.address_1, r.address_2, r.address_3].filter(Boolean).join(', ');
+  const postcode = r.postcode || '';
+  const name = r.name || '';
+  const handle = r.instagram ? '@' + r.instagram.replace('@','') : '';
+
+  const W = 1080, H = 1920;
+  const canvas = document.createElement('canvas');
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  // Background: vertical gradient dark navy
+  const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+  bgGrad.addColorStop(0, '#0D1B2A');
+  bgGrad.addColorStop(0.5, '#1B2D45');
+  bgGrad.addColorStop(1, '#0D1B2A');
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, W, H);
+
+  // Subtle gold radial glow top-center
+  const glow = ctx.createRadialGradient(W/2, 200, 0, W/2, 200, 900);
+  glow.addColorStop(0, 'rgba(226,181,90,0.15)');
+  glow.addColorStop(1, 'rgba(226,181,90,0)');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, W, H);
+
+  // Grain/noise texture (subtle)
+  for (let i = 0; i < 1500; i++) {
+    const x = Math.random() * W, y = Math.random() * H;
+    const o = Math.random() * 0.04;
+    ctx.fillStyle = `rgba(255,255,255,${o})`;
+    ctx.fillRect(x, y, 1, 1);
+  }
+
+  // Top kicker "FOOD HYGIENE RATING" in gold mono
+  ctx.font = '600 28px "JetBrains Mono", monospace';
+  ctx.fillStyle = '#E2B55A';
+  ctx.textAlign = 'center';
+  const kickerText = 'FOOD HYGIENE RATING';
+  ctx.fillText(spaceOut(kickerText, 3), W/2, 260);
+
+  // Top headline
+  ctx.font = '700 56px "DM Sans", -apple-system, sans-serif';
+  ctx.fillStyle = '#F0ECE3';
+  ctx.textAlign = 'center';
+  ctx.fillText(name.length > 24 ? name.slice(0,23) + '…' : name, W/2, 360);
+
+  // ─── Badge card (centered) ───
+  const badgeW = 760, badgeH = 900;
+  const badgeX = (W - badgeW) / 2;
+  const badgeY = 440;
+  drawRoundedRect(ctx, badgeX, badgeY, badgeW, badgeH, 44);
+  const cardGrad = ctx.createLinearGradient(badgeX, badgeY, badgeX + badgeW, badgeY + badgeH);
+  cardGrad.addColorStop(0, '#0D1B2A');
+  cardGrad.addColorStop(1, '#1B2D45');
+  ctx.fillStyle = cardGrad;
+  ctx.fill();
+  // Badge border
+  ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Gold rating square
+  const gsSize = 240;
+  const gsX = (W - gsSize) / 2;
+  const gsY = badgeY + 80;
+  drawRoundedRect(ctx, gsX, gsY, gsSize, gsSize, 48);
+  const goldGrad = ctx.createLinearGradient(gsX, gsY, gsX + gsSize, gsY + gsSize);
+  goldGrad.addColorStop(0, '#ECC55B');
+  goldGrad.addColorStop(1, '#D4A843');
+  ctx.fillStyle = goldGrad;
+  ctx.fill();
+  // Gold square shadow
+  ctx.shadowColor = 'rgba(0,0,0,0.4)';
+  ctx.shadowBlur = 40;
+  ctx.shadowOffsetY = 12;
+  ctx.fill();
+  ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+
+  // Rating number
+  ctx.font = '800 160px "DM Sans", sans-serif';
+  ctx.fillStyle = '#0D1B2A';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(rating, gsX + gsSize/2, gsY + gsSize/2 + 6);
+  ctx.textBaseline = 'alphabetic';
+
+  // Stars row
+  const starsY = gsY + gsSize + 80;
+  const starSize = 36;
+  const starGap = 10;
+  const starsTotalW = 5 * starSize + 4 * starGap;
+  const starsStartX = (W - starsTotalW) / 2;
+  ctx.font = `${starSize}px sans-serif`;
+  for (let i = 0; i < 5; i++) {
+    const x = starsStartX + i * (starSize + starGap) + starSize/2;
+    ctx.fillStyle = i < ratingNum ? '#E2B55A' : 'rgba(226,181,90,0.25)';
+    ctx.textAlign = 'center';
+    ctx.fillText('★', x, starsY);
+  }
+
+  // Label "FOOD HYGIENE RATING"
+  ctx.font = '600 20px "JetBrains Mono", monospace';
+  ctx.fillStyle = '#E2B55A';
+  ctx.textAlign = 'center';
+  ctx.fillText(spaceOut('FOOD HYGIENE RATING', 2.5), W/2, starsY + 70);
+
+  // Restaurant name
+  ctx.font = '700 38px "DM Sans", sans-serif';
+  ctx.fillStyle = '#F0ECE3';
+  ctx.fillText(wrapFit(ctx, name, 640, 38), W/2, starsY + 140);
+
+  // Address
+  ctx.font = '400 22px "DM Sans", sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.45)';
+  ctx.fillText(wrapFit(ctx, addr + (postcode ? ', ' + postcode : ''), 640, 22), W/2, starsY + 190);
+
+  // Divider line
+  ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(badgeX + 160, starsY + 260);
+  ctx.lineTo(badgeX + badgeW - 160, starsY + 260);
+  ctx.stroke();
+
+  // Powered by Blueroll
+  ctx.font = '500 18px "JetBrains Mono", monospace';
+  ctx.fillStyle = 'rgba(226,181,90,0.55)';
+  ctx.textAlign = 'center';
+  ctx.fillText(spaceOut('POWERED BY BLUEROLL', 2.5), W/2, starsY + 300);
+
+  // ─── Bottom: IG handle + CTA ───
+  if (handle) {
+    ctx.font = '500 30px "DM Sans", sans-serif';
+    ctx.fillStyle = '#F0ECE3';
+    ctx.textAlign = 'center';
+    ctx.fillText(handle + ' — here\u2019s your badge', W/2, 1500);
+  }
+
+  ctx.font = '400 22px "DM Sans", sans-serif';
+  ctx.fillStyle = 'rgba(226,181,90,0.85)';
+  ctx.textAlign = 'center';
+  ctx.fillText('Free for your site  ·  DM for code', W/2, 1550);
+
+  // Blueroll logo-ish footer
+  ctx.font = '700 28px "DM Sans", sans-serif';
+  ctx.fillStyle = '#F0ECE3';
+  ctx.textAlign = 'center';
+  ctx.fillText('blueroll.app', W/2, 1780);
+
+  ctx.font = '500 16px "JetBrains Mono", monospace';
+  ctx.fillStyle = 'rgba(255,255,255,0.35)';
+  ctx.fillText(spaceOut('FOOD SAFETY MADE SIMPLE', 3), W/2, 1820);
+
+  // Download
+  canvas.toBlob((blob) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const safeName = name.replace(/[^a-z0-9]+/gi, '-').toLowerCase().slice(0, 40);
+    a.download = `blueroll-story-${safeName}.png`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }, 'image/png');
+
+  // Reset align defaults (just in case)
+  ctx.textAlign = 'left';
+}
+
+function drawRoundedRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+function spaceOut(s, px) {
+  // Fake tracking — just add thin spaces between chars
+  return s.split('').join(' '.repeat(1));
+}
+
+function wrapFit(ctx, text, maxW, baseFontSize) {
+  // If text is too wide, truncate with ellipsis
+  if (ctx.measureText(text).width <= maxW) return text;
+  let t = text;
+  while (ctx.measureText(t + '\u2026').width > maxW && t.length > 3) t = t.slice(0, -1);
+  return t + '\u2026';
 }
 
 // ─── Send via Gmail (one click) ───
