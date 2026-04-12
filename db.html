@@ -472,6 +472,61 @@ tr:hover { background: rgba(16,185,129,0.03); }
       <tbody id="nycBody"><tr><td colspan="9" style="color:var(--muted);padding:40px;text-align:center;">Click Search to load NYC inspections…</td></tr></tbody>
     </table>
   </div>
+
+  <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;">
+    <div style="font-size:11px;color:var(--muted);">
+      <span id="nycLeadsCount">0</span> enriched leads saved locally
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn-sm" onclick="viewNYCLeads()">View leads</button>
+      <button class="btn-sm" onclick="exportNYCLeads()">Export CSV</button>
+      <button class="btn-sm" onclick="clearNYCLeads()" style="color:var(--red);">Clear</button>
+    </div>
+  </div>
+</div>
+
+<!-- NYC enrichment modal -->
+<div class="modal-overlay" id="nycEnrichModal">
+  <div class="modal" style="max-width:560px;">
+    <button class="modal-close" onclick="closeNYCEnrich()">&times;</button>
+    <h2 id="nycEnrichTitle">Enrich contact</h2>
+    <div class="subtitle" id="nycEnrichSubtitle"></div>
+
+    <div class="detail-section">
+      <h3>1. Find it</h3>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px;">
+        <a id="nycLinkWebsite" href="#" target="_blank" class="btn-sm" style="text-align:left;padding:8px 12px;text-decoration:none;">🌐 Find website (Google)</a>
+        <a id="nycLinkIG" href="#" target="_blank" class="btn-sm" style="text-align:left;padding:8px 12px;text-decoration:none;">📱 Find Instagram</a>
+        <a id="nycLinkMaps" href="#" target="_blank" class="btn-sm" style="text-align:left;padding:8px 12px;text-decoration:none;">🗺️ Google Maps (has phone + website)</a>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <h3>2. Paste what you found</h3>
+      <div class="detail-grid" style="margin-top:10px;">
+        <div class="detail-item">
+          <div class="detail-label">Email</div>
+          <input id="nycEmail" placeholder="contact@restaurant.com" style="width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:4px;font-size:13px;font-family:inherit;outline:none;">
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Instagram (without @)</div>
+          <input id="nycIG" placeholder="restaurantname" style="width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:4px;font-size:13px;font-family:inherit;outline:none;">
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Website</div>
+          <input id="nycWebsite" placeholder="https://..." style="width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:4px;font-size:13px;font-family:inherit;outline:none;">
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Phone</div>
+          <input id="nycPhone" placeholder="+1 212…" style="width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:4px;font-size:13px;font-family:inherit;outline:none;">
+        </div>
+      </div>
+      <div style="margin-top:16px;display:flex;gap:8px;justify-content:flex-end;">
+        <button class="btn-sm" onclick="closeNYCEnrich()">Cancel</button>
+        <button class="btn btn-accent" onclick="saveNYCLead()" style="padding:8px 20px;">Save lead</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ═══ ENRICHMENT PANEL ═══ -->
@@ -838,28 +893,156 @@ async function loadNYC() {
     });
     const unique = Object.values(seen);
 
+    window._nycResults = unique; // stash for enrichment
+    const leads = getNYCLeads();
+
     body.innerHTML = unique.map(r => {
       const gradeClass = r.grade === 'A' ? 'r-4' : (r.grade === 'B' ? 'r-3' : 'r-0');
       const date = r.inspection_date ? new Date(r.inspection_date).toLocaleDateString('en-US', {day:'2-digit',month:'short',year:'numeric'}) : '—';
-      const viol = (r.violation_description || '').substring(0, 70);
+      const viol = (r.violation_description || '').substring(0, 60);
       const address = `${r.building || ''} ${r.street || ''}`.trim();
       const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((r.dba || '') + ' ' + address + ' NYC')}`;
+      const lead = leads[r.camis];
+      const enrichIcon = lead
+        ? `<span title="Enriched${lead.email ? ' · email' : ''}${lead.instagram ? ' · IG' : ''}" style="color:var(--accent);font-size:11px;">✓ saved</span>`
+        : `<button class="btn-sm" onclick="openNYCEnrich('${r.camis}')" style="background:rgba(59,130,246,0.1);color:var(--blue);border-color:rgba(59,130,246,0.3);">🔍 Enrich</button>`;
       return `<tr>
         <td style="font-weight:600;" title="${esc(r.dba || '')}">${esc(r.dba || '—')}</td>
         <td><span class="rating-badge ${gradeClass}">${esc(r.grade || '?')}</span></td>
         <td style="font-family:var(--mono);font-size:12px;color:${parseInt(r.score||0) >= 28 ? '#EF4444' : 'var(--muted)'};font-weight:600;">${esc(r.score || '—')}</td>
         <td>${esc(r.boro || '—')}</td>
-        <td title="${esc(r.cuisine_description || '')}">${esc((r.cuisine_description || '').substring(0, 20))}</td>
-        <td title="${esc(address)}">${esc(address.substring(0, 25))}</td>
+        <td title="${esc(r.cuisine_description || '')}">${esc((r.cuisine_description || '').substring(0, 18))}</td>
+        <td title="${esc(address)}">${esc(address.substring(0, 22))}</td>
         <td style="font-family:var(--mono);font-size:11px;color:var(--muted);">${date}</td>
-        <td style="font-size:11px;color:var(--muted);" title="${esc(r.violation_description || '')}">${esc(viol)}${viol.length >= 70 ? '…' : ''}</td>
-        <td><a href="${mapsUrl}" target="_blank" class="btn-sm" style="text-decoration:none;">Maps</a></td>
+        <td style="font-size:11px;color:var(--muted);" title="${esc(r.violation_description || '')}">${esc(viol)}${viol.length >= 60 ? '…' : ''}</td>
+        <td>${enrichIcon}</td>
       </tr>`;
     }).join('');
+
+    updateNYCLeadsCount();
   } catch (e) {
     body.innerHTML = `<tr><td colspan="9" style="color:var(--red);padding:40px;text-align:center;">NYC API error: ${e.message}</td></tr>`;
   }
 }
+
+// ─── NYC ENRICHMENT (localStorage-based) ───
+
+const NYC_LEADS_KEY = 'nyc_leads_v1';
+let _currentNYCCamis = null;
+
+function getNYCLeads() {
+  try { return JSON.parse(localStorage.getItem(NYC_LEADS_KEY) || '{}'); }
+  catch(e) { return {}; }
+}
+
+function setNYCLeads(leads) {
+  localStorage.setItem(NYC_LEADS_KEY, JSON.stringify(leads));
+}
+
+function updateNYCLeadsCount() {
+  const el = document.getElementById('nycLeadsCount');
+  if (el) el.textContent = Object.keys(getNYCLeads()).length;
+}
+
+function openNYCEnrich(camis) {
+  const r = (window._nycResults || []).find(x => x.camis === camis);
+  if (!r) return;
+  _currentNYCCamis = camis;
+
+  const address = `${r.building || ''} ${r.street || ''}`.trim();
+  const fullQ = `${r.dba || ''} ${address} New York`.trim();
+  const igQ = `${r.dba || ''} nyc ${r.boro || ''}`.trim();
+
+  document.getElementById('nycEnrichTitle').textContent = r.dba || 'Enrich';
+  document.getElementById('nycEnrichSubtitle').textContent = `${address} · ${r.boro} · ${r.cuisine_description || ''}`;
+
+  document.getElementById('nycLinkWebsite').href = `https://www.google.com/search?q=${encodeURIComponent(fullQ + ' official website')}`;
+  document.getElementById('nycLinkIG').href = `https://www.instagram.com/explore/search/keyword/?q=${encodeURIComponent(igQ)}`;
+  document.getElementById('nycLinkMaps').href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullQ)}`;
+
+  // Pre-fill with existing lead if any
+  const existing = getNYCLeads()[camis] || {};
+  document.getElementById('nycEmail').value = existing.email || '';
+  document.getElementById('nycIG').value = existing.instagram || '';
+  document.getElementById('nycWebsite').value = existing.website || '';
+  document.getElementById('nycPhone').value = existing.phone || r.phone || '';
+
+  document.getElementById('nycEnrichModal').classList.add('open');
+}
+
+function closeNYCEnrich() {
+  document.getElementById('nycEnrichModal').classList.remove('open');
+  _currentNYCCamis = null;
+}
+
+function saveNYCLead() {
+  if (!_currentNYCCamis) return;
+  const r = (window._nycResults || []).find(x => x.camis === _currentNYCCamis);
+  if (!r) return;
+
+  const leads = getNYCLeads();
+  leads[_currentNYCCamis] = {
+    camis: r.camis,
+    dba: r.dba,
+    address: `${r.building || ''} ${r.street || ''} ${r.zipcode || ''}`.trim(),
+    boro: r.boro,
+    cuisine: r.cuisine_description,
+    grade: r.grade,
+    score: r.score,
+    inspection_date: r.inspection_date,
+    violation: r.violation_description,
+    // Enriched
+    email: document.getElementById('nycEmail').value.trim(),
+    instagram: document.getElementById('nycIG').value.trim().replace(/^@/, ''),
+    website: document.getElementById('nycWebsite').value.trim(),
+    phone: document.getElementById('nycPhone').value.trim(),
+    saved_at: new Date().toISOString()
+  };
+  setNYCLeads(leads);
+  closeNYCEnrich();
+  loadNYC();
+}
+
+function viewNYCLeads() {
+  const leads = Object.values(getNYCLeads());
+  if (!leads.length) { alert('No leads saved yet. Click 🔍 Enrich on any NYC row to start.'); return; }
+  const lines = leads.map(l => `${l.dba}\n  IG: ${l.instagram ? '@' + l.instagram : '—'}  Email: ${l.email || '—'}\n  ${l.website || 'no website'}\n`);
+  alert(`${leads.length} saved NYC leads:\n\n` + lines.join('\n'));
+}
+
+function exportNYCLeads() {
+  const leads = Object.values(getNYCLeads());
+  if (!leads.length) { alert('No leads to export'); return; }
+
+  const rows = [['dba','grade','score','boro','cuisine','address','email','instagram','website','phone','violation','inspection_date','saved_at']];
+  leads.forEach(l => {
+    rows.push([
+      l.dba || '', l.grade || '', l.score || '', l.boro || '', l.cuisine || '',
+      l.address || '', l.email || '', l.instagram || '', l.website || '',
+      l.phone || '', l.violation || '', l.inspection_date || '', l.saved_at || ''
+    ]);
+  });
+  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `nyc-leads-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function clearNYCLeads() {
+  if (!confirm('Delete ALL saved NYC leads? This cannot be undone.')) return;
+  localStorage.removeItem(NYC_LEADS_KEY);
+  updateNYCLeadsCount();
+  loadNYC();
+}
+
+// Close NYC enrich modal on overlay / esc
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.getElementById('nycEnrichModal').classList.contains('open')) closeNYCEnrich();
+});
 
 // ─── BROWSE ───
 function setSort(col) {
