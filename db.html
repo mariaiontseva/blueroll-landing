@@ -915,7 +915,10 @@ async function loadNYC() {
         <td title="${esc(address)}">${esc(address.substring(0, 22))}</td>
         <td style="font-family:var(--mono);font-size:11px;color:var(--muted);">${date}</td>
         <td style="font-size:11px;color:var(--muted);" title="${esc(r.violation_description || '')}">${esc(viol)}${viol.length >= 60 ? '…' : ''}</td>
-        <td>${enrichIcon}</td>
+        <td style="white-space:nowrap;">
+          ${enrichIcon}
+          <button class="btn-sm" onclick="generateNYCStoryPNG('${r.camis}')" title="Download IG story image" style="background:rgba(124,58,237,0.1);color:#7C3AED;border-color:rgba(124,58,237,0.3);margin-left:4px;">📸 Story</button>
+        </td>
       </tr>`;
     }).join('');
 
@@ -1043,6 +1046,219 @@ function clearNYCLeads() {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && document.getElementById('nycEnrichModal').classList.contains('open')) closeNYCEnrich();
 });
+
+// ─── NYC Story PNG (1080x1920) ───
+function generateNYCStoryPNG(camis) {
+  const r = (window._nycResults || []).find(x => x.camis === camis);
+  if (!r) return;
+  const lead = getNYCLeads()[camis] || {};
+
+  const grade = (r.grade || '?').toUpperCase();
+  const name = r.dba || '';
+  const address = `${r.building || ''} ${r.street || ''}`.trim();
+  const boro = r.boro || '';
+  const cuisine = r.cuisine_description || '';
+  const handle = lead.instagram ? '@' + lead.instagram.replace(/^@/,'') : '';
+
+  // Copy IG handle to clipboard
+  if (handle) {
+    try { navigator.clipboard.writeText(handle); }
+    catch(e) {}
+  }
+
+  const W = 1080, H = 1920;
+  const canvas = document.createElement('canvas');
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  // Background
+  const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+  bgGrad.addColorStop(0, '#0B1521');
+  bgGrad.addColorStop(0.45, '#1B2D45');
+  bgGrad.addColorStop(1, '#0B1521');
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, W, H);
+
+  // Gold radial glow center
+  const glow = ctx.createRadialGradient(W/2, 760, 0, W/2, 760, 1200);
+  glow.addColorStop(0, 'rgba(226,181,90,0.18)');
+  glow.addColorStop(1, 'rgba(226,181,90,0)');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, W, H);
+
+  // Grain
+  for (let i = 0; i < 2000; i++) {
+    ctx.fillStyle = `rgba(255,255,255,${Math.random()*0.05})`;
+    ctx.fillRect(Math.random()*W, Math.random()*H, 1, 1);
+  }
+
+  // Top kicker
+  if ('letterSpacing' in ctx) ctx.letterSpacing = '6px';
+  ctx.font = '600 28px "DM Sans", sans-serif';
+  ctx.fillStyle = '#E2B55A';
+  ctx.textAlign = 'center';
+  ctx.fillText('NYC HEALTH GRADE', W/2, 180);
+  if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
+
+  // Badge card
+  const badgeW = 900, badgeH = 1120;
+  const badgeX = (W - badgeW) / 2;
+  const badgeY = 240;
+  roundRect(ctx, badgeX, badgeY, badgeW, badgeH, 56);
+  const cardGrad = ctx.createLinearGradient(badgeX, badgeY, badgeX + badgeW, badgeY + badgeH);
+  cardGrad.addColorStop(0, '#0D1B2A');
+  cardGrad.addColorStop(1, '#1B2D45');
+  ctx.fillStyle = cardGrad;
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Gold square with grade letter
+  const gsSize = 340;
+  const gsX = (W - gsSize) / 2;
+  const gsY = badgeY + 110;
+  ctx.save();
+  ctx.shadowColor = 'rgba(226,181,90,0.4)';
+  ctx.shadowBlur = 60;
+  roundRect(ctx, gsX, gsY, gsSize, gsSize, 68);
+  const goldGrad = ctx.createLinearGradient(gsX, gsY, gsX + gsSize, gsY + gsSize);
+  goldGrad.addColorStop(0, '#F2D479');
+  goldGrad.addColorStop(1, '#D4A843');
+  ctx.fillStyle = goldGrad;
+  ctx.fill();
+  ctx.restore();
+
+  // Letter — huge
+  ctx.font = '800 260px "DM Sans", sans-serif';
+  ctx.fillStyle = '#0D1B2A';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(grade, gsX + gsSize/2, gsY + gsSize/2 + 10);
+  ctx.textBaseline = 'alphabetic';
+
+  // Label: NYC HEALTH GRADE
+  if ('letterSpacing' in ctx) ctx.letterSpacing = '4px';
+  ctx.font = '600 22px "DM Sans", sans-serif';
+  ctx.fillStyle = '#E2B55A';
+  ctx.textAlign = 'center';
+  ctx.fillText('NYC HEALTH GRADE', W/2, gsY + gsSize + 100);
+  if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
+
+  // Restaurant name
+  ctx.font = '700 56px "DM Sans", sans-serif';
+  ctx.fillStyle = '#F0ECE3';
+  ctx.fillText(fitText(ctx, name, 760, 56), W/2, gsY + gsSize + 170);
+
+  // Address
+  ctx.font = '500 28px "DM Sans", sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.5)';
+  const fullAddr = [address, boro].filter(Boolean).join(', ');
+  ctx.fillText(fitText(ctx, fullAddr, 760, 28), W/2, gsY + gsSize + 220);
+
+  // Cuisine tag
+  if (cuisine) {
+    ctx.font = '500 22px "DM Sans", sans-serif';
+    ctx.fillStyle = 'rgba(226,181,90,0.6)';
+    ctx.fillText(cuisine, W/2, gsY + gsSize + 260);
+  }
+
+  // Divider
+  ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(badgeX + 200, gsY + gsSize + 305);
+  ctx.lineTo(badgeX + badgeW - 200, gsY + gsSize + 305);
+  ctx.stroke();
+
+  // Powered by Blueroll
+  if ('letterSpacing' in ctx) ctx.letterSpacing = '4px';
+  ctx.font = '600 22px "DM Sans", sans-serif';
+  ctx.fillStyle = 'rgba(226,181,90,0.6)';
+  ctx.fillText('POWERED BY BLUEROLL', W/2, gsY + gsSize + 350);
+  if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
+
+  // Handle below
+  if (handle) {
+    ctx.font = '500 34px "DM Sans", sans-serif';
+    ctx.fillStyle = 'rgba(240,236,227,0.6)';
+    ctx.fillText(handle + ' — here\u2019s your badge', W/2, 1490);
+  }
+
+  // Main CTA
+  ctx.font = '800 64px "DM Sans", sans-serif';
+  ctx.fillStyle = '#E2B55A';
+  ctx.fillText('Free badge for your website', W/2, 1585);
+
+  ctx.font = '500 36px "DM Sans", sans-serif';
+  ctx.fillStyle = 'rgba(240,236,227,0.9)';
+  ctx.fillText('DM us for the embed code \u2192', W/2, 1640);
+
+  ctx.font = '400 24px "DM Sans", sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.4)';
+  ctx.fillText('Auto-updating. 2-line HTML snippet. Free forever.', W/2, 1685);
+
+  // Footer brand
+  ctx.font = '800 88px "DM Sans", sans-serif';
+  ctx.fillStyle = '#F0ECE3';
+  ctx.fillText('blueroll.app', W/2, 1820);
+
+  if ('letterSpacing' in ctx) ctx.letterSpacing = '4px';
+  ctx.font = '600 20px "DM Sans", sans-serif';
+  ctx.fillStyle = 'rgba(226,181,90,0.7)';
+  ctx.fillText('FOOD SAFETY MADE SIMPLE', W/2, 1870);
+  if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
+
+  // Download
+  canvas.toBlob(blob => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const safeName = name.replace(/[^a-z0-9]+/gi, '-').toLowerCase().slice(0, 40);
+    a.download = `blueroll-nyc-${safeName}.png`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }, 'image/png');
+
+  // Toast
+  showNYCToast(handle ? `${handle} copied — paste when tagging in Story` : 'Image downloading…');
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x+r, y);
+  ctx.lineTo(x+w-r, y);
+  ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+  ctx.lineTo(x+w, y+h-r);
+  ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+  ctx.lineTo(x+r, y+h);
+  ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+  ctx.lineTo(x, y+r);
+  ctx.quadraticCurveTo(x, y, x+r, y);
+  ctx.closePath();
+}
+
+function fitText(ctx, text, maxW) {
+  if (!text) return '';
+  if (ctx.measureText(text).width <= maxW) return text;
+  let t = text;
+  while (ctx.measureText(t + '…').width > maxW && t.length > 3) t = t.slice(0, -1);
+  return t + '…';
+}
+
+function showNYCToast(msg) {
+  let t = document.getElementById('nyc-toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'nyc-toast';
+    t.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:#0D1B2A;color:#F0ECE3;padding:14px 24px;border-radius:12px;font-size:14px;font-family:var(--font);z-index:9999;border:1px solid rgba(226,181,90,0.3);opacity:0;transition:opacity .2s;pointer-events:none;';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  requestAnimationFrame(() => { t.style.opacity = '1'; });
+  clearTimeout(t._t);
+  t._t = setTimeout(() => { t.style.opacity = '0'; }, 2500);
+}
 
 // ─── BROWSE ───
 function setSort(col) {
