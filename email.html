@@ -753,6 +753,25 @@ function generateStoryPNG(idx) {
   const name = r.name || '';
   const handle = r.instagram ? '@' + r.instagram.replace('@','') : '';
 
+  // Copy IG handle to clipboard immediately (must happen in user gesture for iOS)
+  if (handle) {
+    try {
+      navigator.clipboard.writeText(handle);
+      showToast(`${handle} copied \u2014 paste when tagging in Story`);
+    } catch (e) {
+      // Fallback: old execCommand method
+      const ta = document.createElement('textarea');
+      ta.value = handle;
+      ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); showToast(`${handle} copied`); } catch(e2){}
+      document.body.removeChild(ta);
+    }
+  } else {
+    showToast('Image downloading... (no IG handle for this restaurant)');
+  }
+
   const W = 1080, H = 1920;
   const canvas = document.createElement('canvas');
   canvas.width = W; canvas.height = H;
@@ -916,6 +935,35 @@ function generateStoryPNG(idx) {
 function setLetterSpacing(ctx, px) {
   // Supported in modern Chrome/Edge/Safari
   if ('letterSpacing' in ctx) ctx.letterSpacing = px + 'px';
+}
+
+function showToast(msg) {
+  let toast = document.getElementById('br-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'br-toast';
+    toast.style.cssText = `
+      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+      background: #0D1B2A; color: #F0ECE3; padding: 16px 28px;
+      border-radius: 14px; font-size: 15px; font-weight: 500;
+      font-family: 'DM Sans', sans-serif; z-index: 9999;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+      border: 1px solid rgba(226,181,90,0.3);
+      opacity: 0; transition: opacity 0.2s, transform 0.2s;
+      pointer-events: none; max-width: 90vw; text-align: center;
+    `;
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  requestAnimationFrame(() => {
+    toast.style.opacity = '1';
+    toast.style.transform = 'translateX(-50%) translateY(-8px)';
+  });
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(-50%)';
+  }, 2800);
 }
 
 function drawRoundedRect(ctx, x, y, w, h, r) {
