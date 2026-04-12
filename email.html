@@ -250,6 +250,7 @@ tr:hover { background: var(--blue-soft); }
       <tr>
         <th style="width:36px;"><input type="checkbox" id="checkAll" onchange="toggleAll(this.checked)" style="accent-color:#2563EB;width:16px;height:16px;cursor:pointer;"></th>
         <th onclick="setSort('name')">Name <span class="sort-arrow" id="sort_name"></span></th>
+        <th style="width:70px;"></th>
         <th onclick="setSort('rating')">Rtg <span class="sort-arrow" id="sort_rating"></span></th>
         <th>Email</th>
         <th onclick="setSort('postcode')">Postcode</th>
@@ -257,7 +258,6 @@ tr:hover { background: var(--blue-soft); }
         <th onclick="setSort('local_authority')">Authority</th>
         <th onclick="setSort('rating_date')">Rated</th>
         <th>Sent</th>
-        <th style="width:60px;"></th>
       </tr>
     </thead>
     <tbody id="tbody"></tbody>
@@ -351,6 +351,7 @@ function renderTable(data) {
     tr.innerHTML = `
       <td><input type="checkbox" data-idx="${idx}" onchange="toggleSel(${idx},this.checked)" style="accent-color:#2563EB;width:16px;height:16px;cursor:pointer;"></td>
       <td title="${esc(r.name)}">${esc(r.name)}</td>
+      <td><button onclick="event.stopPropagation();sendViaGmail(${idx})" style="padding:6px 14px;font-size:12px;border-radius:8px;border:1px solid #E5E7EB;background:white;color:var(--blue);cursor:pointer;font-family:inherit;font-weight:600;transition:all 0.15s;" onmouseover="this.style.borderColor='#2563EB';this.style.background='#EFF4FF'" onmouseout="this.style.borderColor='#E5E7EB';this.style.background='white'">Gmail</button></td>
       <td><span class="rating-badge ${rc}">${r.rating != null ? r.rating : '?'}</span></td>
       <td class="email-cell" title="${esc(r.email)}">${esc(r.email)}</td>
       <td>${esc(r.postcode || '')}</td>
@@ -358,7 +359,6 @@ function renderTable(data) {
       <td>${esc((r.local_authority||'').substring(0,20))}</td>
       <td>${rDate}</td>
       <td>${sent}</td>
-      <td><button onclick="event.stopPropagation();sendViaGmail(${idx})" style="padding:6px 14px;font-size:12px;border-radius:8px;border:1px solid #E5E7EB;background:white;color:var(--blue);cursor:pointer;font-family:inherit;font-weight:600;transition:all 0.15s;" onmouseover="this.style.borderColor='#2563EB';this.style.background='#EFF4FF'" onmouseout="this.style.borderColor='#E5E7EB';this.style.background='white'">Gmail</button></td>
     `;
     tbody.appendChild(tr);
   });
