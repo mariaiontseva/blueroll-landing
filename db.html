@@ -1605,18 +1605,19 @@ function buildEmailHTMLDb(r) {
   const starEmpty = `<td style="padding:0 1px;"><span style="color:#E2B55A;font-size:15px;opacity:0.25;">&#9734;</span></td>`;
   const starsHTML = Array.from({length:5}, (_,i) => i < ratingNum ? starFilled : starEmpty).join('');
 
-  const badgeCard = `<table cellpadding="0" cellspacing="0" border="0" width="240" style="margin:0 auto;border-radius:22px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.25);">
-  <tr><td style="background:linear-gradient(145deg,#0D1B2A,#1B2D45);padding:32px 28px;text-align:center;border-radius:22px;">
-    <table cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 14px;">
-      <tr><td style="text-align:center;"><div style="width:80px;height:80px;border-radius:20px;background:linear-gradient(145deg,#ECC55B,#D4A843);display:inline-flex;align-items:center;justify-content:center;font-size:40px;font-weight:800;color:#0D1B2A;box-shadow:0 4px 16px rgba(0,0,0,0.3);">${rating}</div></td></tr>
-    </table>
-    <table cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 12px;"><tr>${starsHTML}</tr></table>
-    <p style="margin:0 0 8px;font-size:9px;color:#E2B55A;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;">Food Hygiene Rating</p>
-    <p style="margin:0 0 4px;font-size:16px;font-weight:700;color:#F0ECE3;letter-spacing:-0.2px;">${name}</p>
-    <p style="margin:0 0 0;font-size:11px;color:rgba(255,255,255,0.45);line-height:1.3;">${addr}</p>
-    <p style="margin:16px 0 0;padding-top:14px;border-top:1px solid rgba(255,255,255,0.08);font-size:9px;color:#E2B55A;opacity:0.5;letter-spacing:.6px;">Powered by Blueroll</p>
-  </td></tr>
-</table>`;
+  const starsSpan = Array.from({length:5}, (_,i) => i < ratingNum
+    ? `<span style="color:#E2B55A;font-size:15px;padding:0 1px;">&#9733;</span>`
+    : `<span style="color:#E2B55A;font-size:15px;opacity:0.25;padding:0 1px;">&#9734;</span>`
+  ).join('');
+
+  const badgeCard = `<div style="width:240px;margin:0 auto;border-radius:22px;background:linear-gradient(145deg,#0D1B2A,#1B2D45);padding:32px 28px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,0.25);font-family:-apple-system,system-ui,sans-serif;">
+  <div style="width:80px;height:80px;border-radius:20px;background:linear-gradient(145deg,#ECC55B,#D4A843);margin:0 auto 14px;line-height:80px;font-size:40px;font-weight:800;color:#0D1B2A;box-shadow:0 4px 16px rgba(0,0,0,0.3);">${rating}</div>
+  <div style="margin-bottom:12px;">${starsSpan}</div>
+  <div style="margin-bottom:8px;font-size:9px;color:#E2B55A;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;">Food Hygiene Rating</div>
+  <div style="margin-bottom:4px;font-size:16px;font-weight:700;color:#F0ECE3;letter-spacing:-0.2px;">${name}</div>
+  <div style="font-size:11px;color:rgba(255,255,255,0.45);line-height:1.3;">${addr}</div>
+  <div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.08);font-size:9px;color:#E2B55A;opacity:0.5;letter-spacing:.6px;">Powered by Blueroll</div>
+</div>`;
 
   return `<div style="max-width:560px;margin:0 auto;padding:0 8px;font-family:${font};-webkit-font-smoothing:antialiased;">
 ${intro}
