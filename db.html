@@ -373,7 +373,7 @@ tr:hover { background: rgba(16,185,129,0.03); }
     </select>
     <select class="filter-select" id="filterHas" onchange="loadBrowse(1)">
       <option value="">Has field...</option>
-      <option value="email">Has email</option>
+      <option value="email" selected>Has email</option>
       <option value="phone">Has phone</option>
       <option value="website">Has website</option>
       <option value="instagram">Has Instagram</option>
@@ -683,12 +683,12 @@ tr:hover { background: rgba(16,185,129,0.03); }
   <div class="email-modal">
     <button class="email-modal-close" onclick="closeEmailModal()">&times;</button>
     <div class="email-modal-toolbar">
-      <span id="emailCount">0 emails</span>
+      <span id="emailCount" style="font-size:14px;font-weight:600;color:#1A202C;">Email Preview</span>
       <div class="em-actions">
-        <button class="em-btn" onclick="copyEmailForGmail()" title="Copy as rich text — paste into Gmail compose">📋 Copy for Gmail</button>
-        <button class="em-btn" onclick="copyEmailRawHTML()" title="Copy raw HTML for Instantly">📄 Copy HTML</button>
-        <button class="em-btn" onclick="copyEmailSubjects()">📝 Subjects</button>
-        <button class="em-btn em-btn-sent" onclick="markSelectedAsSent()">✓ Mark as Sent</button>
+        <button class="em-btn" onclick="copyEmailForGmail()" title="Copy as rich text — paste into Gmail compose">Copy for Gmail</button>
+        <button class="em-btn" onclick="copyEmailRawHTML()" title="Copy raw HTML for Instantly">Copy HTML</button>
+        <button class="em-btn" onclick="copyEmailSubjects()">Subjects</button>
+        <button class="em-btn em-btn-sent" onclick="markSelectedAsSent()">Mark as Sent</button>
       </div>
     </div>
     <div class="email-modal-body" id="emailModalBody"></div>
@@ -1624,7 +1624,7 @@ ${intro}
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 8px;">
   <tr><td style="text-align:center;padding:20px 0 24px;">
-    <a href="${rPage}" target="_blank" style="text-decoration:none;">${badgeCard}</a>
+    <a href="${rPage}" target="_blank" style="text-decoration:none;display:block;">${badgeCard}</a>
   </td></tr>
 </table>
 
@@ -1684,7 +1684,7 @@ function openEmailModal() {
     </div>`;
   }).join('');
 
-  document.getElementById('emailCount').textContent = indices.length + (indices.length === 1 ? ' email' : ' emails');
+  document.getElementById('emailCount').textContent = 'Email Preview \u00b7 ' + indices.length + (indices.length === 1 ? ' recipient' : ' recipients');
   document.getElementById('emailOverlay').classList.add('open');
 }
 
