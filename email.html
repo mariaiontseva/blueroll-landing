@@ -236,10 +236,12 @@ tr:hover { background: var(--blue-soft); }
     <option value="">All</option>
     <option value="sent">Already sent</option>
   </select>
-  <select class="toolbar-select" id="perPage">
+  <select class="toolbar-select" id="perPage" onchange="curPage=1;applyClientFilters()">
     <option value="50">50/page</option>
     <option value="100" selected>100/page</option>
     <option value="200">200/page</option>
+    <option value="500">500/page</option>
+    <option value="5000">All</option>
   </select>
   <button class="toolbar-btn btn-search" onclick="loadData(1)">Search</button>
 </div>
@@ -338,18 +340,17 @@ let activeRating = '';
 
 // ─── Data loading ───
 
-async function loadData(page) {
-  curPage = page || 1;
+async function loadData() {
   selected.clear();
   updateActionBar();
   document.getElementById('checkAll').checked = false;
 
   const q = document.getElementById('searchQ').value.trim();
   const sent = document.getElementById('filterSent').value;
-  const perPage = parseInt(document.getElementById('perPage').value) || 100;
 
+  // Load ALL records with email in one request
   const params = new URLSearchParams({
-    page: curPage, per_page: perPage, sort: sortCol, order: sortOrd, has: 'email'
+    page: 1, per_page: 5000, sort: 'rating_date', order: 'desc', has: 'email'
   });
   if (q) params.set('q', q);
   if (sent === 'not_sent') params.set('not_contacted', 'email');
@@ -359,47 +360,49 @@ async function loadData(page) {
     const r = await fetch(`${CRM}/api/browse?${params}`);
     const data = await r.json();
     rawData = data.results;
-    applyClientFilters(data);
+    curPage = 1;
+    applyClientFilters();
   } catch (err) {
     document.getElementById('tbody').innerHTML = `<tr><td colspan="10" style="color:var(--red);padding:20px;">Error: ${err.message}</td></tr>`;
   }
 }
 
-function applyClientFilters(serverData) {
+function applyClientFilters() {
   let filtered = rawData;
 
-  // Filter by rating on client
+  // Filter by rating
   if (activeRating) {
-    const allowedRatings = activeRating.split(',').map(Number);
-    filtered = filtered.filter(r => r.rating != null && allowedRatings.includes(r.rating));
+    const allowed = activeRating.split(',').map(Number);
+    filtered = filtered.filter(r => r.rating != null && allowed.includes(r.rating));
   }
 
-  // Sort on client
+  // Sort
   filtered.sort((a, b) => {
     let va, vb;
     if (sortCol === 'rating_date') { va = a.rating_date || ''; vb = b.rating_date || ''; }
     else if (sortCol === 'rating') { va = a.rating ?? 99; vb = b.rating ?? 99; }
     else if (sortCol === 'name') { va = (a.name || '').toLowerCase(); vb = (b.name || '').toLowerCase(); }
-    else if (sortCol === 'postcode') { va = a.postcode || ''; vb = b.postcode || ''; }
-    else if (sortCol === 'business_type') { va = a.business_type || ''; vb = b.business_type || ''; }
-    else if (sortCol === 'local_authority') { va = a.local_authority || ''; vb = b.local_authority || ''; }
     else { va = a[sortCol] || ''; vb = b[sortCol] || ''; }
     if (va < vb) return sortOrd === 'asc' ? -1 : 1;
     if (va > vb) return sortOrd === 'asc' ? 1 : -1;
     return 0;
   });
 
-  allData = filtered;
-
-  // Build a fake paginated response for renderTable
-  const total = serverData ? serverData.total : filtered.length;
+  // Client-side pagination
   const perPage = parseInt(document.getElementById('perPage').value) || 100;
+  const totalPages = Math.ceil(filtered.length / perPage);
+  if (curPage > totalPages) curPage = 1;
+  const start = (curPage - 1) * perPage;
+  const pageSlice = filtered.slice(start, start + perPage);
+
+  allData = pageSlice;
+
   renderTable({
-    results: filtered,
-    total: total,
-    page: serverData ? serverData.page : curPage,
+    results: pageSlice,
+    total: filtered.length,
+    page: curPage,
     per_page: perPage,
-    pages: serverData ? serverData.pages : Math.ceil(total / perPage)
+    pages: totalPages
   });
 }
 
@@ -410,7 +413,7 @@ function setSort(col) {
   document.querySelectorAll('.sbtn').forEach(b => b.classList.remove('active'));
   const el = document.getElementById('sort_' + col);
   if (el) el.textContent = sortOrd === 'asc' ? '\u25B2' : '\u25BC';
-  applyClientFilters(null);
+  applyClientFilters();
 }
 
 function renderTable(data) {
@@ -450,7 +453,7 @@ function renderTable(data) {
     const b = document.createElement('button');
     b.className = 'page-btn' + (active ? ' active' : '');
     b.textContent = label; b.disabled = disabled;
-    b.onclick = () => loadData(pg);
+    b.onclick = () => { curPage = pg; applyClientFilters(); };
     btns.appendChild(b);
   };
   addBtn('\u25C0', data.page - 1, data.page <= 1, false);
@@ -758,7 +761,7 @@ function setRating(btn, val) {
   activeRating = val;
   document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  applyClientFilters(null);
+  applyClientFilters();
 }
 
 function setSortBtn(btn, col, ord) {
@@ -766,7 +769,7 @@ function setSortBtn(btn, col, ord) {
   document.querySelectorAll('.sbtn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   document.querySelectorAll('.sort-arrow').forEach(s => s.textContent = '');
-  applyClientFilters(null);
+  applyClientFilters();
 }
 
 function esc(s) { if (!s) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
