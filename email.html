@@ -230,7 +230,12 @@ tr:hover { background: var(--blue-soft); }
 </div>
 
 <div class="toolbar">
-  <input class="toolbar-input" id="searchQ" type="text" placeholder="Search name, postcode, email..." onkeydown="if(event.key==='Enter') loadData(1)">
+  <input class="toolbar-input" id="searchQ" type="text" placeholder="Search name, postcode, email, IG..." onkeydown="if(event.key==='Enter') loadData(1)">
+  <select class="toolbar-select" id="filterHas" onchange="loadData()">
+    <option value="email" selected>Has email</option>
+    <option value="instagram">Has Instagram</option>
+    <option value="both">Has both</option>
+  </select>
   <select class="toolbar-select" id="filterSent">
     <option value="not_sent">Not emailed yet</option>
     <option value="">All</option>
@@ -270,8 +275,9 @@ tr:hover { background: var(--blue-soft); }
 </div>
 
 <div class="stats-bar" id="statsBar">
-  <span class="stat"><span class="stat-val" id="statTotal">—</span> with email</span>
-  <span class="stat"><span class="stat-val" id="statNotSent">—</span> not emailed</span>
+  <span class="stat"><span class="stat-val" id="statTotal">—</span> total</span>
+  <span class="stat"><span class="stat-val" id="statEmail">—</span> with email</span>
+  <span class="stat"><span class="stat-val" id="statIG">—</span> with Instagram</span>
 </div>
 
 <div class="action-bar" id="actionBar">
@@ -293,6 +299,7 @@ tr:hover { background: var(--blue-soft); }
         <th style="width:70px;"></th>
         <th onclick="setSort('rating')">Rtg <span class="sort-arrow" id="sort_rating"></span></th>
         <th>Email</th>
+        <th>Instagram</th>
         <th onclick="setSort('postcode')">Postcode</th>
         <th onclick="setSort('business_type')">Type</th>
         <th onclick="setSort('local_authority')">Authority</th>
@@ -346,10 +353,14 @@ async function loadData() {
 
   const q = document.getElementById('searchQ').value.trim();
   const sent = document.getElementById('filterSent').value;
+  const has = document.getElementById('filterHas').value;
 
-  // Load ALL records with email in one request
+  // Load ALL records with email OR instagram (server param: email|instagram)
+  // For "both" we load email then client-filter to those with instagram too
+  const serverHas = has === 'both' ? 'email' : has;
+
   const params = new URLSearchParams({
-    page: 1, per_page: 5000, sort: 'rating_date', order: 'desc', has: 'email'
+    page: 1, per_page: 5000, sort: 'rating_date', order: 'desc', has: serverHas
   });
   if (q) params.set('q', q);
   if (sent === 'not_sent') params.set('not_contacted', 'email');
@@ -358,11 +369,13 @@ async function loadData() {
   try {
     const r = await fetch(`${CRM}/api/browse?${params}`);
     const data = await r.json();
-    rawData = data.results;
+    let results = data.results;
+    if (has === 'both') results = results.filter(x => x.instagram);
+    rawData = results;
     curPage = 1;
     applyClientFilters();
   } catch (err) {
-    document.getElementById('tbody').innerHTML = `<tr><td colspan="10" style="color:var(--red);padding:20px;">Error: ${err.message}</td></tr>`;
+    document.getElementById('tbody').innerHTML = `<tr><td colspan="11" style="color:var(--red);padding:20px;">Error: ${err.message}</td></tr>`;
   }
 }
 
@@ -420,6 +433,10 @@ function renderTable(data) {
   tbody.innerHTML = '';
   document.getElementById('emptyState').style.display = data.results.length === 0 ? '' : 'none';
   document.getElementById('statTotal').textContent = data.total.toLocaleString();
+  const emailCount = rawData.filter(x => x.email).length;
+  const igCount = rawData.filter(x => x.instagram).length;
+  document.getElementById('statEmail').textContent = emailCount.toLocaleString();
+  document.getElementById('statIG').textContent = igCount.toLocaleString();
 
   data.results.forEach((r, idx) => {
     const tr = document.createElement('tr');
@@ -440,7 +457,8 @@ function renderTable(data) {
         <button onclick="event.stopPropagation();markOneSent(${idx},this)" style="padding:5px 10px;font-size:11px;border-radius:6px;border:1px solid #E5E7EB;background:white;color:var(--text-secondary);cursor:pointer;font-family:inherit;font-weight:500;margin-left:4px;transition:all 0.15s;" onmouseover="this.style.borderColor='#059669';this.style.color='#059669'" onmouseout="this.style.borderColor='#E5E7EB';this.style.color=''">Sent</button>
       </td>
       <td><span class="rating-badge ${rc}">${r.rating != null ? r.rating : '?'}</span></td>
-      <td class="email-cell" title="${esc(r.email)}">${esc(r.email)}</td>
+      <td class="email-cell" title="${esc(r.email || '')}">${r.email ? esc(r.email) : '<span style="color:#CBD5E0;">—</span>'}</td>
+      <td>${r.instagram ? `<a href="https://instagram.com/${esc(r.instagram.replace('@',''))}" target="_blank" onclick="event.stopPropagation()" style="color:#E4405F;text-decoration:none;font-weight:500;font-size:13px;">@${esc(r.instagram.replace('@',''))}</a>` : '<span style="color:#CBD5E0;">—</span>'}</td>
       <td>${esc(r.postcode || '')}</td>
       <td title="${esc(r.business_type || '')}">${esc((r.business_type||'').substring(0,25))}</td>
       <td>${esc((r.local_authority||'').substring(0,20))}</td>
