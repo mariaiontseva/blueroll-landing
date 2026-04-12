@@ -104,6 +104,29 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
   cursor: pointer; font-weight: 500;
 }
 
+/* Filter bar */
+.filter-bar {
+  padding: 14px 32px; background: var(--surface); border-bottom: 1px solid var(--border);
+}
+.filter-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.filter-label {
+  font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase;
+  letter-spacing: 0.06em; font-family: var(--mono); min-width: 50px;
+}
+.filter-sep { width: 1px; height: 20px; background: var(--border); margin: 0 4px; }
+.fbtn, .sbtn {
+  padding: 6px 14px; font-size: 13px; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--border); background: var(--surface); color: var(--text-secondary);
+  font-family: inherit; font-weight: 500; transition: all 0.12s;
+}
+.fbtn:hover, .sbtn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+.fbtn.active { background: var(--blue); color: white; border-color: var(--blue); }
+.fbtn-red.active { background: #DC2626; border-color: #DC2626; }
+.fbtn-orange.active { background: #EA580C; border-color: #EA580C; }
+.fbtn-yellow.active { background: #D97706; border-color: #D97706; }
+.fbtn-green.active { background: #059669; border-color: #059669; }
+.sbtn.active { background: var(--text); color: white; border-color: var(--text); }
+
 /* Table */
 .table-wrap { overflow-x: auto; background: var(--surface); }
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
@@ -208,14 +231,6 @@ tr:hover { background: var(--blue-soft); }
 
 <div class="toolbar">
   <input class="toolbar-input" id="searchQ" type="text" placeholder="Search name, postcode, email..." onkeydown="if(event.key==='Enter') loadData(1)">
-  <select class="toolbar-select" id="filterRating">
-    <option value="">All ratings</option>
-    <option value="0,1,2" selected>0-2 (low)</option>
-    <option value="3">3</option>
-    <option value="4">4</option>
-    <option value="0,1,2,3">0-3</option>
-    <option value="0,1,2,3,4">0-4</option>
-  </select>
   <select class="toolbar-select" id="filterSent">
     <option value="not_sent">Not emailed yet</option>
     <option value="">All</option>
@@ -227,6 +242,29 @@ tr:hover { background: var(--blue-soft); }
     <option value="200">200/page</option>
   </select>
   <button class="toolbar-btn btn-search" onclick="loadData(1)">Search</button>
+</div>
+
+<div class="filter-bar">
+  <div class="filter-row">
+    <span class="filter-label">Rating</span>
+    <button class="fbtn active" data-rating="" onclick="setRating(this,'')">All</button>
+    <button class="fbtn fbtn-red" data-rating="0" onclick="setRating(this,'0')">0</button>
+    <button class="fbtn fbtn-red" data-rating="1" onclick="setRating(this,'1')">1</button>
+    <button class="fbtn fbtn-orange" data-rating="2" onclick="setRating(this,'2')">2</button>
+    <button class="fbtn fbtn-yellow" data-rating="3" onclick="setRating(this,'3')">3</button>
+    <button class="fbtn fbtn-green" data-rating="4" onclick="setRating(this,'4')">4</button>
+    <button class="fbtn fbtn-green" data-rating="5" onclick="setRating(this,'5')">5</button>
+    <span class="filter-sep"></span>
+    <button class="fbtn" data-rating="0,1,2" onclick="setRating(this,'0,1,2')">0-2</button>
+    <button class="fbtn" data-rating="0,1,2,3" onclick="setRating(this,'0,1,2,3')">0-3</button>
+    <button class="fbtn" data-rating="3,4" onclick="setRating(this,'3,4')">3-4</button>
+  </div>
+  <div class="filter-row" style="margin-top:8px;">
+    <span class="filter-label">Sort</span>
+    <button class="sbtn active" data-sort="rating_date" onclick="setSortBtn(this,'rating_date','desc')">Newest rated</button>
+    <button class="sbtn" data-sort="rating" onclick="setSortBtn(this,'rating','asc')">Lowest rating</button>
+    <button class="sbtn" data-sort="name" onclick="setSortBtn(this,'name','asc')">A-Z</button>
+  </div>
 </div>
 
 <div class="stats-bar" id="statsBar">
@@ -295,6 +333,7 @@ const CRM = 'https://web-production-54cc.up.railway.app';
 let allData = [];
 let selected = new Set();
 let sortCol = 'rating_date', sortOrd = 'desc', curPage = 1;
+let activeRating = '';
 
 // ─── Data loading ───
 
@@ -305,7 +344,7 @@ async function loadData(page) {
   document.getElementById('checkAll').checked = false;
 
   const q = document.getElementById('searchQ').value.trim();
-  const ratings = document.getElementById('filterRating').value;
+  const ratings = activeRating;
   const sent = document.getElementById('filterSent').value;
   const perPage = document.getElementById('perPage').value;
 
@@ -673,6 +712,23 @@ function sendAllViaGmail() {
   if (indices.length > 1) {
     alert(`Gmail opened for ${allData[indices[0]].name}.\n\nAfter sending, click Gmail buttons for the remaining ${indices.length - 1} restaurants \u2014 each one opens Gmail with everything pre-filled. Just Cmd+V and send.`);
   }
+}
+
+// ─── Filters ───
+
+function setRating(btn, val) {
+  activeRating = val;
+  document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  loadData(1);
+}
+
+function setSortBtn(btn, col, ord) {
+  sortCol = col; sortOrd = ord;
+  document.querySelectorAll('.sbtn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.sort-arrow').forEach(s => s.textContent = '');
+  loadData(curPage);
 }
 
 function esc(s) { if (!s) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
