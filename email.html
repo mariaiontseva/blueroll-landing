@@ -416,13 +416,7 @@ function exportCSV() {
     const ratingNum = parseInt(rating) || 0;
     const addr = [r.address_1, r.address_2, r.address_3].filter(Boolean).join(', ');
     const ratingText = {0:'Urgent Improvement Necessary',1:'Major Improvement Necessary',2:'Improvement Necessary',3:'Generally Satisfactory',4:'Good',5:'Very Good'}[rating] || '';
-    const overdue = isOverdue(r);
-    const monthsAgo = getMonthsAgo(r.rating_date);
-
-    let subject;
-    if (overdue) subject = `${r.name} \u2014 is your kitchen ready for the next EHO visit?`;
-    else if (ratingNum === 4) subject = `${r.name} \u2014 one step away from a perfect 5`;
-    else subject = `${r.name} \u2014 a quick way to improve your food hygiene rating`;
+    const subject = getSubject(r);
 
     const fullAddr = [r.address_1,r.address_2,r.address_3,r.postcode].filter(Boolean).join(', ');
     const rPage = `https://blueroll.app/r.html?name=${encodeURIComponent(r.name)}&addr=${encodeURIComponent(fullAddr)}&rating=${encodeURIComponent(rating)}&fhrsid=${r.fhrs_id||''}&h=${r.hygiene_score||''}&s=${r.structural_score||''}&m=${r.confidence_score||''}`;
@@ -526,9 +520,7 @@ function copySubjects() {
   const lines = indices.map(idx => {
     const r = allData[idx];
     const rn = parseInt(r.rating) || 0;
-    if (isOverdue(r)) return `${r.name} \u2014 is your kitchen ready for the next EHO visit?`;
-    if (rn === 4) return `${r.name} \u2014 one step away from a perfect 5`;
-    return `${r.name} \u2014 a quick way to improve your food hygiene rating`;
+    return getSubject(r);
   });
   navigator.clipboard.writeText(lines.join('\n')).then(() => btnFeedback('Subjects', '\u2713 Copied!'));
 }
@@ -546,6 +538,15 @@ function btnFeedback(label, fb) {
 
 function getMonthsAgo(d) { return d ? Math.round((new Date() - new Date(d)) / (1000*60*60*24*30)) : 0; }
 function isOverdue(r) { return r.rating_date && getMonthsAgo(r.rating_date) >= 12; }
+
+function getSubject(r) {
+  const rn = parseInt(r.rating) || 0;
+  if (isOverdue(r)) return `${r.name} \u2014 is your kitchen ready for the next EHO visit?`;
+  if (rn === 5) return `${r.name} \u2014 keep your perfect 5 with less paperwork`;
+  if (rn === 4) return `${r.name} \u2014 one step away from a perfect 5`;
+  if (rn === 3) return `${r.name} \u2014 from 3 to 5: a simple way to improve`;
+  return `${r.name} \u2014 a quick way to improve your food hygiene rating`;
+}
 
 function buildEmailHTML(r) {
   const rating = r.rating != null ? String(r.rating) : '?';
@@ -565,20 +566,30 @@ function buildEmailHTML(r) {
     intro = `<p style="${_p}">Dear ${name} team,</p>
 <p style="${_p}">Your last food hygiene inspection was <strong style="background:#FEF3C7;padding:2px 6px;border-radius:4px;color:#92400E;">${monthsAgo} months ago</strong>. Your next EHO visit could be any day now \u2014 are your HACCP records up to date?</p>
 <p style="${_p}">If you\u2019re still using paper records, an unannounced inspection can catch gaps you didn\u2019t know existed. <strong style="color:#1A202C;">Blueroll</strong> replaces paper with a simple app that keeps everything digital, current, and inspection-ready.</p>`;
+  } else if (ratingNum === 5) {
+    intro = `<p style="${_p}">Dear ${name} team,</p>
+<p style="${_p}">Congratulations on your <strong style="background:#ECFDF5;padding:2px 6px;border-radius:4px;color:#047857;">perfect 5 \u2014 Very Good</strong> food hygiene rating! That\u2019s a real achievement and your customers can see you take food safety seriously.</p>
+<p style="${_p}">Keeping that top score means staying on top of HACCP records, allergen logs, and temperature checks every day. <strong style="color:#1A202C;">Blueroll</strong> makes that effortless \u2014 digital checklists your team can complete in seconds, so you\u2019re always inspection-ready.</p>`;
   } else if (ratingNum === 4) {
     intro = `<p style="${_p}">Dear ${name} team,</p>
 <p style="${_p}">Your recent food hygiene inspection scored <strong style="background:#FEF3C7;padding:2px 6px;border-radius:4px;color:#92400E;">4 out of 5</strong> \u2014 so close to perfect! The most common reasons for missing a 5 are paperwork gaps and inconsistent records.</p>
 <p style="${_p}"><strong style="color:#1A202C;">Blueroll</strong> is a simple app that replaces paper HACCP records with digital checklists. It takes 2 minutes to set up and helps you close that gap to a perfect score.</p>`;
+  } else if (ratingNum === 3) {
+    intro = `<p style="${_p}">Dear ${name} team,</p>
+<p style="${_p}">Your recent food hygiene inspection resulted in a rating of <strong style="background:#FEF3C7;padding:2px 6px;border-radius:4px;color:#92400E;">3 \u2014 Generally Satisfactory</strong>. That\u2019s a solid foundation, but there\u2019s room to improve \u2014 and your next inspector will be looking for progress.</p>
+<p style="${_p}"><strong style="color:#1A202C;">Blueroll</strong> is a simple app that replaces paper HACCP records with digital checklists. Most restaurants that switch see a 1\u20132 point improvement at their next inspection.</p>`;
   } else {
     intro = `<p style="${_p}">Dear ${name} team,</p>
-<p style="${_p}">We noticed your recent food hygiene inspection resulted in a rating of <strong style="background:#FEF3C7;padding:2px 6px;border-radius:4px;color:#92400E;">${rating} \u2014 ${ratingText}</strong>.</p>
-<p style="${_p}">We know how frustrating that can be, especially when you\u2019re working hard to keep standards up. <strong style="color:#1A202C;">Blueroll</strong> is a simple app that replaces paper HACCP records with digital checklists your team can complete in seconds.</p>`;
+<p style="${_p}">We noticed your recent food hygiene inspection resulted in a rating of <strong style="background:#FEF3C7;padding:2px 6px;border-radius:4px;color:#92400E;">${rating} \u2014 ${ratingText}</strong>. We know a low score can be stressful, especially when you\u2019re working hard to keep standards up.</p>
+<p style="${_p}"><strong style="color:#1A202C;">Blueroll</strong> is a simple app that replaces paper HACCP records with digital checklists your team can complete in seconds. It helps you fix the gaps inspectors flag most often.</p>`;
   }
 
   let closing;
   if (overdue) closing = `Restaurants using Blueroll report feeling significantly more confident before inspections. We\u2019d love to help ${name} be fully prepared.`;
+  else if (ratingNum === 5) closing = `Blueroll helps top-rated restaurants like ${name} stay at 5 with less paperwork. We\u2019d love to show you how.`;
   else if (ratingNum === 4) closing = `Many restaurants have gone from 4 to 5 after switching to digital records. We\u2019d love to help ${name} get there.`;
-  else closing = `Restaurants using Blueroll typically improve their rating by 1\u20132 points at their next inspection. We\u2019d love to help ${name} get back to 5 stars.`;
+  else if (ratingNum === 3) closing = `Restaurants using Blueroll typically jump to 4 or 5 at their next inspection. We\u2019d love to help ${name} get there.`;
+  else closing = `Restaurants using Blueroll typically improve their rating by 1\u20132 points at their next inspection. We\u2019d love to help ${name} get back on track.`;
 
   const starsSpan = Array.from({length:5}, (_,i) => i < ratingNum
     ? `<span style="color:#E2B55A;font-size:15px;padding:0 1px;">&#9733;</span>`
@@ -631,11 +642,7 @@ ${intro}
 
 function sendViaGmail(idx) {
   const r = allData[idx];
-  const ratingNum = parseInt(r.rating) || 0;
-  let subject;
-  if (isOverdue(r)) subject = `${r.name} \u2014 is your kitchen ready for the next EHO visit?`;
-  else if (ratingNum === 4) subject = `${r.name} \u2014 one step away from a perfect 5`;
-  else subject = `${r.name} \u2014 a quick way to improve your food hygiene rating`;
+  const subject = getSubject(r);
 
   // Copy email body to clipboard
   const html = buildEmailHTML(r);
