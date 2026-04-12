@@ -225,8 +225,9 @@ tr:hover { background: var(--blue-dim); }
   <strong id="selectedCount">0</strong> selected
   <button class="btn-deselect" onclick="deselectAll()">Deselect</button>
   <span class="action-spacer"></span>
-  <button class="action-btn btn-preview" onclick="openPreview()">Preview Emails</button>
-  <button class="action-btn btn-export" onclick="exportCSV()">Export CSV for Instantly</button>
+  <button class="action-btn btn-preview" onclick="openPreview()">Preview</button>
+  <button class="action-btn btn-export" onclick="exportCSV()">Export CSV</button>
+  <button class="action-btn btn-mark" onclick="sendAllViaGmail()" style="background:#EA4335;">Send via Gmail</button>
   <button class="action-btn btn-mark" onclick="markAsSent()">Mark as Sent</button>
 </div>
 
@@ -243,6 +244,7 @@ tr:hover { background: var(--blue-dim); }
         <th onclick="setSort('local_authority')">Authority</th>
         <th onclick="setSort('rating_date')">Rated</th>
         <th>Sent</th>
+        <th style="width:60px;"></th>
       </tr>
     </thead>
     <tbody id="tbody"></tbody>
@@ -265,7 +267,8 @@ tr:hover { background: var(--blue-dim); }
     <div class="modal-toolbar">
       <span class="title" id="modalTitle">Email Preview</span>
       <div class="actions">
-        <button class="mbtn" onclick="copyForGmail()">Copy for Gmail</button>
+        <button class="mbtn" onclick="sendAllViaGmail()" style="background:#EA4335;color:white;border-color:#EA4335;">Send via Gmail</button>
+        <button class="mbtn" onclick="copyForGmail()">Copy Body</button>
         <button class="mbtn" onclick="copyRawHTML()">Copy HTML</button>
         <button class="mbtn" onclick="copySubjects()">Subjects</button>
       </div>
@@ -342,6 +345,7 @@ function renderTable(data) {
       <td>${esc((r.local_authority||'').substring(0,20))}</td>
       <td>${rDate}</td>
       <td>${sent}</td>
+      <td><button onclick="event.stopPropagation();sendViaGmail(${idx})" style="padding:4px 10px;font-size:10px;border-radius:4px;border:1px solid rgba(59,130,246,0.3);background:var(--blue-dim);color:var(--blue);cursor:pointer;font-family:var(--mono);font-weight:600;">Gmail</button></td>
     `;
     tbody.appendChild(tr);
   });
@@ -608,6 +612,47 @@ ${intro}
   </div>
 </div>
 </div>`;
+}
+
+// ─── Send via Gmail (one click) ───
+
+function sendViaGmail(idx) {
+  const r = allData[idx];
+  const ratingNum = parseInt(r.rating) || 0;
+  let subject;
+  if (isOverdue(r)) subject = `${r.name} \u2014 is your kitchen ready for the next EHO visit?`;
+  else if (ratingNum === 4) subject = `${r.name} \u2014 one step away from a perfect 5`;
+  else subject = `${r.name} \u2014 a quick way to improve your food hygiene rating`;
+
+  // Copy email body to clipboard
+  const html = buildEmailHTML(r);
+  const blob = new Blob([html], {type:'text/html'});
+  const text = r.name + ' email body';
+  navigator.clipboard.write([new ClipboardItem({
+    'text/html': blob,
+    'text/plain': new Blob([text], {type:'text/plain'})
+  })]).catch(() => {});
+
+  // Open Gmail compose with To + Subject pre-filled
+  const gmailUrl = `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(r.email)}&su=${encodeURIComponent(subject)}`;
+  window.open(gmailUrl, '_blank');
+
+  // Flash the button
+  const btns = document.querySelectorAll('#tbody tr');
+  if (btns[idx]) {
+    const btn = btns[idx].querySelector('button');
+    if (btn) { btn.textContent = 'Cmd+V'; btn.style.color = '#047857'; setTimeout(() => { btn.textContent = 'Gmail'; btn.style.color = ''; }, 3000); }
+  }
+}
+
+function sendAllViaGmail() {
+  if (selected.size === 0) return;
+  const indices = [...selected];
+  // For bulk: open first one, copy its body
+  sendViaGmail(indices[0]);
+  if (indices.length > 1) {
+    alert(`Gmail opened for ${allData[indices[0]].name}.\n\nAfter sending, click Gmail buttons for the remaining ${indices.length - 1} restaurants \u2014 each one opens Gmail with everything pre-filled. Just Cmd+V and send.`);
+  }
 }
 
 function esc(s) { if (!s) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
