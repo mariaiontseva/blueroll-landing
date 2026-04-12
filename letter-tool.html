@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blueroll Letter Tool</title>
+<style>
+:root {
+  --bg: #0a0f0d;
+  --surface: #111916;
+  --border: rgba(16,185,129,0.12);
+  --text: #e2e8e4;
+  --muted: #7a8a80;
+  --accent: #10B981;
+  --accent-dim: rgba(16,185,129,0.15);
+  --red: #ef4444;
+  --amber: #f59e0b;
+  --green: #22c55e;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+header h1 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--accent);
+}
+header span.sub {
+  color: var(--muted);
+  font-size: 13px;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 20px 24px; }
+.section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+textarea {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+}
+textarea:focus { outline: none; border-color: var(--accent); }
+.row { display: flex; gap: 10px; align-items: flex-start; }
+.row textarea { flex: 1; }
+button {
+  background: var(--accent-dim);
+  color: var(--accent);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+button:hover { background: rgba(16,185,129,0.25); }
+button:disabled { opacity: 0.4; cursor: not-allowed; }
+button.primary { background: var(--accent); color: #000; font-weight: 600; }
+button.primary:hover { background: #34d399; }
+button.danger { background: rgba(239,68,68,0.15); color: var(--red); border-color: rgba(239,68,68,0.2); }
+button.danger:hover { background: rgba(239,68,68,0.25); }
+.status {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 8px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  min-height: 18px;
+}
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-top: 10px;
+}
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th {
+  background: var(--bg);
+  padding: 8px 10px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+}
+tbody tr { border-bottom: 1px solid var(--border); }
+tbody tr:hover { background: rgba(16,185,129,0.04); }
+tbody td { padding: 7px 10px; }
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}
+.badge-red { background: rgba(239,68,68,0.15); color: var(--red); }
+.badge-amber { background: rgba(245,158,11,0.15); color: var(--amber); }
+.badge-green { background: rgba(34,197,94,0.15); color: var(--green); }
+.status-sent { color: var(--muted); font-size: 12px; }
+.status-notsent { color: var(--green); font-size: 12px; }
+.toolbar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.toolbar .count {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 12px;
+  color: var(--muted);
+  margin-left: auto;
+}
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+#lettersContainer {
+  display: none;
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 16px;
+}
+.letter-page {
+  max-width: 680px;
+  margin: 0 auto 40px;
+  padding: 40px;
+  color: #1a1a1a;
+  font-size: 14px;
+  line-height: 1.6;
+  border-bottom: 2px dashed #ddd;
+}
+.letter-page:last-child { border-bottom: none; margin-bottom: 0; }
+.letter-top { margin-bottom: 20px; }
+.letter-sender-info { font-size: 13px; color: #555; }
+.letter-recipient { text-align: left; margin-top: 16px; }
+.letter-biz-name { font-weight: 700; font-size: 15px; }
+.letter-biz-addr { font-size: 13px; color: #555; margin-top: 2px; }
+.letter-divider { height: 1px; background: #ddd; margin: 16px 0; }
+.letter-content { font-size: 14px; line-height: 1.65; }
+.letter-qr-inline {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 16px 0;
+  padding: 12px;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+.qr-caption { font-size: 12px; color: #666; }
+.letter-footer {
+  font-size: 10px;
+  color: #999;
+  border-top: 1px solid #ddd;
+  margin-top: 24px;
+  padding-top: 10px;
+  text-align: center;
+}
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.modal h2 { font-size: 16px; color: var(--accent); margin-bottom: 16px; }
+.modal table { font-size: 13px; }
+.modal table td, .modal table th { padding: 5px 10px; }
+.modal .close-btn {
+  margin-top: 16px;
+  width: 100%;
+}
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--muted);
+  font-size: 14px;
+}
+input[type="checkbox"] {
+  accent-color: var(--accent);
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+@media print {
+  @page { size: A4 portrait; margin: 15mm 15mm 10mm 18mm; }
+  body * { visibility: hidden; }
+  #lettersContainer, #lettersContainer * { visibility: visible; }
+  #lettersContainer { position: absolute; left: 0; top: 0; width: 100%; padding: 0; border-radius: 0; }
+  .letter-page {
+    page-break-after: always;
+    padding: 20mm 0 0 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #000;
+    background: white;
+    border-bottom: none;
+    max-width: none;
+    margin: 0;
+  }
+  .letter-page:last-child { page-break-after: avoid; }
+  .letter-qr-inline img { width: 28mm; height: 28mm; }
+  .letter-footer { font-size: 9px; color: #999; border-top: 0.5px solid #ddd; margin-top: 5mm; padding-top: 3mm; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>✉️ Blueroll Letter Tool</h1>
+  <span class="sub">AI-prompted batch letter printing</span>
+</header>
+
+<div class="container">
+  <!-- Search DB -->
+  <div class="section">
+    <div class="section-title">Search DB</div>
+    <div class="row">
+      <textarea id="searchInput" rows="2" placeholder="e.g. restaurants in E1 with rating 0-2"></textarea>
+      <button class="primary" id="searchBtn" onclick="doSearch()">🔍 Search DB</button>
+    </div>
+    <div class="status" id="searchStatus"></div>
+  </div>
+
+  <!-- Refine Locally -->
+  <div class="section">
+    <div class="section-title">Refine Locally</div>
+    <div class="row">
+      <textarea id="refineInput" rows="1" placeholder="e.g. only those not yet contacted"></textarea>
+      <button id="refineBtn" onclick="doRefine()">⚡ Refine</button>
+    </div>
+    <div class="status" id="refineStatus"></div>
+  </div>
+
+  <!-- Results Table -->
+  <div class="section">
+    <div class="toolbar">
+      <button onclick="selectAll()">Select All</button>
+      <button onclick="deselectAll()">Deselect All</button>
+      <span class="count" id="countLabel">0 loaded / 0 selected</span>
+    </div>
+    <div class="table-wrap" style="max-height: 420px; overflow-y: auto;">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:36px"><input type="checkbox" id="masterCheck" onchange="toggleAll(this.checked)"></th>
+            <th>Name</th>
+            <th>Rating</th>
+            <th>Postcode</th>
+            <th>Address</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="resultsBody"></tbody>
+      </table>
+    </div>
+    <div class="empty-state" id="emptyState">No results yet. Use the search above to load businesses.</div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="actions">
+    <button class="primary" onclick="generateLetters()">📄 Generate Letters</button>
+    <button onclick="doPrint()">🖨 Print</button>
+    <button onclick="markAsSent()">✅ Mark as Sent</button>
+    <button onclick="showReport()">📊 Report</button>
+    <button class="danger" onclick="clearAll()">🗑 Clear</button>
+  </div>
+
+  <!-- Letter Preview -->
+  <div id="lettersContainer"></div>
+</div>
+
+<!-- Report Modal -->
+<div class="modal-overlay" id="reportModal" onclick="if(event.target===this)closeReport()">
+  <div class="modal">
+    <h2>📊 Batch Report</h2>
+    <div id="reportContent"></div>
+    <button onclick="copyReport()">📋 Copy to Clipboard</button>
+    <button class="close-btn danger" onclick="closeReport()">Close</button>
+  </div>
+</div>
+
+<script>
+const API = 'https://web-production-54cc.up.railway.app';
+const RATING_TEXT = {
+  0: 'Urgent Improvement Necessary',
+  1: 'Major Improvement Necessary',
+  2: 'Improvement Necessary',
+  3: 'Generally Satisfactory',
+  4: 'Good',
+  5: 'Very Good'
+};
+
+let allResults = [];
+let displayResults = [];
+
+function getSelected() {
+  const checks = document.querySelectorAll('.row-check:checked');
+  const ids = new Set(Array.from(checks).map(c => c.dataset.idx));
+  return displayResults.filter((_, i) => ids.has(String(i)));
+}
+
+function updateCount() {
+  const total = displayResults.length;
+  const selected = document.querySelectorAll('.row-check:checked').length;
+  document.getElementById('countLabel').textContent = `${total} loaded / ${selected} selected`;
+  document.getElementById('emptyState').style.display = total ? 'none' : 'block';
+}
+
+function ratingBadge(r) {
+  const n = parseInt(r);
+  if (isNaN(n)) return `<span class="badge">${r ?? '?'}</span>`;
+  let cls = 'badge-green';
+  if (n <= 1) cls = 'badge-red';
+  else if (n <= 3) cls = 'badge-amber';
+  return `<span class="badge ${cls}">${n}</span>`;
+}
+
+function statusLabel(item) {
+  if (!item.paper_sent_at) return '<span class="status-notsent">not sent</span>';
+  const d = new Date(item.paper_sent_at);
+  const days = Math.floor((Date.now() - d.getTime()) / 86400000);
+  const label = days === 0 ? 'today' : days === 1 ? '1d ago' : `${days}d ago`;
+  return `<span class="status-sent">sent ${label}</span>`;
+}
+
+function renderTable() {
+  const tbody = document.getElementById('resultsBody');
+  tbody.innerHTML = displayResults.map((r, i) => `
+    <tr>
+      <td><input type="checkbox" class="row-check" data-idx="${i}" onchange="updateCount()"></td>
+      <td>${esc(r.BusinessName || r.name || '')}</td>
+      <td>${ratingBadge(r.RatingValue ?? r.rating)}</td>
+      <td>${esc(r.PostCode || r.postcode || '')}</td>
+      <td style="font-size:12px;color:var(--muted)">${esc(buildAddr(r))}</td>
+      <td>${statusLabel(r)}</td>
+    </tr>
+  `).join('');
+  updateCount();
+}
+
+function buildAddr(r) {
+  return [r.address_1, r.address_2, r.address_3, r.address_4, r.postcode]
+    .filter(Boolean).join(', ');
+}
+
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+// Search DB
+async function doSearch() {
+  const prompt = document.getElementById('searchInput').value.trim();
+  if (!prompt) return;
+  const btn = document.getElementById('searchBtn');
+  const status = document.getElementById('searchStatus');
+  btn.disabled = true;
+  status.textContent = 'Searching...';
+  try {
+    const res = await fetch(`${API}/api/ai-search`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+    const data = await res.json();
+    allResults = data.results || [];
+    displayResults = [...allResults];
+    renderTable();
+    status.textContent = `${data.total ?? displayResults.length} results loaded`;
+  } catch (e) {
+    status.textContent = 'Error: ' + e.message;
+  }
+  btn.disabled = false;
+}
+
+// Refine locally
+async function doRefine() {
+  const prompt = document.getElementById('refineInput').value.trim();
+  if (!prompt) return;
+  const btn = document.getElementById('refineBtn');
+  const status = document.getElementById('refineStatus');
+  btn.disabled = true;
+  status.textContent = 'Refining...';
+  try {
+    const res = await fetch(`${API}/api/ai-refine`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+    const data = await res.json();
+    if (data.filter) {
+      const filterFn = new Function('r', `return ${data.filter}`);
+      displayResults = allResults.filter(filterFn);
+    }
+    if (data.sort) {
+      const sortFn = new Function('a', 'b', `return ${data.sort}`);
+      displayResults.sort(sortFn);
+    }
+    renderTable();
+    status.textContent = data.description || `Refined to ${displayResults.length} results`;
+  } catch (e) {
+    status.textContent = 'Error: ' + e.message;
+  }
+  btn.disabled = false;
+}
+
+// Select helpers
+function selectAll() {
+  document.querySelectorAll('.row-check').forEach(c => c.checked = true);
+  document.getElementById('masterCheck').checked = true;
+  updateCount();
+}
+function deselectAll() {
+  document.querySelectorAll('.row-check').forEach(c => c.checked = false);
+  document.getElementById('masterCheck').checked = false;
+  updateCount();
+}
+function toggleAll(checked) {
+  document.querySelectorAll('.row-check').forEach(c => c.checked = checked);
+  updateCount();
+}
+
+// Generate letters
+function generateLetters() {
+  const selected = getSelected();
+  if (!selected.length) return alert('No rows selected');
+  const container = document.getElementById('lettersContainer');
+  container.innerHTML = selected.map(r => buildLetter(r)).join('');
+  container.style.display = 'block';
+  container.scrollIntoView({ behavior: 'smooth' });
+}
+
+function buildLetter(r) {
+  const name = r.BusinessName || r.name || 'Business';
+  const rating = parseInt(r.RatingValue ?? r.rating ?? 0);
+  const ratingText = RATING_TEXT[rating] || '';
+  const fullAddr = buildAddr(r);
+  const letterAddr = [r.address_1, r.address_2, r.address_3, r.address_4, r.postcode].filter(Boolean).join('<br>');
+  const fhrsId = r.fhrs_id || '';
+  const ratingDate = r.rating_date || '';
+  const hygiene = r.hygiene_score ?? '';
+  const structural = r.structural_score ?? '';
+  const confidence = r.confidence_score ?? '';
+
+  const encName = encodeURIComponent(name);
+  const encAddr = encodeURIComponent(fullAddr);
+  const qrData = `https://blueroll.app/r.html?name=${encName}&addr=${encAddr}&rating=${rating}&date=${encodeURIComponent(ratingDate)}&fhrsid=${fhrsId}&h=${hygiene}&s=${structural}&m=${confidence}`;
+  const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrData)}`;
+
+  let ratingLine;
+  if (rating === 4) {
+    ratingLine = `Your recent food hygiene inspection scored <strong>4 out of 5</strong> — so close to perfect!`;
+  } else {
+    ratingLine = `We noticed your recent food hygiene inspection resulted in a rating of <strong>${rating} — ${ratingText}</strong>.`;
+  }
+
+  return `<div class="letter-page">
+  <div class="letter-top">
+    <div class="letter-sender">
+      <div class="letter-sender-info"><strong>Blueroll</strong><br>hello@blueroll.app</div>
+    </div>
+    <div class="letter-recipient">
+      <div class="letter-biz-name">${esc(name)}</div>
+      <div class="letter-biz-addr">${letterAddr}</div>
+    </div>
+  </div>
+  <div class="letter-divider"></div>
+  <div class="letter-content">
+    Dear ${esc(name)} team,<br><br>
+    ${ratingLine}<br><br>
+  </div>
+  <div class="letter-qr-inline">
+    <img src="${qrImg}" width="150" height="150">
+    <div class="qr-caption">Scan to see your full rating breakdown<br>and how to improve</div>
+  </div>
+  <div class="letter-content">
+    We know how frustrating that can be...<br><br>
+    <strong>What Blueroll does:</strong><br>
+    &bull; Ready-made HACCP checklists — complete in seconds<br>
+    &bull; AI recipe import — snap a photo, get allergens instantly<br>
+    &bull; One-tap PDF compliance report for your EHO<br>
+    &bull; Temperature logs with out-of-range alerts<br>
+    &bull; Team tasks — see who completed what<br><br>
+    Restaurants using Blueroll typically improve their rating by 1-2 points...<br><br>
+    <strong>Try free for 14 days — no credit card needed.</strong><br>
+    Visit blueroll.app or scan the QR code.<br><br>
+    Best regards,<br>The Blueroll Team
+  </div>
+  <div class="letter-footer">blueroll.app &middot; hello@blueroll.app &middot; Food Safety Made Simple</div>
+</div>`;
+}
+
+// Print
+function doPrint() {
+  const container = document.getElementById('lettersContainer');
+  if (container.style.display === 'none' || !container.innerHTML.trim()) {
+    return alert('Generate letters first');
+  }
+  window.print();
+}
+
+// Mark as sent
+async function markAsSent() {
+  const selected = getSelected();
+  if (!selected.length) return alert('No rows selected');
+  const fhrsIds = selected.map(r => r.FHRSID || r.fhrs_id).filter(Boolean);
+  if (!fhrsIds.length) return alert('No FHRS IDs found in selection');
+  if (!confirm(`Mark ${fhrsIds.length} businesses as sent?`)) return;
+  try {
+    const res = await fetch(`${API}/api/contact`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fhrs_ids: fhrsIds, channel: 'paper' })
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const now = new Date().toISOString();
+    fhrsIds.forEach(id => {
+      const item = allResults.find(r => (r.FHRSID || r.fhrs_id) == id);
+      if (item) item.paper_sent_at = now;
+      const dItem = displayResults.find(r => (r.FHRSID || r.fhrs_id) == id);
+      if (dItem) dItem.paper_sent_at = now;
+    });
+    renderTable();
+    alert(`Marked ${fhrsIds.length} as sent`);
+  } catch (e) {
+    alert('Error: ' + e.message);
+  }
+}
+
+// Report
+let reportText = '';
+function showReport() {
+  const selected = getSelected();
+  const data = selected.length ? selected : displayResults;
+  if (!data.length) return alert('No data to report on');
+
+  const date = new Date().toLocaleDateString('en-GB');
+  const total = data.length;
+  const breakdown = {};
+  const postcodes = {};
+  data.forEach(r => {
+    const rat = parseInt(r.RatingValue ?? r.rating ?? -1);
+    breakdown[rat] = (breakdown[rat] || 0) + 1;
+    const pc = (r.PostCode || r.postcode || '').split(' ')[0];
+    if (pc) postcodes[pc] = (postcodes[pc] || 0) + 1;
+  });
+  const topPC = Object.entries(postcodes).sort((a, b) => b[1] - a[1]).slice(0, 5);
+
+  let html = `<p style="margin-bottom:12px;color:var(--muted);font-size:13px">${date}</p>`;
+  html += `<p style="margin-bottom:12px"><strong>${total}</strong> letters total</p>`;
+  html += `<table style="width:100%;margin-bottom:16px"><thead><tr><th>Rating</th><th>Count</th></tr></thead><tbody>`;
+  for (let i = 0; i <= 5; i++) {
+    if (breakdown[i]) html += `<tr><td>${i} — ${RATING_TEXT[i]}</td><td style="font-family:monospace">${breakdown[i]}</td></tr>`;
+  }
+  if (breakdown[-1]) html += `<tr><td>Unknown</td><td style="font-family:monospace">${breakdown[-1]}</td></tr>`;
+  html += `</tbody></table>`;
+
+  if (topPC.length) {
+    html += `<p style="margin-bottom:8px;font-weight:600">Top postcode areas</p><table style="width:100%"><tbody>`;
+    topPC.forEach(([pc, n]) => { html += `<tr><td>${pc}</td><td style="font-family:monospace">${n}</td></tr>`; });
+    html += `</tbody></table>`;
+  }
+
+  reportText = `Letter Batch Report — ${date}\n`;
+  reportText += `Total: ${total}\n\nRating Breakdown:\n`;
+  for (let i = 0; i <= 5; i++) {
+    if (breakdown[i]) reportText += `  ${i} (${RATING_TEXT[i]}): ${breakdown[i]}\n`;
+  }
+  if (topPC.length) {
+    reportText += `\nTop Postcodes:\n`;
+    topPC.forEach(([pc, n]) => { reportText += `  ${pc}: ${n}\n`; });
+  }
+
+  document.getElementById('reportContent').innerHTML = html;
+  document.getElementById('reportModal').classList.add('open');
+}
+
+function closeReport() { document.getElementById('reportModal').classList.remove('open'); }
+
+function copyReport() {
+  navigator.clipboard.writeText(reportText).then(() => alert('Copied to clipboard'));
+}
+
+// Clear
+function clearAll() {
+  if (displayResults.length && !confirm('Clear all results?')) return;
+  allResults = [];
+  displayResults = [];
+  renderTable();
+  document.getElementById('lettersContainer').style.display = 'none';
+  document.getElementById('lettersContainer').innerHTML = '';
+  document.getElementById('searchStatus').textContent = '';
+  document.getElementById('refineStatus').textContent = '';
+  document.getElementById('searchInput').value = '';
+  document.getElementById('refineInput').value = '';
+}
+
+// Enter key shortcuts
+document.getElementById('searchInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); doSearch(); }
+});
+document.getElementById('refineInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); doRefine(); }
+});
+</script>
+</body>
+</html>
