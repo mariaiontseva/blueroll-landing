@@ -297,7 +297,6 @@ tr:hover { background: var(--blue-soft); }
         <th onclick="setSort('business_type')">Type</th>
         <th onclick="setSort('local_authority')">Authority</th>
         <th onclick="setSort('rating_date')">Rated</th>
-        <th>Sent</th>
       </tr>
     </thead>
     <tbody id="tbody"></tbody>
@@ -428,17 +427,23 @@ function renderTable(data) {
     const rDate = r.rating_date ? new Date(r.rating_date).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'2-digit'}) : '—';
     const sent = r.email_sent_at ? `<span class="sent-tag">\u2713 ${new Date(r.email_sent_at).toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}</span>` : '';
 
+    const sentBadge = r.email_sent_at
+      ? `<span style="font-size:11px;color:#059669;font-weight:500;margin-left:8px;background:#ECFDF5;padding:2px 8px;border-radius:4px;">Sent ${new Date(r.email_sent_at).toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}</span>`
+      : '';
+
     tr.innerHTML = `
       <td><input type="checkbox" data-idx="${idx}" onchange="toggleSel(${idx},this.checked)" style="accent-color:#2563EB;width:16px;height:16px;cursor:pointer;"></td>
-      <td title="${esc(r.name)}">${esc(r.name)}</td>
-      <td><button onclick="event.stopPropagation();sendViaGmail(${idx})" style="padding:6px 14px;font-size:12px;border-radius:8px;border:1px solid #E5E7EB;background:white;color:var(--blue);cursor:pointer;font-family:inherit;font-weight:600;transition:all 0.15s;" onmouseover="this.style.borderColor='#2563EB';this.style.background='#EFF4FF'" onmouseout="this.style.borderColor='#E5E7EB';this.style.background='white'">Gmail</button></td>
+      <td title="${esc(r.name)}">${esc(r.name)}${sentBadge}</td>
+      <td style="white-space:nowrap;">
+        <button onclick="event.stopPropagation();sendViaGmail(${idx})" style="padding:5px 12px;font-size:12px;border-radius:6px;border:1px solid #E5E7EB;background:white;color:var(--blue);cursor:pointer;font-family:inherit;font-weight:600;transition:all 0.15s;" onmouseover="this.style.borderColor='#2563EB';this.style.background='#EFF4FF'" onmouseout="this.style.borderColor='#E5E7EB';this.style.background='white'">Gmail</button>
+        <button onclick="event.stopPropagation();markOneSent(${idx},this)" style="padding:5px 10px;font-size:11px;border-radius:6px;border:1px solid #E5E7EB;background:white;color:var(--text-secondary);cursor:pointer;font-family:inherit;font-weight:500;margin-left:4px;transition:all 0.15s;" onmouseover="this.style.borderColor='#059669';this.style.color='#059669'" onmouseout="this.style.borderColor='#E5E7EB';this.style.color=''">Sent</button>
+      </td>
       <td><span class="rating-badge ${rc}">${r.rating != null ? r.rating : '?'}</span></td>
       <td class="email-cell" title="${esc(r.email)}">${esc(r.email)}</td>
       <td>${esc(r.postcode || '')}</td>
       <td title="${esc(r.business_type || '')}">${esc((r.business_type||'').substring(0,25))}</td>
       <td>${esc((r.local_authority||'').substring(0,20))}</td>
       <td>${rDate}</td>
-      <td>${sent}</td>
     `;
     tbody.appendChild(tr);
   });
@@ -752,6 +757,33 @@ function sendAllViaGmail() {
   sendViaGmail(indices[0]);
   if (indices.length > 1) {
     alert(`Gmail opened for ${allData[indices[0]].name}.\n\nAfter sending, click Gmail buttons for the remaining ${indices.length - 1} restaurants \u2014 each one opens Gmail with everything pre-filled. Just Cmd+V and send.`);
+  }
+}
+
+// ─── Mark single as sent ───
+
+async function markOneSent(idx, btn) {
+  const r = allData[idx];
+  if (!r || !r.fhrs_id) return;
+  btn.textContent = '...';
+  btn.disabled = true;
+  try {
+    await fetch(`${CRM}/api/contact`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fhrs_ids: [r.fhrs_id], channel: 'email', template: 'rating_badge' })
+    });
+    // Update local data so UI reflects immediately
+    r.email_sent_at = new Date().toISOString();
+    // Also update in rawData
+    const raw = rawData.find(x => x.fhrs_id === r.fhrs_id);
+    if (raw) raw.email_sent_at = r.email_sent_at;
+    // Re-render
+    applyClientFilters();
+  } catch (err) {
+    btn.textContent = 'Sent';
+    btn.disabled = false;
+    alert('Error: ' + err.message);
   }
 }
 
