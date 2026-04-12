@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blueroll — Email Outreach</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #0a0f0d;
+  --surface: #111916;
+  --surface2: #192019;
+  --border: rgba(16,185,129,0.12);
+  --text: #e2e8e4;
+  --muted: rgba(226,232,228,0.4);
+  --accent: #10B981;
+  --accent-dim: rgba(16,185,129,0.1);
+  --red: #EF4444;
+  --blue: #3B82F6;
+  --blue-dim: rgba(59,130,246,0.1);
+  --font: -apple-system, 'SF Pro Text', system-ui, sans-serif;
+  --mono: 'SF Mono', 'Menlo', 'Consolas', monospace;
+}
+body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 13px; min-height: 100vh; }
+
+.header {
+  padding: 16px 24px; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.header-left { display: flex; align-items: center; gap: 12px; }
+.header-left h1 { font-size: 15px; font-weight: 600; letter-spacing: -0.3px; }
+.header-left .tag {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--blue); background: var(--blue-dim);
+  padding: 2px 7px; border-radius: 3px; border: 0.5px solid rgba(59,130,246,0.2);
+}
+.header-right { display: flex; gap: 8px; align-items: center; }
+.nav-link { color: var(--accent); text-decoration: none; font-size: 12px; font-family: var(--mono); }
+.nav-link:hover { text-decoration: underline; }
+
+/* Toolbar */
+.toolbar {
+  padding: 12px 24px; border-bottom: 1px solid var(--border);
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+}
+.toolbar-input {
+  background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 12px; border-radius: 6px; font-size: 12px; font-family: inherit;
+  outline: none; min-width: 180px;
+}
+.toolbar-input:focus { border-color: var(--blue); }
+.toolbar-input::placeholder { color: var(--muted); }
+.toolbar-select {
+  background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 10px; border-radius: 6px; font-size: 12px; font-family: inherit; cursor: pointer;
+}
+.toolbar-btn {
+  padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 600;
+  cursor: pointer; font-family: inherit; border: none; transition: all 0.15s;
+}
+.btn-search { background: var(--blue); color: white; }
+.btn-search:hover { background: #2563EB; }
+
+/* Stats */
+.stats-bar {
+  padding: 10px 24px; border-bottom: 1px solid var(--border);
+  display: flex; gap: 20px; align-items: center; font-size: 12px;
+}
+.stat { font-family: var(--mono); }
+.stat-val { color: var(--blue); font-weight: 700; }
+
+/* Action bar */
+.action-bar {
+  display: none; padding: 12px 24px; background: var(--blue-dim);
+  border-bottom: 1px solid rgba(59,130,246,0.15);
+  align-items: center; gap: 10px; font-size: 13px; color: var(--blue);
+}
+.action-bar.active { display: flex; }
+.action-bar strong { font-weight: 700; font-family: var(--mono); }
+.action-spacer { flex: 1; }
+.action-btn {
+  padding: 7px 16px; font-size: 12px; border-radius: 6px; cursor: pointer;
+  font-family: inherit; font-weight: 600; border: none; transition: all 0.15s;
+}
+.btn-export { background: var(--accent); color: #0a0f0d; }
+.btn-export:hover { background: #34D399; }
+.btn-preview { background: white; color: var(--blue); border: 1px solid rgba(59,130,246,0.3); }
+.btn-preview:hover { border-color: var(--blue); }
+.btn-mark { background: var(--blue); color: white; }
+.btn-mark:hover { background: #2563EB; }
+.btn-deselect {
+  padding: 5px 12px; font-size: 11px; border-radius: 4px;
+  border: 1px solid rgba(59,130,246,0.3); background: none; color: var(--blue);
+  cursor: pointer; font-family: var(--mono);
+}
+
+/* Table */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th {
+  text-align: left; padding: 8px 10px; font-size: 10px; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.05em; font-family: var(--mono);
+  border-bottom: 1px solid var(--border); white-space: nowrap; user-select: none;
+  cursor: pointer;
+}
+th:hover { color: var(--blue); }
+th .sort-arrow { font-size: 8px; margin-left: 3px; }
+td {
+  padding: 7px 10px; border-bottom: 1px solid rgba(16,185,129,0.06);
+  white-space: nowrap; max-width: 220px; overflow: hidden; text-overflow: ellipsis;
+}
+tr:hover { background: var(--blue-dim); }
+.rating-badge {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-family: var(--mono); font-weight: 600; font-size: 11px;
+}
+.r-0, .r-1 { background: rgba(239,68,68,0.15); color: #EF4444; }
+.r-2 { background: rgba(249,115,22,0.15); color: #F97316; }
+.r-3 { background: rgba(245,158,11,0.15); color: #F59E0B; }
+.r-4 { background: rgba(16,185,129,0.15); color: #10B981; }
+.r-5 { background: rgba(16,185,129,0.2); color: #34D399; }
+.sent-tag { font-size: 9px; color: var(--blue); font-family: var(--mono); }
+.email-cell { color: var(--blue); font-size: 11px; max-width: 180px; overflow: hidden; text-overflow: ellipsis; }
+
+/* Pagination */
+.pagination {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 24px; font-size: 11px;
+}
+.pagination .info { font-family: var(--mono); color: var(--muted); }
+.pagination .pages { display: flex; gap: 4px; }
+.page-btn {
+  padding: 5px 10px; font-size: 11px; border-radius: 4px; cursor: pointer;
+  border: 1px solid var(--border); background: var(--surface2); color: var(--text);
+  font-family: var(--mono);
+}
+.page-btn:hover { border-color: var(--blue); }
+.page-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
+.page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* Empty */
+.empty { text-align: center; padding: 80px 24px; color: var(--muted); }
+.empty-text { font-size: 14px; margin-bottom: 4px; }
+
+/* Email preview modal */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+  z-index: 200; justify-content: center; align-items: flex-start; padding: 40px 20px;
+  overflow-y: auto; backdrop-filter: blur(4px);
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: white; color: #111; border-radius: 12px; width: 640px; max-height: 90vh;
+  overflow-y: auto; position: relative;
+}
+.modal-toolbar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 24px; border-bottom: 1px solid #eee; position: sticky; top: 0;
+  background: white; z-index: 10; border-radius: 12px 12px 0 0;
+}
+.modal-toolbar .title { font-size: 14px; font-weight: 600; color: #1A202C; }
+.modal-toolbar .actions { display: flex; gap: 6px; }
+.modal-toolbar .mbtn {
+  padding: 7px 14px; border: 1px solid #ddd; background: white; border-radius: 6px;
+  font-size: 11px; font-weight: 500; cursor: pointer; font-family: inherit; transition: all 0.15s;
+}
+.modal-toolbar .mbtn:hover { border-color: #047857; color: #047857; }
+.modal-close {
+  position: absolute; top: 12px; right: 16px; background: none; border: none;
+  font-size: 22px; cursor: pointer; color: #999; z-index: 11;
+}
+.modal-body { padding: 24px; }
+.email-page {
+  background: #FAFAFA; border-radius: 8px; padding: 28px; margin-bottom: 16px; border: 1px solid #eee;
+}
+.email-page:last-child { margin-bottom: 0; }
+.email-page-to { font-size: 11px; color: #888; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.05em; }
+.email-page-name { font-size: 14px; font-weight: 600; color: #111; margin-bottom: 2px; }
+.email-page-email { font-size: 12px; color: #888; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #eee; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>Email Outreach</h1>
+    <span class="tag">Blueroll</span>
+  </div>
+  <div class="header-right">
+    <a href="db.html" class="nav-link">Database</a>
+    <a href="fsa.html" class="nav-link">FSA Tool</a>
+  </div>
+</div>
+
+<div class="toolbar">
+  <input class="toolbar-input" id="searchQ" type="text" placeholder="Search name, postcode, email..." onkeydown="if(event.key==='Enter') loadData(1)">
+  <select class="toolbar-select" id="filterRating">
+    <option value="">All ratings</option>
+    <option value="0,1,2" selected>0-2 (low)</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="0,1,2,3">0-3</option>
+    <option value="0,1,2,3,4">0-4</option>
+  </select>
+  <select class="toolbar-select" id="filterSent">
+    <option value="not_sent">Not emailed yet</option>
+    <option value="">All</option>
+    <option value="sent">Already sent</option>
+  </select>
+  <select class="toolbar-select" id="perPage">
+    <option value="50">50/page</option>
+    <option value="100" selected>100/page</option>
+    <option value="200">200/page</option>
+  </select>
+  <button class="toolbar-btn btn-search" onclick="loadData(1)">Search</button>
+</div>
+
+<div class="stats-bar" id="statsBar">
+  <span class="stat"><span class="stat-val" id="statTotal">—</span> with email</span>
+  <span class="stat"><span class="stat-val" id="statNotSent">—</span> not emailed</span>
+</div>
+
+<div class="action-bar" id="actionBar">
+  <strong id="selectedCount">0</strong> selected
+  <button class="btn-deselect" onclick="deselectAll()">Deselect</button>
+  <span class="action-spacer"></span>
+  <button class="action-btn btn-preview" onclick="openPreview()">Preview Emails</button>
+  <button class="action-btn btn-export" onclick="exportCSV()">Export CSV for Instantly</button>
+  <button class="action-btn btn-mark" onclick="markAsSent()">Mark as Sent</button>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th style="width:36px;"><input type="checkbox" id="checkAll" onchange="toggleAll(this.checked)" style="accent-color:var(--blue);width:14px;height:14px;cursor:pointer;"></th>
+        <th onclick="setSort('name')">Name <span class="sort-arrow" id="sort_name"></span></th>
+        <th onclick="setSort('rating')">Rtg <span class="sort-arrow" id="sort_rating"></span></th>
+        <th>Email</th>
+        <th onclick="setSort('postcode')">Postcode</th>
+        <th onclick="setSort('business_type')">Type</th>
+        <th onclick="setSort('local_authority')">Authority</th>
+        <th onclick="setSort('rating_date')">Rated</th>
+        <th>Sent</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<div id="emptyState" class="empty" style="display:none;">
+  <div class="empty-text">No restaurants with emails found</div>
+</div>
+
+<div class="pagination">
+  <div class="info" id="pageInfo">—</div>
+  <div class="pages" id="pageButtons"></div>
+</div>
+
+<!-- Preview modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="modal-toolbar">
+      <span class="title" id="modalTitle">Email Preview</span>
+      <div class="actions">
+        <button class="mbtn" onclick="copyForGmail()">Copy for Gmail</button>
+        <button class="mbtn" onclick="copyRawHTML()">Copy HTML</button>
+        <button class="mbtn" onclick="copySubjects()">Subjects</button>
+      </div>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+const CRM = 'https://web-production-54cc.up.railway.app';
+let allData = [];
+let selected = new Set();
+let sortCol = 'rating_date', sortOrd = 'desc', curPage = 1;
+
+// ─── Data loading ───
+
+async function loadData(page) {
+  curPage = page;
+  selected.clear();
+  updateActionBar();
+  document.getElementById('checkAll').checked = false;
+
+  const q = document.getElementById('searchQ').value.trim();
+  const ratings = document.getElementById('filterRating').value;
+  const sent = document.getElementById('filterSent').value;
+  const perPage = document.getElementById('perPage').value;
+
+  const params = new URLSearchParams({
+    page, per_page: perPage, sort: sortCol, order: sortOrd, has: 'email'
+  });
+  if (q) params.set('q', q);
+  if (ratings) params.set('ratings', ratings);
+  if (sent === 'not_sent') params.set('not_contacted', 'email');
+  if (sent === 'sent') params.set('contacted', 'email');
+
+  try {
+    const r = await fetch(`${CRM}/api/browse?${params}`);
+    const data = await r.json();
+    allData = data.results;
+    renderTable(data);
+  } catch (err) {
+    document.getElementById('tbody').innerHTML = `<tr><td colspan="9" style="color:var(--red);padding:20px;">Error: ${err.message}</td></tr>`;
+  }
+}
+
+function setSort(col) {
+  if (sortCol === col) sortOrd = sortOrd === 'asc' ? 'desc' : 'asc';
+  else { sortCol = col; sortOrd = col === 'rating_date' ? 'desc' : 'asc'; }
+  document.querySelectorAll('.sort-arrow').forEach(s => s.textContent = '');
+  const el = document.getElementById('sort_' + col);
+  if (el) el.textContent = sortOrd === 'asc' ? '\u25B2' : '\u25BC';
+  loadData(curPage);
+}
+
+function renderTable(data) {
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+  document.getElementById('emptyState').style.display = data.results.length === 0 ? '' : 'none';
+  document.getElementById('statTotal').textContent = data.total.toLocaleString();
+
+  data.results.forEach((r, idx) => {
+    const tr = document.createElement('tr');
+    const rc = r.rating != null ? `r-${Math.min(r.rating, 5)}` : '';
+    const rDate = r.rating_date ? new Date(r.rating_date).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'2-digit'}) : '—';
+    const sent = r.email_sent_at ? `<span class="sent-tag">\u2713 ${new Date(r.email_sent_at).toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}</span>` : '';
+
+    tr.innerHTML = `
+      <td><input type="checkbox" data-idx="${idx}" onchange="toggleSel(${idx},this.checked)" style="accent-color:var(--blue);width:14px;height:14px;cursor:pointer;"></td>
+      <td title="${esc(r.name)}">${esc(r.name)}</td>
+      <td><span class="rating-badge ${rc}">${r.rating != null ? r.rating : '?'}</span></td>
+      <td class="email-cell" title="${esc(r.email)}">${esc(r.email)}</td>
+      <td>${esc(r.postcode || '')}</td>
+      <td title="${esc(r.business_type || '')}">${esc((r.business_type||'').substring(0,25))}</td>
+      <td>${esc((r.local_authority||'').substring(0,20))}</td>
+      <td>${rDate}</td>
+      <td>${sent}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  // Pagination
+  const start = (data.page - 1) * data.per_page + 1;
+  const end = Math.min(data.page * data.per_page, data.total);
+  document.getElementById('pageInfo').textContent = `${start.toLocaleString()}\u2013${end.toLocaleString()} of ${data.total.toLocaleString()}`;
+  const btns = document.getElementById('pageButtons');
+  btns.innerHTML = '';
+  const addBtn = (label, pg, disabled, active) => {
+    const b = document.createElement('button');
+    b.className = 'page-btn' + (active ? ' active' : '');
+    b.textContent = label; b.disabled = disabled;
+    b.onclick = () => loadData(pg);
+    btns.appendChild(b);
+  };
+  addBtn('\u25C0', data.page - 1, data.page <= 1, false);
+  let sp = Math.max(1, data.page - 3), ep = Math.min(data.pages, sp + 6);
+  if (ep - sp < 6) sp = Math.max(1, ep - 6);
+  for (let i = sp; i <= ep; i++) addBtn(i, i, false, i === data.page);
+  addBtn('\u25B6', data.page + 1, data.page >= data.pages, false);
+}
+
+// ─── Selection ───
+
+function toggleSel(idx, checked) {
+  if (checked) selected.add(idx); else selected.delete(idx);
+  updateActionBar();
+}
+function toggleAll(checked) {
+  document.querySelectorAll('#tbody input[type="checkbox"]').forEach(cb => {
+    cb.checked = checked;
+    toggleSel(parseInt(cb.dataset.idx), checked);
+  });
+}
+function deselectAll() {
+  document.getElementById('checkAll').checked = false;
+  toggleAll(false);
+}
+function updateActionBar() {
+  document.getElementById('selectedCount').textContent = selected.size;
+  document.getElementById('actionBar').classList.toggle('active', selected.size > 0);
+}
+
+// ─── CSV Export (for Instantly) ───
+
+function exportCSV() {
+  if (selected.size === 0) return;
+  const rows = [['email','first_name','company_name','rating','rating_text','address','postcode','subject','rating_page_url']];
+
+  [...selected].forEach(idx => {
+    const r = allData[idx];
+    const rating = r.rating != null ? String(r.rating) : '?';
+    const ratingNum = parseInt(rating) || 0;
+    const addr = [r.address_1, r.address_2, r.address_3].filter(Boolean).join(', ');
+    const ratingText = {0:'Urgent Improvement Necessary',1:'Major Improvement Necessary',2:'Improvement Necessary',3:'Generally Satisfactory',4:'Good',5:'Very Good'}[rating] || '';
+    const overdue = isOverdue(r);
+    const monthsAgo = getMonthsAgo(r.rating_date);
+
+    let subject;
+    if (overdue) subject = `${r.name} \u2014 is your kitchen ready for the next EHO visit?`;
+    else if (ratingNum === 4) subject = `${r.name} \u2014 one step away from a perfect 5`;
+    else subject = `${r.name} \u2014 a quick way to improve your food hygiene rating`;
+
+    const fullAddr = [r.address_1,r.address_2,r.address_3,r.postcode].filter(Boolean).join(', ');
+    const rPage = `https://blueroll.app/r.html?name=${encodeURIComponent(r.name)}&addr=${encodeURIComponent(fullAddr)}&rating=${encodeURIComponent(rating)}&fhrsid=${r.fhrs_id||''}&h=${r.hygiene_score||''}&s=${r.structural_score||''}&m=${r.confidence_score||''}`;
+
+    rows.push([
+      r.email, r.name.split(/\s/)[0], r.name, rating, ratingText,
+      addr, r.postcode || '', subject, rPage
+    ]);
+  });
+
+  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `blueroll-email-outreach-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ─── Mark as Sent ───
+
+async function markAsSent() {
+  if (selected.size === 0) return;
+  const fhrsIds = [...selected].map(idx => allData[idx].fhrs_id).filter(Boolean);
+  if (fhrsIds.length === 0) return;
+
+  const btn = document.querySelector('.btn-mark');
+  btn.textContent = 'Saving...'; btn.disabled = true;
+
+  try {
+    await fetch(`${CRM}/api/contact`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fhrs_ids: fhrsIds, channel: 'email', template: 'rating_badge' })
+    });
+    btn.textContent = '\u2713 Done!';
+    setTimeout(() => {
+      btn.textContent = 'Mark as Sent'; btn.disabled = false;
+      deselectAll();
+      loadData(curPage);
+    }, 1200);
+  } catch (err) {
+    alert('Error: ' + err.message);
+    btn.textContent = 'Mark as Sent'; btn.disabled = false;
+  }
+}
+
+// ─── Email Preview ───
+
+function openPreview() {
+  if (selected.size === 0) return;
+  const indices = [...selected];
+  const body = document.getElementById('modalBody');
+
+  body.innerHTML = indices.map(idx => {
+    const r = allData[idx];
+    return `<div class="email-page">
+      <div class="email-page-to">To</div>
+      <div class="email-page-name">${esc(r.name)}</div>
+      <div class="email-page-email">${esc(r.email)}</div>
+      ${buildEmailHTML(r)}
+    </div>`;
+  }).join('');
+
+  document.getElementById('modalTitle').textContent = `Email Preview \u00b7 ${indices.length} recipient${indices.length > 1 ? 's' : ''}`;
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+document.getElementById('modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ─── Copy functions ───
+
+function copyForGmail() {
+  const indices = [...selected];
+  if (indices.length === 0) return;
+  const html = buildEmailHTML(allData[indices[0]]);
+  const blob = new Blob([html], {type:'text/html'});
+  const page = document.querySelector('#modalBody .email-page');
+  const text = page ? page.innerText : '';
+  navigator.clipboard.write([new ClipboardItem({'text/html':blob,'text/plain':new Blob([text],{type:'text/plain'})})]).then(() => {
+    btnFeedback('Copy for Gmail', '\u2713 Copied!');
+  }).catch(() => {
+    navigator.clipboard.writeText(text);
+    btnFeedback('Copy for Gmail', '\u2713 Text copied');
+  });
+}
+
+function copyRawHTML() {
+  const indices = [...selected];
+  if (indices.length === 0) return;
+  const html = buildEmailHTML(allData[indices[0]]);
+  navigator.clipboard.writeText(html).then(() => btnFeedback('Copy HTML', '\u2713 Copied!'));
+}
+
+function copySubjects() {
+  const indices = [...selected];
+  if (indices.length === 0) return;
+  const lines = indices.map(idx => {
+    const r = allData[idx];
+    const rn = parseInt(r.rating) || 0;
+    if (isOverdue(r)) return `${r.name} \u2014 is your kitchen ready for the next EHO visit?`;
+    if (rn === 4) return `${r.name} \u2014 one step away from a perfect 5`;
+    return `${r.name} \u2014 a quick way to improve your food hygiene rating`;
+  });
+  navigator.clipboard.writeText(lines.join('\n')).then(() => btnFeedback('Subjects', '\u2713 Copied!'));
+}
+
+function btnFeedback(label, fb) {
+  document.querySelectorAll('.mbtn').forEach(b => {
+    if (b.textContent.trim() === label) {
+      const orig = b.textContent; b.textContent = fb; b.style.color = '#047857';
+      setTimeout(() => { b.textContent = orig; b.style.color = ''; }, 1500);
+    }
+  });
+}
+
+// ─── Email HTML builder ───
+
+function getMonthsAgo(d) { return d ? Math.round((new Date() - new Date(d)) / (1000*60*60*24*30)) : 0; }
+function isOverdue(r) { return r.rating_date && getMonthsAgo(r.rating_date) >= 12; }
+
+function buildEmailHTML(r) {
+  const rating = r.rating != null ? String(r.rating) : '?';
+  const ratingNum = parseInt(rating) || 0;
+  const addr = [r.address_1, r.address_2, r.address_3, r.postcode].filter(Boolean).join(', ');
+  const name = r.name || '';
+  const ratingText = {0:'Urgent Improvement Necessary',1:'Major Improvement Necessary',2:'Improvement Necessary',3:'Generally Satisfactory',4:'Good',5:'Very Good'}[rating] || rating;
+  const rPage = `https://blueroll.app/r.html?name=${encodeURIComponent(name)}&addr=${encodeURIComponent(addr)}&rating=${encodeURIComponent(rating)}&fhrsid=${r.fhrs_id||''}&h=${r.hygiene_score||''}&s=${r.structural_score||''}&m=${r.confidence_score||''}`;
+
+  const overdue = isOverdue(r);
+  const monthsAgo = getMonthsAgo(r.rating_date);
+  const _p = `margin:0 0 18px;font-size:15px;line-height:1.7;color:#2D3748;`;
+  const font = `-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif`;
+
+  let intro;
+  if (overdue) {
+    intro = `<p style="${_p}">Dear ${name} team,</p>
+<p style="${_p}">Your last food hygiene inspection was <strong style="background:#FEF3C7;padding:2px 6px;border-radius:4px;color:#92400E;">${monthsAgo} months ago</strong>. Your next EHO visit could be any day now \u2014 are your HACCP records up to date?</p>
+<p style="${_p}">If you\u2019re still using paper records, an unannounced inspection can catch gaps you didn\u2019t know existed. <strong style="color:#1A202C;">Blueroll</strong> replaces paper with a simple app that keeps everything digital, current, and inspection-ready.</p>`;
+  } else if (ratingNum === 4) {
+    intro = `<p style="${_p}">Dear ${name} team,</p>
+<p style="${_p}">Your recent food hygiene inspection scored <strong style="background:#FEF3C7;padding:2px 6px;border-radius:4px;color:#92400E;">4 out of 5</strong> \u2014 so close to perfect! The most common reasons for missing a 5 are paperwork gaps and inconsistent records.</p>
+<p style="${_p}"><strong style="color:#1A202C;">Blueroll</strong> is a simple app that replaces paper HACCP records with digital checklists. It takes 2 minutes to set up and helps you close that gap to a perfect score.</p>`;
+  } else {
+    intro = `<p style="${_p}">Dear ${name} team,</p>
+<p style="${_p}">We noticed your recent food hygiene inspection resulted in a rating of <strong style="background:#FEF3C7;padding:2px 6px;border-radius:4px;color:#92400E;">${rating} \u2014 ${ratingText}</strong>.</p>
+<p style="${_p}">We know how frustrating that can be, especially when you\u2019re working hard to keep standards up. <strong style="color:#1A202C;">Blueroll</strong> is a simple app that replaces paper HACCP records with digital checklists your team can complete in seconds.</p>`;
+  }
+
+  let closing;
+  if (overdue) closing = `Restaurants using Blueroll report feeling significantly more confident before inspections. We\u2019d love to help ${name} be fully prepared.`;
+  else if (ratingNum === 4) closing = `Many restaurants have gone from 4 to 5 after switching to digital records. We\u2019d love to help ${name} get there.`;
+  else closing = `Restaurants using Blueroll typically improve their rating by 1\u20132 points at their next inspection. We\u2019d love to help ${name} get back to 5 stars.`;
+
+  const starsSpan = Array.from({length:5}, (_,i) => i < ratingNum
+    ? `<span style="color:#E2B55A;font-size:15px;padding:0 1px;">&#9733;</span>`
+    : `<span style="color:#E2B55A;font-size:15px;opacity:0.25;padding:0 1px;">&#9734;</span>`
+  ).join('');
+
+  const badge = `<div style="width:240px;margin:0 auto;border-radius:22px;background:linear-gradient(145deg,#0D1B2A,#1B2D45);padding:32px 28px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,0.25);font-family:${font};">
+  <div style="width:80px;height:80px;border-radius:20px;background:linear-gradient(145deg,#ECC55B,#D4A843);margin:0 auto 14px;line-height:80px;font-size:40px;font-weight:800;color:#0D1B2A;box-shadow:0 4px 16px rgba(0,0,0,0.3);">${rating}</div>
+  <div style="margin-bottom:12px;">${starsSpan}</div>
+  <div style="margin-bottom:8px;font-size:9px;color:#E2B55A;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;">Food Hygiene Rating</div>
+  <div style="margin-bottom:4px;font-size:16px;font-weight:700;color:#F0ECE3;letter-spacing:-0.2px;">${name}</div>
+  <div style="font-size:11px;color:rgba(255,255,255,0.45);line-height:1.3;">${addr}</div>
+  <div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.08);font-size:9px;color:#E2B55A;opacity:0.5;letter-spacing:.6px;">Powered by Blueroll</div>
+</div>`;
+
+  return `<div style="max-width:560px;margin:0 auto;padding:0 8px;font-family:${font};-webkit-font-smoothing:antialiased;">
+${intro}
+<div style="text-align:center;padding:20px 0 24px;">
+  <a href="${rPage}" target="_blank" style="text-decoration:none;display:inline-block;">${badge}</a>
+</div>
+<p style="margin:0 0 20px;font-size:13px;color:#A0AEC0;text-align:center;line-height:1.6;font-family:${font};">This is your current rating. Tap the badge or the button below<br>to see a full breakdown and how to improve.</p>
+<div style="text-align:center;margin:0 0 28px;">
+  <a href="${rPage}" target="_blank" style="display:inline-block;background:#047857;color:#ffffff;text-decoration:none;padding:15px 36px;border-radius:12px;font-size:15px;font-weight:600;font-family:${font};">See Your Full Rating Breakdown \u2192</a>
+</div>
+<div style="border-top:1px solid #EDF2F7;padding-top:24px;margin-bottom:24px;">
+  <div style="${_p}font-weight:600;font-size:14px;color:#1A202C;">What Blueroll does</div>
+  <div style="font-size:14px;line-height:2;color:#4A5568;padding:4px 0 0;font-family:${font};">
+    <span style="color:#047857;">&#10003;</span> Ready-made HACCP checklists \u2014 complete in seconds<br>
+    <span style="color:#047857;">&#10003;</span> AI recipe import \u2014 snap a photo, get allergens instantly<br>
+    <span style="color:#047857;">&#10003;</span> One-tap PDF compliance report for your EHO<br>
+    <span style="color:#047857;">&#10003;</span> Temperature logs with out-of-range alerts<br>
+    <span style="color:#047857;">&#10003;</span> Team tasks \u2014 see who completed what
+  </div>
+</div>
+<p style="${_p}">${closing}</p>
+<p style="${_p}font-weight:600;">Try free for 14 days<span style="font-weight:400;"> \u2014 no credit card needed.</span></p>
+<p style="${_p}margin:24px 0 0;">Best regards,<br><span style="color:#4A5568;">The Blueroll Team</span></p>
+<div style="margin:28px 0 0;padding-top:20px;border-top:1px solid #EDF2F7;display:flex;align-items:center;gap:14px;">
+  <img src="https://blueroll.app/app_icon.png" alt="Blueroll" width="36" height="36" style="border-radius:8px;border:0;" />
+  <div>
+    <span style="font-size:14px;font-weight:700;color:#1A202C;">Blueroll</span><br>
+    <span style="font-size:12px;color:#A0AEC0;">Food Safety Made Simple</span><br>
+    <a href="https://blueroll.app" style="font-size:12px;color:#047857;text-decoration:none;">blueroll.app</a><span style="color:#CBD5E0;"> &middot; </span><a href="mailto:hello@blueroll.app" style="font-size:12px;color:#047857;text-decoration:none;">hello@blueroll.app</a>
+  </div>
+</div>
+</div>`;
+}
+
+function esc(s) { if (!s) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+// ─── Init ───
+loadData(1);
+</script>
+</body>
+</html>
