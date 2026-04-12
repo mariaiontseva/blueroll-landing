@@ -760,152 +760,144 @@ function generateStoryPNG(idx) {
 
   // Background: vertical gradient dark navy
   const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
-  bgGrad.addColorStop(0, '#0D1B2A');
-  bgGrad.addColorStop(0.5, '#1B2D45');
-  bgGrad.addColorStop(1, '#0D1B2A');
+  bgGrad.addColorStop(0, '#0B1521');
+  bgGrad.addColorStop(0.45, '#1B2D45');
+  bgGrad.addColorStop(1, '#0B1521');
   ctx.fillStyle = bgGrad;
   ctx.fillRect(0, 0, W, H);
 
-  // Subtle gold radial glow top-center
-  const glow = ctx.createRadialGradient(W/2, 200, 0, W/2, 200, 900);
-  glow.addColorStop(0, 'rgba(226,181,90,0.15)');
+  // Gold radial glow
+  const glow = ctx.createRadialGradient(W/2, 760, 0, W/2, 760, 1200);
+  glow.addColorStop(0, 'rgba(226,181,90,0.18)');
   glow.addColorStop(1, 'rgba(226,181,90,0)');
   ctx.fillStyle = glow;
   ctx.fillRect(0, 0, W, H);
 
-  // Grain/noise texture (subtle)
-  for (let i = 0; i < 1500; i++) {
+  // Grain
+  for (let i = 0; i < 2000; i++) {
     const x = Math.random() * W, y = Math.random() * H;
-    const o = Math.random() * 0.04;
+    const o = Math.random() * 0.05;
     ctx.fillStyle = `rgba(255,255,255,${o})`;
     ctx.fillRect(x, y, 1, 1);
   }
 
-  // Top kicker "FOOD HYGIENE RATING" in gold mono
-  ctx.font = '600 28px "JetBrains Mono", monospace';
+  // Top tiny kicker
+  setLetterSpacing(ctx, 6);
+  ctx.font = '600 28px "DM Sans", -apple-system, sans-serif';
   ctx.fillStyle = '#E2B55A';
   ctx.textAlign = 'center';
-  const kickerText = 'FOOD HYGIENE RATING';
-  ctx.fillText(spaceOut(kickerText, 3), W/2, 260);
+  ctx.fillText('FOOD HYGIENE RATING', W/2, 180);
+  setLetterSpacing(ctx, 0);
 
-  // Top headline
-  ctx.font = '700 56px "DM Sans", -apple-system, sans-serif';
-  ctx.fillStyle = '#F0ECE3';
-  ctx.textAlign = 'center';
-  ctx.fillText(name.length > 24 ? name.slice(0,23) + '…' : name, W/2, 360);
-
-  // ─── Badge card (centered) ───
-  const badgeW = 760, badgeH = 900;
+  // ─── Badge card ───
+  const badgeW = 900, badgeH = 1120;
   const badgeX = (W - badgeW) / 2;
-  const badgeY = 440;
-  drawRoundedRect(ctx, badgeX, badgeY, badgeW, badgeH, 44);
+  const badgeY = 240;
+  drawRoundedRect(ctx, badgeX, badgeY, badgeW, badgeH, 56);
   const cardGrad = ctx.createLinearGradient(badgeX, badgeY, badgeX + badgeW, badgeY + badgeH);
   cardGrad.addColorStop(0, '#0D1B2A');
   cardGrad.addColorStop(1, '#1B2D45');
   ctx.fillStyle = cardGrad;
   ctx.fill();
-  // Badge border
-  ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+  ctx.strokeStyle = 'rgba(255,255,255,0.1)';
   ctx.lineWidth = 2;
   ctx.stroke();
 
-  // Gold rating square
-  const gsSize = 240;
+  // Gold rating square — BIGGER
+  const gsSize = 340;
   const gsX = (W - gsSize) / 2;
-  const gsY = badgeY + 80;
-  drawRoundedRect(ctx, gsX, gsY, gsSize, gsSize, 48);
+  const gsY = badgeY + 110;
+  // Shadow behind
+  ctx.save();
+  ctx.shadowColor = 'rgba(226,181,90,0.4)';
+  ctx.shadowBlur = 60;
+  ctx.shadowOffsetY = 0;
+  drawRoundedRect(ctx, gsX, gsY, gsSize, gsSize, 68);
   const goldGrad = ctx.createLinearGradient(gsX, gsY, gsX + gsSize, gsY + gsSize);
-  goldGrad.addColorStop(0, '#ECC55B');
+  goldGrad.addColorStop(0, '#F2D479');
   goldGrad.addColorStop(1, '#D4A843');
   ctx.fillStyle = goldGrad;
   ctx.fill();
-  // Gold square shadow
-  ctx.shadowColor = 'rgba(0,0,0,0.4)';
-  ctx.shadowBlur = 40;
-  ctx.shadowOffsetY = 12;
-  ctx.fill();
-  ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+  ctx.restore();
 
-  // Rating number
-  ctx.font = '800 160px "DM Sans", sans-serif';
+  // Rating number — MUCH bigger
+  ctx.font = '800 240px "DM Sans", sans-serif';
   ctx.fillStyle = '#0D1B2A';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText(rating, gsX + gsSize/2, gsY + gsSize/2 + 6);
+  ctx.fillText(rating, gsX + gsSize/2, gsY + gsSize/2 + 10);
   ctx.textBaseline = 'alphabetic';
 
-  // Stars row
-  const starsY = gsY + gsSize + 80;
-  const starSize = 36;
-  const starGap = 10;
+  // Stars — bigger
+  const starsY = gsY + gsSize + 110;
+  const starSize = 58;
+  const starGap = 16;
   const starsTotalW = 5 * starSize + 4 * starGap;
   const starsStartX = (W - starsTotalW) / 2;
   ctx.font = `${starSize}px sans-serif`;
   for (let i = 0; i < 5; i++) {
     const x = starsStartX + i * (starSize + starGap) + starSize/2;
-    ctx.fillStyle = i < ratingNum ? '#E2B55A' : 'rgba(226,181,90,0.25)';
+    ctx.fillStyle = i < ratingNum ? '#E2B55A' : 'rgba(226,181,90,0.2)';
     ctx.textAlign = 'center';
     ctx.fillText('★', x, starsY);
   }
 
-  // Label "FOOD HYGIENE RATING"
-  ctx.font = '600 20px "JetBrains Mono", monospace';
-  ctx.fillStyle = '#E2B55A';
-  ctx.textAlign = 'center';
-  ctx.fillText(spaceOut('FOOD HYGIENE RATING', 2.5), W/2, starsY + 70);
-
-  // Restaurant name
-  ctx.font = '700 38px "DM Sans", sans-serif';
+  // Restaurant name — BIG
+  ctx.font = '700 56px "DM Sans", sans-serif';
   ctx.fillStyle = '#F0ECE3';
-  ctx.fillText(wrapFit(ctx, name, 640, 38), W/2, starsY + 140);
+  ctx.textAlign = 'center';
+  const fittedName = wrapFit(ctx, name, 760, 56);
+  ctx.fillText(fittedName, W/2, starsY + 100);
 
   // Address
-  ctx.font = '400 22px "DM Sans", sans-serif';
-  ctx.fillStyle = 'rgba(255,255,255,0.45)';
-  ctx.fillText(wrapFit(ctx, addr + (postcode ? ', ' + postcode : ''), 640, 22), W/2, starsY + 190);
+  ctx.font = '500 28px "DM Sans", sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.5)';
+  const fittedAddr = wrapFit(ctx, addr + (postcode ? ', ' + postcode : ''), 760, 28);
+  ctx.fillText(fittedAddr, W/2, starsY + 160);
 
-  // Divider line
+  // Divider
   ctx.strokeStyle = 'rgba(255,255,255,0.12)';
   ctx.lineWidth = 1;
   ctx.beginPath();
-  ctx.moveTo(badgeX + 160, starsY + 260);
-  ctx.lineTo(badgeX + badgeW - 160, starsY + 260);
+  ctx.moveTo(badgeX + 200, starsY + 230);
+  ctx.lineTo(badgeX + badgeW - 200, starsY + 230);
   ctx.stroke();
 
-  // Powered by Blueroll
-  ctx.font = '500 18px "JetBrains Mono", monospace';
-  ctx.fillStyle = 'rgba(226,181,90,0.55)';
-  ctx.textAlign = 'center';
-  ctx.fillText(spaceOut('POWERED BY BLUEROLL', 2.5), W/2, starsY + 300);
+  // Powered by Blueroll — bigger tracked mono
+  setLetterSpacing(ctx, 4);
+  ctx.font = '600 22px "DM Sans", sans-serif';
+  ctx.fillStyle = 'rgba(226,181,90,0.6)';
+  ctx.fillText('POWERED BY BLUEROLL', W/2, starsY + 275);
+  setLetterSpacing(ctx, 0);
 
-  // ─── Bottom: IG handle + CTA ───
+  // ─── Below badge ───
   if (handle) {
-    ctx.font = '500 36px "DM Sans", sans-serif';
-    ctx.fillStyle = 'rgba(240,236,227,0.7)';
+    ctx.font = '500 40px "DM Sans", sans-serif';
+    ctx.fillStyle = 'rgba(240,236,227,0.65)';
     ctx.textAlign = 'center';
     ctx.fillText(handle + ' — here\u2019s your badge', W/2, 1500);
   }
 
-  // BIG CTA: DM for code
-  ctx.font = '700 54px "DM Sans", sans-serif';
+  // HUGE CTA: DM for the code
+  ctx.font = '800 88px "DM Sans", sans-serif';
   ctx.fillStyle = '#E2B55A';
   ctx.textAlign = 'center';
-  ctx.fillText('DM for the code', W/2, 1590);
+  ctx.fillText('DM for the code', W/2, 1620);
 
-  ctx.font = '500 26px "DM Sans", sans-serif';
-  ctx.fillStyle = 'rgba(255,255,255,0.5)';
-  ctx.textAlign = 'center';
-  ctx.fillText('Free. Auto-updating. No code required.', W/2, 1640);
+  ctx.font = '500 28px "DM Sans", sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.45)';
+  ctx.fillText('Free · Auto-updating · No code required', W/2, 1670);
 
-  // Blueroll logo-ish footer — BIG
-  ctx.font = '800 72px "DM Sans", sans-serif';
+  // blueroll.app — MASSIVE footer brand
+  ctx.font = '800 108px "DM Sans", sans-serif';
   ctx.fillStyle = '#F0ECE3';
-  ctx.textAlign = 'center';
-  ctx.fillText('blueroll.app', W/2, 1800);
+  ctx.fillText('blueroll.app', W/2, 1820);
 
-  ctx.font = '500 20px "JetBrains Mono", monospace';
-  ctx.fillStyle = 'rgba(226,181,90,0.65)';
-  ctx.fillText(spaceOut('FOOD SAFETY MADE SIMPLE', 3), W/2, 1850);
+  setLetterSpacing(ctx, 5);
+  ctx.font = '600 22px "DM Sans", sans-serif';
+  ctx.fillStyle = 'rgba(226,181,90,0.7)';
+  ctx.fillText('FOOD SAFETY MADE SIMPLE', W/2, 1870);
+  setLetterSpacing(ctx, 0);
 
   // Download
   canvas.toBlob((blob) => {
@@ -918,8 +910,12 @@ function generateStoryPNG(idx) {
     URL.revokeObjectURL(url);
   }, 'image/png');
 
-  // Reset align defaults (just in case)
   ctx.textAlign = 'left';
+}
+
+function setLetterSpacing(ctx, px) {
+  // Supported in modern Chrome/Edge/Safari
+  if ('letterSpacing' in ctx) ctx.letterSpacing = px + 'px';
 }
 
 function drawRoundedRect(ctx, x, y, w, h, r) {
