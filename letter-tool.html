@@ -530,10 +530,11 @@ function buildLetter(r) {
   const structural = r.structural_score ?? '';
   const confidence = r.confidence_score ?? '';
 
-  const pageUrl = `https://blueroll.app/r.html?id=${fhrsId}`;
   const editToken = r._edit_token || '';
-  const editUrl = editToken ? `https://blueroll.app/r.html?id=${fhrsId}&token=${editToken}` : '';
-  const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(pageUrl)}`;
+  const qrTarget = editToken
+    ? `https://blueroll.app/r.html?id=${fhrsId}&token=${editToken}`
+    : `https://blueroll.app/r.html?id=${fhrsId}`;
+  const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrTarget)}`;
 
   let ratingLine, bodyText;
   if (rating === 5) {
@@ -564,7 +565,9 @@ function buildLetter(r) {
   </div>
   <div class="letter-qr-inline">
     <img src="${qrImg}" width="150" height="150">
-    <div class="qr-caption">Scan to see your full rating breakdown<br>and how to improve</div>
+    <div class="qr-caption">${editToken
+      ? 'Scan to set up your free business page<br>Add your links for Instagram, Google, and customers'
+      : 'Scan to see your full rating breakdown<br>and how to improve'}</div>
   </div>
   <div class="letter-content">
     ${bodyText}<br><br>
@@ -577,7 +580,7 @@ function buildLetter(r) {
     Restaurants using Blueroll typically improve their rating by 1-2 points...<br><br>
     <strong>Try free for 14 days — no credit card needed.</strong><br>
     Visit blueroll.app or scan the QR code.<br><br>
-    ${editUrl ? `<strong>Your free business page:</strong><br>We\'ve created a free online page for ${esc(name)}. Visit <u>${editUrl.replace('https://', '')}</u> to add your website, social media links, and contact details. Your customers can find you there too.<br><br>` : ''}Best regards,<br>The Blueroll Team
+    Best regards,<br>The Blueroll Team
   </div>
   <div class="letter-footer">blueroll.app &middot; hello@blueroll.app &middot; Food Safety Made Simple</div>
 </div>`;
