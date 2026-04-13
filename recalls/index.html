@@ -474,8 +474,8 @@ nav {
       <span class="hero-dot"></span>
       <span>Live · From the FSA</span>
     </div>
-    <h1>UK Food Recalls,<br><span class="accent">this week.</span></h1>
-    <p class="hero-sub">A clean weekly digest of every Food Standards Agency recall and allergy alert affecting UK kitchens. So you can check, document, and move on.</p>
+    <h1>UK Food Recalls,<br><span class="accent">last 30 days.</span></h1>
+    <p class="hero-sub">A running digest of every Food Standards Agency recall and allergy alert affecting UK kitchens. Pulled live from the FSA. So you can check, document, and move on.</p>
     <div class="hero-meta">
       <span id="weekRange">Loading…</span>
       <span class="sep"></span>
@@ -487,7 +487,7 @@ nav {
 
   <section>
     <div class="section-head">
-      <h2 id="currentWeekTitle">This week</h2>
+      <h2 id="currentWeekTitle">Last 30 days</h2>
       <span class="count" id="currentCount"></span>
     </div>
     <div id="currentWeek" class="recall-list">
@@ -715,52 +715,52 @@ async function load() {
     const items = (data.items || []).filter(it => it.title);
 
     const today = new Date();
-    const thisMonday = weekStart(today);
+    today.setHours(23,59,59,999);
+    const cutoff30 = new Date(today);
+    cutoff30.setDate(cutoff30.getDate() - 30);
+    cutoff30.setHours(0,0,0,0);
 
-    const groups = new Map();
-    items.forEach(item => {
+    // Recent: anything in last 30 days, flat sorted by date desc
+    const recent = items
+      .filter(it => new Date(it.created) >= cutoff30)
+      .sort((a,b) => new Date(b.created) - new Date(a.created));
+
+    // Older items grouped by week for archive
+    const older = items.filter(it => new Date(it.created) < cutoff30);
+    const olderGroups = new Map();
+    older.forEach(item => {
       const w = weekStart(new Date(item.created));
       const key = w.toISOString().slice(0,10);
-      if (!groups.has(key)) groups.set(key, { start: w, items: [] });
-      groups.get(key).items.push(item);
+      if (!olderGroups.has(key)) olderGroups.set(key, { start: w, items: [] });
+      olderGroups.get(key).items.push(item);
     });
 
-    const current = groups.get(thisMonday.toISOString().slice(0,10));
     const currentEl = document.getElementById('currentWeek');
-    const headEl = document.getElementById('currentWeekTitle');
     const countEl = document.getElementById('currentCount');
     const rangeEl = document.getElementById('weekRange');
 
-    let displayWeek = current;
-    if (!current || current.items.length === 0) {
-      const sortedKeys = [...groups.keys()].sort().reverse();
-      displayWeek = sortedKeys.length ? groups.get(sortedKeys[0]) : null;
-      if (displayWeek) headEl.textContent = 'Most recent week';
-    }
-
-    if (displayWeek) {
-      const start = displayWeek.start;
-      const end = new Date(start); end.setDate(end.getDate() + 6);
-      rangeEl.textContent = 'Week of ' + fmtRange(start, end);
-      countEl.textContent = displayWeek.items.length === 1 ? '1 alert' : `${displayWeek.items.length} alerts`;
-      currentEl.innerHTML = displayWeek.items.map(renderCard).join('');
+    if (recent.length > 0) {
+      const newest = new Date(recent[0].created);
+      const oldest = new Date(recent[recent.length - 1].created);
+      rangeEl.textContent = fmtRange(oldest, newest);
+      countEl.textContent = recent.length === 1 ? '1 alert' : `${recent.length} alerts`;
+      currentEl.innerHTML = recent.map(renderCard).join('');
     } else {
-      rangeEl.textContent = 'No alerts this week';
+      rangeEl.textContent = 'No alerts in the last 30 days';
       currentEl.innerHTML = `
         <div class="empty-state">
-          <h3>No new FSA alerts this week.</h3>
-          <p>Quiet weeks happen. We'll keep checking — come back Monday or scroll the archive below.</p>
+          <h3>No FSA alerts in the last 30 days.</h3>
+          <p>Quiet month. Scroll the archive below for older alerts.</p>
         </div>`;
     }
 
-    const allKeys = [...groups.keys()].sort().reverse();
-    const archiveKeys = allKeys.filter(k => !displayWeek || k !== displayWeek.start.toISOString().slice(0,10)).slice(0, 8);
+    const archiveKeys = [...olderGroups.keys()].sort().reverse().slice(0, 8);
     const archiveEl = document.getElementById('archive');
     if (!archiveKeys.length) {
       archiveEl.innerHTML = '<p style="font-size:14px;color:var(--mid);padding:24px 0;">No earlier weeks in the feed.</p>';
     } else {
       archiveEl.innerHTML = archiveKeys.map((k, idx) => {
-        const g = groups.get(k);
+        const g = olderGroups.get(k);
         const start = g.start;
         const end = new Date(start); end.setDate(end.getDate() + 6);
         const recallCount = g.items.filter(i => isRecall(i)).length;
