@@ -313,7 +313,7 @@ input[type="checkbox"] {
   <div class="actions">
     <button class="primary" onclick="generateLetters()">📄 Generate Letters</button>
     <button onclick="doPrint()">🖨 Print</button>
-    <!-- Mark as Sent happens automatically in Generate Letters -->
+    <button onclick="markAsSent()">✅ Mark as Sent</button>
     <button onclick="showReport()">📊 Report</button>
     <button class="danger" onclick="clearAll()">🗑 Clear</button>
   </div>
@@ -474,44 +474,10 @@ function toggleAll(checked) {
   updateCount();
 }
 
-// Generate letters — auto-marks as sent + gets edit tokens in one step
-async function generateLetters() {
+// Generate letters
+function generateLetters() {
   const selected = getSelected();
   if (!selected.length) return alert('No rows selected');
-  const fhrsIds = selected.map(r => r.fhrs_id).filter(Boolean);
-
-  // Get edit tokens + mark as sent in one call
-  let editTokens = {};
-  if (fhrsIds.length) {
-    try {
-      const res = await fetch(`${API}/api/contact`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fhrs_ids: fhrsIds, channel: 'paper' })
-      });
-      if (res.ok) {
-        const data = await res.json();
-        editTokens = data.edit_tokens || {};
-        // Update local data
-        const now = new Date().toISOString();
-        fhrsIds.forEach(id => {
-          const item = allResults.find(r => r.fhrs_id == id);
-          if (item) { item.letter_sent_at = now; item._edit_token = editTokens[String(id)]; }
-          const dItem = displayResults.find(r => r.fhrs_id == id);
-          if (dItem) { dItem.letter_sent_at = now; dItem._edit_token = editTokens[String(id)]; }
-        });
-        renderTable();
-      }
-    } catch (e) { console.warn('Could not get edit tokens:', e); }
-  }
-
-  // Assign tokens to selected rows (editTokens from /api/contact response)
-  selected.forEach(r => {
-    const id = r.FHRSID || r.fhrs_id;
-    const tok = editTokens[String(id)];
-    if (tok) r._edit_token = tok;
-  });
-
   const container = document.getElementById('lettersContainer');
   container.innerHTML = selected.map(r => buildLetter(r)).join('');
   container.style.display = 'block';
@@ -530,22 +496,16 @@ function buildLetter(r) {
   const structural = r.structural_score ?? '';
   const confidence = r.confidence_score ?? '';
 
-  const editToken = r._edit_token || '';
-  const qrTarget = editToken
-    ? `https://blueroll.app/r.html?id=${fhrsId}&token=${editToken}`
-    : `https://blueroll.app/r.html?id=${fhrsId}`;
-  const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrTarget)}`;
+  const encName = encodeURIComponent(name);
+  const encAddr = encodeURIComponent(fullAddr);
+  const qrData = `https://blueroll.app/r.html?name=${encName}&addr=${encAddr}&rating=${rating}&date=${encodeURIComponent(ratingDate)}&fhrsid=${fhrsId}&h=${hygiene}&s=${structural}&m=${confidence}`;
+  const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrData)}`;
 
-  let ratingLine, bodyText;
-  if (rating === 5) {
-    ratingLine = `Congratulations! Your recent food hygiene inspection scored <strong>5 — Very Good</strong>. That's the highest rating possible.`;
-    bodyText = `Keeping a perfect score means staying on top of your HACCP records. Blueroll makes that easy — digital checklists your team can complete in seconds.`;
-  } else if (rating === 4) {
+  let ratingLine;
+  if (rating === 4) {
     ratingLine = `Your recent food hygiene inspection scored <strong>4 out of 5</strong> — so close to perfect!`;
-    bodyText = `The most common reason for missing a 5 is paperwork gaps. Blueroll replaces paper HACCP records with digital checklists your team can complete in seconds.`;
   } else {
     ratingLine = `We noticed your recent food hygiene inspection resulted in a rating of <strong>${rating} — ${ratingText}</strong>.`;
-    bodyText = `We know how challenging that can be, especially when you're working hard to keep standards up. Blueroll replaces paper HACCP records with digital checklists your team can complete in seconds.`;
   }
 
   return `<div class="letter-page">
@@ -565,12 +525,10 @@ function buildLetter(r) {
   </div>
   <div class="letter-qr-inline">
     <img src="${qrImg}" width="150" height="150">
-    <div class="qr-caption">${editToken
-      ? 'Scan to set up your free business page<br>Add your links for Instagram, Google, and customers'
-      : 'Scan to see your full rating breakdown<br>and how to improve'}</div>
+    <div class="qr-caption">Scan to see your full rating breakdown<br>and how to improve</div>
   </div>
   <div class="letter-content">
-    ${bodyText}<br><br>
+    We know how frustrating that can be...<br><br>
     <strong>What Blueroll does:</strong><br>
     &bull; Ready-made HACCP checklists — complete in seconds<br>
     &bull; AI recipe import — snap a photo, get allergens instantly<br>
@@ -609,17 +567,15 @@ async function markAsSent() {
       body: JSON.stringify({ fhrs_ids: fhrsIds, channel: 'paper' })
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    const editTokens = data.edit_tokens || {};
     const now = new Date().toISOString();
     fhrsIds.forEach(id => {
       const item = allResults.find(r => (r.FHRSID || r.fhrs_id) == id);
-      if (item) { item.paper_sent_at = now; item._edit_token = editTokens[String(id)]; }
+      if (item) item.paper_sent_at = now;
       const dItem = displayResults.find(r => (r.FHRSID || r.fhrs_id) == id);
-      if (dItem) { dItem.paper_sent_at = now; dItem._edit_token = editTokens[String(id)]; }
+      if (dItem) dItem.paper_sent_at = now;
     });
     renderTable();
-    alert(`Marked ${fhrsIds.length} as sent. Edit tokens saved — regenerate letters to include edit links.`);
+    alert(`Marked ${fhrsIds.length} as sent`);
   } catch (e) {
     alert('Error: ' + e.message);
   }

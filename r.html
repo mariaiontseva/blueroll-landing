@@ -3,537 +3,252 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Restaurant Page — Blueroll</title>
+<title>Improve Your Rating — Blueroll</title>
+<meta name="robots" content="noindex, nofollow">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: linear-gradient(135deg, #065F46, #059669);
+  font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif;
+  background: linear-gradient(160deg, #065F46 0%, #047857 50%, #059669 100%);
+  color: white;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 24px 20px;
   min-height: 100vh;
-  color: #1f2937;
+  min-height: 100dvh;
 }
+
 .container {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 24px;
+  max-width: 380px; width: 100%;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center;
 }
-.card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  margin-bottom: 16px;
+
+/* Rating */
+.rating {
+  display: flex; align-items: baseline; justify-content: center;
+  margin-bottom: 8px;
 }
-h1 { font-size: 22px; font-weight: 700; color: #111827; margin-bottom: 6px; }
-.address { font-size: 14px; color: #6b7280; line-height: 1.4; }
-
-/* Google Rating */
-.google-rating { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
-.stars { color: #f59e0b; font-size: 18px; letter-spacing: 1px; }
-.stars .empty { color: #d1d5db; }
-.rating-text { font-size: 14px; color: #6b7280; }
-
-/* FSA Badge */
-.fsa-badge {
-  display: inline-block;
-  padding: 10px 18px;
-  border-radius: 10px;
-  color: #fff;
-  font-weight: 700;
-  font-size: 16px;
-  margin-bottom: 16px;
+.rating-num {
+  font-size: 88px; font-weight: 800; line-height: 1; letter-spacing: -4px;
 }
-.score-row { margin-bottom: 10px; }
-.score-label { font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 4px; display: flex; justify-content: space-between; }
-.score-bar-bg { background: #e5e7eb; border-radius: 6px; height: 8px; overflow: hidden; }
-.score-bar { height: 100%; border-radius: 6px; transition: width 0.4s; }
+.rating-of {
+  font-size: 32px; font-weight: 600; opacity: 0.25; margin-left: 4px;
+}
+.r-0, .r-1 { color: #FCA5A5; }
+.r-2 { color: #FCD34D; }
+.r-3 { color: #86EFAC; }
 
-/* Link buttons */
-.link-btn {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
+/* Business info */
+.biz-name {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.4px;
+  margin-bottom: 3px;
+}
+.biz-addr {
+  font-size: 13px; opacity: 0.4; margin-bottom: 4px;
+}
+.rated-date {
+  font-size: 11px; opacity: 0.25; margin-bottom: 20px;
+}
+
+/* Message */
+.message {
+  font-size: 15px; line-height: 1.5; opacity: 0.65;
+  margin-bottom: 24px; max-width: 320px;
+}
+
+/* Score breakdown */
+.breakdown {
+  width: 100%; margin-bottom: 20px;
+  background: rgba(255,255,255,0.06); border-radius: 12px;
   padding: 14px 16px;
-  text-decoration: none;
-  color: #374151;
-  font-size: 15px;
-  font-weight: 500;
-  min-height: 48px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  transition: background 0.15s;
 }
-.link-btn:hover { background: #f9fafb; }
-.link-btn .icon { font-size: 20px; flex-shrink: 0; }
-
-/* Buttons */
-.btn-primary {
+.score-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 6px 0;
+}
+.score-label { font-size: 12px; opacity: 0.5; width: 80px; flex-shrink: 0; }
+.score-bar {
+  flex: 1; height: 6px; background: rgba(255,255,255,0.1);
+  border-radius: 3px; overflow: hidden;
+}
+.score-fill {
+  height: 100%; border-radius: 3px; transition: width 0.6s ease;
   display: block;
-  width: 100%;
-  padding: 14px;
-  border: none;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
 }
-.btn-emerald { background: #059669; color: #fff; }
-.btn-emerald:hover { background: #047857; }
-.btn-outline {
-  background: transparent;
-  color: #059669;
-  border: 2px solid #059669;
-}
-.btn-outline:hover { background: rgba(5,150,105,0.08); }
+.score-fill.good { background: #34D399; }
+.score-fill.ok { background: #FCD34D; }
+.score-fill.bad { background: #FCA5A5; }
+.score-verdict { font-size: 11px; font-weight: 600; width: 60px; text-align: right; }
 
-/* App download */
-.app-section { text-align: center; margin-top: 20px; }
-.app-section .subtitle { font-size: 13px; color: rgba(255,255,255,0.75); margin-top: 8px; }
-.app-btn {
-  display: inline-block;
-  background: #fff;
-  color: #059669;
-  font-weight: 700;
-  font-size: 15px;
-  padding: 14px 28px;
-  border-radius: 12px;
-  text-decoration: none;
+/* Features — compact horizontal */
+.features {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  width: 100%; margin-bottom: 24px;
+}
+.feat {
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px; padding: 10px 12px;
+  font-size: 12px; font-weight: 500; text-align: left;
+  line-height: 1.3; opacity: 0.8;
 }
 
-/* Footer */
+/* CTA */
+.cta-buttons { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+.cta-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px; border-radius: 12px; text-decoration: none;
+  font-size: 15px; font-weight: 600; transition: all 0.15s;
+}
+.cta-apple { background: white; color: #111; }
+.cta-apple:hover { background: #f0f0f0; }
+.cta-google { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.15); }
+.cta-google:hover { border-color: rgba(255,255,255,0.4); }
+
+.trial-note {
+  font-size: 11px; opacity: 0.3; margin-top: 12px;
+}
+
 .footer {
-  text-align: center;
-  padding: 24px 0 12px;
-  font-size: 12px;
-  color: rgba(255,255,255,0.6);
+  font-size: 10px; opacity: 0.2; margin-top: 16px;
 }
-
-/* Modal */
-.modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  padding: 24px;
-}
-.modal-overlay.active { display: flex; }
-.modal-card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 24px;
-  width: 100%;
-  max-width: 420px;
-  max-height: 90vh;
-  overflow-y: auto;
-}
-.modal-card h2 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-.modal-card p { font-size: 14px; color: #6b7280; margin-bottom: 16px; }
-.form-group { margin-bottom: 14px; }
-.form-group label { display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 4px; }
-.form-input {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 15px;
-  outline: none;
-}
-.form-input:focus { border-color: #059669; box-shadow: 0 0 0 2px rgba(5,150,105,0.15); }
-.status-msg { font-size: 14px; margin-top: 10px; padding: 8px 12px; border-radius: 8px; display: none; }
-.status-msg.success { display: block; background: #d1fae5; color: #065f46; }
-.status-msg.error { display: block; background: #fee2e2; color: #991b1b; }
-.btn-row { display: flex; gap: 10px; margin-top: 16px; }
-.btn-row .btn-primary { flex: 1; }
-.btn-cancel { background: #f3f4f6; color: #374151; }
-.btn-cancel:hover { background: #e5e7eb; }
-
-/* Custom links in edit */
-.custom-link-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
-.custom-link-row .form-input { flex: 1; }
-.remove-link { background: none; border: none; font-size: 18px; cursor: pointer; color: #9ca3af; padding: 4px; }
-.remove-link:hover { color: #ef4444; }
-.add-link-btn { background: none; border: 1px dashed #d1d5db; border-radius: 8px; padding: 8px; width: 100%; font-size: 14px; color: #6b7280; cursor: pointer; }
-.add-link-btn:hover { border-color: #059669; color: #059669; }
-
-/* Loading */
-.loading { text-align: center; padding: 60px 0; color: rgba(255,255,255,0.8); font-size: 16px; }
-
-#page-content { display: none; }
+.footer a { color: white; }
 </style>
 </head>
 <body>
 
 <div class="container">
-  <div id="loading" class="loading">Loading...</div>
-  <div id="page-content">
-    <!-- Header -->
-    <div id="header-card" class="card" style="display:none;">
-      <h1 id="biz-name"></h1>
-      <div id="biz-address" class="address"></div>
-      <div id="google-rating" class="google-rating" style="display:none;">
-        <span id="stars" class="stars"></span>
-        <span id="rating-text" class="rating-text"></span>
-      </div>
-    </div>
-
-    <!-- FSA Rating -->
-    <div id="fsa-card" class="card" style="display:none;">
-      <div id="fsa-badge" class="fsa-badge"></div>
-      <div id="score-bars"></div>
-    </div>
-
-    <!-- Links -->
-    <div id="links-section"></div>
-
-    <!-- Claim / Edit -->
-    <div id="claim-edit-section" style="margin-bottom:16px;"></div>
-
-    <!-- App download -->
-    <div class="app-section">
-      <a href="https://blueroll.app" class="app-btn" target="_blank">📱 Try Blueroll Free</a>
-      <div class="subtitle">Digital HACCP checklists for your kitchen</div>
-    </div>
-
-    <!-- Footer -->
-    <div class="footer">Powered by Blueroll &middot; Food Safety Made Simple</div>
+  <div class="rating">
+    <span class="rating-num" id="ratingNum">—</span><span class="rating-of">/5</span>
   </div>
-</div>
 
+  <div class="biz-name" id="bizName">Your Business</div>
+  <div class="biz-addr" id="bizAddr"></div>
+  <div class="rated-date" id="ratedDate"></div>
 
-<!-- Edit Modal -->
-<div id="edit-modal" class="modal-overlay">
-  <div class="modal-card">
-    <h2>Edit your page</h2>
-    <div class="form-group">
-      <label for="edit-website">Website</label>
-      <input type="url" id="edit-website" class="form-input" placeholder="https://yourrestaurant.com">
+  <div class="message" id="message">Digital records make getting to 5 stars easy.</div>
+
+  <!-- Score breakdown -->
+  <div class="breakdown" id="breakdown" style="display:none;">
+    <div class="score-row">
+      <span class="score-label">Hygiene</span>
+      <span class="score-bar"><span class="score-fill" id="scoreH"></span></span>
+      <span class="score-verdict" id="verdictH"></span>
     </div>
-    <div class="form-group">
-      <label for="edit-instagram">Instagram handle</label>
-      <input type="text" id="edit-instagram" class="form-input" placeholder="yourrestaurant">
+    <div class="score-row">
+      <span class="score-label">Structure</span>
+      <span class="score-bar"><span class="score-fill" id="scoreS"></span></span>
+      <span class="score-verdict" id="verdictS"></span>
     </div>
-    <div class="form-group">
-      <label for="edit-facebook">Facebook URL</label>
-      <input type="url" id="edit-facebook" class="form-input" placeholder="https://facebook.com/yourrestaurant">
+    <div class="score-row">
+      <span class="score-label">Management</span>
+      <span class="score-bar"><span class="score-fill" id="scoreM"></span></span>
+      <span class="score-verdict" id="verdictM"></span>
     </div>
-    <div class="form-group">
-      <label for="edit-tiktok">TikTok handle</label>
-      <input type="text" id="edit-tiktok" class="form-input" placeholder="yourrestaurant">
-    </div>
-    <div class="form-group">
-      <label for="edit-phone">Phone</label>
-      <input type="tel" id="edit-phone" class="form-input" placeholder="+44 20 1234 5678">
-    </div>
-    <div class="form-group">
-      <label for="edit-email">Email (public contact)</label>
-      <input type="email" id="edit-email" class="form-input" placeholder="hello@yourrestaurant.com">
-    </div>
-    <div class="form-group">
-      <label>Custom links</label>
-      <div id="custom-links-list"></div>
-      <button class="add-link-btn" id="add-link-btn">+ Add link</button>
-    </div>
-    <div class="btn-row">
-      <button class="btn-primary btn-cancel" id="edit-cancel">Cancel</button>
-      <button class="btn-primary btn-emerald" id="edit-save">Save changes</button>
-    </div>
-    <div id="edit-status" class="status-msg"></div>
   </div>
+
+  <div class="features">
+    <div class="feat">✓ HACCP checklists</div>
+    <div class="feat">✓ AI recipe import</div>
+    <div class="feat">✓ Compliance reports</div>
+    <div class="feat">✓ Allergen tracking</div>
+  </div>
+
+  <div class="cta-buttons">
+    <a href="#" class="cta-btn cta-apple" id="appleBtn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      App Store
+    </a>
+    <a href="#" class="cta-btn cta-google" id="googleBtn">
+      <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#fff" d="M3.609 1.814L13.792 12 3.61 22.186a2.37 2.37 0 01-.61-1.6V3.414c0-.6.222-1.147.609-1.6zM17.556 8.236L13.792 12l3.764 3.764 3.04-1.758c.784-.452 1.28-1.233 1.28-2.006s-.496-1.554-1.28-2.006l-3.04-1.758zM3.609 1.814L17.556 8.236 13.792 12zM3.609 22.186L13.792 12l3.764 3.764z"/></svg>
+      Google Play
+    </a>
+  </div>
+
+  <div class="trial-note">14 days free · then £14.99/mo · cancel anytime</div>
+  <div class="footer"><a href="https://blueroll.app">blueroll.app</a></div>
 </div>
 
 <script>
-(function() {
-  const API = 'https://web-production-54cc.up.railway.app';
+const p = new URLSearchParams(window.location.search);
+const name = p.get('name') || 'Your Business';
+const addr = p.get('addr') || '';
+const rating = p.get('rating') || '?';
+const date = p.get('date') || '';
+const r = parseInt(rating);
 
-  const RATING_COLORS = {5:'#059669',4:'#65a30d',3:'#d97706',2:'#ea580c',1:'#dc2626',0:'#991b1b'};
-  const RATING_TEXT = {0:'Urgent Improvement Necessary',1:'Major Improvement Necessary',2:'Improvement Necessary',3:'Generally Satisfactory',4:'Good',5:'Very Good'};
+document.getElementById('bizName').textContent = name;
+document.getElementById('bizAddr').textContent = addr;
+document.getElementById('ratingNum').textContent = rating;
+if (date) document.getElementById('ratedDate').textContent = 'Rated ' + date;
+document.title = name + ' — Improve Your Rating';
 
-  const params = new URLSearchParams(location.search);
-  const fhrsId = params.get('id') || params.get('fhrsid');
-  const tokenParam = params.get('token');
+const el = document.getElementById('ratingNum');
+if (r <= 1) el.classList.add('r-1');
+else if (r === 2) el.classList.add('r-2');
+else if (r >= 3) el.classList.add('r-3');
 
-  let bizData = null;
-  let editToken = null;
+const msg = {
+  0: 'Urgent action needed. Digital records can help you turn this around fast.',
+  1: 'Major improvements needed — digital HACCP makes it achievable.',
+  2: 'You\'re close. Digital records could be the difference.',
+  3: 'Good start. Go from 3 to 5 with proper compliance tools.'
+};
+if (msg[r]) document.getElementById('message').textContent = msg[r];
 
-  // --- Init ---
-  if (fhrsId) {
-    init();
-  } else if (params.get('name')) {
-    renderStatic();
-  } else {
-    showError('No business ID provided.');
+// Score breakdown (FSA: 0=best, 25=worst for hygiene/structural; 0=best, 30=worst for management)
+const h = p.get('h'); const s = p.get('s'); const m = p.get('m');
+if (h !== null && s !== null && m !== null) {
+  document.getElementById('breakdown').style.display = 'block';
+
+  function renderScore(id, verdictId, raw, max) {
+    const val = parseInt(raw) || 0;
+    const pct = Math.max(5, 100 - (val / max * 100));
+    const el = document.getElementById(id);
+    const vEl = document.getElementById(verdictId);
+    el.style.width = pct + '%';
+    if (val <= 5) { el.classList.add('good'); vEl.textContent = 'Good'; vEl.style.color = '#34D399'; }
+    else if (val <= 10) { el.classList.add('ok'); vEl.textContent = 'Fair'; vEl.style.color = '#FCD34D'; }
+    else { el.classList.add('bad'); vEl.textContent = 'Poor'; vEl.style.color = '#FCA5A5'; }
   }
+  renderScore('scoreH', 'verdictH', h, 25);
+  renderScore('scoreS', 'verdictS', s, 25);
+  renderScore('scoreM', 'verdictM', m, 30);
+}
 
-  async function init() {
-    try {
-      // Handle token verification
-      if (tokenParam) {
-        try {
-          const vRes = await fetch(API + '/api/business/' + fhrsId + '/verify?token=' + encodeURIComponent(tokenParam));
-          if (vRes.ok) {
-            localStorage.setItem('blueroll_edit_' + fhrsId, tokenParam);
-            // Clean URL
-            const url = new URL(location.href);
-            url.searchParams.delete('token');
-            history.replaceState(null, '', url.toString());
-          }
-        } catch(e) { /* ignore token errors */ }
-      }
+// ─── Click tracking ───
+const src = p.get('src');
+const fhrsid = p.get('fhrsid');
+if (src === 'email' && fhrsid) {
+  fetch('https://web-production-54cc.up.railway.app/api/contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ fhrs_ids: [parseInt(fhrsid)], channel: 'email_click', template: 'rating_page' })
+  }).catch(() => {});
+}
 
-      // Check stored token
-      const stored = localStorage.getItem('blueroll_edit_' + fhrsId);
-      if (stored) {
-        try {
-          const vRes = await fetch(API + '/api/business/' + fhrsId + '/verify?token=' + encodeURIComponent(stored));
-          if (vRes.ok) {
-            editToken = stored;
-          } else {
-            localStorage.removeItem('blueroll_edit_' + fhrsId);
-          }
-        } catch(e) {
-          localStorage.removeItem('blueroll_edit_' + fhrsId);
-        }
-      }
-
-      // Fetch business data
-      const res = await fetch(API + '/api/business/' + fhrsId + '/public');
-      if (!res.ok) throw new Error('Business not found');
-      bizData = await res.json();
-      render();
-    } catch(e) {
-      showError(e.message || 'Failed to load business data.');
-    }
-  }
-
-  function showError(msg) {
-    document.getElementById('loading').textContent = msg;
-  }
-
-  function renderStatic() {
-    bizData = {
-      name: params.get('name') || '',
-      rating: params.get('rating') != null ? parseInt(params.get('rating')) : null,
-      address_1: params.get('address') || '',
-    };
-    render();
-  }
-
-  function render() {
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('page-content').style.display = 'block';
-
-    const d = bizData;
-
-    // Header
-    if (d.name) {
-      document.getElementById('header-card').style.display = 'block';
-      document.getElementById('biz-name').textContent = d.name;
-      const addrParts = [d.address_1, d.address_2, d.address_3, d.address_4, d.postcode].filter(Boolean);
-      if (addrParts.length) {
-        document.getElementById('biz-address').textContent = addrParts.join(', ');
-      }
-
-      // Google Rating
-      if (d.google_rating) {
-        const gr = document.getElementById('google-rating');
-        gr.style.display = 'flex';
-        const rating = parseFloat(d.google_rating);
-        let starsHtml = '';
-        for (let i = 1; i <= 5; i++) {
-          starsHtml += i <= Math.round(rating) ? '★' : '<span class="empty">★</span>';
-        }
-        document.getElementById('stars').innerHTML = starsHtml;
-        let rText = rating.toFixed(1);
-        if (d.google_reviews_count) rText += ' (' + d.google_reviews_count + ' reviews)';
-        document.getElementById('rating-text').textContent = rText;
-      }
-    }
-
-    // FSA Rating
-    if (d.rating != null && d.rating !== '' && d.rating !== undefined) {
-      const r = parseInt(d.rating);
-      const fsaCard = document.getElementById('fsa-card');
-      fsaCard.style.display = 'block';
-      const badge = document.getElementById('fsa-badge');
-      badge.style.background = RATING_COLORS[r] || '#6b7280';
-      badge.textContent = r + ' — ' + (RATING_TEXT[r] || '');
-
-      // Score bars
-      const scores = [];
-      if (d.hygiene_score != null) scores.push({ label: 'Hygiene', score: parseInt(d.hygiene_score), max: 25 });
-      if (d.structural_score != null) scores.push({ label: 'Structure', score: parseInt(d.structural_score), max: 25 });
-      if (d.management_score != null) scores.push({ label: 'Management', score: parseInt(d.management_score), max: 30 });
-
-      if (scores.length) {
-        const barsEl = document.getElementById('score-bars');
-        barsEl.innerHTML = scores.map(function(s) {
-          const pct = Math.max(5, 100 - (s.score / s.max * 100));
-          let level, color;
-          if (s.score <= 5) { level = 'Good'; color = '#059669'; }
-          else if (s.score <= 10) { level = 'Fair'; color = '#d97706'; }
-          else { level = 'Poor'; color = '#dc2626'; }
-          return '<div class="score-row">' +
-            '<div class="score-label"><span>' + s.label + '</span><span style="color:' + color + '">' + level + '</span></div>' +
-            '<div class="score-bar-bg"><div class="score-bar" style="width:' + pct + '%;background:' + color + '"></div></div>' +
-            '</div>';
-        }).join('');
-      }
-    }
-
-    // Links
-    const linksEl = document.getElementById('links-section');
-    let linksHtml = '';
-    function addLink(icon, label, url) {
-      if (!url) return;
-      linksHtml += '<a class="link-btn" href="' + escHtml(url) + '" target="_blank" rel="noopener"><span class="icon">' + icon + '</span>' + escHtml(label) + '</a>';
-    }
-    addLink('🌐', 'Visit Website', d.website);
-    if (d.instagram) addLink('📸', 'Instagram', 'https://instagram.com/' + d.instagram.replace(/^@/, ''));
-    addLink('📘', 'Facebook', d.facebook);
-    if (d.tiktok) addLink('🎵', 'TikTok', 'https://tiktok.com/@' + d.tiktok.replace(/^@/, ''));
-    if (d.phone) addLink('📞', 'Call Us', 'tel:' + d.phone);
-    if (d.email) addLink('✉️', 'Email', 'mailto:' + d.email);
-    addLink('📍', 'Google Maps', d.google_maps_url);
-    if (d.custom_links && d.custom_links.length) {
-      d.custom_links.forEach(function(cl) {
-        addLink('🔗', cl.label, cl.url);
-      });
-    }
-    linksEl.innerHTML = linksHtml;
-
-    // Claim / Edit
-    const ceEl = document.getElementById('claim-edit-section');
-    if (fhrsId) {
-      if (editToken) {
-        ceEl.innerHTML = '<button class="btn-primary btn-outline" id="edit-btn">✏️ Edit your page</button>';
-        document.getElementById('edit-btn').addEventListener('click', openEditModal);
-      }
-    }
-
-    // Update title
-    if (d.name) document.title = d.name + ' — Blueroll';
-  }
-
-
-  // --- Edit Modal ---
-  function openEditModal() {
-    const d = bizData;
-    document.getElementById('edit-website').value = d.website || '';
-    document.getElementById('edit-instagram').value = d.instagram || '';
-    document.getElementById('edit-facebook').value = d.facebook || '';
-    document.getElementById('edit-tiktok').value = d.tiktok || '';
-    document.getElementById('edit-phone').value = d.phone || '';
-    document.getElementById('edit-email').value = d.email || '';
-    renderCustomLinks(d.custom_links || []);
-    document.getElementById('edit-status').className = 'status-msg';
-    document.getElementById('edit-status').textContent = '';
-    document.getElementById('edit-modal').classList.add('active');
-  }
-
-  function renderCustomLinks(links) {
-    const list = document.getElementById('custom-links-list');
-    list.innerHTML = links.map(function(cl, i) {
-      return '<div class="custom-link-row" data-idx="' + i + '">' +
-        '<input class="form-input cl-label" placeholder="Label" value="' + escAttr(cl.label || '') + '">' +
-        '<input class="form-input cl-url" placeholder="https://..." value="' + escAttr(cl.url || '') + '">' +
-        '<button class="remove-link" data-idx="' + i + '">&times;</button>' +
-        '</div>';
-    }).join('');
-    updateAddLinkBtn();
-  }
-
-  function getCustomLinksFromForm() {
-    var rows = document.querySelectorAll('#custom-links-list .custom-link-row');
-    var links = [];
-    rows.forEach(function(row) {
-      var label = row.querySelector('.cl-label').value.trim();
-      var url = row.querySelector('.cl-url').value.trim();
-      if (label && url) links.push({ label: label, url: url });
-    });
-    return links;
-  }
-
-  function updateAddLinkBtn() {
-    var rows = document.querySelectorAll('#custom-links-list .custom-link-row');
-    document.getElementById('add-link-btn').style.display = rows.length >= 5 ? 'none' : 'block';
-  }
-
-  document.getElementById('custom-links-list').addEventListener('click', function(e) {
-    if (e.target.classList.contains('remove-link')) {
-      e.target.parentElement.remove();
-      updateAddLinkBtn();
-    }
-  });
-
-  document.getElementById('add-link-btn').addEventListener('click', function() {
-    var links = getCustomLinksFromForm();
-    if (links.length >= 5) return;
-    links.push({ label: '', url: '' });
-    renderCustomLinks(links);
-  });
-
-  document.getElementById('edit-cancel').addEventListener('click', function() {
-    document.getElementById('edit-modal').classList.remove('active');
-  });
-
-  document.getElementById('edit-modal').addEventListener('click', function(e) {
-    if (e.target === this) this.classList.remove('active');
-  });
-
-  document.getElementById('edit-save').addEventListener('click', async function() {
-    var statusEl = document.getElementById('edit-status');
-    this.disabled = true;
-    this.textContent = 'Saving...';
-    try {
-      var body = {
-        website: document.getElementById('edit-website').value.trim() || null,
-        instagram: document.getElementById('edit-instagram').value.trim() || null,
-        facebook: document.getElementById('edit-facebook').value.trim() || null,
-        tiktok: document.getElementById('edit-tiktok').value.trim() || null,
-        phone: document.getElementById('edit-phone').value.trim() || null,
-        email: document.getElementById('edit-email').value.trim() || null,
-        custom_links: getCustomLinksFromForm()
-      };
-      var res = await fetch(API + '/api/business/' + fhrsId, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + editToken
-        },
-        body: JSON.stringify(body)
-      });
-      if (res.status === 403) {
-        localStorage.removeItem('blueroll_edit_' + fhrsId);
-        editToken = null;
-        document.getElementById('edit-modal').classList.remove('active');
-        render();
-        return;
-      }
-      if (!res.ok) throw new Error('Save failed');
-      var updated = await res.json();
-      Object.assign(bizData, updated);
-      document.getElementById('edit-modal').classList.remove('active');
-      render();
-    } catch(e) {
-      statusEl.className = 'status-msg error';
-      statusEl.textContent = e.message || 'Failed to save. Please try again.';
-    }
-    this.disabled = false;
-    this.textContent = 'Save changes';
-  });
-
-  // --- Helpers ---
-  function escHtml(s) { if (!s) return ''; var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-  function escAttr(s) { return (s || '').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+const utm = `?utm_source=${src === 'email' ? 'email_outreach' : 'fsa_letter'}&utm_medium=${src === 'email' ? 'email' : 'qr'}&utm_campaign=${encodeURIComponent(name)}`;
+document.getElementById('appleBtn').href = 'https://apps.apple.com/app/blueroll/id6760937451' + utm;
+document.getElementById('googleBtn').href = 'https://blueroll.app' + utm;
+</script>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+Tawk_API.onLoad = function(){
+  // Hide eye catcher by cycling widget
+  Tawk_API.hideWidget();
+  setTimeout(function(){ Tawk_API.showWidget(); }, 500);
+};
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/69cba0ffccae3e1c351e960f/1jl1mppsi';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
+<!--End of Tawk.to Script-->
+
 </body>
 </html>
