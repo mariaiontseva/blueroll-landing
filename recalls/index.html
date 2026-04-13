@@ -733,7 +733,7 @@ async function load() {
     if (!archiveKeys.length) {
       archiveEl.innerHTML = '<p style="font-size:14px;color:var(--mid);padding:24px 0;">No earlier weeks in the feed.</p>';
     } else {
-      archiveEl.innerHTML = archiveKeys.map(k => {
+      archiveEl.innerHTML = archiveKeys.map((k, idx) => {
         const g = groups.get(k);
         const start = g.start;
         const end = new Date(start); end.setDate(end.getDate() + 6);
@@ -743,8 +743,9 @@ async function load() {
           recallCount ? `${recallCount} recall${recallCount>1?'s':''}` : '',
           allergyCount ? `${allergyCount} allergy alert${allergyCount>1?'s':''}` : ''
         ].filter(Boolean).join(' · ') || `${g.items.length} alert${g.items.length>1?'s':''}`;
+        const openAttr = idx < 3 ? ' open' : '';
         return `
-          <details class="archive-week">
+          <details class="archive-week"${openAttr}>
             <summary>
               <span class="label">${fmtRange(start, end)}</span>
               <span class="meta">
