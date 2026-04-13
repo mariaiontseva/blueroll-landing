@@ -505,11 +505,11 @@ async function generateLetters() {
     } catch (e) { console.warn('Could not get edit tokens:', e); }
   }
 
-  // Assign tokens to selected rows
+  // Assign tokens to selected rows (editTokens from /api/contact response)
   selected.forEach(r => {
-    if (!r._edit_token && editTokens[String(r.fhrs_id)]) {
-      r._edit_token = editTokens[String(r.fhrs_id)];
-    }
+    const id = r.FHRSID || r.fhrs_id;
+    const tok = editTokens[String(id)];
+    if (tok) r._edit_token = tok;
   });
 
   const container = document.getElementById('lettersContainer');
@@ -535,11 +535,16 @@ function buildLetter(r) {
   const editUrl = editToken ? `https://blueroll.app/r.html?id=${fhrsId}&token=${editToken}` : '';
   const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(pageUrl)}`;
 
-  let ratingLine;
-  if (rating === 4) {
+  let ratingLine, bodyText;
+  if (rating === 5) {
+    ratingLine = `Congratulations! Your recent food hygiene inspection scored <strong>5 — Very Good</strong>. That's the highest rating possible.`;
+    bodyText = `Keeping a perfect score means staying on top of your HACCP records. Blueroll makes that easy — digital checklists your team can complete in seconds.`;
+  } else if (rating === 4) {
     ratingLine = `Your recent food hygiene inspection scored <strong>4 out of 5</strong> — so close to perfect!`;
+    bodyText = `The most common reason for missing a 5 is paperwork gaps. Blueroll replaces paper HACCP records with digital checklists your team can complete in seconds.`;
   } else {
     ratingLine = `We noticed your recent food hygiene inspection resulted in a rating of <strong>${rating} — ${ratingText}</strong>.`;
+    bodyText = `We know how challenging that can be, especially when you're working hard to keep standards up. Blueroll replaces paper HACCP records with digital checklists your team can complete in seconds.`;
   }
 
   return `<div class="letter-page">
@@ -562,7 +567,7 @@ function buildLetter(r) {
     <div class="qr-caption">Scan to see your full rating breakdown<br>and how to improve</div>
   </div>
   <div class="letter-content">
-    We know how frustrating that can be...<br><br>
+    ${bodyText}<br><br>
     <strong>What Blueroll does:</strong><br>
     &bull; Ready-made HACCP checklists — complete in seconds<br>
     &bull; AI recipe import — snap a photo, get allergens instantly<br>
