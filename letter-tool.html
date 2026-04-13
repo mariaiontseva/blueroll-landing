@@ -313,7 +313,7 @@ input[type="checkbox"] {
   <div class="actions">
     <button class="primary" onclick="generateLetters()">📄 Generate Letters</button>
     <button onclick="doPrint()">🖨 Print</button>
-    <button onclick="markAsSent()">✅ Mark as Sent</button>
+    <!-- Mark as Sent happens automatically in Generate Letters -->
     <button onclick="showReport()">📊 Report</button>
     <button class="danger" onclick="clearAll()">🗑 Clear</button>
   </div>
@@ -474,10 +474,44 @@ function toggleAll(checked) {
   updateCount();
 }
 
-// Generate letters
-function generateLetters() {
+// Generate letters — auto-marks as sent + gets edit tokens in one step
+async function generateLetters() {
   const selected = getSelected();
   if (!selected.length) return alert('No rows selected');
+  const fhrsIds = selected.map(r => r.fhrs_id).filter(Boolean);
+
+  // Get edit tokens + mark as sent in one call
+  let editTokens = {};
+  if (fhrsIds.length) {
+    try {
+      const res = await fetch(`${API}/api/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fhrs_ids: fhrsIds, channel: 'paper' })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        editTokens = data.edit_tokens || {};
+        // Update local data
+        const now = new Date().toISOString();
+        fhrsIds.forEach(id => {
+          const item = allResults.find(r => r.fhrs_id == id);
+          if (item) { item.letter_sent_at = now; item._edit_token = editTokens[String(id)]; }
+          const dItem = displayResults.find(r => r.fhrs_id == id);
+          if (dItem) { dItem.letter_sent_at = now; dItem._edit_token = editTokens[String(id)]; }
+        });
+        renderTable();
+      }
+    } catch (e) { console.warn('Could not get edit tokens:', e); }
+  }
+
+  // Assign tokens to selected rows
+  selected.forEach(r => {
+    if (!r._edit_token && editTokens[String(r.fhrs_id)]) {
+      r._edit_token = editTokens[String(r.fhrs_id)];
+    }
+  });
+
   const container = document.getElementById('lettersContainer');
   container.innerHTML = selected.map(r => buildLetter(r)).join('');
   container.style.display = 'block';
