@@ -207,19 +207,6 @@ h1 { font-size: 22px; font-weight: 700; color: #111827; margin-bottom: 6px; }
   </div>
 </div>
 
-<!-- Claim Modal -->
-<div id="claim-modal" class="modal-overlay">
-  <div class="modal-card">
-    <h2>Claim this page</h2>
-    <p>Enter your email to verify you own this business</p>
-    <div class="form-group">
-      <label for="claim-email">Email address</label>
-      <input type="email" id="claim-email" class="form-input" placeholder="you@restaurant.com">
-    </div>
-    <button class="btn-primary btn-emerald" id="claim-submit">Send verification link</button>
-    <div id="claim-status" class="status-msg"></div>
-  </div>
-</div>
 
 <!-- Edit Modal -->
 <div id="edit-modal" class="modal-overlay">
@@ -428,9 +415,6 @@ h1 { font-size: 22px; font-weight: 700; color: #111827; margin-bottom: 6px; }
       if (editToken) {
         ceEl.innerHTML = '<button class="btn-primary btn-outline" id="edit-btn">✏️ Edit your page</button>';
         document.getElementById('edit-btn').addEventListener('click', openEditModal);
-      } else if (!d.claimed) {
-        ceEl.innerHTML = '<button class="btn-primary btn-emerald" id="claim-btn">Claim this page</button>';
-        document.getElementById('claim-btn').addEventListener('click', openClaimModal);
       }
     }
 
@@ -438,48 +422,6 @@ h1 { font-size: 22px; font-weight: 700; color: #111827; margin-bottom: 6px; }
     if (d.name) document.title = d.name + ' — Blueroll';
   }
 
-  // --- Claim Modal ---
-  function openClaimModal() {
-    document.getElementById('claim-modal').classList.add('active');
-    document.getElementById('claim-status').className = 'status-msg';
-    document.getElementById('claim-status').textContent = '';
-    document.getElementById('claim-email').value = '';
-  }
-
-  document.getElementById('claim-modal').addEventListener('click', function(e) {
-    if (e.target === this) this.classList.remove('active');
-  });
-
-  document.getElementById('claim-submit').addEventListener('click', async function() {
-    const email = document.getElementById('claim-email').value.trim();
-    const statusEl = document.getElementById('claim-status');
-    if (!email) { statusEl.className = 'status-msg error'; statusEl.textContent = 'Please enter an email address.'; return; }
-    this.disabled = true;
-    this.textContent = 'Sending...';
-    try {
-      const res = await fetch(API + '/api/business/' + fhrsId + '/claim', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email })
-      });
-      if (res.status === 409) {
-        statusEl.className = 'status-msg error';
-        statusEl.textContent = 'This business has already been claimed.';
-      } else if (res.ok) {
-        statusEl.className = 'status-msg success';
-        statusEl.textContent = 'Verification link sent! Check your email.';
-      } else {
-        const data = await res.json().catch(function() { return {}; });
-        statusEl.className = 'status-msg error';
-        statusEl.textContent = data.message || 'Something went wrong. Please try again.';
-      }
-    } catch(e) {
-      statusEl.className = 'status-msg error';
-      statusEl.textContent = 'Network error. Please try again.';
-    }
-    this.disabled = false;
-    this.textContent = 'Send verification link';
-  });
 
   // --- Edit Modal ---
   function openEditModal() {
