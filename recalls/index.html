@@ -481,7 +481,7 @@ nav {
       <span class="sep"></span>
       <span>Source: <a href="https://www.food.gov.uk/news-alerts" target="_blank" rel="noopener">food.gov.uk</a></span>
       <span class="sep"></span>
-      <span>Updated every Monday</span>
+      <span id="lastUpdated">Auto-updates daily</span>
     </div>
   </section>
 
@@ -682,10 +682,36 @@ function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 }
 
+function fmtAgo(ts) {
+  const ms = Date.now() - ts;
+  const min = Math.floor(ms / 60000);
+  if (min < 1) return 'just now';
+  if (min < 60) return `${min}m ago`;
+  const hr = Math.floor(min / 60);
+  if (hr < 24) return `${hr}h ago`;
+  const d = Math.floor(hr / 24);
+  return `${d}d ago`;
+}
+
+let _lastFetch = 0;
+let _agoTimer = null;
+
+function startAgoTicker() {
+  clearInterval(_agoTimer);
+  const el = document.getElementById('lastUpdated');
+  const tick = () => {
+    if (_lastFetch) el.textContent = `Updated ${fmtAgo(_lastFetch)}`;
+  };
+  tick();
+  _agoTimer = setInterval(tick, 30000);
+}
+
 async function load() {
   try {
-    const resp = await fetch(FSA_API);
+    const resp = await fetch(FSA_API + '&_t=' + Date.now(), { cache: 'no-store' });
     const data = await resp.json();
+    _lastFetch = Date.now();
+    startAgoTicker();
     const items = (data.items || []).filter(it => it.title);
 
     const today = new Date();
@@ -771,6 +797,20 @@ async function load() {
 }
 
 load();
+
+// ── Auto-refresh: once per day + on tab focus if stale (>6h)
+const ONE_DAY = 24 * 60 * 60 * 1000;
+const SIX_HOURS = 6 * 60 * 60 * 1000;
+
+setInterval(() => {
+  load();
+}, ONE_DAY);
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && _lastFetch && (Date.now() - _lastFetch) > SIX_HOURS) {
+    load();
+  }
+});
 </script>
 
 </body>
