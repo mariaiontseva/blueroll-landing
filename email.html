@@ -300,6 +300,7 @@ tr:hover { background: var(--blue-soft); }
         <th onclick="setSort('rating')">Rtg <span class="sort-arrow" id="sort_rating"></span></th>
         <th>Email</th>
         <th>Instagram</th>
+        <th style="width:90px;">Clicked</th>
         <th onclick="setSort('postcode')">Postcode</th>
         <th onclick="setSort('business_type')">Type</th>
         <th onclick="setSort('local_authority')">Authority</th>
@@ -375,7 +376,7 @@ async function loadData() {
     curPage = 1;
     applyClientFilters();
   } catch (err) {
-    document.getElementById('tbody').innerHTML = `<tr><td colspan="11" style="color:var(--red);padding:20px;">Error: ${err.message}</td></tr>`;
+    document.getElementById('tbody').innerHTML = `<tr><td colspan="12" style="color:var(--red);padding:20px;">Error: ${err.message}</td></tr>`;
   }
 }
 
@@ -459,6 +460,7 @@ function renderTable(data) {
       <td><span class="rating-badge ${rc}">${r.rating != null ? r.rating : '?'}</span></td>
       <td class="email-cell" title="${esc(r.email || '')}">${r.email ? esc(r.email) : '<span style="color:#CBD5E0;">—</span>'}</td>
       <td>${r.instagram ? `<a href="https://instagram.com/${esc(r.instagram.replace('@',''))}" target="_blank" onclick="event.stopPropagation()" style="color:#E4405F;text-decoration:none;font-weight:500;font-size:13px;">@${esc(r.instagram.replace('@',''))}</a>` : '<span style="color:#CBD5E0;">—</span>'}</td>
+      <td id="click-${r.fhrs_id}" class="click-cell">${r.email_sent_at ? '<span style="color:#CBD5E0;font-size:11px;">checking…</span>' : '<span style="color:#CBD5E0;">—</span>'}</td>
       <td>${esc(r.postcode || '')}</td>
       <td title="${esc(r.business_type || '')}">${esc((r.business_type||'').substring(0,25))}</td>
       <td>${esc((r.local_authority||'').substring(0,20))}</td>
@@ -485,6 +487,52 @@ function renderTable(data) {
   if (ep - sp < 6) sp = Math.max(1, ep - 6);
   for (let i = sp; i <= ep; i++) addBtn(i, i, false, i === data.page);
   addBtn('\u25B6', data.page + 1, data.page >= data.pages, false);
+
+  // After rendering, fetch click data for all sent restaurants in background
+  fetchClicksForSentRestaurants();
+}
+
+// ─── Click-tracking check ───
+// Fetches outreach history for all restaurants with email_sent_at and shows email_click count
+const _clickCache = {};
+async function fetchClicksForSentRestaurants() {
+  const sent = allData.filter(r => r.email_sent_at && r.fhrs_id);
+  if (sent.length === 0) return;
+
+  // Parallel, up to 10 at a time
+  const BATCH = 10;
+  for (let i = 0; i < sent.length; i += BATCH) {
+    const batch = sent.slice(i, i + BATCH);
+    await Promise.all(batch.map(async r => {
+      const cell = document.getElementById('click-' + r.fhrs_id);
+      if (!cell) return;
+      // Use cache
+      if (_clickCache[r.fhrs_id] !== undefined) {
+        renderClickCell(cell, _clickCache[r.fhrs_id]);
+        return;
+      }
+      try {
+        const resp = await fetch(`${CRM}/api/business/${r.fhrs_id}`);
+        const data = await resp.json();
+        const clicks = (data.outreach || []).filter(o => o.channel === 'email_click');
+        _clickCache[r.fhrs_id] = clicks;
+        renderClickCell(cell, clicks);
+      } catch (e) {
+        cell.innerHTML = '<span style="color:#CBD5E0;">—</span>';
+      }
+    }));
+  }
+}
+
+function renderClickCell(cell, clicks) {
+  if (!clicks || clicks.length === 0) {
+    cell.innerHTML = '<span style="color:#CBD5E0;font-size:11px;">not yet</span>';
+    return;
+  }
+  const n = clicks.length;
+  const lastDate = new Date(clicks[0].sent_at).toLocaleDateString('en-GB', {day:'2-digit',month:'short'});
+  const tip = clicks.slice(0, 5).map(c => new Date(c.sent_at).toLocaleString('en-GB')).join('\n');
+  cell.innerHTML = `<span title="${tip}" style="color:#059669;font-size:12px;font-weight:700;background:#D1FAE5;padding:3px 8px;border-radius:6px;cursor:help;">\u2713 ${n}\u00D7 · ${lastDate}</span>`;
 }
 
 // ─── Selection ───
