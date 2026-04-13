@@ -708,7 +708,7 @@ function startAgoTicker() {
 
 async function load() {
   try {
-    const resp = await fetch(FSA_API + '&_t=' + Date.now(), { cache: 'no-store' });
+    const resp = await fetch(FSA_API, { cache: 'no-store' });
     const data = await resp.json();
     _lastFetch = Date.now();
     startAgoTicker();
