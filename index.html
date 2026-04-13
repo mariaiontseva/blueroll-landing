@@ -218,13 +218,42 @@ nav {
   content: ''; width: 28px; height: 1px; background: var(--border);
 }
 
-.cta-stores { display: flex; gap: 10px; align-items: center; }
+.cta-stores { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .cta-stores a {
   display: block; height: 44px;
   transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .cta-stores a:hover { transform: translateY(-1px); }
 .cta-stores .store-badge { height: 44px; width: auto; display: block; border-radius: 8px; }
+
+.store-badge-soon {
+  display: inline-flex; align-items: center; gap: 10px;
+  height: 44px; padding: 0 16px 0 14px;
+  background: #f5f3ee;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--mid);
+  font-family: inherit;
+  cursor: default;
+  user-select: none;
+}
+.store-badge-soon svg { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.55; }
+.store-badge-soon-text { display: flex; flex-direction: column; line-height: 1.15; }
+.store-badge-soon-label {
+  font-size: 9px; font-weight: 600; letter-spacing: 0.4px;
+  text-transform: uppercase; color: var(--light);
+}
+.store-badge-soon-value {
+  font-size: 14px; font-weight: 700; letter-spacing: -0.2px;
+  color: var(--mid);
+}
+
+.cta-note {
+  max-width: 460px; margin-top: 4px;
+  font-size: 13px; line-height: 1.55;
+  color: var(--mid);
+}
+.cta-note strong { color: var(--ink); font-weight: 700; }
 
 /* Browser mockup — main device, phone overlaps bottom-right */
 .browser-mock {
@@ -816,6 +845,8 @@ nav {
   <a href="#features" onclick="closeMobile()">Features</a>
   <a href="#pricing" onclick="closeMobile()">Pricing</a>
   <a href="#faq" onclick="closeMobile()">FAQ</a>
+  <a href="/recalls">UK Recalls — Live</a>
+  <a href="/recalls-us">US Recalls — Live</a>
   <a href="free-food-hygiene-rating-badge.html">Free Widget</a>
   <a href="free-haccp-template.html">HACCP Template</a>
   <a href="london-food-hygiene-map.html">Ratings Near You</a>
@@ -1162,13 +1193,18 @@ nav {
         <a href="#faq">FAQ</a>
       </div>
       <div class="footer-col">
+        <h4>Recall Trackers</h4>
+        <a href="/recalls">🇬🇧 UK Recalls — Live</a>
+        <a href="/recalls-us">🇺🇸 US Recalls — Live</a>
+        <a href="food-recalls-2026.html">2026 Recall Data</a>
+        <a href="14-allergens-uk.html">14 UK Allergens</a>
+      </div>
+      <div class="footer-col">
         <h4>Free Tools</h4>
         <a href="free-food-hygiene-rating-badge.html">Rating Badge Widget</a>
         <a href="free-haccp-template.html">HACCP Template</a>
         <a href="london-food-hygiene-map.html">London Ratings Map</a>
         <a href="nyc-restaurant-map.html">NYC Map</a>
-        <a href="chicago-restaurant-map.html">Chicago Map</a>
-        <a href="sf-restaurant-map.html">SF Map</a>
       </div>
       <div class="footer-col">
         <h4>US Guides</h4>
@@ -1176,7 +1212,6 @@ nav {
         <a href="la-restaurant-grade.html">Los Angeles</a>
         <a href="chicago-restaurant-inspection.html">Chicago</a>
         <a href="sf-restaurant-inspection.html">San Francisco</a>
-        <a href="seattle-restaurant-inspection.html">Seattle</a>
       </div>
       <div class="footer-col">
         <h4>UK Guides</h4>
@@ -1184,7 +1219,6 @@ nav {
         <a href="food-hygiene-ratings-explained.html">Ratings Explained</a>
         <a href="sfbb-guide.html">SFBB Guide</a>
         <a href="eho-inspection-checklist.html">EHO Checklist</a>
-        <a href="14-allergens-uk.html">14 Allergens</a>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
