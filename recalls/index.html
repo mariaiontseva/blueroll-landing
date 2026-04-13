@@ -250,13 +250,14 @@ nav {
   color: var(--mid); font-weight: 500; text-transform: none;
   letter-spacing: 0.2px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px;
 }
-.recall-meta a {
+.recall-meta-cta {
   margin-left: auto;
-  color: var(--green); text-decoration: none;
+  color: var(--green);
   font-family: 'Plus Jakarta Sans', sans-serif; text-transform: none;
   letter-spacing: -0.1px; font-size: 13px; font-weight: 600;
+  transition: transform .2s;
 }
-.recall-meta a:hover { text-decoration: underline; }
+.recall-card:hover .recall-meta-cta { transform: translateX(2px); }
 
 /* ── Empty / loading ── */
 .empty-state, .loading {
@@ -670,7 +671,7 @@ function renderCard(item) {
         <div class="recall-meta">
           ${pack ? `<strong>${escapeHtml(pack)}</strong>` : ''}
           <span>FSA · ${escapeHtml(item.notation || '')}</span>
-          <a href="${url}" target="_blank" rel="noopener">Read full notice →</a>
+          <span class="recall-meta-cta">Read full notice →</span>
         </div>
       </div>
     </a>`;
