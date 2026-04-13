@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>Blueroll · Links</title>
+<meta name="description" content="Blueroll — food safety made simple. Quick links to our free tools, recall trackers, and app.">
+<link rel="canonical" href="https://blueroll.app/links">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://blueroll.app/links">
+<meta property="og:title" content="Blueroll · Links">
+<meta property="og:description" content="Food safety made simple. Free tools, recall trackers, app downloads.">
+<meta property="og:image" content="https://blueroll.app/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Blueroll · Links">
+<meta name="twitter:description" content="Food safety made simple. Free tools, recall trackers, app downloads.">
+<meta name="twitter:image" content="https://blueroll.app/og-image.png">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZFY0GPZYYQ');</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --green: #047857;
+  --green-dark: #036B4E;
+  --green-deep: #022c22;
+  --bg: #FAFAF7;
+  --card: #FFFFFF;
+  --border: #E8E5DF;
+  --ink: #111;
+  --mid: #555;
+  --light: #999;
+  --red: #DC2626;
+}
+
+html, body { height: 100%; }
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  display: flex; flex-direction: column;
+  min-height: 100vh; min-height: 100dvh;
+  padding: 32px 20px 40px;
+}
+
+/* ── Top bar ── */
+.topbar {
+  width: 100%; max-width: 460px; margin: 0 auto 28px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.brand { display: flex; align-items: center; gap: 8px; text-decoration: none; color: inherit; }
+.brand img { width: 22px; height: auto; }
+.brand span { font-size: 16px; font-weight: 800; letter-spacing: -0.4px; }
+.home-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--light); text-decoration: none;
+  padding: 8px 14px; border-radius: 8px;
+  transition: color .2s, background .2s;
+}
+.home-link:hover { color: var(--ink); background: rgba(0,0,0,0.04); }
+
+/* ── Main container ── */
+.container {
+  width: 100%; max-width: 460px;
+  margin: 0 auto;
+  display: flex; flex-direction: column;
+  flex: 1;
+}
+
+/* ── Hero (compact for link page) ── */
+.hero {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.hero .avatar {
+  width: 88px; height: 88px;
+  margin: 0 auto 16px;
+  border-radius: 22px;
+  background: var(--green-deep);
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(52,211,153,0.4), transparent 60%),
+    radial-gradient(ellipse at 100% 100%, rgba(4,120,87,0.7), transparent 60%);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow:
+    0 14px 32px -10px rgba(4,120,87,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.15);
+  position: relative;
+  overflow: hidden;
+}
+.hero .avatar img {
+  width: 44px; height: auto;
+  filter: brightness(0) invert(1);
+  position: relative;
+}
+.hero h1 {
+  font-size: 24px; font-weight: 800; letter-spacing: -0.6px;
+  margin-bottom: 6px;
+}
+.hero p {
+  font-size: 14.5px; line-height: 1.55; color: var(--mid);
+  max-width: 320px; margin: 0 auto;
+}
+.hero .verified {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  color: var(--green); margin-top: 10px;
+  text-transform: uppercase; letter-spacing: 1.4px;
+}
+.hero .verified::before {
+  content: '✓'; display: inline-block;
+  width: 14px; height: 14px; background: var(--green); color: white;
+  border-radius: 50%; font-size: 9px; line-height: 14px; text-align: center;
+  font-weight: 800;
+}
+
+/* ── Links ── */
+.links { display: flex; flex-direction: column; gap: 12px; }
+
+.link-btn {
+  display: flex; align-items: center; gap: 16px;
+  padding: 18px 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform .2s, box-shadow .2s, border-color .2s, background .2s;
+}
+.link-btn:hover {
+  transform: translateY(-2px);
+  border-color: #d4cfc2;
+  box-shadow: 0 14px 28px -16px rgba(17,24,39,0.18);
+}
+.link-btn:active { transform: translateY(-1px); }
+
+.link-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  background: rgba(4,120,87,0.06);
+  color: var(--green);
+}
+.link-icon svg { width: 22px; height: 22px; stroke-width: 1.7; }
+
+.link-content { flex: 1; min-width: 0; text-align: left; }
+.link-title {
+  font-size: 15.5px; font-weight: 700; letter-spacing: -0.3px;
+  line-height: 1.25; margin-bottom: 2px;
+}
+.link-sub {
+  font-size: 12.5px; color: var(--mid); line-height: 1.4;
+}
+
+.link-arrow {
+  width: 18px; height: 18px; flex-shrink: 0;
+  color: var(--light); transition: transform .2s, color .2s;
+}
+.link-btn:hover .link-arrow { transform: translateX(3px); color: var(--green); }
+
+/* Primary (CTA) variant */
+.link-btn.primary {
+  background: linear-gradient(180deg, #0A8A65, var(--green));
+  color: white; border-color: transparent;
+  box-shadow:
+    0 14px 32px -12px rgba(4,120,87,0.55),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+}
+.link-btn.primary:hover {
+  background: linear-gradient(180deg, #0C9871, #058059);
+  box-shadow:
+    0 22px 44px -14px rgba(4,120,87,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.24);
+}
+.link-btn.primary .link-icon {
+  background: rgba(255,255,255,0.18); color: white;
+}
+.link-btn.primary .link-sub { color: rgba(255,255,255,0.7); }
+.link-btn.primary .link-arrow { color: rgba(255,255,255,0.6); }
+.link-btn.primary:hover .link-arrow { color: white; }
+.link-btn.primary .pill {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  background: rgba(255,255,255,0.2); padding: 3px 8px; border-radius: 999px;
+  letter-spacing: 0.4px; text-transform: uppercase; margin-left: 8px;
+  vertical-align: 2px;
+}
+
+/* Geo banner (above the rating link) */
+.geo-banner {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px; color: var(--light);
+  text-align: center; margin-top: 18px; margin-bottom: 8px;
+  letter-spacing: 1.2px; text-transform: uppercase;
+}
+.geo-banner #geoIcon { color: var(--green); }
+.geo-banner #geoCity { color: var(--mid); font-weight: 600; }
+
+/* ── Section divider ── */
+.divider {
+  display: flex; align-items: center; gap: 12px;
+  margin: 20px 0 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 1.5px;
+  color: var(--light); text-transform: uppercase;
+}
+.divider::before, .divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+/* ── Footer ── */
+.bottom {
+  width: 100%; max-width: 460px;
+  margin: 32px auto 0;
+  text-align: center;
+}
+.socials {
+  display: flex; justify-content: center; gap: 6px;
+  margin-bottom: 16px;
+}
+.socials a {
+  width: 38px; height: 38px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 10px; color: var(--light);
+  transition: color .2s, background .2s;
+  text-decoration: none;
+}
+.socials a:hover { color: var(--ink); background: rgba(0,0,0,0.05); }
+.socials svg { width: 18px; height: 18px; }
+.bottom .copy {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  color: var(--light); letter-spacing: 1px;
+}
+
+@media (max-width: 380px) {
+  .hero h1 { font-size: 21px; }
+  .link-btn { padding: 16px 18px; gap: 14px; }
+  .link-icon { width: 40px; height: 40px; }
+  .link-title { font-size: 14.5px; }
+  .link-sub { font-size: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="/" class="brand">
+    <img src="/blueroll-logo.svg" alt="Blueroll">
+    <span>Blueroll</span>
+  </a>
+  <a href="/" class="home-link">↗ Site</a>
+</div>
+
+<div class="container">
+
+  <header class="hero">
+    <div class="avatar">
+      <img src="/blueroll-logo.svg" alt="Blueroll">
+    </div>
+    <h1>Blueroll</h1>
+    <p>Food safety made simple. Tools, recall trackers, and the app — all in one place.</p>
+    <span class="verified">Verified · @blueroll.app</span>
+  </header>
+
+  <div class="geo-banner">
+    <span id="geoIcon">●</span> <span id="geoLabel">Detecting your area…</span>
+  </div>
+
+  <nav class="links">
+
+    <!-- 1. Check rating (geo-aware) -->
+    <a href="/london-food-hygiene-map.html" class="link-btn" id="ratingLink">
+      <div class="link-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+      </div>
+      <div class="link-content">
+        <div class="link-title" id="ratingTitle">Check your restaurant's rating</div>
+        <div class="link-sub" id="ratingSub">London hygiene map · live FSA data</div>
+      </div>
+      <svg class="link-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+    </a>
+
+    <!-- 2. Recalls -->
+    <a href="/recalls" class="link-btn" id="recallsLink">
+      <div class="link-icon" style="background:rgba(220,38,38,0.08);color:var(--red);">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+      </div>
+      <div class="link-content">
+        <div class="link-title" id="recallsTitle">Latest food recalls</div>
+        <div class="link-sub" id="recallsSub">UK FSA alerts, updated daily</div>
+      </div>
+      <svg class="link-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+    </a>
+
+    <!-- 3. Free HACCP template -->
+    <a href="/free-haccp-template.html" class="link-btn">
+      <div class="link-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75l3 3 6-6M9 5.25h6m-6 0a2 2 0 00-2 2v9.5a2 2 0 002 2h6a2 2 0 002-2v-9.5a2 2 0 00-2-2"/></svg>
+      </div>
+      <div class="link-content">
+        <div class="link-title">Free HACCP template</div>
+        <div class="link-sub">14-day audit-ready PDF · no signup</div>
+      </div>
+      <svg class="link-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+    </a>
+
+    <!-- 4. Get the app -->
+    <a href="https://apps.apple.com/app/id6760937451" class="link-btn">
+      <div class="link-icon">
+        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.05 12.04c-.03-3.04 2.49-4.5 2.6-4.57-1.42-2.07-3.62-2.36-4.4-2.39-1.87-.19-3.65 1.1-4.6 1.1-.95 0-2.41-1.07-3.97-1.04-2.04.03-3.93 1.19-4.98 3.01-2.13 3.69-.54 9.13 1.52 12.12 1.01 1.46 2.21 3.1 3.79 3.04 1.52-.06 2.1-.98 3.93-.98 1.83 0 2.36.98 3.97.95 1.64-.03 2.68-1.49 3.69-2.96 1.16-1.69 1.64-3.34 1.66-3.42-.04-.02-3.18-1.22-3.21-4.86zM14.07 4.83c.84-1.02 1.41-2.43 1.25-3.83-1.21.05-2.67.81-3.54 1.83-.78.9-1.46 2.34-1.28 3.71 1.35.1 2.73-.69 3.57-1.71z"/></svg>
+      </div>
+      <div class="link-content">
+        <div class="link-title">Get the iOS app</div>
+        <div class="link-sub">Download on the App Store</div>
+      </div>
+      <svg class="link-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+    </a>
+
+    <div class="divider">Try Blueroll</div>
+
+    <!-- 5. Free trial — primary -->
+    <a href="https://app.blueroll.app/" class="link-btn primary">
+      <div class="link-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      </div>
+      <div class="link-content">
+        <div class="link-title">Start free trial<span class="pill">14 days</span></div>
+        <div class="link-sub">Digital HACCP, allergens, EHO reports</div>
+      </div>
+      <svg class="link-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+    </a>
+
+  </nav>
+
+</div>
+
+<footer class="bottom">
+  <div class="socials">
+    <a href="https://www.instagram.com/blueroll.app" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+    <a href="https://www.linkedin.com/company/bluerollapp" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+    <a href="mailto:hello@blueroll.app" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg></a>
+  </div>
+  <div class="copy">© 2026 Blueroll · London &amp; New York</div>
+</footer>
+
+<script>
+// Geo-aware: swap rating/recalls links to NYC if visitor is in the US
+async function detectGeo() {
+  const labelEl = document.getElementById('geoLabel');
+  const ratingLink = document.getElementById('ratingLink');
+  const ratingTitle = document.getElementById('ratingTitle');
+  const ratingSub = document.getElementById('ratingSub');
+  const recallsLink = document.getElementById('recallsLink');
+  const recallsSub = document.getElementById('recallsSub');
+
+  // Use timezone as a fast, reliable hint (no network round-trip needed for first paint)
+  let isUS = false;
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    isUS = /^America\//.test(tz) && !/Argentina|Brazil|Bogota|Caracas|Lima|Santiago|Halifax|Toronto|Vancouver|Edmonton|Montreal|Winnipeg|Mexico|Havana|Jamaica|Puerto_Rico/.test(tz);
+  } catch (e) {}
+
+  if (isUS) {
+    ratingLink.href = '/nyc-restaurant-grade.html';
+    ratingTitle.textContent = "Check a restaurant's grade";
+    ratingSub.textContent = 'NYC Health A/B/C grades · live data';
+    recallsLink.href = '/recalls-us';
+    recallsSub.textContent = 'US FDA recalls, updated automatically';
+    labelEl.textContent = '🇺🇸 You\'re browsing from the US';
+  } else {
+    labelEl.textContent = '🇬🇧 You\'re browsing from the UK';
+  }
+}
+detectGeo();
+
+// Click tracking
+document.querySelectorAll('.link-btn').forEach(a => {
+  a.addEventListener('click', () => {
+    if (typeof gtag === 'function') {
+      gtag('event', 'links_click', { destination: a.getAttribute('href'), title: a.querySelector('.link-title').textContent.trim() });
+    }
+  });
+});
+</script>
+
+</body>
+</html>
