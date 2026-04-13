@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en-US">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>UK Food Recalls This Week | Blueroll</title>
-<meta name="description" content="Weekly summary of FSA food recalls and allergy alerts for UK restaurants. Updated every Monday. Source: Food Standards Agency.">
-<link rel="canonical" href="https://blueroll.app/recalls">
-<link rel="alternate" hreflang="en-gb" href="https://blueroll.app/recalls">
+<title>US Food Recalls — Last 30 Days | Blueroll</title>
+<meta name="description" content="Live US FDA food recall tracker for restaurants, grocers, and food operators. Every ongoing recall, sorted newest first. Updated automatically.">
+<link rel="canonical" href="https://blueroll.app/recalls-us">
+<link rel="alternate" hreflang="en-us" href="https://blueroll.app/recalls-us">
 
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -15,13 +15,13 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://blueroll.app/recalls">
-<meta property="og:title" content="UK Food Recalls This Week | Blueroll">
-<meta property="og:description" content="Weekly summary of FSA food recalls and allergy alerts for UK restaurants. Updated every Monday.">
+<meta property="og:url" content="https://blueroll.app/recalls-us">
+<meta property="og:title" content="US Food Recalls — Last 30 Days | Blueroll">
+<meta property="og:description" content="Live FDA food recall tracker for US restaurants and food operators. Updated automatically.">
 <meta property="og:image" content="https://blueroll.app/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="UK Food Recalls This Week | Blueroll">
-<meta name="twitter:description" content="Weekly summary of FSA food recalls and allergy alerts for UK restaurants. Updated every Monday.">
+<meta name="twitter:title" content="US Food Recalls — Last 30 Days | Blueroll">
+<meta name="twitter:description" content="Live FDA food recall tracker for US restaurants and food operators.">
 <meta name="twitter:image" content="https://blueroll.app/og-image.png">
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
@@ -31,9 +31,9 @@
 {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  "name": "UK Food Recalls This Week",
-  "url": "https://blueroll.app/recalls",
-  "description": "Weekly digest of UK Food Standards Agency recalls and allergy alerts for restaurant operators.",
+  "name": "US Food Recalls — Last 30 Days",
+  "url": "https://blueroll.app/recalls-us",
+  "description": "Live digest of US FDA food recalls and alerts for restaurant operators, grocers, and food manufacturers.",
   "publisher": {"@type": "Organization", "name": "Blueroll", "url": "https://blueroll.app", "logo": "https://blueroll.app/app_icon.png"}
 }
 </script>
@@ -61,6 +61,9 @@
   --amber: #B45309;
   --amber-bg: #FEF3C7;
   --amber-border: #FCD34D;
+  --slate: #475569;
+  --slate-bg: #F1F5F9;
+  --slate-border: #CBD5E1;
 }
 
 html { scroll-behavior: smooth; }
@@ -71,7 +74,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Nav (matches main site) ── */
+/* ── Nav ── */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   padding: 0 48px; height: 80px;
@@ -151,6 +154,21 @@ nav {
 .hero-meta a { color: var(--mid); text-decoration: underline dotted; }
 .hero-meta .sep { width: 4px; height: 4px; background: var(--border); border-radius: 50%; }
 
+/* ── Country switcher ── */
+.country-switch {
+  display: inline-flex; gap: 4px;
+  padding: 4px; background: var(--card); border: 1px solid var(--border);
+  border-radius: 999px; margin-bottom: 18px;
+}
+.country-switch a {
+  padding: 7px 16px; border-radius: 999px;
+  font-size: 13px; font-weight: 600; letter-spacing: -0.1px;
+  color: var(--mid); text-decoration: none;
+  transition: all .2s;
+}
+.country-switch a.active { background: var(--ink); color: white; }
+.country-switch a:not(.active):hover { color: var(--ink); background: rgba(0,0,0,0.04); }
+
 /* ── Section heads ── */
 .section-head {
   display: flex; align-items: baseline; justify-content: space-between;
@@ -184,8 +202,9 @@ nav {
   transform: translateY(-1px);
   box-shadow: 0 12px 28px -16px rgba(17,24,39,0.15);
 }
-.recall-card.is-recall { border-left: 3px solid var(--red); padding-left: 26px; }
-.recall-card.is-allergy { border-left: 3px solid var(--amber); padding-left: 26px; }
+.recall-card.is-class-1 { border-left: 3px solid var(--red); padding-left: 26px; }
+.recall-card.is-class-2 { border-left: 3px solid var(--amber); padding-left: 26px; }
+.recall-card.is-class-3 { border-left: 3px solid var(--slate); padding-left: 26px; }
 
 .recall-date { padding-top: 4px; }
 .recall-date .day {
@@ -213,9 +232,9 @@ nav {
   font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px;
   white-space: nowrap;
 }
-.tag-recalled { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
-.tag-allergy  { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
-.tag-other    { background: rgba(0,0,0,0.04); color: var(--mid); border: 1px solid var(--border); }
+.tag-class-1 { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+.tag-class-2 { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
+.tag-class-3 { background: var(--slate-bg); color: var(--slate); border: 1px solid var(--slate-border); }
 .recall-business { font-size: 13px; font-weight: 600; color: var(--mid); letter-spacing: -0.1px; }
 
 .recall-product {
@@ -232,8 +251,9 @@ nav {
   margin-bottom: 14px;
   color: var(--ink); font-weight: 500;
 }
-.recall-risk.risk-recall { color: var(--red); background: var(--red-bg); }
-.recall-risk.risk-allergy { color: var(--amber); background: var(--amber-bg); }
+.recall-risk.risk-class-1 { color: var(--red); background: var(--red-bg); }
+.recall-risk.risk-class-2 { color: var(--amber); background: var(--amber-bg); }
+.recall-risk.risk-class-3 { color: var(--slate); background: var(--slate-bg); }
 
 .recall-action { font-size: 13.5px; line-height: 1.55; color: var(--mid); }
 .recall-action strong { color: var(--ink); font-weight: 700; }
@@ -309,31 +329,30 @@ nav {
 .insight p strong { color: var(--ink); font-weight: 700; }
 .insight p + p { margin-top: 12px; }
 
-/* ── Archive ── */
-.archive { margin-top: 16px; }
-.archive-week { border-bottom: 1px solid var(--border); }
-.archive-week summary {
-  list-style: none; cursor: pointer;
-  padding: 22px 4px;
-  display: flex; align-items: center; justify-content: space-between; gap: 20px;
-  transition: background .2s;
+/* ── Class legend ── */
+.class-legend {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  margin: 32px 0 0;
 }
-.archive-week summary::-webkit-details-marker { display: none; }
-.archive-week summary:hover { background: rgba(0,0,0,0.02); }
-.archive-week summary .label {
-  font-size: 18px; font-weight: 700; letter-spacing: -0.4px; color: var(--ink);
+.class-legend-item {
+  padding: 20px 22px; background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
 }
-.archive-week summary .meta {
-  display: flex; gap: 16px; align-items: center;
-  font-family: 'JetBrains Mono', monospace; font-size: 11px;
-  color: var(--mid); text-transform: uppercase; letter-spacing: 1.4px;
+.class-legend-item.class-1 { border-left: 3px solid var(--red); }
+.class-legend-item.class-2 { border-left: 3px solid var(--amber); }
+.class-legend-item.class-3 { border-left: 3px solid var(--slate); }
+.class-legend-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  margin-bottom: 8px;
 }
-.archive-week summary .chev {
-  color: var(--light); transition: transform .25s;
-  font-size: 18px; line-height: 1;
-}
-.archive-week[open] summary .chev { transform: rotate(90deg); color: var(--green); }
-.archive-week .recall-list { padding: 8px 0 28px; }
+.class-legend-item.class-1 .class-legend-label { color: var(--red); }
+.class-legend-item.class-2 .class-legend-label { color: var(--amber); }
+.class-legend-item.class-3 .class-legend-label { color: var(--slate); }
+.class-legend-title { font-size: 15px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 4px; }
+.class-legend-desc { font-size: 12.5px; color: var(--mid); line-height: 1.5; }
 
 /* ── Soft CTA ── */
 .cta-card {
@@ -342,9 +361,7 @@ nav {
   background: var(--green-deep);
   border-radius: 20px;
   text-align: center;
-  position: relative;
-  overflow: hidden;
-  color: white;
+  position: relative; overflow: hidden; color: white;
 }
 .cta-card::before {
   content: ''; position: absolute; inset: 0; pointer-events: none;
@@ -436,13 +453,15 @@ nav {
   .hero-sub { font-size: 16px; }
   .section-head h2 { font-size: 22px; }
   .recall-card { grid-template-columns: 1fr; padding: 22px; gap: 14px; padding-left: 22px !important; border-left: none !important; }
-  .recall-card.is-recall { border-top: 3px solid var(--red); padding-top: 19px; }
-  .recall-card.is-allergy { border-top: 3px solid var(--amber); padding-top: 19px; }
+  .recall-card.is-class-1 { border-top: 3px solid var(--red); padding-top: 19px; }
+  .recall-card.is-class-2 { border-top: 3px solid var(--amber); padding-top: 19px; }
+  .recall-card.is-class-3 { border-top: 3px solid var(--slate); padding-top: 19px; }
   .recall-date { display: flex; align-items: baseline; gap: 8px; padding-top: 0; }
   .recall-date .day { display: inline; font-size: 18px; font-weight: 700; }
   .recall-date .month { display: inline; margin-top: 0; }
   .recall-product { font-size: 19px; }
-  .recall-meta a { margin-left: 0; }
+  .recall-meta-cta { margin-left: 0; }
+  .class-legend { grid-template-columns: 1fr; }
   .insight { padding: 28px; margin: 48px 0 0; }
   .insight h3 { font-size: 22px; }
   .cta-card { padding: 40px 28px; margin: 56px 0 0; }
@@ -461,8 +480,8 @@ nav {
     <span>Blueroll</span>
   </a>
   <div class="nav-right">
-    <a href="/food-recalls-2026.html">Recalls 2026</a>
-    <a href="/14-allergens-uk.html">14 Allergens</a>
+    <a href="/recalls">UK Recalls</a>
+    <a href="/nyc-restaurant-grade.html">NYC Grades</a>
     <a href="https://app.blueroll.app/" class="nav-btn">Start for Free</a>
   </div>
 </nav>
@@ -470,62 +489,78 @@ nav {
 <div class="page">
 
   <section class="hero">
-    <div style="display:inline-flex;gap:4px;padding:4px;background:var(--card);border:1px solid var(--border);border-radius:999px;margin-bottom:18px;">
-      <a href="/recalls" style="padding:7px 16px;border-radius:999px;font-size:13px;font-weight:600;letter-spacing:-0.1px;text-decoration:none;background:var(--ink);color:white;">🇬🇧 UK</a>
-      <a href="/recalls-us" style="padding:7px 16px;border-radius:999px;font-size:13px;font-weight:600;letter-spacing:-0.1px;color:var(--mid);text-decoration:none;transition:all .2s;">🇺🇸 US</a>
+    <div class="country-switch">
+      <a href="/recalls">🇬🇧 UK</a>
+      <a href="/recalls-us" class="active">🇺🇸 US</a>
     </div>
     <div class="hero-eyebrow">
       <span class="hero-dot"></span>
-      <span>Live · From the FSA</span>
+      <span>Live · From the FDA</span>
     </div>
-    <h1>UK Food Recalls,<br><span class="accent">last 30 days.</span></h1>
-    <p class="hero-sub">A running digest of every Food Standards Agency recall and allergy alert affecting UK kitchens. Pulled live from the FSA. So you can check, document, and move on.</p>
+    <h1>US Food Recalls,<br><span class="accent">latest alerts.</span></h1>
+    <p class="hero-sub">A running digest of every FDA food recall affecting US restaurants, grocers, and manufacturers. Pulled live from openFDA. So you can check, document, and move on.</p>
     <div class="hero-meta">
       <span id="weekRange">Loading…</span>
       <span class="sep"></span>
-      <span>Source: <a href="https://www.food.gov.uk/news-alerts" target="_blank" rel="noopener">food.gov.uk</a></span>
+      <span>Source: <a href="https://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts" target="_blank" rel="noopener">openFDA</a></span>
       <span class="sep"></span>
       <span id="lastUpdated">Auto-updates daily</span>
     </div>
+    <p style="margin-top:18px;font-size:13px;color:var(--light);line-height:1.5;max-width:560px;">Note: the FDA publishes to its open database with a 2–4 week lag. For breaking alerts, also watch <a href="https://www.fsis.usda.gov/recalls" target="_blank" rel="noopener" style="color:var(--green);text-decoration:underline dotted;">USDA FSIS</a> (meat, poultry, eggs) and the FDA news page.</p>
   </section>
 
   <section>
     <div class="section-head">
-      <h2 id="currentWeekTitle">Last 30 days</h2>
+      <h2>Recent FDA recalls</h2>
       <span class="count" id="currentCount"></span>
     </div>
     <div id="currentWeek" class="recall-list">
-      <div class="loading">Fetching latest FSA alerts</div>
+      <div class="loading">Fetching latest FDA recalls</div>
+    </div>
+  </section>
+
+  <!-- Class legend — unique to US -->
+  <section>
+    <div class="section-head">
+      <h2>What the classes mean</h2>
+      <span class="count">FDA · 3 tiers</span>
+    </div>
+    <div class="class-legend">
+      <div class="class-legend-item class-1">
+        <div class="class-legend-label">Class I</div>
+        <div class="class-legend-title">Dangerous / Fatal</div>
+        <div class="class-legend-desc">Reasonable probability of serious health consequence or death. Listeria, Salmonella, undeclared severe allergens.</div>
+      </div>
+      <div class="class-legend-item class-2">
+        <div class="class-legend-label">Class II</div>
+        <div class="class-legend-title">Temporary or reversible</div>
+        <div class="class-legend-desc">Possible temporary health consequence, low probability of serious harm. Foreign objects, minor labeling issues.</div>
+      </div>
+      <div class="class-legend-item class-3">
+        <div class="class-legend-label">Class III</div>
+        <div class="class-legend-title">No health threat</div>
+        <div class="class-legend-desc">Product violates FDA rules but unlikely to cause adverse health effects. Mislabeling, cosmetic issues.</div>
+      </div>
     </div>
   </section>
 
   <aside class="insight">
     <span class="insight-eyebrow">For your records</span>
     <h3>What this means for your kitchen</h3>
-    <p>If any recalled product has passed through your kitchen, you need to document it. A dated note in your HACCP records — <strong>"checked stock, product not held / product removed on [date]"</strong> — is what your EHO expects to see.</p>
-    <p>No note = a gap in your records. A gap in your records is what costs you the rating.</p>
+    <p>If any recalled product passed through your operation, you need to document it. A dated note in your HACCP log — <strong>"checked stock, product not held / product removed on [date]"</strong> — is what your health inspector expects to see.</p>
+    <p>No note = gap in your records. Gap in your records = liability if a customer gets sick and traces it back to you.</p>
   </aside>
 
-  <section>
-    <div class="section-head">
-      <h2>Earlier weeks</h2>
-      <span class="count">Last 8 weeks</span>
-    </div>
-    <div id="archive" class="archive">
-      <div class="loading" style="background:transparent;border:none;padding:24px 0;">Loading archive…</div>
-    </div>
-  </section>
-
   <section class="cta-card">
-    <div class="pre">For UK restaurant operators</div>
-    <h3>Blueroll watches the FSA so you don't have to.</h3>
+    <div class="pre">For US restaurants &amp; food operators</div>
+    <h3>Blueroll watches the FDA so you don't have to.</h3>
     <p>Recall alerts arrive in the app the moment they're published, with a one-tap log to your HACCP records. Five seconds, fully audit-ready.</p>
     <a href="https://app.blueroll.app/" class="cta-btn">
       <span>Start free trial</span>
       <span class="pill">14 days</span>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
     </a>
-    <span class="cta-fine">£14.99/mo · 14-day free trial · cancel anytime</span>
+    <span class="cta-fine">$14.99/mo · 14-day free trial · cancel anytime</span>
   </section>
 
 </div>
@@ -553,6 +588,7 @@ nav {
       </div>
       <div class="footer-col">
         <h4>US Guides</h4>
+        <a href="/recalls-us">US Recalls</a>
         <a href="/nyc-restaurant-grade.html">New York City</a>
         <a href="/la-restaurant-grade.html">Los Angeles</a>
         <a href="/chicago-restaurant-inspection.html">Chicago</a>
@@ -560,7 +596,7 @@ nav {
       </div>
       <div class="footer-col">
         <h4>UK Guides</h4>
-        <a href="/recalls">Recalls This Week</a>
+        <a href="/recalls">UK Recalls</a>
         <a href="/food-recalls-2026.html">Recalls in 2026</a>
         <a href="/14-allergens-uk.html">14 Allergens</a>
         <a href="/eho-inspection-checklist.html">EHO Checklist</a>
@@ -585,97 +621,121 @@ nav {
 </footer>
 
 <script>
-const FSA_API = 'https://data.food.gov.uk/food-alerts/id?_limit=80&_sort=-created';
+// Get last 30 days of ongoing recalls, any classification, sorted by date desc.
+// FDA openFDA API: https://open.fda.gov/apis/food/enforcement/
+const FDA_API_BASE = 'https://api.fda.gov/food/enforcement.json';
 
-const fmtDay = d => d.toLocaleDateString('en-GB', { day: '2-digit' });
-const fmtMon = d => d.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase();
+function thirtyDaysAgoYYYYMMDD() {
+  const d = new Date();
+  d.setDate(d.getDate() - 30);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}${m}${day}`;
+}
+function todayYYYYMMDD() {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}${m}${day}`;
+}
+
+function buildFdaUrl() {
+  // FDA has a ~2–4 week indexing lag, so we don't use a strict date window.
+  // Fetch the 100 most recent recalls and render them all.
+  return `${FDA_API_BASE}?sort=recall_initiation_date:desc&limit=100`;
+}
+
+function parseFdaDate(s) {
+  if (!s || s.length !== 8) return null;
+  return new Date(+s.slice(0,4), +s.slice(4,6) - 1, +s.slice(6,8));
+}
+
+const fmtDay = d => d.toLocaleDateString('en-US', { day: '2-digit' });
+const fmtMon = d => d.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
 const fmtRange = (start, end) => {
-  const s = start.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-  const e = end.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  const s = start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  const e = end.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   return `${s} – ${e}`;
 };
 
-function weekStart(d) {
-  const dt = new Date(d);
-  const day = dt.getDay();
-  const diff = (day === 0 ? -6 : 1 - day);
-  dt.setDate(dt.getDate() + diff);
-  dt.setHours(0,0,0,0);
-  return dt;
-}
-
-const isAllergy = i => (i.type || []).some(t => /\/(AA|FAFA)$/i.test(t));
-const isRecall  = i => (i.type || []).some(t => /\/(PRIN|FAFR)$/i.test(t));
-
-function classifyAlert(item) {
-  if (isAllergy(item)) return { label: 'Allergy alert', cls: 'tag-allergy', risk: 'risk-allergy', cardCls: 'is-allergy' };
-  if (isRecall(item))  return { label: 'Recalled',      cls: 'tag-recalled', risk: 'risk-recall', cardCls: 'is-recall' };
-  return { label: 'Alert', cls: 'tag-other', risk: '', cardCls: '' };
+function classInfo(classification) {
+  const c = (classification || '').toLowerCase();
+  if (c.includes('class i') && !c.includes('class ii') && !c.includes('class iii')) {
+    return { num: 1, label: 'Class I · High risk', cls: 'tag-class-1', risk: 'risk-class-1', cardCls: 'is-class-1' };
+  }
+  if (c.includes('class ii') && !c.includes('class iii')) {
+    return { num: 2, label: 'Class II', cls: 'tag-class-2', risk: 'risk-class-2', cardCls: 'is-class-2' };
+  }
+  if (c.includes('class iii')) {
+    return { num: 3, label: 'Class III', cls: 'tag-class-3', risk: 'risk-class-3', cardCls: 'is-class-3' };
+  }
+  return { num: 0, label: 'Recall', cls: 'tag-class-2', risk: 'risk-class-2', cardCls: 'is-class-2' };
 }
 
 function shortReason(item) {
-  const risk = item.problem && item.problem[0] && item.problem[0].riskStatement;
-  if (risk) return risk.trim();
-  const m = (item.title || '').match(/because (?:of |it )?(.*)/i);
-  return m ? capitalise(m[1]) : (item.title || '');
-}
-function capitalise(s) { return s ? s[0].toUpperCase() + s.slice(1) : s; }
-
-function productName(item) {
-  if (item.productDetails && item.productDetails[0] && item.productDetails[0].productName) {
-    return item.productDetails[0].productName.trim();
-  }
-  if (item.shortTitle) return item.shortTitle.trim();
-  return item.title;
+  const r = item.reason_for_recall || '';
+  // Trim to first sentence / first 200 chars
+  const m = r.match(/^(.+?[.。!?])\s/);
+  return m ? m[1] : (r.length > 200 ? r.slice(0, 197) + '…' : r);
 }
 
-function businessName(item) {
-  if (item.reportingBusiness && item.reportingBusiness.commonName) return item.reportingBusiness.commonName;
-  const m = (item.title || '').match(/^(.+?)\s+recalls?\s/i);
-  return m ? m[1] : '';
+function productSummary(item) {
+  const p = item.product_description || '';
+  // Usually first clause is the product name
+  const m = p.match(/^(.+?)[,;]/);
+  return m ? m[1].trim() : (p.length > 120 ? p.slice(0, 117) + '…' : p);
 }
 
-function packBatch(item) {
-  const pieces = [];
-  (item.productDetails || []).forEach(p => {
-    if (p.packSizeDescription) pieces.push(p.packSizeDescription);
-    if (p.batchDescription) pieces.push(p.batchDescription);
-  });
-  return pieces.length ? pieces.join(' · ').replace(/\s+/g,' ').trim() : '';
+function firmLocation(item) {
+  const bits = [];
+  if (item.city) bits.push(item.city);
+  if (item.state) bits.push(item.state);
+  return bits.join(', ');
 }
 
-function actionLine(item) {
-  if (isAllergy(item)) return 'Anyone with the listed allergy should not consume this product. Return for a full refund.';
-  return 'Stop selling. Check your stock, remove from shelves, and document the action.';
+function actionLine(item, cls) {
+  if (cls.num === 1) return 'Stop all use immediately. Check stock, pull affected lots, document the action.';
+  if (cls.num === 2) return 'Check your stock for the affected lots, remove if held, document the action.';
+  if (cls.num === 3) return 'Review labelling/packaging. Document your check in HACCP records.';
+  return 'Check stock for affected lots. Document your action.';
 }
 
 function renderCard(item) {
-  const created = new Date(item.created);
-  const cls = classifyAlert(item);
-  const product = productName(item);
-  const business = businessName(item);
+  const d = parseFdaDate(item.recall_initiation_date);
+  const cls = classInfo(item.classification);
+  const product = productSummary(item);
+  const firm = item.recalling_firm || '';
+  const loc = firmLocation(item);
   const reason = shortReason(item);
-  const pack = packBatch(item);
-  const url = item.alertURL || `https://www.food.gov.uk/news-alerts/alert/${(item.notation||'').toLowerCase()}`;
+  const distribution = item.distribution_pattern || '';
+  const recallNumber = item.recall_number || '';
+  const status = item.status || '';
+  const statusClass = status.toLowerCase() === 'ongoing' ? '' : 'status-closed';
+
+  const fdaSearchUrl = `https://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts?search=${encodeURIComponent(firm)}`;
+
+  const dateHTML = d
+    ? `<span class="day">${fmtDay(d)}</span><span class="month">${fmtMon(d)}</span>`
+    : '<span class="day">—</span><span class="month">No date</span>';
 
   return `
-    <a class="recall-card ${cls.cardCls}" href="${url}" target="_blank" rel="noopener">
-      <div class="recall-date">
-        <span class="day">${fmtDay(created)}</span>
-        <span class="month">${fmtMon(created)}</span>
-      </div>
+    <a class="recall-card ${cls.cardCls}" href="${fdaSearchUrl}" target="_blank" rel="noopener">
+      <div class="recall-date">${dateHTML}</div>
       <div class="recall-body">
         <div class="recall-row">
           <span class="recall-tag ${cls.cls}">${cls.label}</span>
-          ${business ? `<span class="recall-business">${escapeHtml(business)}</span>` : ''}
+          ${firm ? `<span class="recall-business">${escapeHtml(firm)}${loc ? ' · ' + escapeHtml(loc) : ''}</span>` : ''}
         </div>
         <div class="recall-product">${escapeHtml(product)}</div>
         <div class="recall-risk ${cls.risk}">${escapeHtml(reason)}</div>
-        <div class="recall-action"><strong>What to do:</strong> ${actionLine(item)}</div>
+        <div class="recall-action"><strong>What to do:</strong> ${actionLine(item, cls)}</div>
         <div class="recall-meta">
-          ${pack ? `<strong>${escapeHtml(pack)}</strong>` : ''}
-          <span>FSA · ${escapeHtml(item.notation || '')}</span>
-          <span class="recall-meta-cta">Read full notice →</span>
+          ${distribution ? `<strong>Distributed: ${escapeHtml(distribution)}</strong>` : ''}
+          ${recallNumber ? `<span>FDA · ${escapeHtml(recallNumber)}</span>` : ''}
+          ${status ? `<span>${escapeHtml(status)}</span>` : ''}
+          <span class="recall-meta-cta">Search FDA →</span>
         </div>
       </div>
     </a>`;
@@ -693,123 +753,76 @@ function fmtAgo(ts) {
   if (min < 60) return `${min}m ago`;
   const hr = Math.floor(min / 60);
   if (hr < 24) return `${hr}h ago`;
-  const d = Math.floor(hr / 24);
-  return `${d}d ago`;
+  return `${Math.floor(hr / 24)}d ago`;
 }
 
 let _lastFetch = 0;
 let _agoTimer = null;
-
 function startAgoTicker() {
   clearInterval(_agoTimer);
   const el = document.getElementById('lastUpdated');
-  const tick = () => {
-    if (_lastFetch) el.textContent = `Updated ${fmtAgo(_lastFetch)}`;
-  };
+  const tick = () => { if (_lastFetch) el.textContent = `Updated ${fmtAgo(_lastFetch)}`; };
   tick();
   _agoTimer = setInterval(tick, 30000);
 }
 
 async function load() {
   try {
-    const resp = await fetch(FSA_API, { cache: 'no-store' });
+    const resp = await fetch(buildFdaUrl(), { cache: 'no-store' });
+    if (!resp.ok) throw new Error('FDA API returned ' + resp.status);
     const data = await resp.json();
+    const items = data.results || [];
     _lastFetch = Date.now();
     startAgoTicker();
-    const items = (data.items || []).filter(it => it.title);
 
-    const today = new Date();
-    today.setHours(23,59,59,999);
-    const cutoff30 = new Date(today);
-    cutoff30.setDate(cutoff30.getDate() - 30);
-    cutoff30.setHours(0,0,0,0);
-
-    // Recent: anything in last 30 days, flat sorted by date desc
-    const recent = items
-      .filter(it => new Date(it.created) >= cutoff30)
-      .sort((a,b) => new Date(b.created) - new Date(a.created));
-
-    // Older items grouped by week for archive
-    const older = items.filter(it => new Date(it.created) < cutoff30);
-    const olderGroups = new Map();
-    older.forEach(item => {
-      const w = weekStart(new Date(item.created));
-      const key = w.toISOString().slice(0,10);
-      if (!olderGroups.has(key)) olderGroups.set(key, { start: w, items: [] });
-      olderGroups.get(key).items.push(item);
+    // Dedupe by recall_number (FDA often has multiple product rows per recall event)
+    const byRecall = new Map();
+    items.forEach(it => {
+      const key = it.recall_number || it.event_id || JSON.stringify(it).slice(0, 50);
+      if (!byRecall.has(key)) byRecall.set(key, it);
     });
+    const deduped = [...byRecall.values()]
+      .sort((a,b) => (b.recall_initiation_date || '').localeCompare(a.recall_initiation_date || ''));
 
     const currentEl = document.getElementById('currentWeek');
     const countEl = document.getElementById('currentCount');
     const rangeEl = document.getElementById('weekRange');
 
-    if (recent.length > 0) {
-      const newest = new Date(recent[0].created);
-      const oldest = new Date(recent[recent.length - 1].created);
-      rangeEl.textContent = fmtRange(oldest, newest);
-      countEl.textContent = recent.length === 1 ? '1 alert' : `${recent.length} alerts`;
-      currentEl.innerHTML = recent.map(renderCard).join('');
+    if (deduped.length > 0) {
+      const dates = deduped.map(i => parseFdaDate(i.recall_initiation_date)).filter(Boolean);
+      if (dates.length) {
+        const newest = new Date(Math.max(...dates));
+        const oldest = new Date(Math.min(...dates));
+        rangeEl.textContent = fmtRange(oldest, newest);
+      } else {
+        rangeEl.textContent = 'Last 30 days';
+      }
+      countEl.textContent = deduped.length === 1 ? '1 recall' : `${deduped.length} recalls`;
+      currentEl.innerHTML = deduped.map(renderCard).join('');
     } else {
-      rangeEl.textContent = 'No alerts in the last 30 days';
+      rangeEl.textContent = 'No FDA recalls in the last 30 days';
       currentEl.innerHTML = `
         <div class="empty-state">
-          <h3>No FSA alerts in the last 30 days.</h3>
-          <p>Quiet month. Scroll the archive below for older alerts.</p>
+          <h3>No FDA recalls in the last 30 days.</h3>
+          <p>Quiet month. Check the full FDA archive at <a href="https://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts" target="_blank" rel="noopener" style="color:var(--green);">fda.gov</a>.</p>
         </div>`;
-    }
-
-    const archiveKeys = [...olderGroups.keys()].sort().reverse().slice(0, 8);
-    const archiveEl = document.getElementById('archive');
-    if (!archiveKeys.length) {
-      archiveEl.innerHTML = '<p style="font-size:14px;color:var(--mid);padding:24px 0;">No earlier weeks in the feed.</p>';
-    } else {
-      archiveEl.innerHTML = archiveKeys.map((k, idx) => {
-        const g = olderGroups.get(k);
-        const start = g.start;
-        const end = new Date(start); end.setDate(end.getDate() + 6);
-        const recallCount = g.items.filter(i => isRecall(i)).length;
-        const allergyCount = g.items.filter(i => isAllergy(i)).length;
-        const summary = [
-          recallCount ? `${recallCount} recall${recallCount>1?'s':''}` : '',
-          allergyCount ? `${allergyCount} allergy alert${allergyCount>1?'s':''}` : ''
-        ].filter(Boolean).join(' · ') || `${g.items.length} alert${g.items.length>1?'s':''}`;
-        const openAttr = idx < 3 ? ' open' : '';
-        return `
-          <details class="archive-week"${openAttr}>
-            <summary>
-              <span class="label">${fmtRange(start, end)}</span>
-              <span class="meta">
-                <span>${summary}</span>
-                <span class="chev">›</span>
-              </span>
-            </summary>
-            <div class="recall-list">
-              ${g.items.map(renderCard).join('')}
-            </div>
-          </details>`;
-      }).join('');
     }
   } catch (err) {
     document.getElementById('currentWeek').innerHTML = `
       <div class="empty-state">
-        <h3>Couldn't reach the FSA right now.</h3>
-        <p>Try refreshing in a moment, or check <a href="https://www.food.gov.uk/news-alerts" target="_blank" rel="noopener" style="color:var(--green);">food.gov.uk/news-alerts</a> directly.</p>
+        <h3>Couldn't reach the FDA right now.</h3>
+        <p>Try refreshing in a moment, or check <a href="https://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts" target="_blank" rel="noopener" style="color:var(--green);">fda.gov</a> directly.</p>
       </div>`;
-    document.getElementById('archive').innerHTML = '';
     console.error(err);
   }
 }
 
 load();
 
-// ── Auto-refresh: once per day + on tab focus if stale (>6h)
+// Auto-refresh: once per day + on tab focus if stale (>6h)
 const ONE_DAY = 24 * 60 * 60 * 1000;
 const SIX_HOURS = 6 * 60 * 60 * 1000;
-
-setInterval(() => {
-  load();
-}, ONE_DAY);
-
+setInterval(load, ONE_DAY);
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible' && _lastFetch && (Date.now() - _lastFetch) > SIX_HOURS) {
     load();
