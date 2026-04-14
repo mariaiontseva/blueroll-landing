@@ -173,7 +173,7 @@ tbody td { padding: 7px 10px; }
 .letter-sender-info { font-size: 13px; color: #555; }
 .letter-recipient { text-align: left; margin-top: 16px; }
 .letter-biz-name { font-weight: 700; font-size: 15px; }
-.letter-biz-addr { font-size: 13px; color: #555; margin-top: 2px; }
+.letter-biz-addr { font-size: 13px; margin-top: 2px; }
 .letter-divider { height: 1px; background: #ddd; margin: 16px 0; }
 .letter-content { font-size: 14px; line-height: 1.65; }
 .letter-qr-inline {
@@ -235,7 +235,7 @@ input[type="checkbox"] {
 }
 
 @media print {
-  @page { size: A4 portrait; margin: 15mm 15mm 10mm 18mm; }
+  @page { size: A4 portrait; margin: 13mm 15mm 8mm 18mm; }
   body * { visibility: hidden; }
   #lettersContainer, #lettersContainer * { visibility: visible; }
   #lettersContainer { position: absolute; left: 0; top: 0; width: 100%; padding: 0; border-radius: 0; }
@@ -633,8 +633,9 @@ function buildLetter(r) {
 
   return `<div class="letter-page">
   <div class="letter-top">
-    <div class="letter-sender">
-      <div class="letter-sender-info"><strong>Blueroll</strong><br>hello@blueroll.app</div>
+    <div class="letter-sender" style="display:flex;align-items:center;gap:8px;">
+      <img src="https://blueroll.app/app_icon.png" width="28" height="28" style="border-radius:6px;" alt="Blueroll">
+      <div><strong style="font-size:14px;">Blueroll</strong><br><span style="font-size:11px;color:#666;">hello@blueroll.app</span></div>
     </div>
     <div class="letter-recipient">
       <div class="letter-biz-name">${esc(name)}</div>
