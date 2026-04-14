@@ -216,7 +216,7 @@ if (h !== null && s !== null && m !== null) {
   renderScore('scoreM', 'verdictM', m, 30);
 }
 
-// ─── Click tracking ───
+// ─── Click/scan tracking ───
 const src = p.get('src');
 const fhrsid = p.get('fhrsid');
 if (src === 'email' && fhrsid) {
@@ -225,6 +225,10 @@ if (src === 'email' && fhrsid) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ fhrs_ids: [parseInt(fhrsid)], channel: 'email_click', template: 'rating_page' })
   }).catch(() => {});
+}
+// Track all page views (QR scans from paper letters + any visit with fhrsid)
+if (fhrsid) {
+  fetch('https://web-production-54cc.up.railway.app/api/business/' + fhrsid + '/public').catch(() => {});
 }
 
 const utm = `?utm_source=${src === 'email' ? 'email_outreach' : 'fsa_letter'}&utm_medium=${src === 'email' ? 'email' : 'qr'}&utm_campaign=${encodeURIComponent(name)}`;
