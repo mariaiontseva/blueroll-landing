@@ -267,9 +267,12 @@ input[type="checkbox"] {
   <!-- Search DB -->
   <div class="section">
     <div class="section-title">Search DB</div>
-    <select id="savedPrompts" onchange="loadSavedPrompt()" style="width:100%;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:13px;margin-bottom:8px;cursor:pointer;">
-      <option value="">— New AI search —</option>
-    </select>
+    <div style="display:flex;gap:6px;margin-bottom:8px;">
+      <select id="savedPrompts" onchange="loadSavedPrompt()" style="flex:1;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:13px;cursor:pointer;">
+        <option value="">— New AI search —</option>
+      </select>
+      <button onclick="deleteSelectedPrompt()" title="Delete selected prompt" style="padding:8px 10px;font-size:13px;">🗑</button>
+    </div>
     <div class="row">
       <textarea id="searchInput" rows="2" placeholder="e.g. restaurants in E1 with rating 0-2"></textarea>
       <button class="primary" id="searchBtn" onclick="doSearch()">🔍 Search DB</button>
@@ -304,6 +307,7 @@ input[type="checkbox"] {
             <th>Postcode</th>
             <th>Address</th>
             <th>Status</th>
+            <th style="width:50px">Sent</th>
           </tr>
         </thead>
         <tbody id="resultsBody"></tbody>
@@ -379,18 +383,32 @@ function statusLabel(item) {
   return `<span class="status-sent">sent ${label}</span>`;
 }
 
+const SENT_KEY = 'blueroll_sent_marks';
+function getSentMarks() { try { return JSON.parse(localStorage.getItem(SENT_KEY) || '{}'); } catch { return {}; } }
+function toggleSentMark(fhrsId) {
+  const marks = getSentMarks();
+  if (marks[fhrsId]) delete marks[fhrsId];
+  else marks[fhrsId] = new Date().toISOString().slice(0, 10);
+  localStorage.setItem(SENT_KEY, JSON.stringify(marks));
+  renderTable();
+}
+
 function renderTable() {
+  const sentMarks = getSentMarks();
   const tbody = document.getElementById('resultsBody');
-  tbody.innerHTML = displayResults.map((r, i) => `
-    <tr>
+  tbody.innerHTML = displayResults.map((r, i) => {
+    const fid = r.FHRSID || r.fhrs_id || '';
+    const marked = sentMarks[fid];
+    return `<tr>
       <td><input type="checkbox" class="row-check" data-idx="${i}" onchange="updateCount()"></td>
       <td>${esc(r.BusinessName || r.name || '')}</td>
       <td>${ratingBadge(r.RatingValue ?? r.rating)}</td>
       <td>${esc(r.PostCode || r.postcode || '')}</td>
       <td style="font-size:12px;color:var(--muted)">${esc(buildAddr(r))}</td>
       <td>${statusLabel(r)}</td>
-    </tr>
-  `).join('');
+      <td style="text-align:center"><input type="checkbox" ${marked ? 'checked' : ''} onchange="toggleSentMark('${fid}')" title="${marked ? 'Marked sent ' + marked : 'Mark as sent'}" style="accent-color:var(--green);cursor:pointer;"></td>
+    </tr>`;
+  }).join('');
   updateCount();
 }
 
@@ -432,21 +450,25 @@ function renderSavedPrompts() {
   const sel = document.getElementById('savedPrompts');
   const saved = getSavedPrompts();
   sel.innerHTML = '<option value="">— New AI search —</option>' +
-    saved.map((s, i) => `<option value="${i}">${s.prompt.substring(0, 80)}${s.prompt.length > 80 ? '...' : ''} (${s.date})</option>`).join('') +
-    (saved.length ? '<option value="__clear__" style="color:var(--red)">🗑 Clear saved prompts</option>' : '');
+    saved.map((s, i) => `<option value="${i}">${s.prompt.substring(0, 80)}${s.prompt.length > 80 ? '...' : ''} (${s.date})</option>`).join('');
+}
+
+function deleteSelectedPrompt() {
+  const sel = document.getElementById('savedPrompts');
+  const val = sel.value;
+  if (val === '' || isNaN(parseInt(val))) return alert('Select a saved prompt to delete');
+  const saved = getSavedPrompts();
+  const idx = parseInt(val);
+  if (idx < 0 || idx >= saved.length) return;
+  if (!confirm(`Delete "${saved[idx].prompt.substring(0, 60)}..."?`)) return;
+  saved.splice(idx, 1);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+  renderSavedPrompts();
 }
 
 function loadSavedPrompt() {
   const sel = document.getElementById('savedPrompts');
   const val = sel.value;
-  if (val === '__clear__') {
-    if (confirm('Clear all saved prompts?')) {
-      localStorage.removeItem(STORAGE_KEY);
-      renderSavedPrompts();
-    }
-    sel.value = '';
-    return;
-  }
   if (val === '') return;
   const saved = getSavedPrompts();
   const entry = saved[parseInt(val)];
