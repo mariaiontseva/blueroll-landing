@@ -736,7 +736,7 @@ function buildLetter(r) {
   const qrTarget = editToken
     ? `https://blueroll.app/r.html?id=${fhrsId}&token=${editToken}`
     : `https://blueroll.app/r.html?id=${fhrsId}`;
-  const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrTarget)}`;
+  const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrTarget)}&_=${fhrsId}`;
 
   let ratingLine, bodyText;
   if (rating === 5) {
