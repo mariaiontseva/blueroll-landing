@@ -267,6 +267,9 @@ input[type="checkbox"] {
   <!-- Search DB -->
   <div class="section">
     <div class="section-title">Search DB</div>
+    <select id="savedPrompts" onchange="loadSavedPrompt()" style="width:100%;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:13px;margin-bottom:8px;cursor:pointer;">
+      <option value="">— New AI search —</option>
+    </select>
     <div class="row">
       <textarea id="searchInput" rows="2" placeholder="e.g. restaurants in E1 with rating 0-2"></textarea>
       <button class="primary" id="searchBtn" onclick="doSearch()">🔍 Search DB</button>
@@ -313,7 +316,7 @@ input[type="checkbox"] {
   <div class="actions">
     <button class="primary" onclick="generateLetters()">📄 Generate Letters</button>
     <button onclick="doPrint()">🖨 Print</button>
-    <button onclick="markAsSent()">✅ Mark as Sent</button>
+    <!-- Mark as Sent happens automatically in Generate Letters -->
     <button onclick="showReport()">📊 Report</button>
     <button class="danger" onclick="clearAll()">🗑 Clear</button>
   </div>
@@ -402,6 +405,81 @@ function esc(s) {
   return d.innerHTML;
 }
 
+// ── Saved prompts (localStorage) ──
+const STORAGE_KEY = 'blueroll_saved_prompts';
+
+function getSavedPrompts() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+  catch { return []; }
+}
+
+function savePrompt(prompt, aiParams) {
+  const saved = getSavedPrompts();
+  // Don't duplicate
+  if (saved.find(s => s.prompt === prompt)) {
+    // Update the SQL
+    saved.find(s => s.prompt === prompt).sql = aiParams;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+    return;
+  }
+  saved.unshift({ prompt, sql: aiParams, date: new Date().toISOString().slice(0, 10) });
+  if (saved.length > 20) saved.length = 20; // Keep last 20
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+  renderSavedPrompts();
+}
+
+function renderSavedPrompts() {
+  const sel = document.getElementById('savedPrompts');
+  const saved = getSavedPrompts();
+  sel.innerHTML = '<option value="">— New AI search —</option>' +
+    saved.map((s, i) => `<option value="${i}">${s.prompt.substring(0, 80)}${s.prompt.length > 80 ? '...' : ''} (${s.date})</option>`).join('') +
+    (saved.length ? '<option value="__clear__" style="color:var(--red)">🗑 Clear saved prompts</option>' : '');
+}
+
+function loadSavedPrompt() {
+  const sel = document.getElementById('savedPrompts');
+  const val = sel.value;
+  if (val === '__clear__') {
+    if (confirm('Clear all saved prompts?')) {
+      localStorage.removeItem(STORAGE_KEY);
+      renderSavedPrompts();
+    }
+    sel.value = '';
+    return;
+  }
+  if (val === '') return;
+  const saved = getSavedPrompts();
+  const entry = saved[parseInt(val)];
+  if (entry) {
+    document.getElementById('searchInput').value = entry.prompt;
+    // Run saved SQL directly — no AI call
+    doSearchWithSQL(entry.sql);
+  }
+  sel.value = '';
+}
+
+async function doSearchWithSQL(aiParams) {
+  const status = document.getElementById('searchStatus');
+  const btn = document.getElementById('searchBtn');
+  btn.disabled = true;
+  status.textContent = 'Running saved query...';
+  try {
+    const res = await fetch(`${API}/api/ai-search`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sql: aiParams })
+    });
+    const data = await res.json();
+    allResults = data.results || [];
+    displayResults = [...allResults];
+    renderTable();
+    status.textContent = `${data.total ?? displayResults.length} results loaded (saved query)`;
+  } catch (e) {
+    status.textContent = 'Error: ' + e.message;
+  }
+  btn.disabled = false;
+}
+
 // Search DB
 async function doSearch() {
   const prompt = document.getElementById('searchInput').value.trim();
@@ -409,7 +487,7 @@ async function doSearch() {
   const btn = document.getElementById('searchBtn');
   const status = document.getElementById('searchStatus');
   btn.disabled = true;
-  status.textContent = 'Searching...';
+  status.textContent = 'Searching via AI...';
   try {
     const res = await fetch(`${API}/api/ai-search`, {
       method: 'POST',
@@ -421,11 +499,16 @@ async function doSearch() {
     displayResults = [...allResults];
     renderTable();
     status.textContent = `${data.total ?? displayResults.length} results loaded`;
+    // Save prompt + SQL for reuse
+    if (data.ai_params) savePrompt(prompt, data.ai_params);
   } catch (e) {
     status.textContent = 'Error: ' + e.message;
   }
   btn.disabled = false;
 }
+
+// Init saved prompts dropdown
+renderSavedPrompts();
 
 // Refine locally
 async function doRefine() {
@@ -474,10 +557,44 @@ function toggleAll(checked) {
   updateCount();
 }
 
-// Generate letters
-function generateLetters() {
+// Generate letters — auto-marks as sent + gets edit tokens in one step
+async function generateLetters() {
   const selected = getSelected();
   if (!selected.length) return alert('No rows selected');
+  const fhrsIds = selected.map(r => r.fhrs_id).filter(Boolean);
+
+  // Get edit tokens + mark as sent in one call
+  let editTokens = {};
+  if (fhrsIds.length) {
+    try {
+      const res = await fetch(`${API}/api/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fhrs_ids: fhrsIds, channel: 'paper' })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        editTokens = data.edit_tokens || {};
+        // Update local data
+        const now = new Date().toISOString();
+        fhrsIds.forEach(id => {
+          const item = allResults.find(r => r.fhrs_id == id);
+          if (item) { item.letter_sent_at = now; item._edit_token = editTokens[String(id)]; }
+          const dItem = displayResults.find(r => r.fhrs_id == id);
+          if (dItem) { dItem.letter_sent_at = now; dItem._edit_token = editTokens[String(id)]; }
+        });
+        renderTable();
+      }
+    } catch (e) { console.warn('Could not get edit tokens:', e); }
+  }
+
+  // Assign tokens to selected rows (editTokens from /api/contact response)
+  selected.forEach(r => {
+    const id = r.FHRSID || r.fhrs_id;
+    const tok = editTokens[String(id)];
+    if (tok) r._edit_token = tok;
+  });
+
   const container = document.getElementById('lettersContainer');
   container.innerHTML = selected.map(r => buildLetter(r)).join('');
   container.style.display = 'block';
@@ -496,16 +613,22 @@ function buildLetter(r) {
   const structural = r.structural_score ?? '';
   const confidence = r.confidence_score ?? '';
 
-  const encName = encodeURIComponent(name);
-  const encAddr = encodeURIComponent(fullAddr);
-  const qrData = `https://blueroll.app/r.html?name=${encName}&addr=${encAddr}&rating=${rating}&date=${encodeURIComponent(ratingDate)}&fhrsid=${fhrsId}&h=${hygiene}&s=${structural}&m=${confidence}`;
-  const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrData)}`;
+  const editToken = r._edit_token || '';
+  const qrTarget = editToken
+    ? `https://blueroll.app/r.html?id=${fhrsId}&token=${editToken}`
+    : `https://blueroll.app/r.html?id=${fhrsId}`;
+  const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrTarget)}`;
 
-  let ratingLine;
-  if (rating === 4) {
+  let ratingLine, bodyText;
+  if (rating === 5) {
+    ratingLine = `Congratulations! Your recent food hygiene inspection scored <strong>5 — Very Good</strong>. That's the highest rating possible.`;
+    bodyText = `Keeping a perfect score means staying on top of your HACCP records. Blueroll makes that easy — digital checklists your team can complete in seconds.`;
+  } else if (rating === 4) {
     ratingLine = `Your recent food hygiene inspection scored <strong>4 out of 5</strong> — so close to perfect!`;
+    bodyText = `The most common reason for missing a 5 is paperwork gaps. Blueroll replaces paper HACCP records with digital checklists your team can complete in seconds.`;
   } else {
     ratingLine = `We noticed your recent food hygiene inspection resulted in a rating of <strong>${rating} — ${ratingText}</strong>.`;
+    bodyText = `We know how challenging that can be, especially when you're working hard to keep standards up. Blueroll replaces paper HACCP records with digital checklists your team can complete in seconds.`;
   }
 
   return `<div class="letter-page">
@@ -525,10 +648,12 @@ function buildLetter(r) {
   </div>
   <div class="letter-qr-inline">
     <img src="${qrImg}" width="150" height="150">
-    <div class="qr-caption">Scan to see your full rating breakdown<br>and how to improve</div>
+    <div class="qr-caption">${editToken
+      ? 'Scan to set up your free business page<br>Add your links for Instagram, Google, and customers'
+      : 'Scan to see your full rating breakdown<br>and how to improve'}</div>
   </div>
   <div class="letter-content">
-    We know how frustrating that can be...<br><br>
+    ${bodyText}<br><br>
     <strong>What Blueroll does:</strong><br>
     &bull; Ready-made HACCP checklists — complete in seconds<br>
     &bull; AI recipe import — snap a photo, get allergens instantly<br>
@@ -567,15 +692,17 @@ async function markAsSent() {
       body: JSON.stringify({ fhrs_ids: fhrsIds, channel: 'paper' })
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    const editTokens = data.edit_tokens || {};
     const now = new Date().toISOString();
     fhrsIds.forEach(id => {
       const item = allResults.find(r => (r.FHRSID || r.fhrs_id) == id);
-      if (item) item.paper_sent_at = now;
+      if (item) { item.paper_sent_at = now; item._edit_token = editTokens[String(id)]; }
       const dItem = displayResults.find(r => (r.FHRSID || r.fhrs_id) == id);
-      if (dItem) dItem.paper_sent_at = now;
+      if (dItem) { dItem.paper_sent_at = now; dItem._edit_token = editTokens[String(id)]; }
     });
     renderTable();
-    alert(`Marked ${fhrsIds.length} as sent`);
+    alert(`Marked ${fhrsIds.length} as sent. Edit tokens saved — regenerate letters to include edit links.`);
   } catch (e) {
     alert('Error: ' + e.message);
   }
