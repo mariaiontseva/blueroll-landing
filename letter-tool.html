@@ -732,10 +732,9 @@ function buildLetter(r) {
   const structural = r.structural_score ?? '';
   const confidence = r.confidence_score ?? '';
 
-  const editToken = r._edit_token || '';
-  const qrTarget = editToken
-    ? `https://blueroll.app/r.html?id=${fhrsId}&token=${editToken}`
-    : `https://blueroll.app/r.html?id=${fhrsId}`;
+  const encName = encodeURIComponent(name);
+  const encAddr = encodeURIComponent(fullAddr);
+  const qrTarget = `https://blueroll.app/r.html?name=${encName}&addr=${encAddr}&rating=${rating}&date=${encodeURIComponent(ratingDate)}&fhrsid=${fhrsId}&h=${hygiene}&s=${structural}&m=${confidence}`;
   const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrTarget)}&_=${fhrsId}`;
 
   let ratingLine, bodyText;
@@ -768,9 +767,7 @@ function buildLetter(r) {
   </div>
   <div class="letter-qr-inline">
     <img src="${qrImg}" width="150" height="150">
-    <div class="qr-caption">${editToken
-      ? 'Scan to set up your free business page<br>Add your links for Instagram, Google, and customers'
-      : 'Scan to see your full rating breakdown<br>and how to improve'}</div>
+    <div class="qr-caption">Scan to see your full rating breakdown<br>and how to improve</div>
   </div>
   <div class="letter-content">
     ${bodyText}<br><br>
