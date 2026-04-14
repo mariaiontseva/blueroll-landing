@@ -283,6 +283,12 @@ input[type="checkbox"] {
   <!-- Refine Locally -->
   <div class="section">
     <div class="section-title">Refine Locally</div>
+    <div style="display:flex;gap:6px;margin-bottom:8px;">
+      <select id="savedRefines" onchange="loadSavedRefine()" style="flex:1;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:13px;cursor:pointer;">
+        <option value="">— New AI refine —</option>
+      </select>
+      <button onclick="deleteSelectedRefine()" title="Delete selected refine" style="padding:8px 10px;font-size:13px;">🗑</button>
+    </div>
     <div class="row">
       <textarea id="refineInput" rows="1" placeholder="e.g. only those not yet contacted"></textarea>
       <button id="refineBtn" onclick="doRefine()">⚡ Refine</button>
@@ -528,8 +534,80 @@ async function doSearch() {
   btn.disabled = false;
 }
 
-// Init saved prompts dropdown
+// Init saved dropdowns
 renderSavedPrompts();
+renderSavedRefines();
+
+// ── Saved refines (localStorage) ──
+const REFINE_STORAGE_KEY = 'blueroll_saved_refines';
+
+function getSavedRefines() {
+  try { return JSON.parse(localStorage.getItem(REFINE_STORAGE_KEY) || '[]'); }
+  catch { return []; }
+}
+
+function saveRefine(prompt, jsParams) {
+  const saved = getSavedRefines();
+  if (saved.find(s => s.prompt === prompt)) {
+    saved.find(s => s.prompt === prompt).js = jsParams;
+    localStorage.setItem(REFINE_STORAGE_KEY, JSON.stringify(saved));
+    return;
+  }
+  saved.unshift({ prompt, js: jsParams, date: new Date().toISOString().slice(0, 10) });
+  if (saved.length > 20) saved.length = 20;
+  localStorage.setItem(REFINE_STORAGE_KEY, JSON.stringify(saved));
+  renderSavedRefines();
+}
+
+function renderSavedRefines() {
+  const sel = document.getElementById('savedRefines');
+  const saved = getSavedRefines();
+  sel.innerHTML = '<option value="">— New AI refine —</option>' +
+    saved.map((s, i) => `<option value="${i}">${s.prompt.substring(0, 80)}${s.prompt.length > 80 ? '...' : ''} (${s.date})</option>`).join('');
+}
+
+function loadSavedRefine() {
+  const sel = document.getElementById('savedRefines');
+  const val = sel.value;
+  if (val === '') return;
+  const saved = getSavedRefines();
+  const entry = saved[parseInt(val)];
+  if (entry) {
+    document.getElementById('refineInput').value = entry.prompt;
+    applyRefineJS(entry.js);
+  }
+}
+
+function deleteSelectedRefine() {
+  const sel = document.getElementById('savedRefines');
+  const val = sel.value;
+  if (val === '' || isNaN(parseInt(val))) return alert('Select a saved refine to delete');
+  const saved = getSavedRefines();
+  const idx = parseInt(val);
+  if (idx < 0 || idx >= saved.length) return;
+  if (!confirm(`Delete "${saved[idx].prompt.substring(0, 60)}..."?`)) return;
+  saved.splice(idx, 1);
+  localStorage.setItem(REFINE_STORAGE_KEY, JSON.stringify(saved));
+  renderSavedRefines();
+}
+
+function applyRefineJS(jsParams) {
+  const status = document.getElementById('refineStatus');
+  try {
+    if (jsParams.filter) {
+      const filterFn = new Function('r', `return ${jsParams.filter}`);
+      displayResults = allResults.filter(filterFn);
+    }
+    if (jsParams.sort) {
+      const sortFn = new Function('a', 'b', `return ${jsParams.sort}`);
+      displayResults.sort(sortFn);
+    }
+    renderTable();
+    status.textContent = jsParams.description || `Refined to ${displayResults.length} results (saved)`;
+  } catch (e) {
+    status.textContent = 'Error applying saved refine: ' + e.message;
+  }
+}
 
 // Refine locally
 async function doRefine() {
@@ -538,7 +616,7 @@ async function doRefine() {
   const btn = document.getElementById('refineBtn');
   const status = document.getElementById('refineStatus');
   btn.disabled = true;
-  status.textContent = 'Refining...';
+  status.textContent = 'Refining via AI...';
   try {
     const res = await fetch(`${API}/api/ai-refine`, {
       method: 'POST',
@@ -556,6 +634,8 @@ async function doRefine() {
     }
     renderTable();
     status.textContent = data.description || `Refined to ${displayResults.length} results`;
+    // Save refine prompt + JS for reuse
+    saveRefine(prompt, { filter: data.filter, sort: data.sort, description: data.description });
   } catch (e) {
     status.textContent = 'Error: ' + e.message;
   }
