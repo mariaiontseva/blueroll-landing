@@ -236,10 +236,15 @@ tr:hover { background: var(--blue-soft); }
     <option value="instagram">Has Instagram</option>
     <option value="both">Has both</option>
   </select>
-  <select class="toolbar-select" id="filterSent">
+  <select class="toolbar-select" id="filterSent" onchange="applyClientFilters()">
     <option value="not_sent">Not emailed yet</option>
     <option value="">All</option>
     <option value="sent">Already sent</option>
+  </select>
+  <select class="toolbar-select" id="filterClicked" onchange="applyClientFilters()">
+    <option value="">Any clicks</option>
+    <option value="clicked">Clicked</option>
+    <option value="not_clicked">Sent, no clicks</option>
   </select>
   <select class="toolbar-select" id="perPage" onchange="curPage=1;applyClientFilters()">
     <option value="50">50/page</option>
@@ -353,28 +358,39 @@ async function loadData() {
   document.getElementById('checkAll').checked = false;
 
   const q = document.getElementById('searchQ').value.trim();
-  const sent = document.getElementById('filterSent').value;
   const has = document.getElementById('filterHas').value;
 
-  // Load ALL records with email OR instagram (server param: email|instagram)
-  // For "both" we load email then client-filter to those with instagram too
+  // Server caps per_page at 200 — fetch page 1 to learn total, then fan out the rest in parallel.
+  // sent/clicked filters are applied client-side (server-side contacted=email filter is broken).
   const serverHas = has === 'both' ? 'email' : has;
-
-  const params = new URLSearchParams({
-    page: 1, per_page: 5000, sort: 'rating_date', order: 'desc', has: serverHas
+  const baseParams = new URLSearchParams({
+    per_page: 200, sort: 'rating_date', order: 'desc', has: serverHas
   });
-  if (q) params.set('q', q);
-  if (sent === 'not_sent') params.set('not_contacted', 'email');
-  if (sent === 'sent') params.set('contacted', 'email');
+  if (q) baseParams.set('q', q);
+
+  const fetchPage = async (p) => {
+    const params = new URLSearchParams(baseParams);
+    params.set('page', p);
+    const r = await fetch(`${CRM}/api/browse?${params}`);
+    return r.json();
+  };
 
   try {
-    const r = await fetch(`${CRM}/api/browse?${params}`);
-    const data = await r.json();
-    let results = data.results;
+    document.getElementById('tbody').innerHTML = `<tr><td colspan="12" style="padding:20px;color:var(--muted);">Loading…</td></tr>`;
+    const first = await fetchPage(1);
+    let results = first.results || [];
+    const totalPages = first.pages || 1;
+    if (totalPages > 1) {
+      const rest = await Promise.all(
+        Array.from({length: totalPages - 1}, (_, i) => fetchPage(i + 2))
+      );
+      for (const d of rest) results = results.concat(d.results || []);
+    }
     if (has === 'both') results = results.filter(x => x.instagram);
     rawData = results;
     curPage = 1;
     applyClientFilters();
+    prefetchAllClicks();
   } catch (err) {
     document.getElementById('tbody').innerHTML = `<tr><td colspan="12" style="color:var(--red);padding:20px;">Error: ${err.message}</td></tr>`;
   }
@@ -382,6 +398,16 @@ async function loadData() {
 
 function applyClientFilters() {
   let filtered = rawData;
+
+  // Filter by sent status
+  const sent = document.getElementById('filterSent').value;
+  if (sent === 'sent') filtered = filtered.filter(r => r.email_sent_at);
+  else if (sent === 'not_sent') filtered = filtered.filter(r => !r.email_sent_at);
+
+  // Filter by click status (requires prefetchAllClicks to have populated r._clicks)
+  const clicked = document.getElementById('filterClicked').value;
+  if (clicked === 'clicked') filtered = filtered.filter(r => (r._clicks || 0) > 0);
+  else if (clicked === 'not_clicked') filtered = filtered.filter(r => r.email_sent_at && !(r._clicks > 0));
 
   // Filter by rating
   if (activeRating) {
@@ -490,6 +516,34 @@ function renderTable(data) {
 
   // After rendering, fetch click data for all sent restaurants in background
   fetchClicksForSentRestaurants();
+}
+
+// ─── Bulk click pre-fetch (for filterClicked) ───
+// Populates r._clicks for every sent restaurant in rawData, then re-applies filters.
+async function prefetchAllClicks() {
+  const sent = rawData.filter(r => r.email_sent_at && r.fhrs_id && r._clicks === undefined);
+  if (sent.length === 0) return;
+  const BATCH = 10;
+  for (let i = 0; i < sent.length; i += BATCH) {
+    const batch = sent.slice(i, i + BATCH);
+    await Promise.all(batch.map(async r => {
+      if (_clickCache[r.fhrs_id] !== undefined) {
+        r._clicks = _clickCache[r.fhrs_id].length;
+        return;
+      }
+      try {
+        const resp = await fetch(`${CRM}/api/business/${r.fhrs_id}`);
+        const data = await resp.json();
+        const clicks = (data.outreach || []).filter(o => o.channel === 'email_click');
+        _clickCache[r.fhrs_id] = clicks;
+        r._clicks = clicks.length;
+      } catch (e) {
+        r._clicks = 0;
+      }
+    }));
+  }
+  // Refresh view in case filterClicked is active
+  applyClientFilters();
 }
 
 // ─── Click-tracking check ───
