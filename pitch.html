@@ -1,587 +1,771 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blueroll — Pitch Deck</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blueroll · Pitch Deck</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #0a0a0a;
-    --surface: #111111;
-    --border: rgba(255,255,255,0.07);
-    --text: #f0ede6;
-    --muted: rgba(240,237,230,0.45);
-    --accent: #c8f5a0;
-    --accent-dim: rgba(200,245,160,0.12);
-    --mono: 'DM Mono', monospace;
-    --serif: 'DM Serif Display', serif;
-    --sans: 'DM Sans', sans-serif;
+    --ink: #0A1628;
+    --ink-soft: #1F2D3D;
+    --paper: #FAFBFC;
+    --paper-2: #F0F4F8;
+    --blue: #0066FF;
+    --blue-deep: #0047B3;
+    --blue-soft: #E6F0FF;
+    --accent: #FF5A1F;
+    --green: #10B981;
+    --red: #EF4444;
+    --line: #E2E8F0;
+    --muted: #64748B;
+    --shadow: 0 30px 80px -30px rgba(10, 22, 40, 0.25);
   }
 
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
   html, body {
-    height: 100%;
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    overflow: hidden;
+    background: var(--paper-2);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+    overflow-x: hidden;
   }
 
   .deck {
-    width: 100%;
-    height: 100vh;
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 24px 120px;
+    gap: 48px;
   }
 
   .slide {
-    position: absolute;
-    inset: 0;
+    width: 100%;
+    max-width: 1200px;
+    aspect-ratio: 16 / 10;
+    background: var(--paper);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    padding: 64px 72px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding: 5vw 7vw;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.5s ease;
+    gap: 24px;
+    position: relative;
+    overflow: hidden;
+    scroll-margin-top: 24px;
   }
+  .slide > * { flex-shrink: 0; }
+  .slide > .grow { flex: 1; min-height: 0; }
 
-  .slide.active {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .slide-label {
-    font-family: var(--mono);
-    font-size: 11px;
+  .slide-number {
+    position: absolute;
+    top: 28px;
+    right: 36px;
+    font-size: 12px;
+    font-weight: 600;
     color: var(--muted);
-    letter-spacing: 0.15em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    margin-bottom: 2.5rem;
+    font-variant-numeric: tabular-nums;
   }
 
-  .big-number {
-    font-family: var(--serif);
-    font-size: clamp(72px, 13vw, 160px);
-    line-height: 0.9;
-    color: var(--text);
-    margin-bottom: 1.25rem;
-  }
-
-  .big-number span {
-    color: var(--accent);
-  }
-
-  .headline {
-    font-size: clamp(16px, 2.2vw, 22px);
-    font-weight: 300;
-    color: var(--muted);
-    max-width: 600px;
-    line-height: 1.5;
-    margin-bottom: 3rem;
-  }
-
-  .source {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: rgba(240,237,230,0.25);
-    letter-spacing: 0.05em;
-    margin-top: -2.5rem;
-    margin-bottom: 3rem;
-  }
-
-  .source a {
-    color: rgba(240,237,230,0.35);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  .stats-row {
-    display: grid;
-    gap: 1px;
-  }
-
-  .stats-row.cols-2 { grid-template-columns: 1fr 1fr; }
-  .stats-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
-
-  .stat-box {
-    background: var(--surface);
-    border: 0.5px solid var(--border);
-    padding: 1.5rem 1.75rem;
-  }
-
-  .stat-box:first-child { border-radius: 4px 0 0 4px; }
-  .stat-box:last-child { border-radius: 0 4px 4px 0; }
-  .stats-row.cols-2 .stat-box:only-child,
-  .stats-row.cols-3 .stat-box:only-child { border-radius: 4px; }
-
-  .stat-num {
-    font-family: var(--serif);
-    font-size: clamp(28px, 4vw, 42px);
-    color: var(--text);
-    margin-bottom: 0.35rem;
-    line-height: 1;
-  }
-
-  .stat-label {
-    font-size: 13px;
-    font-weight: 300;
-    color: var(--muted);
-    line-height: 1.4;
-  }
-
-  .stat-source {
-    font-family: var(--mono);
-    font-size: 9px;
-    color: rgba(240,237,230,0.2);
-    margin-top: 0.5rem;
-    letter-spacing: 0.04em;
-  }
-
-  .stat-source a { color: rgba(240,237,230,0.28); text-decoration: underline; text-underline-offset: 2px; }
-
-  .divider {
-    width: 32px;
-    height: 1px;
-    background: var(--accent);
-    margin-bottom: 2rem;
-    opacity: 0.6;
-  }
-
-  /* Cover slide */
-  .cover-logo {
-    font-family: var(--serif);
-    font-size: clamp(48px, 8vw, 96px);
-    letter-spacing: -0.02em;
-    margin-bottom: 1.5rem;
-  }
-
-  .cover-logo span {
-    color: var(--accent);
-  }
-
-  .cover-sub {
-    font-size: clamp(14px, 1.8vw, 18px);
-    font-weight: 300;
-    color: var(--muted);
-    max-width: 500px;
-    line-height: 1.6;
-  }
-
-  .tag {
+  .slide-tag {
     display: inline-block;
-    font-family: var(--mono);
-    font-size: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--blue);
+    background: var(--blue-soft);
+    padding: 8px 14px;
+    border-radius: 999px;
+    margin-bottom: 28px;
+    width: fit-content;
+  }
+
+  h1, h2, h3, h4 {
+    color: var(--ink);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  h1 { font-size: 88px; }
+  h2 { font-size: 56px; line-height: 1.05; margin-bottom: 18px; }
+  h3 { font-size: 28px; margin-bottom: 8px; }
+  h4 { font-size: 18px; font-weight: 600; }
+
+  p { color: var(--ink-soft); font-size: 18px; }
+  .lede { font-size: 22px; color: var(--ink-soft); max-width: 800px; }
+
+  /* === SLIDE 1: TITLE === */
+  .title-slide {
+    background:
+      radial-gradient(circle at 80% 20%, rgba(0, 102, 255, 0.12), transparent 50%),
+      radial-gradient(circle at 20% 80%, rgba(255, 90, 31, 0.08), transparent 50%),
+      linear-gradient(135deg, #0A1628 0%, #1F2D3D 100%);
+    color: white;
+  }
+
+  .title-slide .slide-number { color: rgba(255,255,255,0.5); }
+  .title-slide h1 { color: white; font-size: 120px; }
+  .title-slide .tagline {
+    font-size: 28px;
+    color: rgba(255,255,255,0.85);
+    margin-top: 24px;
+    max-width: 720px;
+    line-height: 1.3;
+  }
+  .title-slide .meta {
+    display: flex;
+    gap: 32px;
+    color: rgba(255,255,255,0.6);
+    font-size: 14px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--accent);
-    background: var(--accent-dim);
-    border: 0.5px solid rgba(200,245,160,0.25);
-    padding: 4px 10px;
-    border-radius: 2px;
-    margin-bottom: 2rem;
+    font-weight: 600;
   }
 
-  /* Nav */
-  .nav {
-    position: fixed;
-    bottom: 2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
+  .logo-mark {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    z-index: 100;
+    gap: 14px;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .logo-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    background: var(--blue);
+    box-shadow: 0 0 24px var(--blue);
   }
 
-  .nav-dots {
-    display: flex;
-    gap: 6px;
-  }
-
-  .dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--muted);
-    opacity: 0.3;
-    cursor: pointer;
-    transition: all 0.25s;
-  }
-
-  .dot.active {
-    opacity: 1;
-    background: var(--accent);
-    transform: scale(1.3);
-  }
-
-  .nav-btn {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--muted);
-    background: none;
-    border: 0.5px solid var(--border);
-    padding: 6px 14px;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: all 0.2s;
-    letter-spacing: 0.05em;
-  }
-
-  .nav-btn:hover {
-    color: var(--text);
-    border-color: rgba(255,255,255,0.2);
-  }
-
-  /* Counter */
-  .slide-counter {
-    position: fixed;
-    top: 2rem;
-    right: 2.5rem;
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--muted);
-    opacity: 0.4;
-  }
-
-  /* Competitor table */
-  .comp-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 0.5rem;
-  }
-
-  .comp-table th {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-align: left;
-    padding: 0.75rem 1rem;
-    border-bottom: 0.5px solid var(--border);
-  }
-
-  .comp-table td {
-    font-size: 14px;
-    color: var(--text);
-    padding: 0.9rem 1rem;
-    border-bottom: 0.5px solid var(--border);
-  }
-
-  .comp-table tr:last-child td { border-bottom: none; }
-
-  .comp-table .hl td { color: var(--accent); }
-
-  .comp-table .muted-td { color: var(--muted); font-size: 13px; }
-
-  .pill {
-    display: inline-block;
-    font-family: var(--mono);
-    font-size: 9px;
-    padding: 2px 8px;
-    border-radius: 2px;
-    letter-spacing: 0.08em;
-  }
-
-  .pill-red { background: rgba(220,50,50,0.15); color: #f87171; border: 0.5px solid rgba(220,50,50,0.2); }
-  .pill-green { background: var(--accent-dim); color: var(--accent); border: 0.5px solid rgba(200,245,160,0.2); }
-
-  /* Team slide */
-  .team-row {
+  /* === PROBLEM SLIDE === */
+  .stat-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 1px;
-    margin-top: 1rem;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 36px;
+    border-top: 1px solid var(--ink);
+  }
+  .stat {
+    padding: 32px 0 24px;
+    position: relative;
+  }
+  .stat:nth-child(odd) { padding-right: 48px; border-right: 1px solid var(--line); }
+  .stat:nth-child(even) { padding-left: 48px; }
+  .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid var(--line); }
+  .stat-num {
+    font-size: 88px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.045em;
+    line-height: 0.95;
+    margin-bottom: 16px;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "ss01";
+  }
+  .stat-label {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    max-width: 320px;
   }
 
-  .team-box {
-    background: var(--surface);
-    border: 0.5px solid var(--border);
-    padding: 1.5rem;
+  /* === SOLUTION SLIDE === */
+  .solution-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 56px;
+    align-items: stretch;
+    flex: 1;
+    min-height: 0;
   }
-
-  .team-box:first-child { border-radius: 4px 0 0 4px; }
-  .team-box:last-child { border-radius: 0 4px 4px 0; }
-
-  .team-val {
-    font-family: var(--serif);
-    font-size: 32px;
-    color: var(--accent);
-    margin-bottom: 0.35rem;
-  }
-
-  .team-key {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 0.2rem;
-  }
-
-  .team-desc {
-    font-size: 12px;
-    color: var(--muted);
-    font-weight: 300;
+  .solution-grid > div:first-child { min-width: 0; align-self: center; }
+  .feature-list { list-style: none; display: flex; flex-direction: column; }
+  .feature-list li {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 14px;
+    align-items: baseline;
+    font-size: 15px;
+    color: var(--ink);
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
     line-height: 1.4;
   }
+  .feature-list li:first-child { border-top: 1px solid var(--ink); padding-top: 12px; }
+  .check {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--blue);
+    letter-spacing: 0.08em;
+    font-variant-numeric: tabular-nums;
+  }
+  .phone-shot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .phone-shot img {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 40px 60px rgba(10, 22, 40, 0.18));
+  }
 
-  /* Bg grid */
-  .bg-grid {
+  /* === WHY NOW === */
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 36px;
+  }
+  .timeline-item {
+    border-top: 3px solid var(--blue);
+    padding-top: 20px;
+  }
+  .timeline-year {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--blue);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .timeline-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .timeline-body { font-size: 15px; color: var(--muted); }
+
+  /* === MARKET === */
+  .market-table {
+    margin-top: 32px;
+    border-top: 1px solid var(--ink);
+  }
+  .market-row {
+    display: grid;
+    grid-template-columns: 90px 280px 1fr;
+    align-items: center;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+    gap: 32px;
+  }
+  .market-tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--blue);
+    text-transform: uppercase;
+  }
+  .market-num {
+    font-size: 56px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .market-num small { font-size: 16px; font-weight: 500; color: var(--muted); margin-left: 8px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .market-desc { font-size: 15px; color: var(--ink-soft); line-height: 1.5; max-width: 460px; }
+
+  /* === TRACTION === */
+  .traction-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 40px;
+    border-top: 1px solid var(--ink);
+  }
+  .traction-card {
+    padding: 32px 32px 0 0;
+    border-right: 1px solid var(--line);
+  }
+  .traction-card:last-child { border-right: 0; padding-right: 0; }
+  .traction-card:not(:first-child) { padding-left: 32px; }
+  .traction-num {
+    font-size: 96px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.05em;
+    line-height: 0.95;
+    font-variant-numeric: tabular-nums;
+  }
+  .traction-label {
+    font-size: 11px;
+    color: var(--blue);
+    margin-top: 16px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .traction-sub {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-top: 16px;
+    line-height: 1.5;
+    max-width: 280px;
+  }
+
+  /* === BUSINESS MODEL === */
+  .pricing-card {
+    background: linear-gradient(135deg, var(--ink) 0%, var(--ink-soft) 100%);
+    color: white;
+    border-radius: 24px;
+    padding: 48px;
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .pricing-card h3 { color: white; font-size: 22px; }
+  .price-tag {
+    font-size: 96px;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .price-tag span { font-size: 28px; color: rgba(255,255,255,0.6); font-weight: 500; }
+  .price-features { list-style: none; display: flex; flex-direction: column; gap: 12px; color: rgba(255,255,255,0.85); font-size: 16px; }
+  .price-features li::before { content: "→"; margin-right: 10px; color: var(--blue); }
+
+  /* === COMPETITION === */
+  .comp-table {
+    width: 100%;
+    margin-top: 28px;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
+  .comp-table th {
+    background: var(--paper-2);
+    padding: 16px;
+    text-align: left;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  .comp-table td {
+    padding: 18px 16px;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-soft);
+  }
+  .comp-table tr.us {
+    background: var(--blue-soft);
+  }
+  .comp-table tr.us td { font-weight: 700; color: var(--ink); }
+  .comp-table tr.us td:first-child { color: var(--blue); }
+  .comp-price { font-variant-numeric: tabular-nums; font-weight: 700; }
+  .pill { display: inline-block; font-size: 12px; padding: 4px 10px; border-radius: 999px; font-weight: 600; }
+  .pill.yes { background: #DCFCE7; color: #166534; }
+  .pill.no { background: #FEE2E2; color: #991B1B; }
+
+  /* === TEAM / ASK === */
+  .ask-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-top: 32px;
+  }
+  .ask-amount {
+    font-size: 96px;
+    font-weight: 800;
+    color: var(--blue);
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .ask-amount span { font-size: 28px; color: var(--muted); font-weight: 500; }
+  .use-of-funds { display: flex; flex-direction: column; gap: 16px; }
+  .fund-row { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+  .fund-label { font-size: 17px; color: var(--ink-soft); }
+  .fund-pct { font-weight: 700; font-size: 17px; color: var(--ink); font-variant-numeric: tabular-nums; }
+
+  /* === VISION === */
+  .vision-slide {
+    background: linear-gradient(135deg, var(--blue) 0%, var(--blue-deep) 100%);
+    color: white;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+  }
+  .vision-slide h1 { color: white; font-size: 64px; max-width: 900px; margin: 0 auto; line-height: 1.15; }
+  .vision-slide .signoff { color: rgba(255,255,255,0.8); font-size: 18px; margin-top: 32px; letter-spacing: 0.05em; }
+
+  /* === NAVIGATION === */
+  .nav-bar {
     position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-    background-size: 60px 60px;
-    pointer-events: none;
-    z-index: 0;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(10, 22, 40, 0.92);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 999px;
+    display: flex;
+    gap: 8px;
+    backdrop-filter: blur(20px);
+    z-index: 100;
+    box-shadow: 0 20px 60px -20px rgba(0,0,0,0.4);
   }
-
-  .slide { z-index: 1; }
-  .nav { z-index: 10; }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
+  .nav-bar button {
+    background: transparent;
+    color: white;
+    border: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.15s;
   }
+  .nav-bar button:hover { background: rgba(255,255,255,0.15); }
+  .nav-bar button.active { background: var(--blue); }
 
-  .slide.active .big-number,
-  .slide.active .cover-logo,
-  .slide.active .headline,
-  .slide.active .stats-row,
-  .slide.active .comp-table,
-  .slide.active .team-row,
-  .slide.active .divider {
-    animation: fadeUp 0.5s ease both;
+  @media (max-width: 900px) {
+    h1 { font-size: 48px; }
+    .title-slide h1 { font-size: 64px; }
+    h2 { font-size: 32px; }
+    .slide { padding: 36px; aspect-ratio: auto; }
+    .solution-grid, .ask-grid, .pricing-card { grid-template-columns: 1fr; }
+    .stat-grid, .timeline, .traction-row { grid-template-columns: 1fr; }
+    .price-tag, .ask-amount { font-size: 64px; }
+    .nav-bar { display: none; }
   }
-
-  .slide.active .stats-row { animation-delay: 0.15s; }
-  .slide.active .comp-table { animation-delay: 0.15s; }
-  .slide.active .team-row { animation-delay: 0.15s; }
-  .slide.active .headline { animation-delay: 0.08s; }
-
 </style>
 </head>
 <body>
 
-<div class="bg-grid"></div>
+<div class="deck">
 
-<div class="deck" id="deck">
+  <!-- SLIDE 1: TITLE -->
+  <section class="slide title-slide" id="s1">
+    <span class="slide-number">01 / 10</span>
+    <div class="logo-mark">
+      <span class="logo-dot"></span>
+      <span>blueroll</span>
+    </div>
+    <div>
+      <h1>Blueroll</h1>
+      <p class="tagline">The AI HACCP system for UK food businesses. Daily compliance, automated.</p>
+    </div>
+    <div class="meta">
+      <span>Pre-Seed · 2026</span>
+      <span>blueroll.app</span>
+    </div>
+  </section>
 
-  <!-- SLIDE 0: Cover -->
-  <div class="slide active" data-index="0">
-    <div class="tag">Pre-seed · 2026</div>
-    <div class="cover-logo">Blue<span>roll</span></div>
-    <div class="divider"></div>
-    <div class="cover-sub">AI-powered food safety compliance for UK restaurants. Replacing paper HACCP records at £14.99/month.</div>
-  </div>
-
-  <!-- SLIDE 1: Problem — cost of foodborne illness -->
-  <div class="slide" data-index="1">
-    <div class="slide-label">01 — Problem</div>
-    <div class="big-number"><span>£10.4</span>bn</div>
-    <div class="headline">annual economic burden of foodborne illness in the UK</div>
-    <div class="source">Source: <a href="https://www.gov.uk/government/statistics/united-kingdom-food-security-report-2024/united-kingdom-food-security-report-2024-theme-5-food-safety-and-consumer-confidence" target="_blank">UK Food Security Report 2024, FSA/DEFRA</a></div>
-    <div class="stats-row cols-2">
-      <div class="stat-box">
-        <div class="stat-num">430,000+</div>
-        <div class="stat-label">food businesses legally required to maintain HACCP records across England, Wales & Northern Ireland</div>
-        <div class="stat-source">Source: <a href="https://www.food.gov.uk/news-alerts/news/fsa-marks-15-years-of-food-hygiene-ratings-and-reminds-diners-to-look-before-they-book" target="_blank">FSA, 15 Years of FHRS, 2025</a></div>
+  <!-- SLIDE 2: PROBLEM -->
+  <section class="slide" id="s2">
+    <span class="slide-number">02 / 10</span>
+    <div>
+      <span class="slide-tag">Problem</span>
+      <h2>HACCP is run on paper. In 2026.</h2>
+      <p class="lede">430,000+ UK food businesses are legally required to maintain daily HACCP records — most still do it with binders, biros and laminated FSA templates from 2008.</p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="stat-num">£10.4bn</div>
+        <div class="stat-label">Annual UK economic burden of foodborne illness</div>
       </div>
-      <div class="stat-box">
+      <div class="stat">
         <div class="stat-num">95,000</div>
-        <div class="stat-label">overdue inspections including 871 high-risk businesses — backlog from post-pandemic under-resourcing</div>
-        <div class="stat-source">Source: <a href="https://www.foodsafetynews.com/2025/06/uk-food-agencies-voice-concerns-about-status-of-inspection-activities/" target="_blank">FSA/FSS Our Food 2024, via Food Safety News</a></div>
+        <div class="stat-label">Overdue inspections, including 871 high-risk businesses</div>
       </div>
-    </div>
-  </div>
-
-  <!-- SLIDE 2: Urgency — allergens & risk -->
-  <div class="slide" data-index="2">
-    <div class="slide-label">02 — Why now</div>
-    <div class="big-number"><span>2×</span></div>
-    <div class="headline">businesses rated 2 or below are twice as likely to cause food poisoning outbreaks versus those rated 3+</div>
-    <div class="source">Source: <a href="https://www.food.gov.uk/news-alerts/news/fsa-marks-15-years-of-food-hygiene-ratings-and-reminds-diners-to-look-before-they-book" target="_blank">FSA FHRS 15th Anniversary Research, November 2025</a></div>
-    <div class="stats-row cols-3">
-      <div class="stat-box">
+      <div class="stat">
         <div class="stat-num">101</div>
-        <div class="stat-label">allergen alerts issued by FSA last year — up from 64 the year before</div>
-        <div class="stat-source">Source: <a href="https://www.foodsafetynews.com/2025/06/uk-food-agencies-voice-concerns-about-status-of-inspection-activities/" target="_blank">FSA/FSS Our Food 2024</a></div>
+        <div class="stat-label">FSA allergen alerts last year — up from 64</div>
       </div>
-      <div class="stat-box">
-        <div class="stat-num">89%</div>
-        <div class="stat-label">of businesses in England improve their record-keeping after receiving a bad hygiene rating</div>
-        <div class="stat-source">Source: <a href="https://science.food.gov.uk/article/138241-food-hygiene-rating-scheme-audit-of-display-and-business-survey-2024" target="_blank">FSA FHRS Business Survey 2024</a></div>
-      </div>
-      <div class="stat-box">
+      <div class="stat">
         <div class="stat-num">20%</div>
-        <div class="stat-label">of food safety officer posts in Scotland vacant or unavailable — enforcement resources shrinking nationally</div>
-        <div class="stat-source">Source: <a href="https://www.foodsafetynews.com/2025/06/uk-food-agencies-voice-concerns-about-status-of-inspection-activities/" target="_blank">FSA/FSS Our Food 2024</a></div>
+        <div class="stat-label">Of food-safety-officer posts in Scotland are vacant</div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- SLIDE 3: Market -->
-  <div class="slide" data-index="3">
-    <div class="slide-label">03 — Market</div>
-    <div class="big-number"><span>£68</span>M</div>
-    <div class="headline">UK ARR opportunity — 380,000 independent food businesses × £14.99/month</div>
-    <div class="source">Calculation based on: <a href="https://www.food.gov.uk/news-alerts/news/fsa-marks-15-years-of-food-hygiene-ratings-and-reminds-diners-to-look-before-they-book" target="_blank">FSA FHRS data 2025</a>. Excludes NHS, schools, care homes (additional channel).</div>
-    <div class="stats-row cols-3">
-      <div class="stat-box">
-        <div class="stat-num">£38+</div>
-        <div class="stat-label">Trail — per site per month. Web-only. No native mobile app. Owned by Access Group.</div>
-        <div class="stat-source">Source: <a href="https://www.fooddocs.com/post/digital-haccp-compliance-tools" target="_blank">FoodDocs HACCP Tools Comparison 2025</a></div>
+  <!-- SLIDE 3: SOLUTION -->
+  <section class="slide" id="s3">
+    <span class="slide-number">03 / 10</span>
+    <div class="solution-grid">
+      <div>
+        <span class="slide-tag">Solution</span>
+        <h2 style="font-size: 40px;">Pass every inspection.<br/>Without the paperwork.</h2>
+        <p class="lede" style="margin: 16px 0 20px; font-size: 16px;">A digital HACCP system where AI does the boring parts.</p>
+        <ul class="feature-list">
+          <li><span class="check">01</span><span>5 SFBB templates from the FSA framework</span></li>
+          <li><span class="check">02</span><span>AI auto-fills the daily diary</span></li>
+          <li><span class="check">03</span><span>14 EU allergens tracked automatically</span></li>
+          <li><span class="check">04</span><span>Date-stamped PDF reports in one tap</span></li>
+          <li><span class="check">05</span><span>iOS, Android & web — built for the kitchen</span></li>
+        </ul>
       </div>
-      <div class="stat-box">
-        <div class="stat-num">£59+</div>
-        <div class="stat-label">FoodDocs — per site per month on annual plan. Estonian startup targeting enterprise.</div>
-        <div class="stat-source">Source: <a href="https://www.fooddocs.com/post/digital-haccp-compliance-tools" target="_blank">FoodDocs Pricing 2025</a></div>
-      </div>
-      <div class="stat-box" style="border: 0.5px solid rgba(200,245,160,0.3);">
-        <div class="stat-num" style="color:var(--accent);">£14.99</div>
-        <div class="stat-label">Blueroll — flat monthly. All features. Native iOS. Built for independent operators.</div>
-        <div class="stat-source">blueroll.app</div>
+      <div class="phone-shot">
+        <img src="https://blueroll.app/app_screen.png" alt="Blueroll app" />
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- SLIDE 4: Solution -->
-  <div class="slide" data-index="4">
-    <div class="slide-label">04 — Solution</div>
-    <div class="big-number"><span>30</span>s</div>
-    <div class="headline">AI extracts full allergen data, ingredients & cooking parameters from any recipe — photo, text, or PDF</div>
-    <div class="source">blueroll.app — live on the App Store</div>
-    <div class="stats-row cols-3">
-      <div class="stat-box">
-        <div class="stat-num">14</div>
-        <div class="stat-label">EU allergens tracked automatically across all menu items</div>
-        <div class="stat-source">Per EU Food Information for Consumers Regulation (EU FIC)</div>
+  <!-- SLIDE 4: WHY NOW -->
+  <section class="slide" id="s4">
+    <span class="slide-number">04 / 10</span>
+    <div>
+      <span class="slide-tag">Why Now</span>
+      <h2>Three forces converging in 2026.</h2>
+      <p class="lede">Regulation, technology and economics all moved in the same direction this year.</p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-year">Regulation</div>
+        <div class="timeline-title">FSA crackdown</div>
+        <div class="timeline-body">95,000 inspections backlogged post-pandemic; allergen alerts up 58% YoY; Natasha's Law enforcement intensifies — paper records no longer cut it.</div>
       </div>
-      <div class="stat-box">
-        <div class="stat-num">5</div>
-        <div class="stat-label">SFBB templates built in — based on FSA's own Safer Food Better Business framework</div>
-        <div class="stat-source">FSA SFBB, food.gov.uk</div>
+      <div class="timeline-item">
+        <div class="timeline-year">Technology</div>
+        <div class="timeline-title">AI for HACCP</div>
+        <div class="timeline-body">Modern multimodal AI can now reliably auto-fill compliance diaries, classify hazards and parse ingredient labels. Two years ago this didn't work.</div>
       </div>
-      <div class="stat-box">
-        <div class="stat-num">1 tap</div>
-        <div class="stat-label">PDF compliance report — date-stamped, ready to send to Environmental Health Officer</div>
-        <div class="stat-source">blueroll.app</div>
+      <div class="timeline-item">
+        <div class="timeline-year">Economics</div>
+        <div class="timeline-title">Margin squeeze</div>
+        <div class="timeline-body">Hospitality margins are 4–6% and shrinking. Indie operators can't afford enterprise compliance pricing — they need a tool that starts with £1, not £4 a day.</div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- SLIDE 5: Competitors -->
-  <div class="slide" data-index="5">
-    <div class="slide-label">05 — Competitive landscape</div>
-    <div class="headline" style="margin-bottom:1.5rem;">Nobody owns the independent. Trail and FoodDocs serve chains. Blueroll serves the 350,000 they've ignored.</div>
+  <!-- SLIDE 5: MARKET -->
+  <section class="slide" id="s5">
+    <span class="slide-number">05 / 10</span>
+    <div>
+      <span class="slide-tag">Market</span>
+      <h2>£68M UK ARR opportunity.</h2>
+      <p class="lede">Every food business in the UK is required by law to keep HACCP records. That's a captive audience, not a discretionary buyer.</p>
+    </div>
+    <div class="market-table">
+      <div class="market-row">
+        <div class="market-tag">TAM</div>
+        <div class="market-num">£77M<small>ARR</small></div>
+        <div class="market-desc">430,000 UK food businesses required to keep HACCP records</div>
+      </div>
+      <div class="market-row">
+        <div class="market-tag">SAM</div>
+        <div class="market-num">£68M<small>ARR</small></div>
+        <div class="market-desc">380,000 independents underserved by enterprise tools</div>
+      </div>
+      <div class="market-row">
+        <div class="market-tag">SOM</div>
+        <div class="market-num">£3.4M<small>ARR</small></div>
+        <div class="market-desc">5% wedge in indie hospitality — cafés, restaurants, takeaways</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: PRODUCT -->
+  <section class="slide" id="s6">
+    <span class="slide-number">06 / 10</span>
+    <div>
+      <span class="slide-tag">Product</span>
+      <h2>The full HACCP day, on one phone.</h2>
+      <p class="lede">A four-step daily workflow that fits in a kitchen pocket — opening to closing checks, automated.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 40px; border-top: 1px solid var(--ink);">
+      <div style="padding: 28px 24px 0 0; border-right: 1px solid var(--line);">
+        <div style="font-size: 11px; font-weight: 700; color: var(--blue); letter-spacing: 0.14em; text-transform: uppercase;">01 — Open</div>
+        <h3 style="font-size: 36px; margin-top: 16px; font-weight: 600; letter-spacing: -0.03em;">Open</h3>
+        <p style="font-size: 14px; color: var(--ink-soft); margin-top: 12px; line-height: 1.5;">Daily diary opens with AI-suggested checks based on yesterday's data.</p>
+      </div>
+      <div style="padding: 28px 24px 0 24px; border-right: 1px solid var(--line);">
+        <div style="font-size: 11px; font-weight: 700; color: var(--blue); letter-spacing: 0.14em; text-transform: uppercase;">02 — Log</div>
+        <h3 style="font-size: 36px; margin-top: 16px; font-weight: 600; letter-spacing: -0.03em;">Log</h3>
+        <p style="font-size: 14px; color: var(--ink-soft); margin-top: 12px; line-height: 1.5;">Temps, cleaning, deliveries, allergens — tap or photo, AI fills the rest.</p>
+      </div>
+      <div style="padding: 28px 24px 0 24px; border-right: 1px solid var(--line);">
+        <div style="font-size: 11px; font-weight: 700; color: var(--blue); letter-spacing: 0.14em; text-transform: uppercase;">03 — Verify</div>
+        <h3 style="font-size: 36px; margin-top: 16px; font-weight: 600; letter-spacing: -0.03em;">Verify</h3>
+        <p style="font-size: 14px; color: var(--ink-soft); margin-top: 12px; line-height: 1.5;">AI flags missed checks, off-range temps and SFBB gaps before close.</p>
+      </div>
+      <div style="padding: 28px 0 0 24px;">
+        <div style="font-size: 11px; font-weight: 700; color: var(--blue); letter-spacing: 0.14em; text-transform: uppercase;">04 — Send</div>
+        <h3 style="font-size: 36px; margin-top: 16px; font-weight: 600; letter-spacing: -0.03em;">Send</h3>
+        <p style="font-size: 14px; color: var(--ink-soft); margin-top: 12px; line-height: 1.5;">One-tap PDF to inspector. Date-stamped, audit-ready.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: TRACTION -->
+  <section class="slide" id="s7">
+    <span class="slide-number">07 / 10</span>
+    <div>
+      <span class="slide-tag">Traction</span>
+      <h2>Live on iOS, Android & Web.</h2>
+      <p class="lede">Full HACCP system in production — diaries, allergens, audit reports — across every device a kitchen uses.</p>
+    </div>
+    <div class="traction-row">
+      <div class="traction-card">
+        <div class="traction-num">3</div>
+        <div class="traction-label">PLATFORMS LIVE</div>
+        <div class="traction-sub">iOS on the App Store, Android on Google Play, and Web at blueroll.app — same data, every device.</div>
+      </div>
+      <div class="traction-card">
+        <div class="traction-num">5</div>
+        <div class="traction-label">SFBB TEMPLATES</div>
+        <div class="traction-sub">FSA Safer Food Better Business framework, fully digitised and AI-assisted end-to-end.</div>
+      </div>
+      <div class="traction-card">
+        <div class="traction-num">£14.99</div>
+        <div class="traction-label">FLAT MONTHLY PRICE</div>
+        <div class="traction-sub">2.5–4× cheaper than Trail and FoodDocs. No per-site, per-seat or enterprise tier.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: BUSINESS MODEL -->
+  <section class="slide" id="s8">
+    <span class="slide-number">08 / 10</span>
+    <div>
+      <span class="slide-tag">Business Model</span>
+      <h2>Simple SaaS. No tiers, no surprises.</h2>
+      <p class="lede">One price, every feature, every device. Designed for the indie operator who hates pricing pages.</p>
+    </div>
+    <div class="pricing-card">
+      <div>
+        <div class="price-tag">£14.99<span>/mo</span></div>
+        <p style="color: rgba(255,255,255,0.7); margin-top: 16px; font-size: 16px;">Per restaurant. Cancel anytime via App Store.</p>
+      </div>
+      <ul class="price-features">
+        <li>Full daily HACCP diary</li>
+        <li>5 SFBB templates</li>
+        <li>14-allergen tracking</li>
+        <li>AI auto-fill & verification</li>
+        <li>Audit-ready PDF reports</li>
+        <li>iCloud sync across staff devices</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SLIDE 9: COMPETITION -->
+  <section class="slide" id="s9">
+    <span class="slide-number">09 / 10</span>
+    <div>
+      <span class="slide-tag">Competition</span>
+      <h2>The only AI-native HACCP system for indies.</h2>
+      <p class="lede">Incumbents target chains. Cheap tools skip AI. Blueroll sits in the gap.</p>
+    </div>
     <table class="comp-table">
       <thead>
         <tr>
           <th>Product</th>
-          <th>Pricing</th>
-          <th>Native mobile</th>
-          <th>AI features</th>
+          <th>Price / site</th>
+          <th>Native iOS</th>
+          <th>AI HACCP</th>
           <th>Target</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>Trail (Access Group)</td>
-          <td class="muted-td">£38+/site/mo</td>
-          <td><span class="pill pill-red">Web only</span></td>
-          <td><span class="pill pill-red">Limited</span></td>
-          <td class="muted-td">Wagamama, Costa</td>
+          <td>Trail</td>
+          <td class="comp-price">£38+/mo</td>
+          <td><span class="pill no">No</span></td>
+          <td><span class="pill no">No</span></td>
+          <td>Chains (Wagamama, Costa)</td>
         </tr>
         <tr>
           <td>FoodDocs</td>
-          <td class="muted-td">£59+/site/mo</td>
-          <td><span class="pill pill-green">Yes</span></td>
-          <td><span class="pill pill-green">HACCP AI</span></td>
-          <td class="muted-td">Multi-site enterprise</td>
+          <td class="comp-price">£59+/mo</td>
+          <td><span class="pill no">No</span></td>
+          <td><span class="pill no">No</span></td>
+          <td>Enterprise (EE)</td>
         </tr>
         <tr>
           <td>SFBB+</td>
-          <td class="muted-td">£4.99/mo</td>
-          <td><span class="pill pill-green">Yes</span></td>
-          <td><span class="pill pill-red">None</span></td>
-          <td class="muted-td">Basic FSA diary only</td>
+          <td class="comp-price">£4.99/mo</td>
+          <td><span class="pill no">No</span></td>
+          <td><span class="pill no">No</span></td>
+          <td>Solo operators</td>
         </tr>
-        <tr class="hl">
-          <td><strong>Blueroll</strong></td>
-          <td>£14.99 flat</td>
-          <td><span class="pill pill-green">Native iOS</span></td>
-          <td><span class="pill pill-green">Recipe AI</span></td>
+        <tr class="us">
+          <td>Blueroll</td>
+          <td class="comp-price">£14.99/mo</td>
+          <td><span class="pill yes">Yes</span></td>
+          <td><span class="pill yes">Yes</span></td>
           <td>Independent restaurants</td>
         </tr>
       </tbody>
     </table>
-    <div class="stat-source" style="margin-top:1rem;">Sources: <a href="https://www.fooddocs.com/post/digital-haccp-compliance-tools" target="_blank">FoodDocs Comparison 2025</a> · <a href="https://www.capterra.com/p/176765/Trail/" target="_blank">Capterra Trail 2026</a> · <a href="https://www.sfbbplus.co.uk/" target="_blank">sfbbplus.co.uk</a></div>
-  </div>
+  </section>
 
+  <!-- SLIDE 10: VISION -->
+  <section class="slide vision-slide" id="s10">
+    <span class="slide-number">10 / 10</span>
+    <div class="logo-mark" style="color: white;">
+      <span class="logo-dot" style="background: white; box-shadow: 0 0 24px white;"></span>
+      <span>blueroll</span>
+    </div>
+    <div>
+      <h1>Every UK kitchen, audit-ready by 6pm.</h1>
+      <div class="signoff">hello@blueroll.app · blueroll.app</div>
+    </div>
+    <div></div>
+  </section>
 
 </div>
 
-<!-- Navigation -->
-<div class="nav">
-  <button class="nav-btn" id="prev">← prev</button>
-  <div class="nav-dots" id="dots"></div>
-  <button class="nav-btn" id="next">next →</button>
-</div>
-
-<div class="slide-counter" id="counter"></div>
+<nav class="nav-bar" id="nav"></nav>
 
 <script>
   const slides = document.querySelectorAll('.slide');
-  const dotsContainer = document.getElementById('dots');
-  const counter = document.getElementById('counter');
-  let current = 0;
+  const nav = document.getElementById('nav');
 
-  slides.forEach((_, i) => {
-    const d = document.createElement('div');
-    d.className = 'dot' + (i === 0 ? ' active' : '');
-    d.onclick = () => go(i);
-    dotsContainer.appendChild(d);
+  slides.forEach((s, i) => {
+    const btn = document.createElement('button');
+    btn.textContent = i + 1;
+    btn.dataset.idx = i;
+    btn.addEventListener('click', () => {
+      s.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    nav.appendChild(btn);
   });
 
-  function go(n) {
-    slides[current].classList.remove('active');
-    dotsContainer.children[current].classList.remove('active');
-    current = (n + slides.length) % slides.length;
-    slides[current].classList.add('active');
-    dotsContainer.children[current].classList.add('active');
-    counter.textContent = (current + 1) + ' / ' + slides.length;
-  }
+  const navBtns = nav.querySelectorAll('button');
 
-  go(0);
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const idx = Array.from(slides).indexOf(entry.target);
+        navBtns.forEach(b => b.classList.remove('active'));
+        if (navBtns[idx]) navBtns[idx].classList.add('active');
+      }
+    });
+  }, { threshold: 0.5 });
 
-  document.getElementById('next').onclick = () => go(current + 1);
-  document.getElementById('prev').onclick = () => go(current - 1);
+  slides.forEach(s => observer.observe(s));
 
-  document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') go(current + 1);
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') go(current - 1);
+  document.addEventListener('keydown', (e) => {
+    const current = Array.from(slides).findIndex(s => {
+      const r = s.getBoundingClientRect();
+      return r.top >= -50 && r.top <= window.innerHeight / 2;
+    });
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+      e.preventDefault();
+      const next = slides[Math.min(current + 1, slides.length - 1)];
+      if (next) next.scrollIntoView({ behavior: 'smooth' });
+    }
+    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      const prev = slides[Math.max(current - 1, 0)];
+      if (prev) prev.scrollIntoView({ behavior: 'smooth' });
+    }
   });
 </script>
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-Tawk_API.onLoad = function(){
-  // Hide eye catcher by cycling widget
-  Tawk_API.hideWidget();
-  setTimeout(function(){ Tawk_API.showWidget(); }, 500);
-};
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/69cba0ffccae3e1c351e960f/1jl1mppsi';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
 
 </body>
 </html>
