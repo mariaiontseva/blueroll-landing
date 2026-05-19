@@ -637,6 +637,65 @@ function confetti() {
     a.appendChild(c); setTimeout(() => c.remove(), 2000);
   }
 }
+
+// Auto-select from URL params — used when arriving from the Custom GPT.
+// Expected params: fhrsid, name, rating, addr, h, s, m, autoselect=1
+// If present, skip the search step and jump straight to the widget builder.
+function autoSelectFromURL() {
+  const p = new URLSearchParams(window.location.search);
+  if (p.get('autoselect') !== '1' || !p.get('fhrsid')) return;
+
+  // Switch to UK mode (FSA-style rating)
+  setCountry('uk');
+
+  const rating = parseInt(p.get('rating') || '0') || 0;
+  selectedBiz = {
+    name: p.get('name') || 'Your business',
+    address: p.get('addr') || '',
+    rating: rating,
+    ratingType: 'numeric',
+    grade: String(rating),
+    source: 'FSA',
+    fhrsId: p.get('fhrsid'),
+    scores: {
+      Hygiene: parseInt(p.get('h')) || 0,
+      Structural: parseInt(p.get('s')) || 0,
+      ConfidenceInManagement: parseInt(p.get('m')) || 0,
+    },
+  };
+
+  // Hide the search section to remove confusion — they already know their business
+  const searchSection = document.querySelector('.search-section');
+  if (searchSection) searchSection.style.display = 'none';
+
+  // Show a friendly banner where the search was
+  const hero = document.querySelector('.hero');
+  if (hero) {
+    const banner = document.createElement('div');
+    banner.style.cssText = 'max-width:480px;margin:8px auto 32px;padding:14px 20px;background:#D1FAE5;border:1px solid #065F46;border-radius:12px;color:#065F46;font-size:14px;font-weight:600;text-align:center;';
+    banner.innerHTML = `Loaded <strong>${selectedBiz.name}</strong> from your Blueroll Coach session. Pick a badge style below.`;
+    hero.parentNode.insertBefore(banner, hero.nextSibling);
+  }
+
+  // Show widget section
+  document.getElementById('widgetSection').classList.add('active');
+  renderWidget();
+  // Smooth scroll after a tick so the layout settles
+  setTimeout(() => {
+    document.getElementById('widgetSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+
+  // Track in GA
+  if (typeof gtag === 'function') {
+    gtag('event', 'widget_auto_loaded', {
+      source: 'chatgpt-coach',
+      fhrs_id: selectedBiz.fhrsId,
+    });
+  }
+}
+
+// Run after DOM is ready (the script is at end of body so DOM is loaded)
+autoSelectFromURL();
 </script>
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
