@@ -304,8 +304,10 @@ tr:hover { background: var(--blue-soft); }
   <button class="action-btn btn-preview" onclick="openPreview()">Preview</button>
   <button class="action-btn btn-export" onclick="exportCSV()">Export CSV</button>
   <button class="action-btn btn-mark" onclick="sendAllViaGmail()" style="background:#EA4335;">Send via Gmail</button>
+  <button class="action-btn btn-mark" onclick="generateGmailDrafts()" style="background:#1A73E8;" title="Create personalised drafts in Gmail's Drafts folder. You then send each one manually.">Generate drafts</button>
   <button class="action-btn btn-mark" onclick="markAsSent()">Mark as Sent</button>
 </div>
+<div id="gmailStatusBar" style="display:none;font-size:12px;color:var(--text-secondary);padding:6px 16px;border-top:1px solid var(--border);"></div>
 
 <div class="table-wrap">
   <table>
@@ -1155,6 +1157,100 @@ function sendAllViaGmail() {
     alert(`Gmail opened for ${allData[indices[0]].name}.\n\nAfter sending, click Gmail buttons for the remaining ${indices.length - 1} restaurants \u2014 each one opens Gmail with everything pre-filled. Just Cmd+V and send.`);
   }
 }
+
+// \u2500\u2500\u2500 Generate Gmail drafts (server-side via OAuth) \u2500\u2500\u2500
+// POSTs selected recipients to /api/outreach/generate-drafts. The backend
+// creates one personalised draft per selected lead in the authorised
+// Gmail account's Drafts folder. Operator then opens Gmail Drafts and
+// hits Send for each \u2014 preserving manual control + Streak open tracking.
+
+async function generateGmailDrafts() {
+  if (selected.size === 0) {
+    alert('Select at least one restaurant first.');
+    return;
+  }
+  const indices = [...selected];
+
+  // Build recipients payload \u2014 leverage existing getSubject() + buildEmailHTML()
+  const recipients = [];
+  for (const idx of indices) {
+    const r = allData[idx];
+    if (!r) continue;
+    if (!r.email) {
+      console.warn(`Skipping ${r.name} \u2014 no email on record`);
+      continue;
+    }
+    recipients.push({
+      fhrs_id: r.fhrs_id,
+      to: r.email,
+      subject: getSubject(r),
+      html_body: buildEmailHTML(r),
+    });
+  }
+
+  if (recipients.length === 0) {
+    alert('None of the selected restaurants have an email on file.');
+    return;
+  }
+
+  const bar = document.getElementById('gmailStatusBar');
+  bar.style.display = 'block';
+  bar.textContent = `Creating ${recipients.length} draft(s) in Gmail\u2026`;
+
+  let resp;
+  try {
+    const r = await fetch(`${CRM}/api/outreach/generate-drafts`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ recipients }),
+    });
+    resp = await r.json();
+    if (!r.ok) {
+      bar.textContent = `Failed: ${resp.error || ('HTTP ' + r.status)}`;
+      bar.style.color = '#DC2626';
+      if (r.status === 503) {
+        bar.textContent += ' \u2014 Gmail OAuth env vars not configured on Railway yet.';
+      }
+      return;
+    }
+  } catch (e) {
+    bar.textContent = `Network error: ${e.message}`;
+    bar.style.color = '#DC2626';
+    return;
+  }
+
+  const { created, failed = [], sender, total_attempted } = resp;
+  bar.style.color = '';
+
+  if (failed.length === 0) {
+    bar.textContent = `\u2713 Created ${created} draft(s) as ${sender || 'sender'}. Open Gmail \u2192 Drafts and send when ready.`;
+  } else {
+    bar.textContent = `\u2713 ${created} created, ${failed.length} failed (as ${sender || 'sender'}). Check console for details.`;
+    console.warn('Drafts that failed:', failed);
+  }
+}
+
+// \u2500\u2500\u2500 Gmail status indicator (calls on page load) \u2500\u2500\u2500
+async function checkGmailStatus() {
+  try {
+    const r = await fetch(`${CRM}/api/outreach/gmail-status`);
+    const d = await r.json();
+    const bar = document.getElementById('gmailStatusBar');
+    if (d.configured) {
+      bar.style.display = 'block';
+      bar.textContent = `Gmail connected as ${d.sender}`;
+      bar.style.color = '#059669';
+    } else {
+      bar.style.display = 'block';
+      bar.textContent = `Gmail drafts not yet configured: ${d.error || 'env vars missing on Railway'}`;
+      bar.style.color = '#D97706';
+    }
+  } catch {
+    // Silent \u2014 status bar is optional UX, not critical
+  }
+}
+// Fire on page load (non-blocking)
+window.addEventListener('DOMContentLoaded', checkGmailStatus);
 
 // ─── Mark single as sent ───
 
