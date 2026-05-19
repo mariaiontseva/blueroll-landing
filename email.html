@@ -114,18 +114,19 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
   letter-spacing: 0.06em; font-family: var(--mono); min-width: 50px;
 }
 .filter-sep { width: 1px; height: 20px; background: var(--border); margin: 0 4px; }
-.fbtn, .sbtn {
+.fbtn, .sbtn, .tbtn {
   padding: 6px 14px; font-size: 13px; border-radius: 8px; cursor: pointer;
   border: 1px solid var(--border); background: var(--surface); color: var(--text-secondary);
   font-family: inherit; font-weight: 500; transition: all 0.12s;
 }
-.fbtn:hover, .sbtn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+.fbtn:hover, .sbtn:hover, .tbtn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
 .fbtn.active { background: var(--blue); color: white; border-color: var(--blue); }
 .fbtn-red.active { background: #DC2626; border-color: #DC2626; }
 .fbtn-orange.active { background: #EA580C; border-color: #EA580C; }
 .fbtn-yellow.active { background: #D97706; border-color: #D97706; }
 .fbtn-green.active { background: #059669; border-color: #059669; }
 .sbtn.active { background: var(--text); color: white; border-color: var(--text); }
+.tbtn.active { background: var(--text); color: white; border-color: var(--text); }
 
 /* Table */
 .table-wrap { overflow-x: auto; background: var(--surface); }
@@ -272,6 +273,17 @@ tr:hover { background: var(--blue-soft); }
     <button class="fbtn" data-rating="3,4" onclick="setRating(this,'3,4')">3-4</button>
   </div>
   <div class="filter-row" style="margin-top:8px;">
+    <span class="filter-label">Type</span>
+    <button class="tbtn active" data-type="" onclick="setType(this,'')">All</button>
+    <button class="tbtn" data-type="Restaurant/Cafe/Canteen" onclick="setType(this,'Restaurant/Cafe/Canteen')">Restaurants</button>
+    <button class="tbtn" data-type="Takeaway/sandwich shop" onclick="setType(this,'Takeaway/sandwich shop')">Takeaway</button>
+    <button class="tbtn" data-type="Pub/bar/nightclub" onclick="setType(this,'Pub/bar/nightclub')">Pub/Bar</button>
+    <button class="tbtn" data-type="Other catering premises,Mobile caterer" onclick="setType(this,'Other catering premises,Mobile caterer')">Catering</button>
+    <button class="tbtn" data-type="Hotel/bed &amp; breakfast/guest house" onclick="setType(this,'Hotel/bed &amp; breakfast/guest house')">Hotel/B&amp;B</button>
+    <span class="filter-sep"></span>
+    <button class="tbtn" data-type="Restaurant/Cafe/Canteen,Takeaway/sandwich shop,Pub/bar/nightclub,Other catering premises,Mobile caterer,Hotel/bed &amp; breakfast/guest house" onclick="setType(this,'Restaurant/Cafe/Canteen,Takeaway/sandwich shop,Pub/bar/nightclub,Other catering premises,Mobile caterer,Hotel/bed &amp; breakfast/guest house')">All foodservice</button>
+  </div>
+  <div class="filter-row" style="margin-top:8px;">
     <span class="filter-label">Sort</span>
     <button class="sbtn active" data-sort="rating_date" onclick="setSortBtn(this,'rating_date','desc')">Newest rated</button>
     <button class="sbtn" data-sort="rating" onclick="setSortBtn(this,'rating','asc')">Lowest rating</button>
@@ -349,6 +361,7 @@ let allData = []; // filtered + sorted for display
 let selected = new Set();
 let sortCol = 'rating_date', sortOrd = 'desc', curPage = 1;
 let activeRating = '';
+let activeType = ''; // CSV of business_type values; '' = no filter
 
 // ─── Data loading ───
 
@@ -413,6 +426,12 @@ function applyClientFilters() {
   if (activeRating) {
     const allowed = activeRating.split(',').map(Number);
     filtered = filtered.filter(r => r.rating != null && allowed.includes(r.rating));
+  }
+
+  // Filter by business type
+  if (activeType) {
+    const allowedTypes = new Set(activeType.split(','));
+    filtered = filtered.filter(r => r.business_type && allowedTypes.has(r.business_type));
   }
 
   // Sort
@@ -1170,6 +1189,14 @@ function setRating(btn, val) {
   activeRating = val;
   document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+  applyClientFilters();
+}
+
+function setType(btn, val) {
+  activeType = val;
+  document.querySelectorAll('.tbtn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  curPage = 1;
   applyClientFilters();
 }
 
