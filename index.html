@@ -1000,6 +1000,240 @@ nav {
   </div>
 </section>
 
+<!-- ─────── See it in action ─────── -->
+<section class="demo-section" id="demo">
+  <style>
+    .demo-section { padding: 96px 24px 112px; background: #FAFAF7; position: relative; }
+    .demo-inner { max-width: 1080px; margin: 0 auto; }
+    .demo-header { text-align: center; max-width: 640px; margin: 0 auto 40px; }
+    .demo-header .label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #047857; margin-bottom: 16px; }
+    .demo-header h2 { font-size: 44px; font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 16px; color: #111; }
+    .demo-header h2 em { color: #047857; font-style: normal; }
+    .demo-header p { font-size: 17px; color: #555; line-height: 1.6; }
+
+    .demo-tabs { display: flex; justify-content: center; gap: 8px; margin: 0 auto 56px; flex-wrap: wrap; padding: 6px; background: #EDEAE4; border-radius: 14px; width: fit-content; }
+    .demo-tab { padding: 12px 22px; border: none; border-radius: 10px; background: transparent; color: #555; font-family: inherit; font-size: 14px; font-weight: 700; letter-spacing: -0.2px; cursor: pointer; transition: all 0.15s; }
+    .demo-tab:hover { color: #111; }
+    .demo-tab.active { background: white; color: #022c22; box-shadow: 0 1px 6px rgba(0,0,0,0.08); }
+
+    .demo-stage { display: flex; align-items: center; justify-content: center; gap: 40px; }
+    .demo-arrow { width: 56px; height: 56px; border-radius: 50%; background: white; border: 1.5px solid #E8E5DF; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s; flex-shrink: 0; color: #047857; }
+    .demo-arrow:hover { border-color: #047857; transform: scale(1.05); box-shadow: 0 4px 16px rgba(4,120,87,0.12); }
+    .demo-arrow svg { width: 22px; height: 22px; }
+    .demo-arrow:disabled { opacity: 0.3; cursor: not-allowed; }
+    .demo-arrow:disabled:hover { border-color: #E8E5DF; transform: none; box-shadow: none; }
+
+    /* Phone mockup */
+    .phone-frame {
+      width: 320px; height: 660px; position: relative; flex-shrink: 0;
+      background: #0a0a0a; border-radius: 48px; padding: 12px;
+      box-shadow:
+        0 30px 80px rgba(0,0,0,0.25),
+        0 16px 32px rgba(0,0,0,0.12),
+        inset 0 0 0 1.5px rgba(255,255,255,0.08);
+    }
+    .phone-frame::before { content: ''; position: absolute; left: 50%; top: 22px; transform: translateX(-50%); width: 96px; height: 28px; background: #0a0a0a; border-radius: 14px; z-index: 3; }
+    .phone-frame::after { content: ''; position: absolute; right: -2px; top: 110px; width: 3px; height: 60px; background: #1a1a1a; border-radius: 0 2px 2px 0; }
+    .phone-screen {
+      width: 100%; height: 100%; background: #FAFAF7; border-radius: 38px;
+      overflow: hidden; position: relative;
+    }
+    .carousel-track { position: absolute; inset: 0; display: none; }
+    .carousel-track.active { display: block; }
+    .carousel-track img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+      opacity: 0; transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .carousel-track img.active { opacity: 1; pointer-events: auto; }
+
+    .demo-dots-row { display: flex; justify-content: center; align-items: center; gap: 28px; margin-top: 32px; }
+    .demo-dots { display: flex; gap: 8px; }
+    .demo-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(0,0,0,0.15); border: none; padding: 0; cursor: pointer; transition: all 0.2s; }
+    .demo-dot:hover { background: rgba(0,0,0,0.3); }
+    .demo-dot.active { background: #047857; width: 24px; border-radius: 4px; }
+    .demo-counter { font-size: 13px; color: #888; font-weight: 600; min-width: 38px; text-align: center; letter-spacing: 0.5px; }
+
+    .demo-cta-row { text-align: center; margin-top: 56px; }
+    .demo-cta-row a { display: inline-flex; align-items: center; gap: 10px; padding: 16px 36px; background: #047857; color: white; border-radius: 12px; font-weight: 700; font-size: 16px; text-decoration: none; letter-spacing: -0.2px; transition: background 0.15s, transform 0.15s; }
+    .demo-cta-row a:hover { background: #036B4E; transform: translateY(-1px); }
+    .demo-cta-row a svg { width: 16px; height: 16px; }
+
+    @media (max-width: 800px) {
+      .demo-section { padding: 64px 16px 80px; }
+      .demo-header h2 { font-size: 32px; letter-spacing: -1px; }
+      .demo-header p { font-size: 15px; }
+      .demo-tabs { width: 100%; gap: 4px; padding: 4px; }
+      .demo-tab { padding: 10px 14px; font-size: 13px; flex: 1; min-width: 0; }
+      .demo-stage { gap: 12px; }
+      .demo-arrow { display: none; }
+      .phone-frame { width: min(280px, calc(100vw - 60px)); height: calc(min(280px, calc(100vw - 60px)) * 2.06); border-radius: 40px; padding: 10px; }
+      .phone-screen { border-radius: 32px; }
+      .phone-frame::before { width: 80px; height: 24px; top: 18px; border-radius: 12px; }
+    }
+  </style>
+
+  <div class="demo-inner">
+    <div class="demo-header">
+      <div class="label">See it in action</div>
+      <h2>Three minutes <em>inside</em> the app</h2>
+      <p>Swipe through how the team actually uses Blueroll — exactly what your chefs and front-of-house see on their phones during service.</p>
+    </div>
+
+    <div class="demo-tabs" role="tablist">
+      <button class="demo-tab active" data-tab="ai-recipe-import" role="tab" aria-selected="true">AI Recipe Import</button>
+      <button class="demo-tab" data-tab="allergen-matrix" role="tab" aria-selected="false">Allergen Matrix</button>
+      <button class="demo-tab" data-tab="daily-checklists" role="tab" aria-selected="false">Daily Checks</button>
+    </div>
+
+    <div class="demo-stage">
+      <button class="demo-arrow demo-prev" aria-label="Previous slide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+
+      <div class="phone-frame">
+        <div class="phone-screen">
+          <div class="carousel-track active" data-carousel="ai-recipe-import">
+            <img src="demo-slides/ai-recipe-import/slide-1.png" alt="AI Recipe Import — photo to live menu" class="active" loading="lazy">
+            <img src="demo-slides/ai-recipe-import/slide-2.png" alt="Why menus stay frozen" loading="lazy">
+            <img src="demo-slides/ai-recipe-import/slide-3.png" alt="Step 1 — Capture" loading="lazy">
+            <img src="demo-slides/ai-recipe-import/slide-4.png" alt="Step 2 — Extract" loading="lazy">
+            <img src="demo-slides/ai-recipe-import/slide-5.png" alt="Step 3 — Allergens" loading="lazy">
+            <img src="demo-slides/ai-recipe-import/slide-6.png" alt="Step 4 — Go live" loading="lazy">
+            <img src="demo-slides/ai-recipe-import/slide-7.png" alt="Manual vs Blueroll" loading="lazy">
+            <img src="demo-slides/ai-recipe-import/slide-8.png" alt="Try free 14 days" loading="lazy">
+          </div>
+          <div class="carousel-track" data-carousel="allergen-matrix">
+            <img src="demo-slides/allergen-matrix/slide-1.png" alt="Allergen matrix overview" loading="lazy">
+            <img src="demo-slides/allergen-matrix/slide-2.png" alt="Natasha's Law context" loading="lazy">
+            <img src="demo-slides/allergen-matrix/slide-3.png" alt="Step 1 — tag once" loading="lazy">
+            <img src="demo-slides/allergen-matrix/slide-4.png" alt="Step 2 — propagate" loading="lazy">
+            <img src="demo-slides/allergen-matrix/slide-5.png" alt="Step 3 — FOH lookup" loading="lazy">
+            <img src="demo-slides/allergen-matrix/slide-6.png" alt="Step 4 — PPDS labels" loading="lazy">
+            <img src="demo-slides/allergen-matrix/slide-7.png" alt="Manual vs Blueroll" loading="lazy">
+            <img src="demo-slides/allergen-matrix/slide-8.png" alt="Try free 14 days" loading="lazy">
+          </div>
+          <div class="carousel-track" data-carousel="daily-checklists">
+            <img src="demo-slides/daily-checklists/slide-1.png" alt="Daily checks overview" loading="lazy">
+            <img src="demo-slides/daily-checklists/slide-2.png" alt="Paper sheets fail" loading="lazy">
+            <img src="demo-slides/daily-checklists/slide-3.png" alt="Pre-built templates" loading="lazy">
+            <img src="demo-slides/daily-checklists/slide-4.png" alt="Tick on phone" loading="lazy">
+            <img src="demo-slides/daily-checklists/slide-5.png" alt="Out-of-range alerts" loading="lazy">
+            <img src="demo-slides/daily-checklists/slide-6.png" alt="Manager signs diary" loading="lazy">
+            <img src="demo-slides/daily-checklists/slide-7.png" alt="Paper vs digital" loading="lazy">
+            <img src="demo-slides/daily-checklists/slide-8.png" alt="Try free 14 days" loading="lazy">
+          </div>
+        </div>
+      </div>
+
+      <button class="demo-arrow demo-next" aria-label="Next slide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <div class="demo-dots-row">
+      <div class="demo-dots" role="tablist" aria-label="Slides"></div>
+      <div class="demo-counter">1 / 8</div>
+    </div>
+
+    <div class="demo-cta-row">
+      <a href="/">Try Blueroll free for 14 days
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const root = document.getElementById('demo');
+      if (!root) return;
+      const tabs = root.querySelectorAll('.demo-tab');
+      const tracks = root.querySelectorAll('.carousel-track');
+      const dotsContainer = root.querySelector('.demo-dots');
+      const counter = root.querySelector('.demo-counter');
+      const prevBtn = root.querySelector('.demo-prev');
+      const nextBtn = root.querySelector('.demo-next');
+
+      let currentTab = 'ai-recipe-import';
+      let currentIndex = 0;
+
+      function getActiveTrack() {
+        return root.querySelector(`.carousel-track[data-carousel="${currentTab}"]`);
+      }
+
+      function buildDots() {
+        const track = getActiveTrack();
+        const total = track.querySelectorAll('img').length;
+        dotsContainer.innerHTML = '';
+        for (let i = 0; i < total; i++) {
+          const dot = document.createElement('button');
+          dot.className = 'demo-dot' + (i === currentIndex ? ' active' : '');
+          dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+          dot.addEventListener('click', () => goTo(i));
+          dotsContainer.appendChild(dot);
+        }
+      }
+
+      function updateView() {
+        tracks.forEach(t => t.classList.toggle('active', t.dataset.carousel === currentTab));
+        const track = getActiveTrack();
+        const imgs = track.querySelectorAll('img');
+        imgs.forEach((img, i) => img.classList.toggle('active', i === currentIndex));
+        dotsContainer.querySelectorAll('.demo-dot').forEach((d, i) => d.classList.toggle('active', i === currentIndex));
+        counter.textContent = `${currentIndex + 1} / ${imgs.length}`;
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex === imgs.length - 1;
+      }
+
+      function goTo(i) {
+        const total = getActiveTrack().querySelectorAll('img').length;
+        currentIndex = Math.max(0, Math.min(total - 1, i));
+        updateView();
+      }
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+          tab.classList.add('active');
+          tab.setAttribute('aria-selected', 'true');
+          currentTab = tab.dataset.tab;
+          currentIndex = 0;
+          buildDots();
+          updateView();
+          if (typeof gtag === 'function') gtag('event', 'demo_tab_click', { tab: currentTab });
+        });
+      });
+
+      prevBtn.addEventListener('click', () => goTo(currentIndex - 1));
+      nextBtn.addEventListener('click', () => goTo(currentIndex + 1));
+
+      // Touch swipe on phone screen
+      const screen = root.querySelector('.phone-screen');
+      let touchStartX = null;
+      screen.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+      screen.addEventListener('touchend', (e) => {
+        if (touchStartX === null) return;
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(dx) > 40) goTo(currentIndex + (dx < 0 ? 1 : -1));
+        touchStartX = null;
+      }, { passive: true });
+
+      // Keyboard nav when section in viewport
+      document.addEventListener('keydown', (e) => {
+        const rect = root.getBoundingClientRect();
+        const inView = rect.top < window.innerHeight && rect.bottom > 0;
+        if (!inView) return;
+        if (e.key === 'ArrowLeft') goTo(currentIndex - 1);
+        if (e.key === 'ArrowRight') goTo(currentIndex + 1);
+      });
+
+      buildDots();
+      updateView();
+    })();
+  </script>
+</section>
+
 <section class="pricing" id="pricing">
   <div class="label">Pricing</div>
   <h2>Less than a pack of blue rolls.</h2>
