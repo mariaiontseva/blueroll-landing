@@ -3,7 +3,8 @@
 Single-file reference. English glosses throughout; Sanskrit in IAST.
 Built to feel less elementary than the earlier files. Three layers stacked:
 
-1. **Compact alphabetical concordance** of all key terms (lookup speed)
+1. **Thematic concordance** of all key terms, keyed by Sanskrit
+   (grouped by field, sorted by IAST within each group)
 2. **Hard vocabulary** not yet on the previous lists (specialist register)
 3. **Reading apparatus**: real ślokas with full analysis,
    syntax of the didactic register, intertextuality with Upaniṣads / Gītā,
@@ -12,345 +13,268 @@ Built to feel less elementary than the earlier files. Three layers stacked:
 
 ---
 
-## I. Alphabetical Concordance (English-first)
+## I. Thematic Concordance (grouped by field, sorted by Sanskrit)
 
-Letters in IAST order, but keyed by English keyword for fast lookup.
+Look a word up by its **Sanskrit** headword inside the relevant field.
+Within each group, entries are in IAST alphabetical order
+(a ā i ī u ū ṛ … k kh g … c ch j … t th d … p ph b bh m y r l v ś ṣ s h).
+Synonyms are listed together after the lead term.
 
-### A
+### I.1 Statecraft & polity (Rājadharma)
 
-| Term | Sanskrit | Field |
-|------|----------|-------|
-| abandonment, renunciation | tyāga, saṃnyāsa | mokṣa |
-| absolute (the highest Brahman) | para-brahman | vedānta |
-| absolutive in -tvā / -ya | ktvānta, lyabanta | grammar |
-| action, work | karman | mokṣa / yoga |
-| action, fruit of | karma-phala | mokṣa |
-| affliction, mental defilement | kleśa | yoga |
-| afterlife, the other world | para-loka | gen. |
-| ally (natural) | mitra | rāja |
-| ally, would-be (behind enemy) | ākranda | rāja |
-| ambassador, envoy | dūta | rāja |
-| anarchy, kingless state | arājaka, arājakatā | rāja |
-| anger | krodha | mokṣa |
-| arrogance, intoxication | mada | rāja |
-| army | bala, sainya, daṇḍa | rāja |
-| ascetic | tāpasa, yati, muni | mokṣa |
-| asceticism, austerity | tapas | mokṣa |
-| aspirant for liberation | mumukṣu | mokṣa |
-| Ātman, the self | ātman | vedānta |
-| attachment, passion | rāga | mokṣa |
-| aversion | dveṣa | mokṣa |
-| avatar, descent | avatāra | theology |
+| Sanskrit (IAST) | English |
+|-----------------|---------|
+| abhiṣeka | royal consecration, anointing |
+| amātya · mantrin · saciva | minister |
+| arājaka · arājakatā | kingless state, anarchy |
+| ari · śatru | natural enemy |
+| ākranda | rear-ally (vijigīṣu's ally behind the enemy) |
+| udāsīna | neutral king |
+| upāya (catur-upāya) | the four means: sāma, dāna, bheda, daṇḍa |
+| kara · bali · śulka | tax |
+| kośa | treasury |
+| gūḍha-puruṣa | secret agent |
+| cāra | spy, scout |
+| janapada · rāṣṭra | territory, populated land |
+| daiva | fate, the divine (vs. pauruṣa) |
+| daṇḍa | the rod, coercion; also "army" |
+| daṇḍa-nīti | science of governance |
+| durga | fortress |
+| dūta | envoy, ambassador |
+| dyūta | gambling (a royal vice) |
+| dvaidhī-bhāva | double / divided policy |
+| nīti · rāja-nīti | statecraft |
+| nṛpa · rājan · narendra · bhū-pati | king |
+| pauruṣa · puruṣakāra | manly effort |
+| pārṣṇi-grāha | rear-attacker |
+| pramāda | heedlessness, negligence |
+| praṇidhi | spy |
+| prajā | subjects, the people |
+| prāḍ-vivāka | judge |
+| bala · sainya | army, force |
+| bheda | sowing dissension |
+| mada | arrogance, intoxication |
+| madhya-stha | middle king |
+| maṇḍala | circle of states |
+| matsya-nyāya | the law of the fish (anarchy) |
+| mitra | natural ally |
+| yuvarāja | crown prince, heir apparent |
+| rāja-dharma | royal duty |
+| rāja-sūya | royal-consecration sacrifice |
+| rājya | kingship, the state |
+| vigraha · yuddha · saṅgrāma | war |
+| vijigīṣu | would-be conqueror (central king) |
+| vinaya | discipline, training |
+| vyasana | vice, calamity (the seven of a king) |
+| saṃdhi | peace, treaty |
+| saptāṅga · sapta-prakṛti | seven elements of state |
+| sāma | conciliation |
+| ṣāḍ-guṇya | the sixfold policy |
 
-### B
+### I.2 Calamity-dharma (Āpaddharma)
 
-| Term | Sanskrit | Field |
-|------|----------|-------|
-| bed of arrows | śara-talpa, śara-śayyā | narrative |
-| being, the existent | sat | vedānta |
-| birth | jāti, janman | mokṣa |
-| bliss | ānanda | vedānta |
-| body, gross | sthūla-śarīra, deha | sāṃkhya |
-| body, subtle | sūkṣma-śarīra, liṅga-śarīra | sāṃkhya |
-| bondage | bandha, bandhana | mokṣa |
-| Brahmā (creator) | brahmā (m.) | theology |
-| Brahman (Absolute) | brahman (n.) | vedānta |
-| brahmin | brāhmaṇa, vipra, dvija | varṇa |
-| breath, vital air | prāṇa | yoga |
-| bribe (as policy) | dāna (upāya) | rāja |
+| Sanskrit (IAST) | English |
+|-----------------|---------|
+| anṛśaṃsya · ānṛśaṃsya | non-cruelty (held to be the highest virtue) |
+| āpad | calamity, distress |
+| āpat-kāla | time of calamity |
+| āpad-dharma | conduct permitted in calamity |
+| naya / anaya | sound policy / mismanagement |
 
-### C
+### I.3 Sāṃkhya–Yoga (the person, its constituents, practice)
 
-| Term | Sanskrit | Field |
-|------|----------|-------|
-| calamity, distress | āpad | āpad |
-| calamity, time of | āpat-kāla | āpad |
-| caste, color | varṇa | varṇa |
-| cause | kāraṇa, hetu | sāṃkhya / logic |
-| celibacy, student stage | brahmacarya | āśrama |
-| circle of states | maṇḍala | rāja |
-| coercion, the rod | daṇḍa | rāja |
-| commentary | bhāṣya, ṭīkā | śāstra |
-| compassion | dayā, anukrośā, kṛpā | ethics |
-| conciliation | sāma | rāja |
-| conqueror, would-be | vijigīṣu | rāja |
-| consciousness, pure | cit | vedānta |
-| consecration (royal) | abhiṣeka, rāja-sūya | rāja |
-| contemplation, meditation | dhyāna | yoga |
-| cosmic egg | brahmāṇḍa | cosmology |
-| cosmic time | kāla | mokṣa |
-| courier, spy | praṇidhi, cāra | rāja |
-| crown prince | yuvarāja | rāja |
+| Sanskrit (IAST) | English |
+|-----------------|---------|
+| akartṛ | the non-doer (the Self) |
+| ahaṃkāra | ego, the "I-maker" |
+| antaḥ-karaṇa | inner instrument (manas + buddhi + ahaṃkāra) |
+| abhyāsa | repeated practice |
+| avidyā · ajñāna | ignorance |
+| avyakta | the unmanifest |
+| asaṅga · anāsakti | non-attachment |
+| indriya | sense-faculty |
+| icchā · kāma · tṛṣṇā | desire |
+| kartṛ | doer, agent |
+| karman | action, work |
+| karma-phala | fruit of action |
+| karmendriya | organ of action |
+| kāraṇa · hetu | cause |
+| kārya | effect |
+| kaivalya | isolation, final liberation |
+| kāla | cosmic time |
+| kleśa | affliction, defilement |
+| kṣetra | the field (= body) |
+| kṣetra-jña | knower of the field (= Self) |
+| guṇa | strand, quality (sattva, rajas, tamas) |
+| jāti · janman | birth |
+| jñāna · vidyā · bodha | knowledge |
+| jñānendriya | organ of cognition |
+| tan-mātra | subtle element |
+| tri-guṇa | the three guṇas |
+| duḥkha | suffering, pain |
+| duḥkha-traya | the three kinds of suffering |
+| dama · saṃyama · niyama | self-control |
+| dveṣa | aversion |
+| dhāraṇā | concentration (yoga step) |
+| dhyāna | meditation |
+| nirodha | restraint, cessation |
+| pradhāna | the primary (= prakṛti) |
+| prakṛti | primal nature |
+| pratyāhāra | withdrawal of the senses |
+| prāṇa | vital breath |
+| puruṣa | spirit, conscious self (25th tattva) |
+| buddhi · mati · dhī | intellect, determination |
+| bhoktṛ | enjoyer |
+| manas | mind |
+| mahā-bhūta | gross element |
+| mokṣa · mukti · apavarga · nirvāṇa | liberation |
+| mumukṣu | aspirant for liberation |
+| rāga | passion, attachment |
+| liṅga-śarīra · sūkṣma-śarīra | subtle body |
+| vāsanā · saṃskāra | latent impression |
+| vairāgya | dispassion |
+| viveka | discrimination (real / unreal) |
+| vṛtti | mental modification; livelihood |
+| vyakta | the manifest |
+| samādhi | absorption (yoga step) |
+| saṃsāra | the cycle of mundane existence |
+| siddhi | yogic perfection / power |
+| sthūla-śarīra · deha | gross body |
+| svarga | heaven |
+| yoga | yoga, disciplined practice |
 
-### D
+### I.4 Vedānta (Self, Brahman, liberation)
 
-| Term | Sanskrit | Field |
-|------|----------|-------|
-| death | mṛtyu, maraṇa, anta | gen. |
-| defilement (mental) | mala, kleśa | yoga |
-| deity, god | deva, sura, amara | gen. |
-| demon (anti-god) | asura, daitya, dānava | gen. |
-| desire | kāma, tṛṣṇā, icchā | mokṣa |
-| determination, intellect | buddhi | sāṃkhya |
-| dharma (duty, law, religion) | dharma | gen. |
-| dharma in calamity | āpad-dharma | āpad |
-| dharma of king | rāja-dharma | rāja |
-| dharma of liberation | mokṣa-dharma | mokṣa |
-| dharma, one's own | sva-dharma | gen. |
-| discipline, training | vinaya | rāja / ethics |
-| discrimination (sat / asat) | viveka | yoga |
-| dispassion | vairāgya | yoga |
-| dissension, sowing of | bheda | rāja |
-| doer (agent) | kartṛ | sāṃkhya |
-| dog (in famous parable) | śvan | āpad |
-| double policy | dvaidhī-bhāva | rāja |
-| duty | dharma, kṛtya | gen. |
+| Sanskrit (IAST) | English |
+|-----------------|---------|
+| akṣara | the imperishable |
+| ātman | the Self |
+| ānanda | bliss |
+| aihika · laukika | this-worldly |
+| upādhi | limiting adjunct |
+| kṣara | the perishable |
+| cit | pure consciousness |
+| jīva · jīvātman | the individual soul |
+| jīvan-mukti | liberation while living |
+| draṣṭṛ · sākṣin | seer / witness (the Self) |
+| nāma-rūpa | name and form |
+| niḥśreyasa · paramā gati | the highest good / goal |
+| para-brahman | the highest Brahman |
+| brahman | the Absolute |
+| videha-mukti | disembodied liberation |
+| sat / asat | the existent / non-existent |
+| svapna · suṣupti | dream / deep-sleep (states of the Self) |
 
-### E
+### I.5 Ethics & general dharma
 
-| Term | Sanskrit | Field |
-|------|----------|-------|
-| effect | kārya | sāṃkhya |
-| effort, manly | pauruṣa, puruṣakāra | rāja |
-| ego, "I-maker" | ahaṃkāra | sāṃkhya |
-| element, gross | mahā-bhūta | sāṃkhya |
-| element, subtle | tan-mātra | sāṃkhya |
-| emanation, divine fourfold | catur-vyūha | nārāyaṇīya |
-| enemy (natural) | ari, śatru | rāja |
-| enjoyer | bhoktṛ | sāṃkhya |
-| enlightenment, knowledge | jñāna, vidyā, bodha | mokṣa |
-| eon, world-age | yuga, kalpa | cosmology |
-| epithet of greatness | mahā- (prefix) | style |
-| eternity | nityatā, śāśvatatā | mokṣa |
-| ether, space | ākāśa | sāṃkhya |
-| existence, mundane | saṃsāra | mokṣa |
+| Sanskrit (IAST) | English |
+|-----------------|---------|
+| akrodha / krodha | absence of anger / anger |
+| ahiṃsā | non-injury |
+| anukrośā · dayā · kṛpā | compassion |
+| artha · dhana · vitta | wealth |
+| asūyā · īrṣyā | envy, jealousy |
+| kāma | desire, pleasure |
+| kṛtya | duty, task (also: a disaffected man) |
+| kṣamā · titikṣā | forgiveness, endurance |
+| catur-varga · puruṣārtha | the four aims of life |
+| dāna | gift, generosity |
+| dharma | duty, law, righteousness |
+| pāpa · aśubha · anṛta | sin, evil, falsehood |
+| bhaya | fear |
+| lobha | greed |
+| vīrya · śaurya · parākrama | heroism, valor |
+| satya | truth |
+| sukha | happiness |
+| sva-dharma | one's own duty |
+| hiṃsā | violence |
 
-### F
+### I.6 Social order (Varṇa & Āśrama)
 
-| Term | Sanskrit | Field |
-|------|----------|-------|
-| fate, the divine | daiva | rāja |
-| fear | bhaya | ethics |
-| field, body | kṣetra | sāṃkhya |
-| field-knower (= Self) | kṣetra-jña | sāṃkhya |
-| forest hermit (3rd stage) | vānaprastha | āśrama |
-| forgiveness | kṣamā | ethics |
-| form, beautiful | rūpa | gen. |
-| fortress | durga | rāja |
-| four aims | catur-varga, puruṣārtha | ethics |
-| four means | catur-upāya | rāja |
-| four stages | catur-āśrama | varṇa |
-| fruit (of action) | phala | karma |
+| Sanskrit (IAST) | English |
+|-----------------|---------|
+| āśrama | stage of life |
+| ācārya · guru · upādhyāya | teacher |
+| kṣatra · kṣatriya · rājanya | warrior class |
+| gārhasthya | householder stage |
+| catur-āśrama | the four life-stages |
+| catur-varṇya | the four classes |
+| brahmacarya | celibate-student stage |
+| brāhmaṇa · vipra · dvija | brahmin |
+| varṇa | class, "color" |
+| vānaprastha | forest-hermit stage |
+| vaiśya · vaṇij | merchant class |
+| śūdra | servant class |
+| saṃnyāsa | renunciation (4th stage) |
 
-### G
+### I.7 Ritual, sacrifice & cosmology
 
-| Term | Sanskrit | Field |
-|------|----------|-------|
-| generosity, gift | dāna | ethics / rāja |
-| gerundive (must-be-done) | kṛtya, kārya, karaṇīya | grammar |
-| god — see deity |  |  |
-| greed | lobha | ethics |
-| gross element | mahā-bhūta | sāṃkhya |
-| guṇa (strand / quality) | guṇa | sāṃkhya |
-| guru | guru, ācārya | ethics |
+| Sanskrit (IAST) | English |
+|-----------------|---------|
+| aśva-medha | horse sacrifice |
+| aśauca · mala | ritual impurity |
+| āhuti · havis | oblation, offering |
+| kalpa · yuga | world-age, eon |
+| brahmāṇḍa | cosmic egg |
+| yajña | sacrifice |
+| yoni · prabhava | source, origin |
+| vidhi | ritual injunction |
 
-### H
+### I.8 Theology & devotion (Nārāyaṇīya)
 
-| Term | Sanskrit | Field |
-|------|----------|-------|
-| happiness | sukha | ethics |
-| heaven | svarga | mokṣa |
-| heedlessness | pramāda | rāja |
-| heir apparent | yuvarāja | rāja |
-| heroism, valor | vīrya, śaurya, parākrama | rāja |
-| highest goal | paramā gati | mokṣa |
-| Hinduism (= sanātana) | sanātana dharma | (later) |
-| horse sacrifice | aśva-medha | sacrifice |
-| household stage | gārhasthya | āśrama |
+| Sanskrit (IAST) | English |
+|-----------------|---------|
+| amara · deva · sura | god, deity |
+| asura · daitya · dānava | anti-god, demon |
+| avatāra | divine descent |
+| īśvara · prabhu · nātha | the Lord |
+| catur-vyūha | the fourfold emanation (Vāsudeva, Saṃkarṣaṇa, Pradyumna, Aniruddha) |
+| nārāyaṇa | Nārāyaṇa (= Viṣṇu) |
+| pāñca-rātra | the Pāñcarātra doctrine |
+| puruṣottama | the Supreme Person |
+| brahmā | Brahmā the creator |
+| bhakti | devotion |
+| pūjā · arcanā · bhajana | worship |
 
-### I
+### I.9 Text, grammar & scholarly terms
 
-| Term | Sanskrit | Field |
-|------|----------|-------|
-| ignorance | avidyā, ajñāna | mokṣa |
-| immortality | amṛtatva | mokṣa |
-| imperishable | akṣara | vedānta |
-| impurity | aśauca, mala | ritual |
-| individual soul | jīva, jīvātman | vedānta |
-| injunction | vidhi | ritual |
-| inner instrument | antaḥ-karaṇa | sāṃkhya |
-| instrument | karaṇa | gen. / grammar |
-| intellect | buddhi, mati, dhī | sāṃkhya |
-| isolation (final liberation) | kaivalya | sāṃkhya |
+| Sanskrit (IAST) | English |
+|-----------------|---------|
+| āgama | scriptural tradition |
+| upaniṣad | esoteric teaching |
+| ṛṣi · muni | seer, sage |
+| karaṇa | instrument (general / grammatical) |
+| kṛtya · kārya · karaṇīya | gerundive ("to be done") |
+| ktvānta · lyabanta | absolutive (gerund in -tvā / -ya) |
+| tapas | austerity |
+| tāpasa · yati · saṃnyāsin | ascetic, renouncer |
+| darśana | philosophical system |
+| para-loka | the other world (afterlife) |
+| pratyakṣa | perception |
+| bhāṣya · ṭīkā | commentary |
+| mahā-ṛṣi | great seer |
+| vāc | speech, the Word |
+| vedānta · uttara-mīmāṃsā | the Vedānta school |
+| sampradāya | lineage, tradition |
+| sāṃkhya | the Sāṃkhya school |
+| smṛti | remembered tradition |
 
-### J
+### I.10 Narrative frame & common epithets
 
-| Term | Sanskrit | Field |
-|------|----------|-------|
-| jealousy | īrṣyā, asūyā | ethics |
-| judge | prāḍ-vivāka | rāja |
-
-### K
-
-| Term | Sanskrit | Field |
-|------|----------|-------|
-| killer, slayer | hantṛ, han- | gen. |
-| king | rājan, nṛpa, bhū-pati, narendra | rāja |
-| kingship | rājya | rāja |
-| knower of field | kṣetra-jña | sāṃkhya |
-| knowledge | jñāna, vidyā | mokṣa |
-| Kṣatriya | kṣatriya, rājanya | varṇa |
-
-### L
-
-| Term | Sanskrit | Field |
-|------|----------|-------|
-| latent impression | vāsanā, saṃskāra | yoga |
-| law of the fish | matsya-nyāya | rāja |
-| liberation | mokṣa, mukti, apavarga, nirvāṇa | mokṣa |
-| liberation-while-living | jīvan-mukti | vedānta |
-| liberation, disembodied | videha-mukti | vedānta |
-| limiting adjunct | upādhi | vedānta |
-| lord | īśvara, prabhu, nātha | theology |
-| lust, desire | kāma | ethics |
-
-### M
-
-| Term | Sanskrit | Field |
-|------|----------|-------|
-| maharṣi (great seer) | mahā-ṛṣi | gen. |
-| manifest | vyakta | sāṃkhya |
-| means (the four) | upāya | rāja |
-| meditation | dhyāna | yoga |
-| memory, tradition | smṛti | śāstra |
-| mind | manas | sāṃkhya |
-| ministry, minister | amātya, mantrin, saciva | rāja |
-| modification (of mind) | vṛtti | yoga |
-| moksa — see liberation |  |  |
-
-### N
-
-| Term | Sanskrit | Field |
-|------|----------|-------|
-| name and form | nāma-rūpa | vedānta |
-| Nārāyaṇa | nārāyaṇa | theology |
-| Nārāyaṇīya doctrine | pāñca-rātra | theology |
-| neutral king | madhya-stha, udāsīna | rāja |
-| nirvāṇa, extinction | nirvāṇa | mokṣa |
-| non-attachment | asaṅga, anāsakti | yoga |
-| non-doer (Self as) | akartṛ | sāṃkhya |
-| non-injury, non-violence | ahiṃsā | ethics |
-
-### O
-
-| Term | Sanskrit | Field |
-|------|----------|-------|
-| obligation, what-must-be-done | kārya, kṛtya, karaṇīya | grammar |
-| offering, oblation | havis, āhuti | ritual |
-| organ of sense | jñānendriya | sāṃkhya |
-| organ of action | karmendriya | sāṃkhya |
-| origin, source | yoni, prabhava | cosmology |
-
-### P
-
-| Term | Sanskrit | Field |
-|------|----------|-------|
-| pain, suffering | duḥkha | mokṣa |
-| passion | rāga | yoga |
-| path | mārga, panthān, ayana | gen. |
-| patience | kṣamā, titikṣā | ethics |
-| peace, treaty | saṃdhi | rāja |
-| people, subjects | prajā | rāja |
-| perception | pratyakṣa | logic |
-| perfection | siddhi | yoga |
-| perishable | kṣara | vedānta |
-| philosophy school | darśana | śāstra |
-| polity, statecraft | nīti, rāja-nīti, daṇḍa-nīti | rāja |
-| power, energy | śakti, ojas, tejas | gen. |
-| practice, repetition | abhyāsa | yoga |
-| prakṛti (primal nature) | prakṛti | sāṃkhya |
-| primary, first | pradhāna | sāṃkhya |
-| Puruṣa (cosmic Self / spirit) | puruṣa | sāṃkhya / vedic |
-| Puruṣottama (Supreme Person) | puruṣottama | theology |
-
-### Q–R
-
-| Term | Sanskrit | Field |
-|------|----------|-------|
-| quality, strand | guṇa | sāṃkhya |
-| rear-attacker (king) | pārṣṇi-grāha | rāja |
-| renouncer | saṃnyāsin, yati | mokṣa |
-| renunciation | saṃnyāsa, tyāga, vairāgya | mokṣa |
-| restraint, cessation | nirodha | yoga |
-| rod, punishment | daṇḍa | rāja |
-| royal duty | rāja-dharma | rāja |
-| royal sage | rāja-ṛṣi | gen. |
-
-### S
-
-| Term | Sanskrit | Field |
-|------|----------|-------|
-| sacrifice | yajña | ritual |
-| sage, seer | ṛṣi, muni, vipra | gen. |
-| Sāṃkhya | sāṃkhya | śāstra |
-| seer (Self) | draṣṭṛ, sākṣin | vedānta |
-| self-control | dama, saṃyama, niyama | yoga |
-| sense | indriya | sāṃkhya |
-| seven elements (state) | sapta-prakṛti, saptāṅga | rāja |
-| Shantiparva — title meaning | "Book of Peace" | text |
-| Shudra | śūdra | varṇa |
-| sin, evil | pāpa, aśubha, anṛta | ethics |
-| six policies | ṣāḍ-guṇya | rāja |
-| sleep, dream, deep sleep | svapna, suṣupti | vedānta |
-| son (of) | -ja, -putra, -nandana | onomastic |
-| soul, individual | jīva | vedānta |
-| spy | praṇidhi, cāra, gūḍha-puruṣa | rāja |
-| stage of life | āśrama | varṇa |
-| state, the (seven limbs) | rājya, saptāṅga | rāja |
-| straw on head (refuge gesture) | tṛṇa-mūlam dhṛtvā | narrative |
-| suffering, three kinds | duḥkha-traya | mokṣa |
-| supreme person | puruṣottama | theology |
-
-### T
-
-| Term | Sanskrit | Field |
-|------|----------|-------|
-| tax | bali, kara, śulka | rāja |
-| teacher | guru, ācārya, upādhyāya | varṇa |
-| territory | janapada, rāṣṭra | rāja |
-| this-worldly | aihika, laukika | vedānta |
-| three guṇas | tri-guṇa (sattva-rajas-tamas) | sāṃkhya |
-| time, cosmic | kāla | mokṣa |
-| tradition | smṛti, sampradāya, āgama | śāstra |
-| treasury | kośa | rāja |
-| truth | satya | ethics |
-
-### U
-
-| Term | Sanskrit | Field |
-|------|----------|-------|
-| ultimate liberation | kaivalya, niḥśreyasa | mokṣa |
-| unmanifest | avyakta | sāṃkhya |
-| Upaniṣad (esoteric teaching) | upaniṣad | śāstra |
-
-### V–Z
-
-| Term | Sanskrit | Field |
-|------|----------|-------|
-| Vaiśya (merchant) | vaiśya, vaṇij | varṇa |
-| varṇa, four classes | catur-varṇya | varṇa |
-| vedānta school | vedānta, uttara-mīmāṃsā | śāstra |
-| vice (of kings) | vyasana | rāja |
-| violence | hiṃsā | ethics |
-| war | vigraha, yuddha, saṅgrāma | rāja |
-| warrior class | kṣatra, kṣatriya | varṇa |
-| wealth | artha, dhana, vitta | ethics |
-| wisdom | prajñā, medhā | mokṣa |
-| witness (Self) | sākṣin | vedānta |
-| word, speech | vāc | vedic |
-| world, the | jagat, loka, saṃsāra | gen. |
-| worship | pūjā, arcanā, bhajana | bhakti |
-| yoga | yoga | śāstra |
+| Sanskrit (IAST) | English |
+|-----------------|---------|
+| anta · mṛtyu · maraṇa | death |
+| icchā-mṛtyu | death-at-will (Bhīṣma's boon) |
+| uttarāyaṇa | northern course of the sun (auspicious time to die) |
+| jagat · loka | world |
+| -ja · -putra · -nandana | "son of" (patronymic suffixes) |
+| tṛṇaṃ dhṛtvā | "holding a straw" — gesture of submission |
+| mahā- (prefix) | "great-" in bahuvrīhi epithets (mahā-bāhu, mahātman …) |
+| mārga · panthān · ayana | path |
+| rūpa | form, beauty |
+| śakti · ojas · tejas | power, energy |
+| śara-talpa · śara-śayyā | the bed of arrows (Bhīṣma's deathbed) |
+| śvan | dog (Viśvāmitra parable; the dog at heaven's gate) |
 
 ---
 
