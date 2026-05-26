@@ -64,10 +64,12 @@ nav {
 .hero .label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--green); margin-bottom: 20px; }
 .hero h1 { font-size: 48px; font-weight: 800; letter-spacing: -2px; line-height: 1.08; margin-bottom: 20px; }
 .hero h1 em { color: var(--green); font-style: normal; }
-.hero p { font-size: 18px; color: var(--mid); line-height: 1.6; max-width: 540px; margin: 0 auto 32px; }
+.hero p { font-size: 18px; color: var(--mid); line-height: 1.6; max-width: 540px; margin: 0 auto; }
 
-.trust { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 28px; }
-.trust span { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border: 1px solid var(--border); border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--mid); background: var(--card); }
+.stats-strip { max-width: 720px; margin: 0 auto; padding: 0 24px 56px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+.stats-strip .ss { padding: 24px 12px; text-align: center; }
+.ss-num { font-size: 28px; font-weight: 800; letter-spacing: -1px; color: var(--ink); margin-bottom: 4px; }
+.ss-text { font-size: 12px; color: var(--light); line-height: 1.4; }
 
 .content { max-width: 720px; margin: 0 auto; padding: 0 24px 56px; }
 .content-section { padding: 48px 0; border-top: 1px solid var(--border); }
@@ -121,6 +123,7 @@ nav {
   .nav-btn { padding: 12px 24px !important; font-size: 15px !important; }
   .hero { padding: 120px 16px 40px; }
   .hero h1 { font-size: 32px; letter-spacing: -1.2px; }
+  .stats-strip { grid-template-columns: 1fr 1fr; padding: 0 16px 40px; }
   .content { padding: 0 16px 40px; }
   .steps { grid-template-columns: 1fr 1fr; }
   .cta-banner { padding: 0 16px 48px; }
@@ -149,13 +152,14 @@ nav {
   <div class="label">EHO Inspection Readiness · Free</div>
   <h1>Find your gaps <em>before</em><br>the inspector does.</h1>
   <p>Five focused audits. Five minutes each. No email required. Each one tells you exactly what an EHO inspector would look for — and where you stand.</p>
-  <div class="trust">
-    <span>⚡ Instant result</span>
-    <span>📧 No email required</span>
-    <span>📥 Downloadable PDF report</span>
-    <span>🇬🇧 Aligned with FSA criteria</span>
-  </div>
 </section>
+
+<div class="stats-strip">
+  <div class="ss"><div class="ss-num">5 min</div><div class="ss-text">Average time per audit</div></div>
+  <div class="ss"><div class="ss-num">15 Qs</div><div class="ss-text">FSA-aligned, no fluff</div></div>
+  <div class="ss"><div class="ss-num">No email</div><div class="ss-text">Free, no signup required</div></div>
+  <div class="ss"><div class="ss-num">PDF</div><div class="ss-text">Downloadable for your records</div></div>
+</div>
 
 <div class="content">
   <section class="content-section">
