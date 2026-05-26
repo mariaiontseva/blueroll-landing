@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Restaurant Documents Audit — Free EHO Readiness Check | Blueroll</title>
+<meta name="description" content="A 5-minute self-audit of the 15 documents EHO inspectors look at first. Free, no email required. See your gaps and download the report. Built for indie UK restaurants.">
+<meta name="keywords" content="EHO documents audit, restaurant paperwork checker, HACCP documents check, food hygiene records UK, indie restaurant compliance">
+<link rel="canonical" href="https://blueroll.app/audit/documents.html">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://blueroll.app/audit/documents.html">
+<meta property="og:title" content="Restaurant Documents Audit — Free EHO Readiness Check">
+<meta property="og:description" content="15-question audit. 5 minutes. No email. Free PDF report. Find your paperwork gaps before EHO does.">
+<meta property="og:image" content="https://blueroll.app/og-image.png">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZFY0GPZYYQ');</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --green: #047857; --green-dark: #065F46; --green-deep: #022c22;
+  --bg: #FAFAF7; --card: #FFFFFF; --border: #E8E5DF;
+  --ink: #111; --mid: #555; --light: #999;
+  --red: #DC2626; --red-bg: #FEE2E2;
+  --amber: #B45309; --amber-bg: #FEF3C7;
+  --green-bg: #D1FAE5;
+}
+body { font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; line-height: 1.6; min-height: 100vh; }
+
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 48px; height: 80px; display: flex; align-items: center; justify-content: space-between; background: rgba(250,250,247,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,0.06); }
+.nav-left { display: flex; align-items: center; gap: 6px; text-decoration: none; color: inherit; }
+.nav-left img { width: 24px; height: auto; }
+.nav-left span { font-size: 20px; font-weight: 800; letter-spacing: -0.6px; }
+.nav-right a { text-decoration: none; color: var(--mid); font-size: 15px; font-weight: 600; }
+
+main { max-width: 720px; margin: 0 auto; padding: 110px 24px 60px; }
+
+/* ─── INTRO ─── */
+.intro h1 { font-size: 38px; font-weight: 800; letter-spacing: -1.4px; line-height: 1.1; margin-bottom: 16px; }
+.intro h1 em { color: var(--green); font-style: normal; }
+.intro .lead { font-size: 17px; color: var(--mid); margin-bottom: 24px; }
+.intro .trust { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
+.intro .trust-pill { font-size: 12px; font-weight: 600; color: var(--mid); background: var(--card); border: 1.5px solid var(--border); padding: 6px 14px; border-radius: 999px; }
+.btn-primary { background: var(--green); color: white; border: none; padding: 16px 40px; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; transition: background 0.15s; font-family: inherit; }
+.btn-primary:hover { background: var(--green-dark); }
+.btn-secondary { background: var(--card); color: var(--ink); border: 2px solid var(--border); padding: 14px 32px; border-radius: 12px; font-weight: 700; font-size: 15px; cursor: pointer; font-family: inherit; }
+.btn-secondary:hover { border-color: var(--mid); }
+
+/* ─── QUIZ ─── */
+.progress-wrap { margin-bottom: 32px; }
+.progress-meta { display: flex; justify-content: space-between; font-size: 13px; color: var(--light); font-weight: 600; margin-bottom: 8px; }
+.progress-bar { width: 100%; height: 6px; background: var(--border); border-radius: 999px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--green); width: 0%; transition: width 0.3s; }
+.question-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 18px; padding: 36px; }
+.question-card h2 { font-size: 26px; font-weight: 800; letter-spacing: -0.8px; line-height: 1.25; margin-bottom: 12px; }
+.question-card .helper { font-size: 14px; color: var(--mid); margin-bottom: 28px; line-height: 1.55; }
+.answer-buttons { display: flex; flex-direction: column; gap: 12px; }
+.answer-btn { background: var(--card); border: 2px solid var(--border); border-radius: 12px; padding: 18px 22px; font-size: 16px; font-weight: 600; color: var(--ink); cursor: pointer; transition: all 0.15s; font-family: inherit; text-align: left; display: flex; align-items: center; gap: 12px; }
+.answer-btn:hover { border-color: var(--green); background: #F0FDF4; transform: translateX(4px); }
+.answer-btn .key { width: 28px; height: 28px; border-radius: 50%; background: var(--border); color: var(--mid); font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.answer-btn:hover .key { background: var(--green); color: white; }
+.quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; }
+.btn-back { background: none; border: none; color: var(--mid); font-size: 14px; cursor: pointer; font-family: inherit; padding: 8px 16px; }
+.btn-back:hover { color: var(--ink); }
+.btn-back:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* ─── RESULT ─── */
+.result-hero { text-align: center; padding: 28px 0 40px; }
+.result-score { font-size: 96px; font-weight: 800; letter-spacing: -4px; line-height: 1; margin-bottom: 8px; }
+.result-score.red { color: var(--red); }
+.result-score.amber { color: var(--amber); }
+.result-score.green { color: var(--green); }
+.result-score .of { font-size: 32px; color: var(--light); font-weight: 600; }
+.result-band { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; padding: 6px 16px; border-radius: 999px; display: inline-block; margin-bottom: 16px; }
+.result-band.red { background: var(--red-bg); color: var(--red); }
+.result-band.amber { background: var(--amber-bg); color: var(--amber); }
+.result-band.green { background: var(--green-bg); color: var(--green-dark); }
+.result-summary { font-size: 18px; color: var(--mid); max-width: 540px; margin: 0 auto 20px; line-height: 1.5; }
+
+.result-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin: 0 0 36px; }
+.result-actions .btn-primary, .result-actions .btn-secondary { padding: 14px 28px; font-size: 15px; }
+
+.result-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
+.result-item { background: var(--card); border: 1.5px solid var(--border); border-left-width: 6px; border-radius: 12px; padding: 20px 24px; }
+.result-item.yes { border-left-color: var(--green); }
+.result-item.partial { border-left-color: var(--amber); }
+.result-item.no { border-left-color: var(--red); }
+.result-item .ri-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+.result-item .ri-icon { font-size: 20px; flex-shrink: 0; }
+.result-item .ri-text { font-weight: 700; font-size: 16px; flex-grow: 1; line-height: 1.4; }
+.result-item .ri-status { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; padding: 3px 10px; border-radius: 6px; flex-shrink: 0; }
+.result-item.yes .ri-status { background: var(--green-bg); color: var(--green-dark); }
+.result-item.partial .ri-status { background: var(--amber-bg); color: var(--amber); }
+.result-item.no .ri-status { background: var(--red-bg); color: var(--red); }
+.result-item .ri-detail { font-size: 14px; color: var(--mid); line-height: 1.6; margin-top: 6px; }
+.result-item .ri-detail strong { color: var(--ink); }
+.result-item .ri-cta { display: inline-block; margin-top: 12px; font-size: 13px; font-weight: 700; color: var(--green); text-decoration: none; padding: 8px 14px; background: var(--green-bg); border-radius: 8px; }
+.result-item .ri-cta:hover { background: #BBF7D0; }
+
+.coming-soon-block { background: var(--card); border: 1.5px solid var(--border); border-radius: 16px; padding: 24px 28px; margin-bottom: 28px; }
+.coming-soon-block h3 { font-size: 18px; font-weight: 800; margin-bottom: 12px; }
+.coming-soon-block ul { list-style: none; padding: 0; }
+.coming-soon-block li { font-size: 14px; color: var(--mid); padding: 6px 0; }
+.coming-soon-block li::before { content: "→ "; color: var(--light); }
+
+.cta-block { background: var(--green-deep); color: white; border-radius: 16px; padding: 36px 32px; text-align: center; }
+.cta-block h3 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+.cta-block p { font-size: 15px; color: rgba(255,255,255,0.65); margin-bottom: 20px; }
+.cta-block a { display: inline-block; background: white; color: var(--green-deep); padding: 14px 32px; border-radius: 10px; font-weight: 700; text-decoration: none; }
+
+.share-toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(120px); background: var(--ink); color: white; padding: 14px 28px; border-radius: 999px; font-size: 14px; font-weight: 600; transition: transform 0.3s; z-index: 200; }
+.share-toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ─── PRINT (for PDF report) ─── */
+@media print {
+  @page { size: A4; margin: 14mm; }
+  nav, .quiz-nav, .result-actions, .cta-block, .coming-soon-block, .share-toast { display: none !important; }
+  body { background: white; color: black; }
+  main { padding: 0; max-width: none; }
+  .result-hero { padding: 0 0 16px; border-bottom: 2px solid #111; margin-bottom: 16px; }
+  .result-hero::before { content: "BLUEROLL · EHO READINESS REPORT — DOCUMENTS"; display: block; font-size: 10px; font-weight: 800; letter-spacing: 3px; color: #555; margin-bottom: 4px; }
+  .result-score { font-size: 64px; }
+  .result-item { box-shadow: none; page-break-inside: avoid; margin-bottom: 8px; padding: 10px 14px; }
+  .result-item .ri-text { font-size: 13px; }
+  .result-item .ri-detail { font-size: 11px; }
+  .result-item .ri-cta { display: none; }
+  .print-footer { display: block !important; margin-top: 24px; padding-top: 12px; border-top: 1px solid #ddd; font-size: 10px; color: #555; }
+}
+.print-footer { display: none; }
+
+@media (max-width: 600px) {
+  nav { padding: 0 20px; height: 68px; }
+  .nav-right a { display: none; }
+  main { padding: 90px 16px 40px; }
+  .intro h1 { font-size: 28px; }
+  .question-card { padding: 24px 20px; }
+  .question-card h2 { font-size: 20px; }
+  .result-score { font-size: 72px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-left">
+    <img src="/blueroll-logo.svg" alt="Blueroll">
+    <span>Blueroll</span>
+  </a>
+  <div class="nav-right">
+    <a href="/audit/">All audits</a>
+  </div>
+</nav>
+
+<main>
+  <!-- INTRO SCREEN -->
+  <section id="screen-intro" class="intro">
+    <h1>Restaurant <em>documents</em> audit</h1>
+    <p class="lead">Fifteen questions. About five minutes. No email required. Find out which essential records would stand up to an EHO inspection — and which won't.</p>
+    <div class="trust">
+      <span class="trust-pill">⚡ Instant result</span>
+      <span class="trust-pill">📧 No email</span>
+      <span class="trust-pill">📥 Free PDF report</span>
+    </div>
+    <button class="btn-primary" onclick="startQuiz()">Start the audit →</button>
+  </section>
+
+  <!-- QUIZ SCREEN -->
+  <section id="screen-quiz" style="display:none;">
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span id="progress-label">Question 1 of 15</span>
+        <span id="progress-pct">7%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+
+    <div class="question-card">
+      <h2 id="q-text">Loading…</h2>
+      <p id="q-helper" class="helper"></p>
+      <div class="answer-buttons">
+        <button class="answer-btn" onclick="answer('yes')"><span class="key">Y</span>Yes — we have this in place</button>
+        <button class="answer-btn" onclick="answer('partial')"><span class="key">P</span>Sometimes / partially</button>
+        <button class="answer-btn" onclick="answer('no')"><span class="key">N</span>No — we don't have this</button>
+      </div>
+    </div>
+
+    <div class="quiz-nav">
+      <button class="btn-back" id="btn-back" onclick="goBack()">← Back</button>
+      <span style="font-size:12px;color:var(--light);">Tip: press Y / P / N</span>
+    </div>
+  </section>
+
+  <!-- RESULT SCREEN -->
+  <section id="screen-result" style="display:none;">
+    <div class="result-hero">
+      <div class="result-band" id="result-band">Loading…</div>
+      <div class="result-score" id="result-score">0<span class="of">/15</span></div>
+      <p class="result-summary" id="result-summary"></p>
+    </div>
+
+    <div class="result-actions">
+      <button class="btn-primary" onclick="downloadReport()">📥 Download PDF report</button>
+      <button class="btn-secondary" onclick="shareAudit()">🔗 Share this audit</button>
+      <button class="btn-secondary" onclick="restartQuiz()">↻ Retake</button>
+    </div>
+
+    <div class="result-list" id="result-list"></div>
+
+    <div class="coming-soon-block">
+      <h3>Other audits coming Q3 2026</h3>
+      <ul>
+        <li>Cross-contamination &amp; food handling</li>
+        <li>Cleanliness &amp; condition</li>
+        <li>Allergens &amp; customer communication</li>
+        <li>Staff training &amp; procedures</li>
+      </ul>
+    </div>
+
+    <div class="cta-block">
+      <h3>Generate the missing docs in 5 minutes</h3>
+      <p>Blueroll auto-generates HACCP plans, allergen matrices, temperature logs, cleaning schedules — all the documents flagged above. £14.99/month. 14-day free trial.</p>
+      <a href="/">Try Blueroll free →</a>
+    </div>
+
+    <div class="print-footer">
+      Blueroll — food safety operations for indie UK restaurants. https://blueroll.app · This is a self-audit aligned with FSA criteria. It does not replace a real EHO inspection.
+    </div>
+  </section>
+
+</main>
+
+<div class="share-toast" id="share-toast">Link copied — share with your team</div>
+
+<script>
+// ───────────── Questions data ─────────────
+const QUESTIONS = [
+  { id: 'haccp_plan', text: 'Do you have a written HACCP plan in place?',
+    helper: 'Or an SFBB diary if you\'re a small caterer. Either is acceptable.',
+    eho: 'EHO inspectors ask for HACCP/SFBB documentation first. Missing it directly hits your "Confidence in Management" score.',
+    fix: 'Document the hazards at each step of your food flow (delivery → storage → prep → cooking → serving). Use the FSA SFBB diary template if your venue is small.',
+    blueroll: true },
+  { id: 'fridge_log', text: 'Daily fridge temperature log going back 90 days?',
+    helper: 'Recorded twice daily ideally, signed by the person who checked.',
+    eho: 'Inspectors will ask for the last 90 days of fridge temperatures. Gaps in the log are a red flag.',
+    fix: 'Log fridge temperatures twice daily (open + close). Target ≤5°C. Print a daily sheet or use a digital tracker.',
+    blueroll: true },
+  { id: 'freezer_log', text: 'Daily freezer temperature log going back 90 days?',
+    helper: 'Same as fridge log — daily entries, signed off.',
+    eho: 'Freezers must run at ≤-18°C. A missing log means the inspector cannot verify the cold chain.',
+    fix: 'Log freezer temperatures daily. Use the same sheet/tool as your fridge log to keep it simple.',
+    blueroll: true },
+  { id: 'cooking_temps', text: 'Cooking temperature records for high-risk dishes?',
+    helper: 'Chicken, fish, rice, eggs, anything with a cooking critical control point.',
+    eho: 'EHO will spot-check a probe reading during inspection AND want to see historical records that prove this is routine.',
+    fix: 'Probe high-risk dishes once a shift. Record dish + temp + time + initial. Target ≥75°C core (or 70°C for 2 minutes).',
+    blueroll: true },
+  { id: 'allergen_matrix', text: 'Allergen matrix — every dish × the 14 UK allergens, written down?',
+    helper: 'Including marinades, sauces, garnishes — the hidden ingredients that catch people out.',
+    eho: 'Since the March 2025 FSA guidance, written allergen information for non-prepacked food is the expected standard. Spring 2026 Owen\'s Law review may make it statutory.',
+    fix: 'Build a grid: rows = dishes, columns = the 14 allergens, ticks for what each dish contains. Print and update on every recipe change.',
+    blueroll: true },
+  { id: 'allergen_training', text: 'Allergen training record per staff member with dates?',
+    helper: 'Signed by each staff member after completing the training.',
+    eho: 'EHO will ask which staff have been trained on allergens, and when. "Verbal training" doesn\'t count without a paper trail.',
+    fix: 'A short signed form per staff member: name, date trained, what was covered, who delivered the training. One A4 sheet is enough.',
+    blueroll: false },
+  { id: 'cleaning_schedule', text: 'Written cleaning schedule (what, when, who)?',
+    helper: 'Daily / weekly / monthly tasks, by area, with named owners.',
+    eho: 'EHO asks: who cleans what, how often, with what chemicals. A written schedule is the baseline.',
+    fix: 'List every cleanable area, frequency (daily/weekly/monthly), assigned role, and chemical used. One A3 wall chart.',
+    blueroll: true },
+  { id: 'cleaning_records', text: 'Cleaning records — proof cleaning actually happened, signed by staff?',
+    helper: 'A schedule on the wall is not enough — there must be evidence of completion.',
+    eho: 'Schedules tell EHO what should happen; records prove it actually does. Both are checked.',
+    fix: 'Daily sign-off sheet per shift. Initials of whoever did each task. Keep last 3 months on file.',
+    blueroll: true },
+  { id: 'pest_control', text: 'Pest control records — last visit, findings, treatments?',
+    helper: 'Either from a contractor or your own monthly inspection sheet.',
+    eho: 'EHO inspects for evidence of pests AND for proof you have a control system. Missing pest records often = automatic mark-down.',
+    fix: 'If using a contractor, keep their reports. If self-managing, record monthly inspection of bait stations, traps, and any sightings.',
+    blueroll: false },
+  { id: 'supplier_list', text: 'Approved supplier list with food safety certificates verified?',
+    helper: 'A list of who you buy from, plus their current food safety certs on file.',
+    eho: 'EHO traces food safety back through your supply chain. Untraceable suppliers mark down "Management" significantly.',
+    fix: 'List every supplier (name, what they supply, last cert date). Request their food safety certificate annually — keep PDFs on file.',
+    blueroll: true },
+  { id: 'delivery_log', text: 'Delivery acceptance log (date, supplier, temp at delivery, condition)?',
+    helper: 'Every chilled and frozen delivery — temp probed on arrival, condition signed off.',
+    eho: 'Cold chain is a critical control point. Missing delivery temp records means EHO cannot verify food arrived safely.',
+    fix: 'A simple form per delivery: supplier, items, temp at delivery (must be ≤5°C chilled / ≤-18°C frozen), condition of packaging, signed by receiver.',
+    blueroll: true },
+  { id: 'induction', text: 'Food safety induction record signed by every new starter?',
+    helper: 'Before they touch food: covered the basics, signed and dated.',
+    eho: 'EHO will ask "how do you train new staff?" An induction record per employee is the evidence.',
+    fix: 'A signed one-pager covering: handwashing, illness reporting, allergen basics, your specific procedures. Signed on day 1.',
+    blueroll: false },
+  { id: 'illness_log', text: 'Staff illness reporting log (return-to-work clearance)?',
+    helper: 'Records of who was off with what, and when they were cleared to handle food again.',
+    eho: 'Sick staff handling food is a major risk. EHO wants to see you have a reporting + clearance procedure documented.',
+    fix: 'A short log: staff name, date off, symptoms, date returned, 48hrs symptom-free confirmed. Keep last 12 months.',
+    blueroll: false },
+  { id: 'probe_calibration', text: 'Probe/thermometer calibration record?',
+    helper: 'Calibrated against ice water (0°C) or boiling water (100°C), at least monthly.',
+    eho: 'An uncalibrated probe means your temperature records are meaningless. EHO often spot-checks calibration.',
+    fix: 'Monthly: dip probe in ice water (should read 0°C ±1°C). Log date + reading + initial. Replace probe if off by >1°C.',
+    blueroll: false },
+  { id: 'complaint_log', text: 'Customer complaint log (incident, action taken, follow-up)?',
+    helper: 'Especially allergen reactions or food poisoning concerns — these MUST be logged.',
+    eho: 'How you handle complaints — particularly allergen incidents — directly affects your "Management" score.',
+    fix: 'A simple log: date, customer name (optional), nature of complaint, action taken, follow-up. Keep allergen incidents indefinitely.',
+    blueroll: true },
+];
+
+// ───────────── State ─────────────
+const STORAGE_KEY = 'blueroll_audit_documents_v1';
+let state = {
+  current: 0,
+  answers: {},  // { qid: 'yes' | 'partial' | 'no' }
+};
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed.current === 'number' && parsed.answers) {
+        state = parsed;
+        return true;
+      }
+    }
+  } catch (e) {}
+  return false;
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+}
+function clearState() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  state = { current: 0, answers: {} };
+}
+
+// ───────────── Screen control ─────────────
+function showScreen(id) {
+  ['screen-intro','screen-quiz','screen-result'].forEach(s => {
+    document.getElementById(s).style.display = (s === id) ? '' : 'none';
+  });
+  window.scrollTo(0, 0);
+}
+
+function startQuiz() {
+  // Resume support
+  if (Object.keys(state.answers).length > 0 && state.current < QUESTIONS.length) {
+    if (confirm('You have an in-progress audit. Resume where you left off?')) {
+      // Continue
+    } else {
+      clearState();
+    }
+  } else if (Object.keys(state.answers).length >= QUESTIONS.length) {
+    clearState();
+  }
+  showScreen('screen-quiz');
+  renderQuestion();
+  if (typeof gtag === 'function') gtag('event', 'audit_documents_start');
+}
+
+function restartQuiz() {
+  clearState();
+  showScreen('screen-intro');
+}
+
+function renderQuestion() {
+  if (state.current >= QUESTIONS.length) { showResult(); return; }
+  const q = QUESTIONS[state.current];
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('q-helper').textContent = q.helper || '';
+  document.getElementById('progress-label').textContent = `Question ${state.current + 1} of ${QUESTIONS.length}`;
+  const pct = Math.round(((state.current) / QUESTIONS.length) * 100);
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('btn-back').disabled = (state.current === 0);
+}
+
+function answer(value) {
+  const q = QUESTIONS[state.current];
+  state.answers[q.id] = value;
+  state.current += 1;
+  saveState();
+  if (state.current >= QUESTIONS.length) {
+    showResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function goBack() {
+  if (state.current > 0) {
+    state.current -= 1;
+    saveState();
+    renderQuestion();
+  }
+}
+
+// Keyboard shortcuts Y/P/N
+document.addEventListener('keydown', (e) => {
+  if (document.getElementById('screen-quiz').style.display === 'none') return;
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  const k = e.key.toLowerCase();
+  if (k === 'y') answer('yes');
+  else if (k === 'p' || k === 's') answer('partial');
+  else if (k === 'n') answer('no');
+  else if (k === 'arrowleft' || k === 'backspace') goBack();
+});
+
+// ───────────── Result ─────────────
+function showResult() {
+  // Score: yes=1, partial=0.5, no=0
+  let score = 0;
+  QUESTIONS.forEach(q => {
+    const a = state.answers[q.id];
+    if (a === 'yes') score += 1;
+    else if (a === 'partial') score += 0.5;
+  });
+  const rounded = Math.round(score * 2) / 2;
+  let band, bandLabel, summary;
+  if (rounded >= 12) {
+    band = 'green';
+    bandLabel = 'Strong';
+    summary = `${rounded}/15 — your paperwork would hold up. Tighten the few gaps below and you're in solid shape.`;
+  } else if (rounded >= 7) {
+    band = 'amber';
+    bandLabel = 'At risk';
+    summary = `${rounded}/15 — there are real gaps. An EHO inspection now would likely flag the items marked below.`;
+  } else {
+    band = 'red';
+    bandLabel = 'Critical';
+    summary = `${rounded}/15 — your documentation has serious gaps. Address the red items below before your next inspection.`;
+  }
+
+  const scoreEl = document.getElementById('result-score');
+  scoreEl.className = `result-score ${band}`;
+  scoreEl.innerHTML = `${rounded}<span class="of">/15</span>`;
+  const bandEl = document.getElementById('result-band');
+  bandEl.className = `result-band ${band}`;
+  bandEl.textContent = bandLabel + ' — documents audit';
+  document.getElementById('result-summary').textContent = summary;
+
+  // Per-question breakdown
+  const list = document.getElementById('result-list');
+  list.innerHTML = '';
+  QUESTIONS.forEach(q => {
+    const a = state.answers[q.id] || 'no';
+    const item = document.createElement('div');
+    item.className = `result-item ${a === 'yes' ? 'yes' : a === 'partial' ? 'partial' : 'no'}`;
+    const icon = a === 'yes' ? '✅' : a === 'partial' ? '⚠️' : '❌';
+    const status = a === 'yes' ? 'In place' : a === 'partial' ? 'Partial' : 'Missing';
+    let detail = '';
+    if (a === 'yes') {
+      detail = `<div class="ri-detail"><strong>What EHO looks for:</strong> ${escapeHTML(q.eho)}</div>`;
+    } else {
+      detail = `<div class="ri-detail"><strong>What EHO looks for:</strong> ${escapeHTML(q.eho)}<br><br><strong>How to fix:</strong> ${escapeHTML(q.fix)}</div>`;
+      if (q.blueroll) {
+        detail += `<a class="ri-cta" href="/">Generate this in Blueroll →</a>`;
+      }
+    }
+    item.innerHTML = `
+      <div class="ri-head">
+        <span class="ri-icon">${icon}</span>
+        <span class="ri-text">${escapeHTML(q.text)}</span>
+        <span class="ri-status">${status}</span>
+      </div>
+      ${detail}
+    `;
+    list.appendChild(item);
+  });
+
+  showScreen('screen-result');
+  if (typeof gtag === 'function') gtag('event', 'audit_documents_complete', { value: rounded });
+}
+
+function escapeHTML(s) {
+  const d = document.createElement('div');
+  d.textContent = s || '';
+  return d.innerHTML;
+}
+
+// ───────────── Actions ─────────────
+function downloadReport() {
+  if (typeof gtag === 'function') gtag('event', 'audit_documents_pdf_print');
+  window.print();
+}
+
+function shareAudit() {
+  const url = 'https://blueroll.app/audit/documents.html';
+  const text = `Just ran the 5-minute EHO documents audit for restaurants — worth checking before your next inspection (no email, free): ${url}`;
+  // Try Web Share API on mobile
+  if (navigator.share) {
+    navigator.share({
+      title: 'EHO Documents Audit — Blueroll',
+      text: 'Free 5-minute restaurant documents audit',
+      url: url
+    }).catch(() => copyToClipboard(text));
+  } else {
+    copyToClipboard(text);
+  }
+  if (typeof gtag === 'function') gtag('event', 'audit_documents_share');
+}
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const toast = document.getElementById('share-toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }).catch(() => alert('Could not copy. URL: https://blueroll.app/audit/documents.html'));
+}
+
+// ───────────── Init ─────────────
+window.addEventListener('DOMContentLoaded', () => {
+  if (loadState() && state.current < QUESTIONS.length && Object.keys(state.answers).length > 0) {
+    // User has in-progress — offer to resume from intro
+    // (We don't auto-jump; let them re-confirm at "Start" click)
+  }
+});
+</script>
+
+</body>
+</html>
