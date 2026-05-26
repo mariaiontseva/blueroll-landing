@@ -52,20 +52,6 @@ nav {
 .nav-btn { background: var(--green) !important; color: white !important; padding: 14px 32px !important; border-radius: 10px !important; font-weight: 700 !important; font-size: 16px !important; letter-spacing: -0.3px; transition: background 0.15s !important; }
 .nav-btn:hover { background: #036B4E !important; }
 
-/* ─── HERO (intro screen) ─── */
-.hero { max-width: 720px; margin: 0 auto; padding: 140px 24px 56px; text-align: center; }
-.hero .label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--green); margin-bottom: 20px; }
-.hero h1 { font-size: 48px; font-weight: 800; letter-spacing: -2px; line-height: 1.08; margin-bottom: 20px; }
-.hero h1 em { color: var(--green); font-style: normal; }
-.hero p { font-size: 18px; color: var(--mid); line-height: 1.6; max-width: 540px; margin: 0 auto; }
-
-.stats-strip { max-width: 720px; margin: 0 auto; padding: 40px 24px 32px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
-.stats-strip .ss { padding: 16px 8px; text-align: center; }
-.ss-num { font-size: 26px; font-weight: 800; letter-spacing: -1px; color: var(--ink); margin-bottom: 4px; }
-.ss-text { font-size: 12px; color: var(--light); line-height: 1.4; }
-
-.start-cta { text-align: center; padding: 0 24px 24px; }
-
 /* ─── BUTTONS ─── */
 .btn-primary { background: var(--green); color: white; border: none; padding: 14px 32px; border-radius: 10px; font-weight: 700; font-size: 15px; cursor: pointer; transition: background 0.15s; font-family: inherit; letter-spacing: -0.2px; }
 .btn-primary:hover { background: #036B4E; }
@@ -177,10 +163,7 @@ nav {
   .nav-left span { font-size: 17px; }
   .nav-right a:not(.nav-btn) { display: none; }
   .nav-btn { padding: 12px 24px !important; font-size: 15px !important; }
-  .hero { padding: 120px 16px 40px; }
-  .hero h1 { font-size: 32px; letter-spacing: -1.2px; }
-  .stats-strip { grid-template-columns: 1fr 1fr; padding: 32px 16px 16px; }
-  .content { padding: 120px 16px 40px; }
+  .content { padding: 100px 16px 40px; }
   .question-card { padding: 24px 20px; }
   .question-card h2 { font-size: 20px; }
   .result-score { font-size: 64px; }
@@ -205,28 +188,8 @@ nav {
   </div>
 </nav>
 
-<!-- INTRO SCREEN -->
-<div id="screen-intro">
-  <section class="hero">
-    <div class="label">Documents &amp; Records</div>
-    <h1>Restaurant <em>documents</em> audit</h1>
-    <p>The 15 records EHO inspectors ask for first. Honest answers in, gap report out — with what each missing item means for your next inspection.</p>
-  </section>
-
-  <div class="stats-strip">
-    <div class="ss"><div class="ss-num">15 Qs</div><div class="ss-text">FSA-aligned</div></div>
-    <div class="ss"><div class="ss-num">~5 min</div><div class="ss-text">To complete</div></div>
-    <div class="ss"><div class="ss-num">No email</div><div class="ss-text">No signup</div></div>
-    <div class="ss"><div class="ss-num">PDF</div><div class="ss-text">For your records</div></div>
-  </div>
-
-  <div class="start-cta">
-    <button class="btn-primary" onclick="startQuiz()">Start the audit →</button>
-  </div>
-</div>
-
-<!-- QUIZ SCREEN -->
-<section id="screen-quiz" class="content" style="display:none;">
+<!-- QUIZ SCREEN (starts immediately — no intro screen) -->
+<section id="screen-quiz" class="content">
   <div class="progress-wrap">
     <div class="progress-meta">
       <span id="progress-label">Question 1 of 15</span>
@@ -534,8 +497,9 @@ function clearState() {
 
 // ───────────── Screen control ─────────────
 function showScreen(id) {
-  ['screen-intro','screen-quiz','screen-result'].forEach(s => {
-    document.getElementById(s).style.display = (s === id) ? '' : 'none';
+  ['screen-quiz','screen-result'].forEach(s => {
+    const el = document.getElementById(s);
+    if (el) el.style.display = (s === id) ? '' : 'none';
   });
   window.scrollTo(0, 0);
 }
@@ -558,7 +522,8 @@ function startQuiz() {
 
 function restartQuiz() {
   clearState();
-  showScreen('screen-intro');
+  showScreen('screen-quiz');
+  renderQuestion();
 }
 
 function renderQuestion() {
@@ -722,10 +687,18 @@ function copyToClipboard(text) {
 
 // ───────────── Init ─────────────
 window.addEventListener('DOMContentLoaded', () => {
-  if (loadState() && state.current < QUESTIONS.length && Object.keys(state.answers).length > 0) {
-    // User has in-progress — offer to resume from intro
-    // (We don't auto-jump; let them re-confirm at "Start" click)
+  // No intro screen — quiz is the page. Load state and jump to where the user left off.
+  loadState();
+
+  if (Object.keys(state.answers).length >= QUESTIONS.length) {
+    // Audit already complete — show result directly
+    showResult();
+  } else {
+    // Either fresh start or in-progress — render current question
+    showScreen('screen-quiz');
+    renderQuestion();
   }
+  if (typeof gtag === 'function') gtag('event', 'audit_documents_start');
 });
 </script>
 
