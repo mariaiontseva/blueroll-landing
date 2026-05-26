@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free EHO Inspection Readiness Audits — UK Restaurants | Blueroll</title>
+<meta name="description" content="Free 5-minute audits to find the gaps in your restaurant's EHO readiness. Documents, allergens, cross-contamination, cleanliness, staff training. No email required. Instant downloadable PDF report.">
+<meta name="keywords" content="EHO inspection audit, restaurant EHO checker, food hygiene self-assessment UK, FSA inspection readiness, free restaurant compliance check">
+<link rel="canonical" href="https://blueroll.app/audit/">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://blueroll.app/audit/">
+<meta property="og:title" content="Free EHO Inspection Readiness Audits — UK Restaurants">
+<meta property="og:description" content="5-minute audits. No email. Instant PDF report. Find your gaps before the inspector does.">
+<meta property="og:image" content="https://blueroll.app/og-image.png">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZFY0GPZYYQ');</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --green: #047857; --green-dark: #065F46; --green-deep: #022c22;
+  --bg: #FAFAF7; --card: #FFFFFF; --border: #E8E5DF;
+  --ink: #111; --mid: #555; --light: #999;
+  --red: #DC2626; --amber: #B45309;
+}
+body { font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 48px; height: 80px; display: flex; align-items: center; justify-content: space-between; background: rgba(250,250,247,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,0.06); }
+.nav-left { display: flex; align-items: center; gap: 6px; text-decoration: none; color: inherit; }
+.nav-left img { width: 24px; height: auto; }
+.nav-left span { font-size: 20px; font-weight: 800; letter-spacing: -0.6px; }
+.nav-right { display: flex; gap: 32px; align-items: center; }
+.nav-right a { text-decoration: none; color: var(--mid); font-size: 15px; font-weight: 600; }
+.nav-right a:hover { color: var(--ink); }
+.nav-btn { background: var(--green) !important; color: white !important; padding: 14px 32px !important; border-radius: 10px !important; font-weight: 700 !important; font-size: 16px !important; }
+
+.hero { max-width: 760px; margin: 0 auto; padding: 140px 24px 40px; text-align: center; }
+.hero .label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--green); margin-bottom: 20px; }
+.hero h1 { font-size: 52px; font-weight: 800; letter-spacing: -2px; line-height: 1.06; margin-bottom: 22px; }
+.hero h1 em { color: var(--green); font-style: normal; }
+.hero p { font-size: 19px; color: var(--mid); line-height: 1.55; max-width: 620px; margin: 0 auto 28px; }
+
+.trust-row { display: flex; gap: 22px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px; }
+.trust-pill { background: var(--card); border: 1.5px solid var(--border); padding: 10px 18px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--mid); display: inline-flex; align-items: center; gap: 8px; }
+.trust-pill .icon { font-size: 16px; }
+
+.cards-wrap { max-width: 1100px; margin: 0 auto; padding: 24px 24px 80px; }
+.cards-head { text-align: center; margin: 24px 0 36px; }
+.cards-head h2 { font-size: 30px; font-weight: 800; letter-spacing: -0.8px; margin-bottom: 8px; }
+.cards-head p { font-size: 16px; color: var(--mid); }
+
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+.audit-card { background: var(--card); border: 2px solid var(--border); border-radius: 18px; padding: 28px; transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s; text-decoration: none; color: inherit; display: flex; flex-direction: column; min-height: 240px; position: relative; }
+.audit-card.active:hover { border-color: var(--green); box-shadow: 0 12px 36px rgba(4,120,87,0.12); transform: translateY(-2px); cursor: pointer; }
+.audit-card.disabled { opacity: 0.55; cursor: not-allowed; }
+.audit-card-tag { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; padding: 4px 10px; border-radius: 6px; display: inline-block; margin-bottom: 16px; align-self: flex-start; }
+.audit-card.active .audit-card-tag { background: #D1FAE5; color: var(--green-dark); }
+.audit-card.disabled .audit-card-tag { background: #F3F4F6; color: var(--light); }
+.audit-card h3 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 10px; line-height: 1.3; }
+.audit-card .meta { font-size: 13px; color: var(--light); margin-bottom: 12px; font-weight: 600; }
+.audit-card p { font-size: 14px; color: var(--mid); line-height: 1.55; margin-bottom: 18px; flex-grow: 1; }
+.audit-card .cta { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: var(--green); }
+.audit-card.disabled .cta { color: var(--light); }
+.audit-card .arrow { display: inline-block; transition: transform 0.15s; }
+.audit-card.active:hover .arrow { transform: translateX(4px); }
+
+.how-it-works { background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 64px 24px; }
+.how-inner { max-width: 900px; margin: 0 auto; }
+.how-inner h2 { font-size: 30px; font-weight: 800; letter-spacing: -0.8px; text-align: center; margin-bottom: 36px; }
+.how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 28px; }
+.how-step { text-align: center; }
+.how-step .num { width: 44px; height: 44px; background: var(--green); color: white; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; margin-bottom: 14px; }
+.how-step h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.how-step p { font-size: 14px; color: var(--mid); line-height: 1.55; }
+
+.site-footer { background: var(--ink); color: rgba(255,255,255,0.5); padding: 48px 48px 32px; text-align: center; font-size: 13px; }
+.site-footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
+
+@media (max-width: 600px) {
+  nav { padding: 0 20px; height: 68px; }
+  .nav-right a:not(.nav-btn) { display: none; }
+  .hero h1 { font-size: 32px; letter-spacing: -1.2px; padding: 0 8px; }
+  .hero p { font-size: 16px; }
+  .cards-head h2 { font-size: 24px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-left">
+    <img src="/blueroll-logo.svg" alt="Blueroll">
+    <span>Blueroll</span>
+  </a>
+  <div class="nav-right">
+    <a href="/#features">Features</a>
+    <a href="/guides/uk">Guides</a>
+    <a href="/" class="nav-btn">Get started</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="label">EHO Inspection Readiness · Free</div>
+  <h1>Find your gaps <em>before</em> the inspector does</h1>
+  <p>Five focused audits, five minutes each, no email required. Each one tells you exactly what an EHO inspector would look for — and where you stand.</p>
+  <div class="trust-row">
+    <span class="trust-pill"><span class="icon">⚡</span> Instant result</span>
+    <span class="trust-pill"><span class="icon">📧</span> No email required</span>
+    <span class="trust-pill"><span class="icon">📥</span> Downloadable PDF report</span>
+    <span class="trust-pill"><span class="icon">🇬🇧</span> Aligned with FSA criteria</span>
+  </div>
+</section>
+
+<div class="cards-wrap">
+  <div class="cards-head">
+    <h2>Pick an audit</h2>
+    <p>Take one in 5 minutes, or work through all five for a full readiness picture.</p>
+  </div>
+
+  <div class="cards-grid">
+
+    <a class="audit-card active" href="/audit/documents.html">
+      <span class="audit-card-tag">Available now</span>
+      <h3>Documents &amp; records</h3>
+      <div class="meta">15 questions · ~5 min</div>
+      <p>Does your paperwork stand up to scrutiny? HACCP, temperature logs, allergen matrix, cleaning records, training files — the documents EHO asks for first.</p>
+      <span class="cta">Start the audit <span class="arrow">→</span></span>
+    </a>
+
+    <a class="audit-card disabled" href="/audit/cross-contamination.html">
+      <span class="audit-card-tag">Coming Q3 2026</span>
+      <h3>Cross-contamination &amp; food handling</h3>
+      <div class="meta">~5 min</div>
+      <p>Storage separation, temperature control during prep, raw-to-cooked workflow, time-and-temperature compliance.</p>
+      <span class="cta">Notify me <span class="arrow">→</span></span>
+    </a>
+
+    <a class="audit-card disabled" href="/audit/cleanliness.html">
+      <span class="audit-card-tag">Coming Q3 2026</span>
+      <h3>Cleanliness &amp; condition</h3>
+      <div class="meta">~5 min</div>
+      <p>State of premises and equipment: walls, floors, drains, pest control, repair backlog. What an inspector sees in 60 seconds.</p>
+      <span class="cta">Notify me <span class="arrow">→</span></span>
+    </a>
+
+    <a class="audit-card disabled" href="/audit/allergens.html">
+      <span class="audit-card-tag">Coming Q3 2026</span>
+      <h3>Allergens &amp; customer communication</h3>
+      <div class="meta">~5 min</div>
+      <p>March 2025 FSA guidance + Spring 2026 Owen's Law review — what restaurants must communicate in writing, and what your team must say at the table.</p>
+      <span class="cta">Notify me <span class="arrow">→</span></span>
+    </a>
+
+    <a class="audit-card disabled" href="/audit/staff-training.html">
+      <span class="audit-card-tag">Coming Q3 2026</span>
+      <h3>Staff training &amp; procedures</h3>
+      <div class="meta">~5 min</div>
+      <p>Induction records, Level 2 certification, allergen training, illness reporting, on-shift competence. The "Confidence in Management" score.</p>
+      <span class="cta">Notify me <span class="arrow">→</span></span>
+    </a>
+
+  </div>
+</div>
+
+<section class="how-it-works">
+  <div class="how-inner">
+    <h2>How it works</h2>
+    <div class="how-grid">
+      <div class="how-step">
+        <div class="num">1</div>
+        <h3>Pick an audit</h3>
+        <p>Each one is focused on one area an EHO inspector checks.</p>
+      </div>
+      <div class="how-step">
+        <div class="num">2</div>
+        <h3>Answer 15 questions</h3>
+        <p>Yes / Sometimes / No. Takes around five minutes.</p>
+      </div>
+      <div class="how-step">
+        <div class="num">3</div>
+        <h3>See your gaps</h3>
+        <p>Instant score with per-question feedback. No email, no sign-up.</p>
+      </div>
+      <div class="how-step">
+        <div class="num">4</div>
+        <h3>Download the report</h3>
+        <p>Save the PDF for your HACCP folder. Share the audit with your team.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p>Built by <a href="/">Blueroll</a> — food safety operations for indie UK restaurants. £14.99/month, 14-day free trial.</p>
+  <p style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.35);">These audits are self-assessments aligned with FSA criteria. They do not replace a real EHO inspection or professional consultancy.</p>
+</footer>
+
+</body>
+</html>
