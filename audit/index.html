@@ -78,10 +78,10 @@ nav {
 .content .section-lead { font-size: 15px; color: var(--mid); margin-bottom: 24px; line-height: 1.6; }
 
 .audit-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
-.audit-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 14px; padding: 24px 26px; text-decoration: none; color: inherit; display: block; transition: all 0.15s; }
-.audit-card:hover { border-color: var(--green); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(4,120,87,0.08); }
+.audit-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 14px; padding: 24px 26px; text-decoration: none; color: inherit; display: block; transition: border-color 0.18s; }
+.audit-card:hover { border-color: var(--green); }
 .audit-card.coming { opacity: 0.78; cursor: default; }
-.audit-card.coming:hover { transform: none; border-color: var(--border); box-shadow: none; }
+.audit-card.coming:hover { border-color: var(--border); }
 .audit-card-tag { display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; margin-bottom: 14px; }
 .tag-live { background: #D1FAE5; color: var(--green-dark); }
 .tag-soon { background: #FEF3C7; color: #92400E; }
