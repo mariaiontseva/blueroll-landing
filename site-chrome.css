@@ -1,69 +1,67 @@
 /* ============================================================
-   Blueroll shared site chrome — header + footer
-   Namespaced with .bx- so it never clashes with page CSS.
-   Pure CSS (hover dropdowns + checkbox-hack mobile menu), no JS.
-   Edit this ONE file to change the header/footer everywhere.
+   Blueroll shared chrome — header + footer. ONE source of truth.
+   Namespaced .bx- → zero clash with any page CSS. Pure CSS, no JS
+   (hover dropdowns + checkbox-hack mobile menu).
    ============================================================ */
-
-:root {
-  --bx-green: #047857; --bx-green-deep: #022c22;
-  --bx-bg: #FAFAF7; --bx-card: #FFFFFF; --bx-border: #E8E5DF;
-  --bx-ink: #111; --bx-mid: #555; --bx-light: #999;
+:root{
+  --bx-green:#047857; --bx-green-h:#036B4E;
+  --bx-bg:#FAFAF7; --bx-card:#FFFFFF; --bx-border:#E8E5DF;
+  --bx-ink:#111; --bx-mid:#555; --bx-light:#999;
 }
 
-/* ---------- Header ---------- */
-.bx-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 64px; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; background: rgba(250,250,247,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,0.06); font-family: 'Plus Jakarta Sans', -apple-system, system-ui, sans-serif; }
-.bx-logo { display: flex; align-items: center; gap: 6px; text-decoration: none; color: var(--bx-ink); }
-.bx-logo img { width: 24px; height: auto; }
-.bx-logo span { font-size: 19px; font-weight: 800; letter-spacing: -0.5px; }
-.bx-links { display: flex; gap: 6px; align-items: center; }
-.bx-links > a, .bx-dd > button { background: none; border: none; font-family: inherit; cursor: pointer; text-decoration: none; color: var(--bx-mid); font-size: 14px; font-weight: 600; padding: 8px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 5px; transition: color .15s, background .15s; }
-.bx-links > a:hover, .bx-dd > button:hover { color: var(--bx-ink); background: rgba(0,0,0,0.04); }
-.bx-dd { position: relative; }
-.bx-dd .bx-caret { width: 13px; height: 13px; transition: transform .2s; }
-.bx-dd:hover .bx-caret { transform: rotate(180deg); }
-.bx-menu { position: absolute; top: calc(100% + 6px); left: 0; min-width: 256px; background: var(--bx-card); border: 1px solid var(--bx-border); border-radius: 14px; box-shadow: 0 16px 40px rgba(0,0,0,0.12); padding: 8px; opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity .15s, transform .15s, visibility .15s; }
-.bx-dd:hover .bx-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-.bx-menu::before { content: ''; position: absolute; bottom: 100%; left: 0; right: 0; height: 10px; }
-.bx-menu a { display: block; padding: 9px 12px; border-radius: 9px; font-size: 14px; font-weight: 600; color: var(--bx-ink); text-decoration: none; }
-.bx-menu a small { display: block; font-size: 12px; font-weight: 500; color: var(--bx-light); margin-top: 1px; }
-.bx-menu a:hover { background: var(--bx-bg); }
-.bx-menu .bx-sep { height: 1px; background: var(--bx-border); margin: 6px 4px; }
-.bx-cta { background: var(--bx-green) !important; color: #fff !important; padding: 9px 18px !important; border-radius: 9px !important; font-weight: 700 !important; }
-.bx-cta:hover { background: #036B4E !important; }
+/* ---------- HEADER (80px, matches blueroll.app) ---------- */
+.bx-nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:80px;padding:0 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(250,250,247,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,0.06);font-family:'Plus Jakarta Sans',-apple-system,system-ui,sans-serif;}
+.bx-logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--bx-ink);}
+.bx-logo img{width:24px;height:auto;}
+.bx-logo b{font-size:20px;font-weight:800;letter-spacing:-0.6px;}
+.bx-right{display:flex;gap:6px;align-items:center;}
+.bx-right>a,.bx-dd>button{background:none;border:none;font-family:inherit;cursor:pointer;text-decoration:none;color:var(--bx-mid);font-size:14.5px;font-weight:600;letter-spacing:-0.1px;padding:9px 16px;border-radius:10px;display:inline-flex;align-items:center;gap:5px;transition:color .15s,background .15s;}
+.bx-right>a:hover,.bx-dd>button:hover{color:var(--bx-ink);background:rgba(17,24,39,0.05);}
+.bx-dd{position:relative;}
+.bx-dd .bx-caret{width:13px;height:13px;transition:transform .2s;}
+.bx-dd:hover .bx-caret{transform:rotate(180deg);}
+.bx-menu{position:absolute;top:calc(100% + 8px);left:0;min-width:258px;background:var(--bx-card);border:1px solid var(--bx-border);border-radius:14px;box-shadow:0 16px 40px rgba(0,0,0,0.12);padding:8px;opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .15s,transform .15s,visibility .15s;}
+.bx-dd:hover .bx-menu{opacity:1;visibility:visible;transform:translateY(0);}
+.bx-menu::before{content:'';position:absolute;bottom:100%;left:0;right:0;height:12px;}
+.bx-menu a{display:block;padding:9px 12px;border-radius:9px;font-size:14px;font-weight:600;color:var(--bx-ink);text-decoration:none;}
+.bx-menu a small{display:block;font-size:12px;font-weight:500;color:var(--bx-light);margin-top:1px;}
+.bx-menu a:hover{background:var(--bx-bg);}
+.bx-menu .bx-sep{height:1px;background:var(--bx-border);margin:6px 4px;}
+.bx-btn{background:var(--bx-green)!important;color:#fff!important;padding:11px 22px!important;border-radius:10px!important;font-weight:700!important;font-size:14.5px!important;box-shadow:0 6px 18px -6px rgba(4,120,87,0.45);}
+.bx-btn:hover{background:var(--bx-green-h)!important;}
+/* mobile (checkbox hack, no JS) */
+.bx-burger-cb{display:none;}
+.bx-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;}
+.bx-burger span{width:23px;height:2px;background:var(--bx-ink);border-radius:2px;transition:.2s;}
+.bx-mobile{display:none;position:fixed;top:64px;left:0;right:0;bottom:0;z-index:999;background:var(--bx-bg);padding:12px 24px 48px;overflow-y:auto;font-family:'Plus Jakarta Sans',-apple-system,system-ui,sans-serif;}
+.bx-mobile h4{font-size:12px;text-transform:uppercase;letter-spacing:1.4px;color:var(--bx-light);margin:18px 0 6px;}
+.bx-mobile a{display:block;padding:11px 0;font-size:16px;font-weight:600;color:var(--bx-ink);text-decoration:none;border-bottom:1px solid var(--bx-border);}
+.bx-mobile .bx-m-cta{margin-top:20px;background:var(--bx-green);color:#fff;text-align:center;border-radius:10px;border-bottom:none;}
+.bx-burger-cb:checked~.bx-mobile{display:block;}
 
-/* mobile toggle (checkbox hack, no JS) */
-.bx-burger-cb { display: none; }
-.bx-burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
-.bx-burger span { width: 22px; height: 2px; background: var(--bx-ink); border-radius: 2px; transition: .2s; }
-.bx-mobile { display: none; position: fixed; top: 64px; left: 0; right: 0; bottom: 0; z-index: 999; background: var(--bx-bg); padding: 12px 24px 48px; overflow-y: auto; font-family: 'Plus Jakarta Sans', -apple-system, system-ui, sans-serif; }
-.bx-mobile h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 1.4px; color: var(--bx-light); margin: 18px 0 6px; }
-.bx-mobile a { display: block; padding: 11px 0; font-size: 16px; font-weight: 600; color: var(--bx-ink); text-decoration: none; border-bottom: 1px solid var(--bx-border); }
-.bx-mobile .bx-m-cta { margin-top: 20px; background: var(--bx-green); color: #fff; text-align: center; border-radius: 10px; border: none; }
-.bx-burger-cb:checked ~ .bx-mobile { display: block; }
-.bx-burger-cb:checked ~ .bx-nav .bx-burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.bx-burger-cb:checked ~ .bx-nav .bx-burger span:nth-child(2) { opacity: 0; }
-.bx-burger-cb:checked ~ .bx-nav .bx-burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+/* ---------- FOOTER (dark #111, matches blueroll.app) ---------- */
+.bx-foot{background:var(--bx-ink);color:rgba(255,255,255,0.5);padding:64px 48px 40px;margin-top:80px;font-family:'Plus Jakarta Sans',-apple-system,system-ui,sans-serif;}
+.bx-foot-in{max-width:1080px;margin:0 auto;}
+.bx-foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1fr 1fr;gap:32px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.bx-foot-brand img{width:24px;height:auto;margin-bottom:12px;}
+.bx-foot-brand p{font-size:13px;line-height:1.6;color:rgba(255,255,255,0.35);max-width:220px;margin-bottom:16px;}
+.bx-badges{display:flex;flex-direction:column;gap:8px;align-items:flex-start;}
+.bx-badges img{height:36px;width:auto;display:block;margin:0;}
+.bx-foot-col h4{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,0.25);margin-bottom:16px;}
+.bx-foot-col a{display:block;font-size:13px;color:rgba(255,255,255,0.5);text-decoration:none;padding:5px 0;transition:color .15s;}
+.bx-foot-col a:hover{color:#fff;}
+.bx-foot-bot{max-width:1080px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding-top:24px;flex-wrap:wrap;gap:16px;}
+.bx-foot-bot span{font-size:12px;color:rgba(255,255,255,0.25);}
+.bx-social{display:flex;gap:16px;}
+.bx-social a{color:rgba(255,255,255,0.3);transition:color .15s;text-decoration:none;}
+.bx-social a:hover{color:#fff;}
+.bx-social svg{width:18px;height:18px;}
 
-/* ---------- SEO Footer ---------- */
-.bx-footer { background: var(--bx-green-deep); color: #fff; margin-top: 72px; padding: 56px 24px 28px; font-family: 'Plus Jakarta Sans', -apple-system, system-ui, sans-serif; }
-.bx-footer-inner { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 36px; }
-.bx-f-logo { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: #fff; margin-bottom: 12px; }
-.bx-f-brand p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.65; max-width: 250px; }
-.bx-f-col h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 1.2px; color: rgba(255,255,255,0.42); margin-bottom: 14px; }
-.bx-f-col a { display: block; font-size: 14px; color: rgba(255,255,255,0.78); text-decoration: none; padding: 5px 0; }
-.bx-f-col a:hover { color: #fff; }
-.bx-f-bottom { max-width: 1120px; margin: 40px auto 0; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; font-size: 12px; color: rgba(255,255,255,0.4); }
-.bx-f-bottom a { color: rgba(255,255,255,0.6); text-decoration: none; margin-left: 18px; }
-.bx-f-bottom a:hover { color: #fff; }
-
-/* ---------- Responsive ---------- */
-@media (max-width: 900px) {
-  .bx-nav { padding: 0 20px; }
-  .bx-links { display: none; }
-  .bx-burger { display: flex; }
-  .bx-footer-inner { grid-template-columns: 1fr 1fr; gap: 28px; }
+@media (max-width:900px){
+  .bx-nav{padding:0 20px;}
+  .bx-right{display:none;}
+  .bx-burger{display:flex;}
+  .bx-foot{padding:48px 24px 32px;}
+  .bx-foot-grid{grid-template-columns:1fr 1fr;gap:28px;}
 }
-@media (max-width: 520px) {
-  .bx-footer-inner { grid-template-columns: 1fr; }
-}
+@media (max-width:520px){ .bx-foot-grid{grid-template-columns:1fr;} }
