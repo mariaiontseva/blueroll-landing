@@ -3,230 +3,262 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Food Safety Tools for UK Restaurants | Blueroll</title>
+<meta name="description" content="Free tools for UK restaurants: self-audit your kitchen, check any food hygiene rating, ask the AI food safety coach, hygiene rating maps, HACCP template, EHO checklist and more.">
+<meta name="keywords" content="free food safety tools, food hygiene rating checker, haccp template, eho checklist, food safety self audit, restaurant compliance tools">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="author" content="Blueroll">
+<link rel="canonical" href="https://blueroll.app/tools.html">
 <link rel="alternate" hreflang="en-gb" href="https://blueroll.app/tools.html">
 <link rel="alternate" hreflang="en" href="https://blueroll.app/tools.html">
-<title>Free Food Safety Tools for UK Restaurants — Blueroll</title>
-<meta name="description" content="Free food safety tools for UK restaurants: check food hygiene ratings, get an embeddable rating badge, understand FHRS scores, and learn how to improve your rating.">
-<link rel="canonical" href="https://blueroll.app/tools.html">
 
-<!-- Favicon -->
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-
-<!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://blueroll.app/tools.html">
-<meta property="og:title" content="Free Food Safety Tools for UK Restaurants — Blueroll">
-<meta property="og:description" content="Free tools to check food hygiene ratings, display rating badges, and improve your score.">
+<meta property="og:title" content="Free Food Safety Tools for UK Restaurants">
+<meta property="og:description" content="Self-audit, check any hygiene rating, AI food safety coach, hygiene maps, HACCP template, EHO checklist — all free.">
 <meta property="og:image" content="https://blueroll.app/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-
-<!-- Twitter Card -->
+<meta property="og:site_name" content="Blueroll">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Free Food Safety Tools for UK Restaurants — Blueroll">
-<meta name="twitter:description" content="Free tools to check food hygiene ratings, display rating badges, and improve your score.">
+<meta name="twitter:title" content="Free Food Safety Tools for UK Restaurants">
 <meta name="twitter:image" content="https://blueroll.app/og-image.png">
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZFY0GPZYYQ');</script>
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  "name": "Free Food Safety Tools for UK Restaurants",
-  "description": "A collection of free food safety tools for UK restaurants, including food hygiene rating lookup, embeddable badges, and guides to improving your rating.",
+  "name": "Free Food Safety Tools",
   "url": "https://blueroll.app/tools.html",
-  "author": {"@type": "Organization", "name": "Blueroll", "url": "https://blueroll.app"}
+  "description": "A collection of free tools for UK restaurants and food businesses, including a kitchen self-audit, a food hygiene rating checker, an AI food safety coach, hygiene rating maps, a HACCP template and an EHO inspection checklist.",
+  "isPartOf": {"@type": "WebSite", "name": "Blueroll", "url": "https://blueroll.app"}
 }
 </script>
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZFY0GPZYYQ');</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site-chrome.css">
+
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-:root {
-  --green: #047857;
-  --green-dark: #065F46;
-  --green-deep: #022c22;
-  --green-light: #D1FAE5;
-  --bg: #FAFAF7;
-  --card: #FFFFFF;
-  --border: #E8E5DF;
-  --ink: #111;
-  --mid: #555;
-  --light: #999;
-}
+:root { --green:#047857; --green-deep:#022c22; --bg:#FAFAF7; --card:#FFFFFF; --border:#E8E5DF; --ink:#111; --mid:#555; --light:#999; }
 html { scroll-behavior: smooth; }
-body { font-family: -apple-system, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
+body { font-family:'Plus Jakarta Sans',-apple-system,system-ui,sans-serif; background:var(--bg); color:var(--ink); -webkit-font-smoothing:antialiased; }
 
-/* Nav */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  padding: 0 48px; height: 64px;
-  display: flex; align-items: center; justify-content: space-between;
-  background: rgba(250,250,247,0.85);
-  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-}
-.nav-left { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
-.nav-left img { width: 28px; height: 28px; border-radius: 6px; }
-.nav-left span { font-size: 18px; font-weight: 700; letter-spacing: -0.4px; }
-.nav-right { display: flex; gap: 28px; align-items: center; }
-.nav-right a { text-decoration: none; color: var(--mid); font-size: 14px; font-weight: 500; transition: color 0.15s; }
-.nav-right a:hover { color: var(--ink); }
-.nav-btn { background: var(--ink); color: white !important; padding: 8px 20px; border-radius: 8px; font-weight: 600 !important; font-size: 13px !important; }
+.hero { max-width: 760px; margin: 0 auto; padding: 124px 24px 8px; text-align: center; }
+.hero .eyebrow { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:var(--green); margin-bottom:16px; }
+.hero h1 { font-size:48px; font-weight:800; letter-spacing:-2px; line-height:1.07; margin-bottom:16px; }
+.hero h1 em { color:var(--green); font-style:normal; }
+.hero p { font-size:18px; color:var(--mid); line-height:1.55; max-width:540px; margin:0 auto; }
 
-/* Hero */
-.hero {
-  max-width: 680px; margin: 0 auto;
-  padding: 120px 24px 48px; text-align: center;
-}
-.hero .label {
-  font-size: 13px; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 1.2px; color: var(--green); margin-bottom: 16px;
-}
-.hero h1 {
-  font-size: 42px; font-weight: 700; letter-spacing: -1.5px; line-height: 1.1;
-  margin-bottom: 16px;
-}
-.hero h1 em { color: var(--green); font-style: normal; }
-.hero p { font-size: 18px; color: var(--mid); line-height: 1.6; max-width: 520px; margin: 0 auto; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 48px 24px 0; }
+.sec-head { font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--light); margin:44px 0 18px; }
+.sec-head:first-child { margin-top: 8px; }
+.grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.tool { display:flex; gap:16px; align-items:flex-start; background:var(--card); border:1px solid var(--border); border-radius:16px; padding:22px; text-decoration:none; color:inherit; transition:border-color .15s, box-shadow .15s, transform .15s; }
+.tool:hover { border-color:#cfd8d2; box-shadow:0 12px 30px -12px rgba(4,120,87,0.22); transform:translateY(-2px); }
+.tool .ic { width:42px; height:42px; flex-shrink:0; border-radius:11px; background:rgba(4,120,87,0.1); color:var(--green); display:flex; align-items:center; justify-content:center; }
+.tool .ic svg { width:22px; height:22px; }
+.tool h3 { font-size:16px; font-weight:700; letter-spacing:-0.3px; margin-bottom:4px; display:flex; align-items:center; gap:7px; }
+.tool h3 .ext { font-size:10px; font-weight:700; color:var(--green); background:rgba(4,120,87,0.1); padding:2px 6px; border-radius:5px; letter-spacing:0.3px; }
+.tool p { font-size:13.5px; color:var(--mid); line-height:1.5; }
 
-/* Tools grid */
-.tools-grid {
-  max-width: 680px; margin: 0 auto; padding: 0 24px 48px;
-  display: flex; flex-direction: column; gap: 16px;
-}
-.tool-card {
-  background: var(--card); border: 1px solid var(--border); border-radius: 16px;
-  padding: 28px 32px; display: flex; align-items: flex-start; gap: 20px;
-  text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s;
-}
-.tool-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.06);
-}
-.tool-icon {
-  width: 48px; height: 48px; border-radius: 12px;
-  background: var(--green); color: white;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px; flex-shrink: 0;
-}
-.tool-content { flex: 1; }
-.tool-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.3px; }
-.tool-desc { font-size: 15px; color: var(--mid); line-height: 1.6; }
-.tool-link { display: inline-block; margin-top: 8px; font-size: 14px; color: var(--green); font-weight: 600; }
+.cta-banner { max-width:1080px; margin:56px auto 0; padding:0 24px; }
+.cta-inner { background:var(--green-deep); color:#fff; border-radius:22px; padding:48px 32px; text-align:center; position:relative; overflow:hidden; }
+.cta-inner::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 500px 400px at 20% 20%, rgba(4,120,87,0.4), transparent); }
+.cta-inner * { position:relative; }
+.cta-inner h2 { font-size:28px; font-weight:800; letter-spacing:-1px; margin-bottom:10px; }
+.cta-inner p { color:rgba(255,255,255,0.7); margin-bottom:24px; }
+.cta-inner a { display:inline-block; background:#fff; color:var(--green-deep); padding:14px 28px; border-radius:11px; font-weight:700; text-decoration:none; }
 
-/* Content */
-.content { max-width: 680px; margin: 0 auto; padding: 48px 24px; border-top: 1px solid var(--border); }
-.content h2 { font-size: 28px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
-.content p { font-size: 16px; color: var(--mid); line-height: 1.7; margin-bottom: 12px; }
-.content a { color: var(--green); font-weight: 600; text-decoration: none; }
-.content a:hover { text-decoration: underline; }
-
-/* CTA banner */
-.cta-banner { max-width: 680px; margin: 0 auto; padding: 48px 24px 64px; }
-.cta-inner {
-  background: var(--green-dark); border-radius: 16px; padding: 40px; text-align: center;
-}
-.cta-inner h3 { color: white; font-size: 22px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.3px; }
-.cta-inner p { color: rgba(255,255,255,0.5); font-size: 15px; margin-bottom: 20px; }
-.cta-inner a {
-  display: inline-block; padding: 12px 28px; background: white; color: var(--green-dark);
-  border-radius: 10px; font-weight: 600; font-size: 15px; text-decoration: none;
-}
-
-footer { border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; font-size: 12px; color: var(--light); }
-footer a { color: var(--mid); text-decoration: none; margin: 0 8px; }
-
-@media (max-width: 600px) {
-  nav { padding: 0 16px; }
-  .nav-right a:not(.nav-btn) { display: none; }
-  .hero { padding: 100px 16px 32px; }
-  .hero h1 { font-size: 30px; }
-  .tools-grid { padding: 0 16px 32px; }
-  .tool-card { padding: 20px; gap: 14px; }
-  .content { padding: 32px 16px; }
-}
+@media (max-width:900px){ .grid { grid-template-columns:1fr 1fr; } .hero h1 { font-size:34px; } }
+@media (max-width:600px){ .grid { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
 
-<nav>
-  <a href="/" class="nav-left">
-    <img src="app_icon.png" alt="Blueroll">
-    <span>Blueroll</span>
-  </a>
-  <div class="nav-right">
-    <a href="/#features">Features</a>
-    <a href="/#pricing">Pricing</a>
-    <a href="free-food-hygiene-rating-badge.html">Free Widget</a>
-    <a href="#" class="nav-btn">Download</a>
+<input type="checkbox" id="bx-burger-cb" class="bx-burger-cb">
+<header class="bx-nav">
+  <a href="/" class="bx-logo"><img src="blueroll-logo.svg" alt="Blueroll"><b>Blueroll</b></a>
+  <div class="bx-right">
+    <div class="bx-dd">
+      <button>Product <svg class="bx-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg></button>
+      <div class="bx-menu">
+        <a href="haccp-checklists.html">HACCP Checklists<small>Daily checks &amp; temperature logs</small></a>
+        <a href="allergen-matrix.html">Allergen Matrix<small>All 14 allergens, auto-generated</small></a>
+        <a href="ai-recipe-import.html">AI Recipe Import<small>Any recipe in seconds</small></a>
+        <a href="compliance-reports.html">Compliance Reports<small>One-tap EHO-ready PDFs</small></a>
+        <a href="deliveries.html">Deliveries<small>Log temperature &amp; evidence</small></a>
+        <a href="document-management.html">Documents<small>Certificates &amp; reminders</small></a>
+        <a href="team-management.html">Team Management<small>Roles, check-in, tracking</small></a>
+      </div>
+    </div>
+    <div class="bx-dd">
+      <button>Free Tools <svg class="bx-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg></button>
+      <div class="bx-menu">
+        <a href="audit/index.html">Free Self-Audit<small>Score your kitchen</small></a>
+        <a href="check-food-hygiene-rating.html">Check a Hygiene Rating<small>Look up any UK venue</small></a>
+        <a href="https://chatgpt.com/g/g-6a0c75c897108191956d8c9f3223abb4-blueroll-uk-food-safety-coach" target="_blank" rel="noopener">GPT Food Safety Coach<small>Ask our AI coach</small></a>
+        <a href="london-food-hygiene-map.html">London Hygiene Map<small>Every London venue</small></a>
+        <a href="nyc-restaurant-map.html">NYC Restaurant Map<small>US health grades</small></a>
+        <a href="sf-restaurant-map.html">SF Restaurant Map<small>US health grades</small></a>
+        <div class="bx-sep"></div>
+        <a href="tools.html">See all free tools →</a>
+      </div>
+    </div>
+    <a href="index.html#pricing">Pricing</a>
+    <a href="https://app.blueroll.app/" class="bx-btn">Start for Free</a>
   </div>
-</nav>
+  <label for="bx-burger-cb" class="bx-burger" aria-label="Menu"><span></span><span></span><span></span></label>
+</header>
+<div class="bx-mobile">
+  <h4>Product</h4>
+  <a href="haccp-checklists.html">HACCP Checklists</a>
+  <a href="allergen-matrix.html">Allergen Matrix</a>
+  <a href="ai-recipe-import.html">AI Recipe Import</a>
+  <a href="compliance-reports.html">Compliance Reports</a>
+  <a href="deliveries.html">Deliveries</a>
+  <a href="document-management.html">Documents</a>
+  <a href="team-management.html">Team Management</a>
+  <h4>Free Tools</h4>
+  <a href="audit/index.html">Free Self-Audit</a>
+  <a href="check-food-hygiene-rating.html">Check a Hygiene Rating</a>
+  <a href="https://chatgpt.com/g/g-6a0c75c897108191956d8c9f3223abb4-blueroll-uk-food-safety-coach" target="_blank" rel="noopener">GPT Food Safety Coach</a>
+  <a href="london-food-hygiene-map.html">London Hygiene Map</a>
+  <a href="nyc-restaurant-map.html">NYC Restaurant Map</a>
+  <a href="sf-restaurant-map.html">SF Restaurant Map</a>
+  <a href="tools.html">See all free tools</a>
+  <h4>&nbsp;</h4>
+  <a href="index.html#pricing">Pricing</a>
+  <a href="https://app.blueroll.app/" class="bx-m-cta">Start for Free</a>
+</div>
 
 <section class="hero">
-  <div class="label">Free Tools</div>
+  <div class="eyebrow">Free Tools</div>
   <h1>Free food safety <em>tools</em></h1>
-  <p>Everything you need to check, understand, display, and improve your food hygiene rating. All free, no account required.</p>
+  <p>Everything a UK restaurant needs to stay inspection-ready — audits, rating checks, an AI coach, live hygiene maps, templates and guides. No sign-up, all free.</p>
 </section>
 
-<div class="tools-grid">
-  <a href="check-food-hygiene-rating.html" class="tool-card">
-    <div class="tool-icon">&#128269;</div>
-    <div class="tool-content">
-      <div class="tool-title">Check Food Hygiene Rating</div>
-      <div class="tool-desc">Search by postcode or business name to instantly see any UK food business's hygiene rating. Powered by official FSA data with detailed score breakdowns.</div>
-      <span class="tool-link">Check a rating &rarr;</span>
-    </div>
-  </a>
+<div class="wrap">
 
-  <a href="free-food-hygiene-rating-badge.html" class="tool-card">
-    <div class="tool-icon">&#127991;</div>
-    <div class="tool-content">
-      <div class="tool-title">Food Hygiene Rating Badge</div>
-      <div class="tool-desc">Add a beautiful, auto-updating food hygiene rating badge to your restaurant website. Choose from multiple styles. Copy and paste the embed code — done in 30 seconds.</div>
-      <span class="tool-link">Get your free badge &rarr;</span>
-    </div>
-  </a>
-
-  <a href="food-hygiene-ratings-explained.html" class="tool-card">
-    <div class="tool-icon">&#128218;</div>
-    <div class="tool-content">
-      <div class="tool-title">Food Hygiene Ratings Explained</div>
-      <div class="tool-desc">Complete guide to the UK Food Hygiene Rating Scheme. What ratings 0 to 5 mean, how inspections work, the three scoring criteria, and legal display requirements.</div>
-      <span class="tool-link">Read the guide &rarr;</span>
-    </div>
-  </a>
-
-  <a href="how-to-improve-food-hygiene-rating.html" class="tool-card">
-    <div class="tool-icon">&#9650;</div>
-    <div class="tool-content">
-      <div class="tool-title">How to Improve Your Rating</div>
-      <div class="tool-desc">Actionable advice for each of the three scoring areas. Whether you are stuck on a 3 or aiming for a 5, this guide covers exactly what inspectors look for and how to fix common issues.</div>
-      <span class="tool-link">Improve your rating &rarr;</span>
-    </div>
-  </a>
-</div>
-
-<section class="content">
-  <h2>About Blueroll</h2>
-  <p>Blueroll is a food safety management app for UK restaurants offering digital HACCP checklists, AI recipe import, allergen tracking, and compliance reports at £14.99/month. It replaces paper records with a fast, verifiable digital system that Environmental Health Officers trust.</p>
-  <p>These free tools are part of our mission to make food safety accessible to every UK food business. Whether you run a single-site cafe or a multi-location restaurant group, Blueroll helps you stay inspection-ready every day. <a href="/">Start your free 14-day trial</a>.</p>
-</section>
-
-<div class="cta-banner">
-  <div class="cta-inner">
-    <h3>Go digital. Get a 5.</h3>
-    <p>Blueroll replaces paper logs with digital checklists, AI recipe import, and instant compliance reports.</p>
-    <a href="/">Start your free 14-day trial</a>
+  <div class="sec-head">Interactive tools</div>
+  <div class="grid">
+    <a class="tool" href="audit/index.html">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+      <div><h3>Free Self-Audit</h3><p>Score your kitchen against the three areas an EHO actually checks, and see where you'd lose marks.</p></div>
+    </a>
+    <a class="tool" href="check-food-hygiene-rating.html">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg></div>
+      <div><h3>Check a Hygiene Rating</h3><p>Look up the live FSA food hygiene rating of any UK restaurant by name or postcode.</p></div>
+    </a>
+    <a class="tool" href="https://chatgpt.com/g/g-6a0c75c897108191956d8c9f3223abb4-blueroll-uk-food-safety-coach" target="_blank" rel="noopener">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-2.91-.594.75.75 0 01-.358-.94 5.97 5.97 0 01.717-1.836A8.96 8.96 0 013 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"/></svg></div>
+      <div><h3>GPT Food Safety Coach <span class="ext">CHATGPT</span></h3><p>Ask our custom GPT anything about UK food safety, HACCP, allergens or inspections.</p></div>
+    </a>
+    <a class="tool" href="london-food-hygiene-map.html">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg></div>
+      <div><h3>London Hygiene Map</h3><p>Every London restaurant, cafe and takeaway with its live FSA rating, mapped.</p></div>
+    </a>
+    <a class="tool" href="nyc-restaurant-map.html">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg></div>
+      <div><h3>NYC Restaurant Map</h3><p>New York City health-inspection grades for every restaurant, on a live map.</p></div>
+    </a>
+    <a class="tool" href="sf-restaurant-map.html">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg></div>
+      <div><h3>SF Restaurant Map</h3><p>San Francisco restaurant inspection scores, mapped across the city.</p></div>
+    </a>
   </div>
+
+  <div class="sec-head">Templates &amp; widgets</div>
+  <div class="grid">
+    <a class="tool" href="free-haccp-template.html">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg></div>
+      <div><h3>Free HACCP Template</h3><p>The 7 HACCP principles, daily logs and cleaning schedules — ready-to-use PDF.</p></div>
+    </a>
+    <a class="tool" href="free-food-hygiene-rating-badge.html">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"/></svg></div>
+      <div><h3>Rating Badge Widget</h3><p>An auto-updating food hygiene rating badge to embed on your own website.</p></div>
+    </a>
+    <a class="tool" href="eho-inspection-checklist.html">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z"/></svg></div>
+      <div><h3>EHO Inspection Checklist</h3><p>Interactive checklist of exactly what an Environmental Health Officer checks.</p></div>
+    </a>
+    <a class="tool" href="restaurant-opening-checklist.html">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"/></svg></div>
+      <div><h3>Opening Checklist</h3><p>Everything you need to open a new food business fully compliant.</p></div>
+    </a>
+  </div>
+
+  <div class="sec-head">Guides</div>
+  <div class="grid">
+    <a class="tool" href="food-hygiene-ratings-explained.html">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg></div>
+      <div><h3>Ratings Explained</h3><p>What each 0–5 food hygiene rating means and how inspections work.</p></div>
+    </a>
+    <a class="tool" href="how-to-improve-food-hygiene-rating.html">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.281m5.94 2.28l-2.28 5.941"/></svg></div>
+      <div><h3>Improve Your Rating</h3><p>The fastest, highest-impact ways to raise your food hygiene rating.</p></div>
+    </a>
+    <a class="tool" href="14-allergens-uk.html">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg></div>
+      <div><h3>14 Allergens (UK)</h3><p>The 14 regulated allergens every UK food business must declare.</p></div>
+    </a>
+    <a class="tool" href="natashas-law-2026.html">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"/></svg></div>
+      <div><h3>Natasha's Law</h3><p>PPDS labelling rules for prepacked-for-direct-sale food.</p></div>
+    </a>
+    <a class="tool" href="sfbb-guide.html">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg></div>
+      <div><h3>SFBB Guide</h3><p>How Safer Food, Better Business satisfies your HACCP duty.</p></div>
+    </a>
+    <a class="tool" href="food-recalls-2026.html">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/></svg></div>
+      <div><h3>Food Recalls 2026</h3><p>The latest UK and US food product recalls and allergy alerts.</p></div>
+    </a>
+  </div>
+
+  <div class="cta-banner">
+    <div class="cta-inner">
+      <h2>Ready for the real thing?</h2>
+      <p>Blueroll turns these one-off tools into your everyday food safety system — digital HACCP, allergens, reports, all in one app.</p>
+      <a href="https://app.blueroll.app/">Start for free →</a>
+    </div>
+  </div>
+
 </div>
 
-<footer>
-  <a href="/">Blueroll</a> · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a> · © 2026
-</footer></body>
+<footer class="bx-foot">
+  <div class="bx-foot-in">
+    <div class="bx-foot-grid">
+      <div class="bx-foot-brand">
+        <img src="blueroll-logo.svg" alt="Blueroll">
+        <p>Food safety management for restaurants in the UK, US &amp; Europe.</p>
+        <div class="bx-badges">
+          <a href="https://apps.apple.com/app/id6760937451" aria-label="Download on the App Store"><img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store"></a>
+          <a href="https://play.google.com/store/apps/details?id=app.blueroll.mobile" aria-label="Get it on Google Play"><img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play"></a>
+        </div>
+      </div>
+      <div class="bx-foot-col"><h4>Product</h4><a href="haccp-checklists.html">HACCP Checklists</a><a href="allergen-matrix.html">Allergen Matrix</a><a href="ai-recipe-import.html">AI Recipe Import</a><a href="compliance-reports.html">Compliance Reports</a><a href="deliveries.html">Deliveries</a><a href="document-management.html">Documents</a><a href="team-management.html">Team Management</a></div>
+      <div class="bx-foot-col"><h4>Free Tools</h4><a href="audit/index.html">Free Self-Audit</a><a href="check-food-hygiene-rating.html">Check a Rating</a><a href="https://chatgpt.com/g/g-6a0c75c897108191956d8c9f3223abb4-blueroll-uk-food-safety-coach" target="_blank" rel="noopener">GPT Safety Coach</a><a href="london-food-hygiene-map.html">London Map</a><a href="nyc-restaurant-map.html">NYC Map</a><a href="sf-restaurant-map.html">SF Map</a></div>
+      <div class="bx-foot-col"><h4>UK Guides</h4><a href="food-hygiene-ratings-explained.html">Ratings Explained</a><a href="how-to-improve-food-hygiene-rating.html">Improve Your Rating</a><a href="eho-inspection-checklist.html">EHO Checklist</a><a href="14-allergens-uk.html">14 Allergens</a><a href="natashas-law-2026.html">Natasha's Law</a><a href="sfbb-guide.html">SFBB Guide</a><a href="food-recalls-2026.html">Food Recalls 2026</a></div>
+      <div class="bx-foot-col"><h4>US Guides</h4><a href="nyc-restaurant-grade.html">New York City</a><a href="la-restaurant-grade.html">Los Angeles</a><a href="chicago-restaurant-inspection.html">Chicago</a><a href="sf-restaurant-inspection.html">San Francisco</a><a href="50k-restaurant-grades.html">50k US Grades</a></div>
+      <div class="bx-foot-col"><h4>Company</h4><a href="index.html#pricing">Pricing</a><a href="free-food-hygiene-rating-badge.html">Rating Badge</a><a href="restaurant-opening-checklist.html">Opening Checklist</a><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a><a href="https://app.blueroll.app/">Start for Free</a></div>
+    </div>
+    <div class="bx-foot-bot">
+      <span>&copy; 2026 Blueroll. London &amp; New York.</span>
+      <div class="bx-social">
+        <a href="https://www.instagram.com/blueroll.app" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+        <a href="https://www.facebook.com/bluerollapp/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+        <a href="https://www.linkedin.com/company/bluerollapp" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        <a href="mailto:hello@blueroll.app" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
 </html>
