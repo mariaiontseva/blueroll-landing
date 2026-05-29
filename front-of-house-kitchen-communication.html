@@ -191,20 +191,66 @@ nav {
   .footer-bottom { flex-direction: column; gap: 12px; }
 }
 </style>
+<link rel="stylesheet" href="site-chrome.css">
 </head>
 <body>
-
-<nav>
-  <a href="/" class="nav-left">
-    <img src="blueroll-logo.svg" alt="Blueroll">
-    <span>Blueroll</span>
-  </a>
-  <div class="nav-right">
-    <a href="/#features">Features</a>
-    <a href="/#pricing">Pricing</a>
-    <a href="/" class="nav-btn">Get started</a>
+<input type="checkbox" id="bx-burger-cb" class="bx-burger-cb">
+<header class="bx-nav">
+  <a href="/" class="bx-logo"><img src="blueroll-logo.svg" alt="Blueroll"><b>Blueroll</b></a>
+  <div class="bx-right">
+    <div class="bx-dd">
+      <button>Product <svg class="bx-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg></button>
+      <div class="bx-menu">
+        <a href="haccp-checklists.html">HACCP Checklists<small>Daily checks &amp; temperature logs</small></a>
+        <a href="allergen-matrix.html">Allergen Matrix<small>All 14 allergens, auto-generated</small></a>
+        <a href="ai-recipe-import.html">AI Recipe Import<small>Any recipe in seconds</small></a>
+        <a href="compliance-reports.html">Compliance Reports<small>One-tap EHO-ready PDFs</small></a>
+        <a href="deliveries.html">Deliveries<small>Log temperature &amp; evidence</small></a>
+        <a href="document-management.html">Documents<small>Certificates &amp; reminders</small></a>
+        <a href="team-management.html">Team Management<small>Roles, check-in, tracking</small></a>
+      </div>
+    </div>
+    <div class="bx-dd">
+      <button>Free Tools <svg class="bx-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg></button>
+      <div class="bx-menu">
+        <a href="audit/index.html">Free Self-Audit<small>Score your kitchen</small></a>
+        <a href="check-food-hygiene-rating.html">Check a Hygiene Rating<small>Look up any UK venue</small></a>
+        <a href="https://chatgpt.com/g/g-6a0c75c897108191956d8c9f3223abb4-blueroll-uk-food-safety-coach" target="_blank" rel="noopener">GPT Food Safety Coach<small>Ask our AI coach</small></a>
+        <a href="london-food-hygiene-map.html">London Hygiene Map<small>Every London venue</small></a>
+        <a href="nyc-restaurant-map.html">NYC Restaurant Map<small>US health grades</small></a>
+        <a href="sf-restaurant-map.html">SF Restaurant Map<small>US health grades</small></a>
+        <div class="bx-sep"></div>
+        <a href="tools.html">See all free tools →</a>
+      </div>
+    </div>
+    <a href="index.html#pricing">Pricing</a>
+    <a href="https://app.blueroll.app/" class="bx-btn">Start for Free</a>
   </div>
-</nav>
+  <label for="bx-burger-cb" class="bx-burger" aria-label="Menu"><span></span><span></span><span></span></label>
+</header>
+<div class="bx-mobile">
+  <h4>Product</h4>
+  <a href="haccp-checklists.html">HACCP Checklists</a>
+  <a href="allergen-matrix.html">Allergen Matrix</a>
+  <a href="ai-recipe-import.html">AI Recipe Import</a>
+  <a href="compliance-reports.html">Compliance Reports</a>
+  <a href="deliveries.html">Deliveries</a>
+  <a href="document-management.html">Documents</a>
+  <a href="team-management.html">Team Management</a>
+  <h4>Free Tools</h4>
+  <a href="audit/index.html">Free Self-Audit</a>
+  <a href="check-food-hygiene-rating.html">Check a Hygiene Rating</a>
+  <a href="https://chatgpt.com/g/g-6a0c75c897108191956d8c9f3223abb4-blueroll-uk-food-safety-coach" target="_blank" rel="noopener">GPT Food Safety Coach</a>
+  <a href="london-food-hygiene-map.html">London Hygiene Map</a>
+  <a href="nyc-restaurant-map.html">NYC Restaurant Map</a>
+  <a href="sf-restaurant-map.html">SF Restaurant Map</a>
+  <a href="tools.html">See all free tools</a>
+  <h4>&nbsp;</h4>
+  <a href="index.html#pricing">Pricing</a>
+  <a href="https://app.blueroll.app/" class="bx-m-cta">Start for Free</a>
+</div>
+
+
 
 <section class="hero">
   <div class="label">Operations Playbook</div>
@@ -406,56 +452,67 @@ nav {
   </div>
 </div>
 
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-grid">
-      <div class="footer-brand">
+<footer class="bx-foot">
+  <div class="bx-foot-in">
+    <div class="bx-foot-grid">
+      <div class="bx-foot-brand">
         <img src="blueroll-logo.svg" alt="Blueroll">
-        <p>Food safety management for restaurants in the US, UK, and Europe.</p>
+        <p>Food safety management for restaurants in the UK, US &amp; Europe.</p>
+        <div class="bx-badges">
+          <a href="https://apps.apple.com/app/id6760937451" aria-label="Download on the App Store"><img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store"></a>
+          <a href="https://play.google.com/store/apps/details?id=app.blueroll.mobile" aria-label="Get it on Google Play"><img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play"></a>
+        </div>
       </div>
-      <div class="footer-col">
+      <div class="bx-foot-col">
         <h4>Product</h4>
-        <a href="index.html#features">Features</a>
-        <a href="index.html#ai">AI Import</a>
-        <a href="index.html#pricing">Pricing</a>
-        <a href="index.html#faq">FAQ</a>
+        <a href="haccp-checklists.html">HACCP Checklists</a>
+        <a href="allergen-matrix.html">Allergen Matrix</a>
+        <a href="ai-recipe-import.html">AI Recipe Import</a>
+        <a href="compliance-reports.html">Compliance Reports</a>
+        <a href="deliveries.html">Deliveries</a>
+        <a href="document-management.html">Documents</a>
+        <a href="team-management.html">Team Management</a>
       </div>
-      <div class="footer-col">
+      <div class="bx-foot-col">
         <h4>Free Tools</h4>
-        <a href="free-food-hygiene-rating-badge.html">Rating Badge Widget</a>
-        <a href="free-haccp-template.html">HACCP Template</a>
-        <a href="london-food-hygiene-map.html">London Ratings Map</a>
+        <a href="audit/index.html">Free Self-Audit</a>
+        <a href="check-food-hygiene-rating.html">Check a Rating</a>
+        <a href="https://chatgpt.com/g/g-6a0c75c897108191956d8c9f3223abb4-blueroll-uk-food-safety-coach" target="_blank" rel="noopener">GPT Safety Coach</a>
+        <a href="london-food-hygiene-map.html">London Map</a>
         <a href="nyc-restaurant-map.html">NYC Map</a>
-        <a href="chicago-restaurant-map.html">Chicago Map</a>
         <a href="sf-restaurant-map.html">SF Map</a>
       </div>
-      <div class="footer-col">
+      <div class="bx-foot-col">
+        <h4>UK Guides</h4>
+        <a href="food-hygiene-ratings-explained.html">Ratings Explained</a>
+        <a href="how-to-improve-food-hygiene-rating.html">Improve Your Rating</a>
+        <a href="eho-inspection-checklist.html">EHO Checklist</a>
+        <a href="14-allergens-uk.html">14 Allergens</a>
+        <a href="natashas-law-2026.html">Natasha's Law</a>
+        <a href="sfbb-guide.html">SFBB Guide</a>
+        <a href="food-recalls-2026.html">Food Recalls 2026</a>
+      </div>
+      <div class="bx-foot-col">
         <h4>US Guides</h4>
         <a href="nyc-restaurant-grade.html">New York City</a>
         <a href="la-restaurant-grade.html">Los Angeles</a>
         <a href="chicago-restaurant-inspection.html">Chicago</a>
         <a href="sf-restaurant-inspection.html">San Francisco</a>
-        <a href="seattle-restaurant-inspection.html">Seattle</a>
+        <a href="50k-restaurant-grades.html">50k US Grades</a>
       </div>
-      <div class="footer-col">
-        <h4>UK Guides</h4>
-        <a href="/guides/uk" style="color: rgba(255,255,255,0.85); font-weight: 700;">All UK guides →</a>
-        <a href="how-to-improve-food-hygiene-rating.html">Improve Your Rating</a>
-        <a href="eho-inspection-checklist.html">EHO Checklist</a>
-        <a href="14-allergens-uk.html">14 Allergens</a>
-        <a href="launch-new-menu-15-minutes.html">Launch a Menu in 15 Min</a>
-      </div>
-      <div class="footer-col">
+      <div class="bx-foot-col">
         <h4>Company</h4>
-        <a href="pitch.html">Pitch Deck</a>
-        <a href="mailto:hello@blueroll.app">Contact</a>
+        <a href="index.html#pricing">Pricing</a>
+        <a href="free-food-hygiene-rating-badge.html">Rating Badge</a>
+        <a href="restaurant-opening-checklist.html">Opening Checklist</a>
         <a href="privacy-policy.html">Privacy Policy</a>
         <a href="terms.html">Terms of Use</a>
+        <a href="https://app.blueroll.app/">Start for Free</a>
       </div>
     </div>
-    <div class="footer-bottom">
+    <div class="bx-foot-bot">
       <span>&copy; 2026 Blueroll. London &amp; New York.</span>
-      <div class="footer-social">
+      <div class="bx-social">
         <a href="https://www.instagram.com/blueroll.app" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
         <a href="https://www.facebook.com/bluerollapp/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
         <a href="https://www.linkedin.com/company/bluerollapp" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
