@@ -108,6 +108,10 @@ tr:hover { background: rgba(16,185,129,0.03); }
 .r-3 { background: rgba(245,158,11,0.15); color: #F59E0B; }
 .r-4 { background: rgba(16,185,129,0.15); color: #10B981; }
 .r-5 { background: rgba(16,185,129,0.2); color: #34D399; }
+/* Scottish FHIS scheme — text results instead of 0–5 */
+.r-pass { background: rgba(16,185,129,0.15); color: #10B981; }
+.r-improvement { background: rgba(239,68,68,0.15); color: #EF4444; }
+.r-na-fhis { background: rgba(148,163,184,0.15); color: #94A3B8; }
 .enriched { color: var(--accent); }
 .not-enriched { color: var(--muted); font-size: 10px; }
 .chain-tag { font-size: 9px; color: var(--orange); background: rgba(245,158,11,0.1); padding: 1px 5px; border-radius: 3px; }
@@ -1318,7 +1322,8 @@ function renderBrowseTable(data) {
     const tr = document.createElement('tr');
     tr.style.cursor = 'pointer';
 
-    const rClass = r.rating != null ? `r-${Math.min(r.rating, 5)}` : '';
+    const fb = fhisBadge(r);
+    const rClass = r.rating != null ? `r-${Math.min(r.rating, 5)}` : (fb ? fb.cls : '');
     const ratingDate = r.rating_date ? new Date(r.rating_date).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'2-digit'}) : '—';
     const updated = r.updated_at ? new Date(r.updated_at).toLocaleDateString('en-GB', {day:'2-digit',month:'short'}) : '—';
     const chain = r.is_chain ? ' <span class="chain-tag">chain</span>' : '';
@@ -1332,7 +1337,7 @@ function renderBrowseTable(data) {
     tr.innerHTML = `
       <td onclick="event.stopPropagation()"><input type="checkbox" data-idx="${idx}" ${hasEmail ? '' : 'disabled title="No email"'} onchange="toggleDbSelect(${idx}, this.checked)" style="accent-color:#3B82F6;width:14px;height:14px;cursor:${hasEmail ? 'pointer' : 'not-allowed'};${hasEmail ? '' : 'opacity:0.2;'}"></td>
       <td onclick="openDetail(${r.fhrs_id})" title="${esc(r.name)}">${esc(r.name)}${chain}</td>
-      <td onclick="openDetail(${r.fhrs_id})"><span class="rating-badge ${rClass}">${r.rating != null ? r.rating : '?'}</span></td>
+      <td onclick="openDetail(${r.fhrs_id})"><span class="rating-badge ${rClass}" ${fb ? `title="${fb.full} (FHIS, Scotland)"` : ''}>${r.rating != null ? r.rating : (fb ? fb.short : '?')}</span></td>
       <td onclick="openDetail(${r.fhrs_id})">${esc(r.postcode || '')}</td>
       <td onclick="openDetail(${r.fhrs_id})" title="${esc(r.business_type || '')}">${esc((r.business_type || '').substring(0, 25))}</td>
       <td onclick="openDetail(${r.fhrs_id})" title="${esc(r.local_authority || '')}">${esc((r.local_authority || '').substring(0, 20))}</td>
@@ -1391,9 +1396,20 @@ async function openDetail(fhrsId) {
   }
 }
 
+// Scottish FHIS scheme — text result in fhis_result, rating is NULL
+function fhisBadge(r) {
+  if (r.rating != null || !r.fhis_result) return null;
+  return {
+    'Pass': {cls:'r-pass', short:'Pass', full:'Pass'},
+    'Pass and Eat Safe': {cls:'r-pass', short:'Pass+', full:'Pass and Eat Safe'},
+    'Improvement Required': {cls:'r-improvement', short:'Impr Req', full:'Improvement Required'},
+  }[r.fhis_result] || {cls:'r-na-fhis', short:r.fhis_result.replace(/([a-z])([A-Z])/g,'$1 $2').split(' ')[0], full:r.fhis_result};
+}
+
 function renderDetail(data) {
   const b = data.business;
-  const rClass = b.rating != null ? `r-${Math.min(b.rating, 5)}` : '';
+  const fb = fhisBadge(b);
+  const rClass = b.rating != null ? `r-${Math.min(b.rating, 5)}` : (fb ? fb.cls : '');
   const addr = [b.address_1, b.address_2, b.address_3, b.address_4, b.postcode].filter(Boolean).join(', ');
   const ratingDate = b.rating_date ? new Date(b.rating_date).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'}) : '—';
 
@@ -1433,7 +1449,7 @@ function renderDetail(data) {
     <div class="detail-grid">
       <div class="detail-item">
         <div class="detail-label">Rating</div>
-        <div class="detail-value"><span class="rating-badge ${rClass}">${b.rating != null ? b.rating : '?'}</span> &mdash; ${ratingDate}</div>
+        <div class="detail-value"><span class="rating-badge ${rClass}">${b.rating != null ? b.rating : (fb ? `${fb.full} (FHIS)` : '?')}</span> &mdash; ${ratingDate}</div>
       </div>
       ${prevInfo}
       <div class="detail-item">

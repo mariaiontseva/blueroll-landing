@@ -360,9 +360,14 @@ function renderTable(emails) {
     } else {
       statusHtml = '<span class="status-delivered">✓ delivered</span>';
     }
+    // Scottish FHIS: text result in fhis_result, rating is NULL
+    const fhisCls = {'Pass':'badge-green','Pass and Eat Safe':'badge-green','Improvement Required':'badge-red'};
+    const fhisShort = {'Pass':'Pass','Pass and Eat Safe':'Pass+','Improvement Required':'Impr Req'};
     const ratingHtml = biz && biz.rating != null
       ? `<span class="badge ${ratingClass(biz.rating)}">${biz.rating}</span>`
-      : '<span class="badge badge-muted">—</span>';
+      : (biz && biz.fhis_result
+        ? `<span class="badge ${fhisCls[biz.fhis_result] || 'badge-muted'}" title="${biz.fhis_result} (FHIS, Scotland)">${fhisShort[biz.fhis_result] || biz.fhis_result}</span>`
+        : '<span class="badge badge-muted">—</span>');
     // Row is clickable when we have a fhrs_id (so we can fetch detailed views)
     const fhrsId = biz && biz.fhrs_id;
     const clickable = fhrsId ? 'clickable' : '';

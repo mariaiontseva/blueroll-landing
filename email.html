@@ -156,6 +156,11 @@ tr:hover { background: var(--blue-soft); }
 .r-3 { background: #FFFBEB; color: #D97706; }
 .r-4 { background: var(--green-soft); color: #059669; }
 .r-5 { background: var(--green-soft); color: #047857; }
+/* Scottish FHIS scheme — text results instead of 0–5 */
+.rating-badge.r-fhis { width: auto; padding: 0 7px; font-size: 10px; white-space: nowrap; }
+.r-pass { background: var(--green-soft); color: #059669; }
+.r-improvement { background: #FEF2F2; color: #DC2626; }
+.r-na { background: #F1F5F9; color: #94A3B8; }
 .sent-tag { font-size: 11px; color: var(--accent); font-family: var(--mono); font-weight: 500; }
 .email-cell { color: var(--blue-mid); font-size: 13px; max-width: 220px; overflow: hidden; text-overflow: ellipsis; }
 
@@ -271,6 +276,10 @@ tr:hover { background: var(--blue-soft); }
     <button class="fbtn" data-rating="0,1,2" onclick="setRating(this,'0,1,2')">0-2</button>
     <button class="fbtn" data-rating="0,1,2,3" onclick="setRating(this,'0,1,2,3')">0-3</button>
     <button class="fbtn" data-rating="3,4" onclick="setRating(this,'3,4')">3-4</button>
+    <span class="filter-sep"></span>
+    <span class="filter-label">Scotland</span>
+    <button class="fbtn fbtn-red" data-rating="fhis_ir" onclick="setRating(this,'fhis_ir')">Impr Req</button>
+    <button class="fbtn fbtn-green" data-rating="fhis_pass" onclick="setRating(this,'fhis_pass')">Pass</button>
   </div>
   <div class="filter-row" style="margin-top:8px;">
     <span class="filter-label">Type</span>
@@ -424,8 +433,12 @@ function applyClientFilters() {
   if (clicked === 'clicked') filtered = filtered.filter(r => (r._clicks || 0) > 0);
   else if (clicked === 'not_clicked') filtered = filtered.filter(r => r.email_sent_at && !(r._clicks > 0));
 
-  // Filter by rating
-  if (activeRating) {
+  // Filter by rating (numeric FHRS or Scottish FHIS text results)
+  if (activeRating === 'fhis_ir') {
+    filtered = filtered.filter(r => r.fhis_result === 'Improvement Required');
+  } else if (activeRating === 'fhis_pass') {
+    filtered = filtered.filter(r => r.fhis_result === 'Pass' || r.fhis_result === 'Pass and Eat Safe');
+  } else if (activeRating) {
     const allowed = activeRating.split(',').map(Number);
     filtered = filtered.filter(r => r.rating != null && allowed.includes(r.rating));
   }
@@ -488,7 +501,8 @@ function renderTable(data) {
 
   data.results.forEach((r, idx) => {
     const tr = document.createElement('tr');
-    const rc = r.rating != null ? `r-${Math.min(r.rating, 5)}` : '';
+    const fb = fhisBadge(r);
+    const rc = r.rating != null ? `r-${Math.min(r.rating, 5)}` : (fb ? `r-fhis ${fb.cls}` : '');
     const rDate = r.rating_date ? new Date(r.rating_date).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'2-digit'}) : '—';
     const sent = r.email_sent_at ? `<span class="sent-tag">\u2713 ${new Date(r.email_sent_at).toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}</span>` : '';
 
@@ -505,7 +519,7 @@ function renderTable(data) {
         <button onclick="event.stopPropagation();generateStoryPNG(${idx})" style="padding:5px 10px;font-size:11px;border-radius:6px;border:1px solid #E5E7EB;background:white;color:#7C3AED;cursor:pointer;font-family:inherit;font-weight:600;margin-left:4px;transition:all 0.15s;" onmouseover="this.style.borderColor='#7C3AED';this.style.background='#F5F3FF'" onmouseout="this.style.borderColor='#E5E7EB';this.style.background='white'">📸 Story</button>
         <button onclick="event.stopPropagation();markOneSent(${idx},this)" style="padding:5px 10px;font-size:11px;border-radius:6px;border:1px solid #E5E7EB;background:white;color:var(--text-secondary);cursor:pointer;font-family:inherit;font-weight:500;margin-left:4px;transition:all 0.15s;" onmouseover="this.style.borderColor='#059669';this.style.color='#059669'" onmouseout="this.style.borderColor='#E5E7EB';this.style.color=''">Sent</button>
       </td>
-      <td><span class="rating-badge ${rc}">${r.rating != null ? r.rating : '?'}</span></td>
+      <td><span class="rating-badge ${rc}" ${fb ? `title="${fb.full}"` : ''}>${r.rating != null ? r.rating : (fb ? fb.short : '?')}</span></td>
       <td class="email-cell" title="${esc(r.email || '')}">${r.email ? esc(r.email) : '<span style="color:#CBD5E0;">—</span>'}</td>
       <td>${r.instagram ? `<a href="https://instagram.com/${esc(r.instagram.replace('@',''))}" target="_blank" onclick="event.stopPropagation()" style="color:#E4405F;text-decoration:none;font-weight:500;font-size:13px;">@${esc(r.instagram.replace('@',''))}</a>` : '<span style="color:#CBD5E0;">—</span>'}</td>
       <td>${esc(r.postcode || '')}</td>
@@ -639,10 +653,10 @@ function exportCSV() {
 
   [...selected].forEach(idx => {
     const r = allData[idx];
-    const rating = r.rating != null ? String(r.rating) : '?';
+    const rating = r.rating != null ? String(r.rating) : (r.fhis_result || '?');
     const ratingNum = parseInt(rating) || 0;
     const addr = [r.address_1, r.address_2, r.address_3].filter(Boolean).join(', ');
-    const ratingText = {0:'Urgent Improvement Necessary',1:'Major Improvement Necessary',2:'Improvement Necessary',3:'Generally Satisfactory',4:'Good',5:'Very Good'}[rating] || '';
+    const ratingText = {0:'Urgent Improvement Necessary',1:'Major Improvement Necessary',2:'Improvement Necessary',3:'Generally Satisfactory',4:'Good',5:'Very Good'}[rating] || (r.fhis_result ? `${r.fhis_result} (FHIS)` : '');
     const subject = getSubject(r);
 
     const fullAddr = [r.address_1,r.address_2,r.address_3,r.postcode].filter(Boolean).join(', ');
@@ -766,9 +780,21 @@ function btnFeedback(label, fb) {
 function getMonthsAgo(d) { return d ? Math.round((new Date() - new Date(d)) / (1000*60*60*24*30)) : 0; }
 function isOverdue(r) { return r.rating_date && getMonthsAgo(r.rating_date) >= 12; }
 
+// Scottish FHIS scheme \u2014 text result in fhis_result, rating is NULL
+function fhisBadge(r) {
+  if (r.rating != null || !r.fhis_result) return null;
+  return {
+    'Pass': {cls:'r-pass', short:'Pass', full:'Pass'},
+    'Pass and Eat Safe': {cls:'r-pass', short:'Pass+', full:'Pass and Eat Safe'},
+    'Improvement Required': {cls:'r-improvement', short:'Impr Req', full:'Improvement Required'},
+  }[r.fhis_result] || {cls:'r-na', short:r.fhis_result.replace(/([a-z])([A-Z])/g,'$1 $2').split(' ')[0], full:r.fhis_result};
+}
+
 function getSubject(r) {
   const rn = parseInt(r.rating) || 0;
   if (isOverdue(r)) return `${r.name} \u2014 is your kitchen ready for the next EHO visit?`;
+  if (r.rating == null && r.fhis_result === 'Improvement Required') return `${r.name} \u2014 getting to a Pass at your next inspection`;
+  if (r.rating == null && (r.fhis_result === 'Pass' || r.fhis_result === 'Pass and Eat Safe')) return `${r.name} \u2014 keep your Pass with less paperwork`;
   if (rn === 5) return `${r.name} \u2014 keep your perfect 5 with less paperwork`;
   if (rn === 4) return `${r.name} \u2014 one step away from a perfect 5`;
   if (rn === 3) return `${r.name} \u2014 from 3 to 5: a simple way to improve`;
@@ -776,8 +802,9 @@ function getSubject(r) {
 }
 
 function buildEmailHTML(r) {
-  const rating = r.rating != null ? String(r.rating) : '?';
+  const rating = r.rating != null ? String(r.rating) : (r.fhis_result || '?');
   const ratingNum = parseInt(rating) || 0;
+  const isFHIS = r.rating == null && !!r.fhis_result;
   const addr = [r.address_1, r.address_2, r.address_3, r.postcode].filter(Boolean).join(', ');
   const name = r.name || '';
   const ratingText = {0:'Urgent Improvement Necessary',1:'Major Improvement Necessary',2:'Improvement Necessary',3:'Generally Satisfactory',4:'Good',5:'Very Good'}[rating] || rating;
@@ -805,6 +832,14 @@ function buildEmailHTML(r) {
     intro = `<p style="${_p}">Dear ${name} team,</p>
 <p style="${_p}">Your recent food hygiene inspection resulted in a rating of <strong style="background:#FEF3C7;padding:2px 6px;border-radius:4px;color:#92400E;">3 \u2014 Generally Satisfactory</strong>. That\u2019s a solid foundation, but there\u2019s room to improve \u2014 and your next inspector will be looking for progress.</p>
 <p style="${_p}"><strong style="color:#1A202C;">Blueroll</strong> is a simple app that replaces paper HACCP records with digital checklists. Most restaurants that switch see a 1\u20132 point improvement at their next inspection.</p>`;
+  } else if (isFHIS && rating === 'Improvement Required') {
+    intro = `<p style="${_p}">Dear ${name} team,</p>
+<p style="${_p}">We noticed your recent food hygiene inspection resulted in <strong style="background:#FEF3C7;padding:2px 6px;border-radius:4px;color:#92400E;">\u201cImprovement Required\u201d</strong> under the Food Hygiene Information Scheme. We know that can be stressful, especially when you\u2019re working hard to keep standards up.</p>
+<p style="${_p}"><strong style="color:#1A202C;">Blueroll</strong> is a simple app that replaces paper HACCP records with digital checklists your team can complete in seconds. It helps you fix the gaps inspectors flag most often.</p>`;
+  } else if (isFHIS && (rating === 'Pass' || rating === 'Pass and Eat Safe')) {
+    intro = `<p style="${_p}">Dear ${name} team,</p>
+<p style="${_p}">Congratulations on your <strong style="background:#ECFDF5;padding:2px 6px;border-radius:4px;color:#047857;">\u201cPass\u201d</strong> under the Food Hygiene Information Scheme \u2014 your customers can see you take food safety seriously.</p>
+<p style="${_p}">Keeping that result means staying on top of HACCP records, allergen logs, and temperature checks every day. <strong style="color:#1A202C;">Blueroll</strong> makes that effortless \u2014 digital checklists your team can complete in seconds, so you\u2019re always inspection-ready.</p>`;
   } else {
     intro = `<p style="${_p}">Dear ${name} team,</p>
 <p style="${_p}">We noticed your recent food hygiene inspection resulted in a rating of <strong style="background:#FEF3C7;padding:2px 6px;border-radius:4px;color:#92400E;">${rating} \u2014 ${ratingText}</strong>. We know a low score can be stressful, especially when you\u2019re working hard to keep standards up.</p>
@@ -813,6 +848,8 @@ function buildEmailHTML(r) {
 
   let closing;
   if (overdue) closing = `Restaurants using Blueroll report feeling significantly more confident before inspections. We\u2019d love to help ${name} be fully prepared.`;
+  else if (isFHIS && rating === 'Improvement Required') closing = `Businesses using Blueroll go into their follow-up inspection with complete, up-to-date records. We\u2019d love to help ${name} get to a Pass.`;
+  else if (isFHIS) closing = `Blueroll helps businesses like ${name} keep their Pass with less paperwork. We\u2019d love to show you how.`;
   else if (ratingNum === 5) closing = `Blueroll helps top-rated restaurants like ${name} stay at 5 with less paperwork. We\u2019d love to show you how.`;
   else if (ratingNum === 4) closing = `Many restaurants have gone from 4 to 5 after switching to digital records. We\u2019d love to help ${name} get there.`;
   else if (ratingNum === 3) closing = `Restaurants using Blueroll typically jump to 4 or 5 at their next inspection. We\u2019d love to help ${name} get there.`;
@@ -823,10 +860,18 @@ function buildEmailHTML(r) {
     : `<span style="color:#E2B55A;font-size:15px;opacity:0.25;padding:0 1px;">&#9734;</span>`
   ).join('');
 
+  // FHIS (Scotland): text result instead of a number — smaller font, no stars row
+  const ratingBoxText = isFHIS
+    ? ({'Pass':'Pass','Pass and Eat Safe':'Pass','Improvement Required':'Impr.<br>Req.'}[rating] || '—')
+    : rating;
+  const ratingBoxFont = isFHIS
+    ? `line-height:1.15;font-size:18px;display:flex;align-items:center;justify-content:center;`
+    : `line-height:80px;font-size:40px;`;
+
   const badge = `<div style="width:240px;margin:0 auto;border-radius:22px;background:linear-gradient(145deg,#0D1B2A,#1B2D45);padding:32px 28px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,0.25);font-family:${font};">
-  <div style="width:80px;height:80px;border-radius:20px;background:linear-gradient(145deg,#ECC55B,#D4A843);margin:0 auto 14px;line-height:80px;font-size:40px;font-weight:800;color:#0D1B2A;box-shadow:0 4px 16px rgba(0,0,0,0.3);">${rating}</div>
-  <div style="margin-bottom:12px;">${starsSpan}</div>
-  <div style="margin-bottom:8px;font-size:9px;color:#E2B55A;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;">Food Hygiene Rating</div>
+  <div style="width:80px;height:80px;border-radius:20px;background:linear-gradient(145deg,#ECC55B,#D4A843);margin:0 auto 14px;${ratingBoxFont}font-weight:800;color:#0D1B2A;box-shadow:0 4px 16px rgba(0,0,0,0.3);">${ratingBoxText}</div>
+  ${isFHIS ? '' : `<div style="margin-bottom:12px;">${starsSpan}</div>`}
+  <div style="margin-bottom:8px;font-size:9px;color:#E2B55A;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;">${isFHIS ? 'Food Hygiene Information Scheme' : 'Food Hygiene Rating'}</div>
   <div style="margin-bottom:4px;font-size:16px;font-weight:700;color:#F0ECE3;letter-spacing:-0.2px;">${name}</div>
   <div style="font-size:11px;color:rgba(255,255,255,0.45);line-height:1.3;">${addr}</div>
   <div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.08);font-size:9px;color:#E2B55A;opacity:0.5;letter-spacing:.6px;">Powered by Blueroll</div>
