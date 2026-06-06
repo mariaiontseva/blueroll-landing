@@ -257,9 +257,20 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 48px;
   <a href="https://app.blueroll.app/" class="bx-m-cta">Start for Free</a>
 </div>
 
+<!-- Personalised card — filled when arriving from outreach email (?fhrsid=...) -->
+<div id="bizCard" style="display:none;max-width:480px;margin:120px auto -90px;padding:0 24px;">
+  <div style="border-radius:22px;background:linear-gradient(145deg,#0D1B2A,#1B2D45);padding:36px 30px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,0.25);">
+    <div id="bizGradeBox" style="width:88px;height:88px;border-radius:20px;background:linear-gradient(145deg,#ECC55B,#D4A843);margin:0 auto 16px;line-height:88px;font-size:46px;font-weight:800;color:#0D1B2A;box-shadow:0 4px 16px rgba(0,0,0,0.3);"></div>
+    <div style="font-size:10px;color:#E2B55A;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">NYC Restaurant Letter Grade</div>
+    <div id="bizName" style="font-size:19px;font-weight:700;color:#F0ECE3;letter-spacing:-0.2px;margin-bottom:4px;"></div>
+    <div id="bizAddr" style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.4;"></div>
+    <div id="bizMeta" style="margin-top:14px;padding-top:13px;border-top:1px solid rgba(255,255,255,0.08);font-size:12px;color:rgba(255,255,255,0.55);"></div>
+  </div>
+</div>
+
 <section class="hero">
   <div class="label">NYC Restaurants</div>
-  <h1>How to get an <em>A grade</em></h1>
+  <h1 id="heroTitle">How to get an <em>A grade</em></h1>
   <p>Everything NYC restaurant owners need to know about health inspections, letter grades, and what the Department of Health actually checks.</p>
 </section>
 
@@ -642,7 +653,28 @@ function titleCase(s) { return s ? s.toLowerCase().replace(/\b\w/g, c => c.toUpp
     }).catch(() => {});
   }
   if (_fhrsid) {
-    fetch('https://web-production-54cc.up.railway.app/api/business/' + _fhrsid + '/public').catch(() => {});
+    // One call does both: records the page view AND returns the business
+    // data for the personalised card at the top of the page.
+    fetch('https://web-production-54cc.up.railway.app/api/business/' + _fhrsid + '/public')
+      .then(r => r.ok ? r.json() : null)
+      .then(d => {
+        const b = d && (d.business || d);
+        if (!b || !b.name) return;
+        const g = b.us_grade;
+        document.getElementById('bizGradeBox').textContent = (g && ['A','B','C'].includes(g)) ? g : '—';
+        document.getElementById('bizName').textContent = b.name;
+        document.getElementById('bizAddr').textContent =
+          [b.address_1, b.address_4 || '', 'New York', b.postcode].filter(Boolean).join(', ');
+        const bits = [];
+        if (b.us_score != null) bits.push(b.us_score + ' violation points');
+        if (b.rating_date) bits.push('inspected ' + new Date(b.rating_date).toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'}));
+        document.getElementById('bizMeta').textContent = bits.join(' · ');
+        document.getElementById('bizCard').style.display = 'block';
+        if (g === 'B' || g === 'C') {
+          document.getElementById('heroTitle').innerHTML = 'From a ' + g + ' to an <em>A grade</em>';
+        }
+      })
+      .catch(() => {});
   }
 })();
 </script>
