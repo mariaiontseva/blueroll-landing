@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blueroll — NY Database 🗽</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #0B1218; --surface: #111A23; --border: rgba(255,255,255,0.07);
+  --text: #E6EDF3; --muted: #7A8A98; --accent: #3B82F6; --accent-dim: rgba(59,130,246,0.1);
+  --green: #10B981; --amber: #F59E0B; --red: #EF4444;
+  --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; }
+.header { display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 10; }
+.header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header .tag { font-size: 11px; color: var(--accent); background: var(--accent-dim); padding: 3px 8px; border-radius: 4px; margin-left: 10px; font-family: var(--mono); }
+.nav-link { color: var(--muted); text-decoration: none; font-size: 13px; margin-left: 16px; }
+.nav-link:hover { color: var(--accent); }
+.toolbar { display: flex; gap: 10px; padding: 14px 24px; flex-wrap: wrap; align-items: center; border-bottom: 1px solid var(--border); }
+.tb-input { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; color: var(--text); padding: 8px 12px; font-size: 13px; width: 260px; outline: none; }
+.tb-input:focus { border-color: var(--accent); }
+.fbtn { background: var(--surface); border: 1px solid var(--border); border-radius: 7px; color: var(--muted); padding: 7px 13px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.fbtn:hover { border-color: var(--accent); color: var(--accent); }
+.fbtn.active { background: var(--accent); border-color: var(--accent); color: white; }
+.tb-select { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; color: var(--text); padding: 8px 10px; font-size: 13px; }
+.stats { display: flex; gap: 24px; padding: 12px 24px; font-size: 12px; color: var(--muted); font-family: var(--mono); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.stats b { color: var(--text); }
+table { width: 100%; border-collapse: collapse; }
+th { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border); cursor: pointer; position: sticky; top: 53px; background: var(--bg); }
+td { padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; }
+tr:hover { background: var(--accent-dim); cursor: pointer; }
+.badge { display: inline-block; padding: 2px 9px; border-radius: 4px; font-family: var(--mono); font-weight: 700; font-size: 12px; }
+.g-A { background: rgba(16,185,129,0.15); color: var(--green); }
+.g-B { background: rgba(245,158,11,0.15); color: var(--amber); }
+.g-C { background: rgba(239,68,68,0.15); color: var(--red); }
+.g-P { background: rgba(122,138,152,0.15); color: var(--muted); }
+.dot-y { color: var(--green); } .dot-n { color: var(--muted); font-size: 10px; }
+.pager { display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; color: var(--muted); font-size: 13px; }
+.pager button { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--text); padding: 6px 14px; cursor: pointer; }
+.pager button:disabled { opacity: 0.3; cursor: default; }
+/* Modal */
+.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 50; }
+.modal.open { display: flex; align-items: flex-start; justify-content: center; padding: 60px 20px; }
+.modal-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; max-width: 560px; width: 100%; padding: 26px; max-height: 80vh; overflow-y: auto; }
+.modal-card h2 { font-size: 18px; margin-bottom: 4px; }
+.modal-sub { color: var(--muted); font-size: 12px; margin-bottom: 18px; }
+.dgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; }
+.dlabel { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 3px; font-family: var(--mono); }
+.dvalue { font-size: 13px; word-break: break-word; }
+.dvalue a { color: var(--accent); text-decoration: none; }
+.modal-close { float: right; background: none; border: none; color: var(--muted); font-size: 20px; cursor: pointer; }
+.enrich-bar { padding: 12px 24px; border-bottom: 1px solid var(--border); display: flex; gap: 10px; align-items: center; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+.ebtn { background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); color: var(--green); border-radius: 7px; padding: 6px 13px; font-size: 12px; font-weight: 600; cursor: pointer; }
+.ebtn:hover { background: rgba(16,185,129,0.2); }
+#enrichStatus { font-family: var(--mono); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div style="display:flex;align-items:center;">
+    <h1>🗽 NY Database</h1>
+    <span class="tag">NYC DOHMH · Blueroll CRM</span>
+  </div>
+  <div>
+    <a href="ny-email.html" class="nav-link">NY Outreach</a>
+    <a href="db.html" class="nav-link">UK Database</a>
+  </div>
+</div>
+
+<div class="toolbar">
+  <input class="tb-input" id="q" placeholder="Search name, ZIP, borough…" onkeydown="if(event.key==='Enter') load(1)">
+  <span style="color:var(--muted);font-size:12px;">Grade</span>
+  <button class="fbtn active" data-g="" onclick="setGrade(this,'')">All</button>
+  <button class="fbtn" data-g="C" onclick="setGrade(this,'C')">C</button>
+  <button class="fbtn" data-g="B" onclick="setGrade(this,'B')">B</button>
+  <button class="fbtn" data-g="A" onclick="setGrade(this,'A')">A</button>
+  <button class="fbtn" data-g="B,C" onclick="setGrade(this,'B,C')">B+C</button>
+  <select class="tb-select" id="has" onchange="load(1)">
+    <option value="">Any contact info</option>
+    <option value="email">Has email</option>
+    <option value="phone">Has phone</option>
+    <option value="website">Has website</option>
+    <option value="instagram">Has Instagram</option>
+  </select>
+  <select class="tb-select" id="sort" onchange="load(1)">
+    <option value="rating_date:desc">Newest inspection</option>
+    <option value="rating_date:asc">Oldest inspection</option>
+    <option value="name:asc">Name A–Z</option>
+  </select>
+</div>
+
+<div class="enrich-bar">
+  <span>Enrichment:</span>
+  <button class="ebtn" onclick="runEnrich('google')">▶ Google (websites)</button>
+  <button class="ebtn" onclick="runEnrich('scrape')">▶ Scrape (emails)</button>
+  <span id="enrichStatus">idle</span>
+</div>
+
+<div class="stats" id="stats">Loading…</div>
+
+<table>
+  <thead><tr>
+    <th style="width:60px;">Grade</th><th>Name</th><th>Cuisine</th><th>Borough</th>
+    <th>ZIP</th><th>Inspected</th><th style="width:40px;">✉️</th><th style="width:40px;">📞</th><th style="width:40px;">🌐</th>
+  </tr></thead>
+  <tbody id="tbody"><tr><td colspan="9" style="padding:24px;color:var(--muted);">Loading…</td></tr></tbody>
+</table>
+
+<div class="pager">
+  <button id="prev" onclick="load(page-1)">← Prev</button>
+  <span id="pageInfo"></span>
+  <button id="next" onclick="load(page+1)">Next →</button>
+</div>
+
+<div class="modal" id="modal" onclick="if(event.target===this) closeModal()">
+  <div class="modal-card" id="modalCard"></div>
+</div>
+
+<script>
+const CRM = 'https://web-production-54cc.up.railway.app';
+let page = 1, pages = 1, activeGrade = '';
+
+const GRADE_FULL = {A:'Grade A', B:'Grade B', C:'Grade C', N:'Not Yet Graded', P:'Grade Pending', Z:'Grade Pending'};
+function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function gradeBadge(g) {
+  const cls = {A:'g-A', B:'g-B', C:'g-C'}[g] || 'g-P';
+  return `<span class="badge ${cls}" title="${GRADE_FULL[g] || 'No grade'}">${g || '?'}</span>`;
+}
+
+function setGrade(btn, g) {
+  activeGrade = g;
+  document.querySelectorAll('.fbtn').forEach(b => b.classList.toggle('active', b === btn));
+  load(1);
+}
+
+async function load(p) {
+  page = Math.max(1, p || 1);
+  const [sort, order] = document.getElementById('sort').value.split(':');
+  const params = new URLSearchParams({ country: 'US', page, per_page: 100, sort, order });
+  const q = document.getElementById('q').value.trim();
+  const has = document.getElementById('has').value;
+  if (q) params.set('q', q);
+  if (has) params.set('has', has);
+  if (activeGrade) params.set('grade', activeGrade);
+
+  const r = await fetch(`${CRM}/api/browse?${params}`);
+  const data = await r.json();
+  pages = data.pages;
+
+  document.getElementById('pageInfo').textContent = `Page ${data.page} of ${data.pages} — ${data.total.toLocaleString()} restaurants`;
+  document.getElementById('prev').disabled = page <= 1;
+  document.getElementById('next').disabled = page >= pages;
+
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+  data.results.forEach(b => {
+    const tr = document.createElement('tr');
+    tr.onclick = () => openDetail(b.fhrs_id);
+    const insp = b.rating_date ? new Date(b.rating_date).toLocaleDateString('en-US', {day:'2-digit', month:'short', year:'2-digit'}) : '—';
+    tr.innerHTML = `
+      <td>${gradeBadge(b.us_grade)}${b.us_score != null ? ` <span style="color:var(--muted);font-size:11px;font-family:var(--mono);">${b.us_score}</span>` : ''}</td>
+      <td>${esc(b.name)}</td>
+      <td style="color:var(--muted);font-size:12px;">${esc((b.business_type || '').substring(0, 24))}</td>
+      <td style="color:var(--muted);font-size:12px;">${esc(b.local_authority || '')}</td>
+      <td style="font-family:var(--mono);font-size:12px;">${esc(b.postcode || '')}</td>
+      <td style="font-family:var(--mono);font-size:12px;color:var(--muted);">${insp}</td>
+      <td>${b.email ? `<span class="dot-y" title="${esc(b.email)}">●</span>` : '<span class="dot-n">—</span>'}</td>
+      <td>${b.phone ? `<span class="dot-y" title="${esc(b.phone)}">●</span>` : '<span class="dot-n">—</span>'}</td>
+      <td>${b.website ? `<span class="dot-y" title="${esc(b.website)}">●</span>` : '<span class="dot-n">—</span>'}</td>`;
+    tbody.appendChild(tr);
+  });
+  if (!data.results.length) tbody.innerHTML = '<tr><td colspan="9" style="padding:24px;color:var(--muted);">Nothing found</td></tr>';
+  loadStats();
+}
+
+async function loadStats() {
+  const counts = await Promise.all(['', 'C', 'B', 'A'].map(g => {
+    const p = new URLSearchParams({ country: 'US', per_page: 1 });
+    if (g) p.set('grade', g);
+    return fetch(`${CRM}/api/browse?${p}`).then(r => r.json()).then(d => d.total);
+  }));
+  const pEm = new URLSearchParams({ country: 'US', per_page: 1, has: 'email' });
+  const withEmail = await fetch(`${CRM}/api/browse?${pEm}`).then(r => r.json()).then(d => d.total);
+  document.getElementById('stats').innerHTML =
+    `Total <b>${counts[0].toLocaleString()}</b> · Grade C <b style="color:var(--red);">${counts[1].toLocaleString()}</b> · ` +
+    `Grade B <b style="color:var(--amber);">${counts[2].toLocaleString()}</b> · Grade A <b style="color:var(--green);">${counts[3].toLocaleString()}</b> · ` +
+    `With email <b>${withEmail.toLocaleString()}</b>`;
+}
+
+async function openDetail(fhrsId) {
+  const r = await fetch(`${CRM}/api/business/${fhrsId}`);
+  const { business: b, outreach } = await r.json();
+  const insp = b.rating_date ? new Date(b.rating_date).toLocaleDateString('en-US', {day:'2-digit', month:'long', year:'numeric'}) : '—';
+  let outreachHTML = '';
+  if (outreach && outreach.length) {
+    outreachHTML = '<div class="dlabel" style="margin-top:14px;">Outreach history</div>' + outreach.map(o =>
+      `<div style="font-size:12px;color:var(--muted);margin-bottom:3px;">${new Date(o.sent_at).toLocaleDateString('en-US')} — ${esc(o.channel)}</div>`).join('');
+  }
+  document.getElementById('modalCard').innerHTML = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2>${esc(b.name)}</h2>
+    <div class="modal-sub">${esc(b.address_1 || '')}, ${esc(b.local_authority || '')}, NY ${esc(b.postcode || '')} · CAMIS ${b.fhrs_id}</div>
+    <div class="dgrid">
+      <div><div class="dlabel">Grade</div><div class="dvalue">${gradeBadge(b.us_grade)} ${b.us_score != null ? `· ${b.us_score} points` : ''}</div></div>
+      <div><div class="dlabel">Last inspection</div><div class="dvalue">${insp}</div></div>
+      <div><div class="dlabel">Cuisine</div><div class="dvalue">${esc(b.business_type || '—')}</div></div>
+      <div><div class="dlabel">Phone</div><div class="dvalue">${b.phone ? `<a href="tel:${esc(b.phone)}">${esc(b.phone)}</a>` : '—'}</div></div>
+      <div><div class="dlabel">Email</div><div class="dvalue">${b.email ? `<a href="mailto:${esc(b.email)}">${esc(b.email)}</a>` : '—'}</div></div>
+      <div><div class="dlabel">Website</div><div class="dvalue">${b.website ? `<a href="${esc(b.website)}" target="_blank">${esc(b.website.replace(/^https?:\/\/(www\.)?/, '').split('/')[0])}</a>` : '—'}</div></div>
+      <div><div class="dlabel">Instagram</div><div class="dvalue">${b.instagram ? `<a href="https://instagram.com/${esc(b.instagram.replace('@',''))}" target="_blank">@${esc(b.instagram.replace('@',''))}</a>` : '—'}</div></div>
+      <div><div class="dlabel">Google</div><div class="dvalue">${b.google_rating ? `★ ${b.google_rating} (${b.google_reviews || 0})` : '—'}</div></div>
+    </div>
+    ${outreachHTML}`;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+// ─── Enrichment trigger (NYC: grades from the active filter, default B+C) ───
+async function runEnrich(stage) {
+  const grades = activeGrade || 'B,C';
+  if (!confirm(`Run ${stage} enrichment for NYC grade ${grades} (limit 500)?`)) return;
+  const r = await fetch(`${CRM}/api/enrichment/run`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ stage, limit: 500, filters: { country: 'US', grades, skip_days: 0 } })
+  });
+  const d = await r.json();
+  if (d.error) { document.getElementById('enrichStatus').textContent = d.error; return; }
+  pollEnrich();
+}
+let enrichTimer = null;
+async function pollEnrich() {
+  clearInterval(enrichTimer);
+  enrichTimer = setInterval(async () => {
+    const s = await fetch(`${CRM}/api/enrichment/status`).then(r => r.json());
+    document.getElementById('enrichStatus').textContent =
+      s.running ? `${s.stage}: ${s.processed}/${s.total} (found ${s.found})` : `done — found ${s.found}`;
+    if (!s.running) { clearInterval(enrichTimer); loadStats(); }
+  }, 5000);
+}
+
+load(1);
+</script>
+</body>
+</html>
