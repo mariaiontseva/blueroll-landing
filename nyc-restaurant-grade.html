@@ -626,6 +626,25 @@ function showReaction(el, grade) {
 }
 
 function titleCase(s) { return s ? s.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()) : ''; }
+
+// ─── Click tracking for NY email outreach (mirrors r.html) ───
+// Emails link here as ?fhrsid=<camis>&src=email — log the click into
+// outreach history + page_views so ny-email-tracker.html shows opens/clicks.
+(function() {
+  const _p = new URLSearchParams(location.search);
+  const _src = _p.get('src');
+  const _fhrsid = _p.get('fhrsid');
+  if (_src === 'email' && _fhrsid) {
+    fetch('https://web-production-54cc.up.railway.app/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fhrs_ids: [parseInt(_fhrsid)], channel: 'email_click', template: 'grade_page' })
+    }).catch(() => {});
+  }
+  if (_fhrsid) {
+    fetch('https://web-production-54cc.up.railway.app/api/business/' + _fhrsid + '/public').catch(() => {});
+  }
+})();
 </script>
 
 </body>

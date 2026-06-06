@@ -641,7 +641,7 @@ function exportCSV() {
     const ratingText = {A:'Grade A',B:'Grade B',C:'Grade C',N:'Not Yet Graded',P:'Grade Pending',Z:'Grade Pending'}[rating] || '';
     const subject = getSubject(r);
 
-    const rPage = `https://blueroll.app/nyc-restaurant-grade.html`;
+    const rPage = `https://blueroll.app/nyc-restaurant-grade.html?fhrsid=${r.fhrs_id||''}&src=email`;
 
     rows.push([
       r.email, r.name.split(/\s/)[0], r.name, rating, ratingText,
@@ -788,7 +788,7 @@ function buildEmailHTML(r) {
   const name = r.name || '';
   const score = r.us_score != null ? r.us_score : null;
   const gradeText = {A:'Grade A',B:'Grade B',C:'Grade C',N:'Not Yet Graded',P:'Grade Pending',Z:'Grade Pending'}[g] || 'No grade on file';
-  const rPage = `https://blueroll.app/nyc-restaurant-grade.html`;
+  const rPage = `https://blueroll.app/nyc-restaurant-grade.html?fhrsid=${r.fhrs_id||''}&src=email`;
 
   const overdue = isOverdue(r);
   const monthsAgo = getMonthsAgo(r.rating_date);
