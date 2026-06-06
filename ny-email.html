@@ -1205,7 +1205,7 @@ async function generateGmailDrafts() {
     const r = await fetch(`${CRM}/api/outreach/generate-drafts`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ recipients }),
+      body: JSON.stringify({ recipients, account: 'team' }),   // NY drafts → team@getblueroll.com
     });
     resp = await r.json();
     if (!r.ok) {
@@ -1236,7 +1236,7 @@ async function generateGmailDrafts() {
 // \u2500\u2500\u2500 Gmail status indicator (calls on page load) \u2500\u2500\u2500
 async function checkGmailStatus() {
   try {
-    const r = await fetch(`${CRM}/api/outreach/gmail-status`);
+    const r = await fetch(`${CRM}/api/outreach/gmail-status?account=team`);
     const d = await r.json();
     const bar = document.getElementById('gmailStatusBar');
     if (d.configured) {
