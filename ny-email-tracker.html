@@ -79,7 +79,7 @@ button.active { background: var(--accent); color: #000; font-weight: 600; }
 .auto-toggle .dot.on { background: var(--green); box-shadow: 0 0 6px var(--green); }
 .status-line { font-size: 12px; color: var(--muted); margin-left: 8px; }
 /* Summary cards */
-.cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 16px; }
+.cards { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 16px; }
 .card {
   background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
   padding: 16px; text-align: center;
@@ -181,7 +181,8 @@ tr:hover { background: rgba(255,255,255,0.05); }
     <div class="card"><div class="icon">📭</div><div class="value mono bad" id="cBounced">-</div><div class="label">Bounced</div><div class="sub" id="cBouncedSub"></div></div>
     <div class="card"><div class="icon">✅</div><div class="value mono good" id="cDelivered">-</div><div class="label">Delivered</div></div>
     <div class="card"><div class="icon">📊</div><div class="value mono" id="cDeliverability">-</div><div class="label">Deliverability</div></div>
-    <div class="card"><div class="icon">👁</div><div class="value mono" id="cOpenRate">-</div><div class="label">Open rate</div><div class="sub" id="cOpenSub"></div></div>
+    <div class="card"><div class="icon">📬</div><div class="value mono" id="cOpenRate">-</div><div class="label">Opened</div><div class="sub" id="cOpenSub"></div></div>
+    <div class="card"><div class="icon">👁</div><div class="value mono" id="cClickRate">-</div><div class="label">Clicked</div><div class="sub" id="cClickSub"></div></div>
   </div>
 
   <!-- Table -->
@@ -200,7 +201,7 @@ tr:hover { background: rgba(255,255,255,0.05); }
             <th data-col="rating">Rating <span class="arrow"></span></th>
             <th>Subject</th>
             <th data-col="status">Status <span class="arrow"></span></th>
-            <th data-col="views">Views <span class="arrow"></span></th>
+            <th data-col="views">Clicks <span class="arrow"></span></th>
             <th data-col="last_viewed">Last viewed <span class="arrow"></span></th>
           </tr>
         </thead>
@@ -283,19 +284,28 @@ function render(d) {
   dEl.classList.toggle('warn', dPct < 95 && dPct >= 85);
   dEl.classList.toggle('bad',  dPct < 85);
 
-  // Open rate = unique recipients with views > 0 / delivered
-  const opened = (d.emails || []).filter(e => e.page_views && e.page_views.total_views > 0).length;
-  const uniqueOpeners = new Set((d.emails || [])
-    .filter(e => e.page_views && e.page_views.total_views > 0)
-    .map(e => e.recipient_email)
-  ).size;
+  // Opened = pixel opens (summary.opened, unique recipients) / delivered
+  const uniqueOpeners = s.opened || 0;
   const openRate = (s.delivered > 0) ? (uniqueOpeners / s.delivered * 100) : 0;
   const oEl = document.getElementById('cOpenRate');
   oEl.textContent = openRate.toFixed(1) + '%';
   document.getElementById('cOpenSub').textContent = `${uniqueOpeners} opened`;
-  oEl.classList.toggle('good', openRate >= 20);
-  oEl.classList.toggle('warn', openRate < 20 && openRate >= 5);
-  oEl.classList.toggle('bad',  openRate < 5);
+  oEl.classList.toggle('good', openRate >= 30);
+  oEl.classList.toggle('warn', openRate < 30 && openRate >= 10);
+  oEl.classList.toggle('bad',  openRate < 10);
+
+  // Clicked = unique recipients who clicked through to the grade page (page_views)
+  const uniqueClickers = new Set((d.emails || [])
+    .filter(e => e.page_views && e.page_views.total_views > 0)
+    .map(e => e.recipient_email)
+  ).size;
+  const clickRate = (s.delivered > 0) ? (uniqueClickers / s.delivered * 100) : 0;
+  const cEl = document.getElementById('cClickRate');
+  cEl.textContent = clickRate.toFixed(1) + '%';
+  document.getElementById('cClickSub').textContent = `${uniqueClickers} clicked`;
+  cEl.classList.toggle('good', clickRate >= 10);
+  cEl.classList.toggle('warn', clickRate < 10 && clickRate >= 2);
+  cEl.classList.toggle('bad',  clickRate < 2);
 
   document.getElementById('tableHint').textContent =
     `${(d.emails || []).length} emails • ${s.businesses_matched || 0} matched to business in DB • cached 5min`;
@@ -356,7 +366,9 @@ function renderTable(emails) {
       const tag = t === 'hard' ? 'hard' : (t === 'soft' ? 'soft' : 'unknown');
       statusHtml = `<span class="status-bounced">📭 ${tag}</span>`;
     } else if (opened) {
-      statusHtml = '<span class="status-opened">👁 opened</span>';
+      statusHtml = '<span class="status-opened">👁 clicked</span>';
+    } else if (e.opens && e.opens.total_opens > 0) {
+      statusHtml = '<span class="status-opened">📬 opened</span>';
     } else {
       statusHtml = '<span class="status-delivered">✓ delivered</span>';
     }
