@@ -103,6 +103,7 @@ th .arrow { font-size: 10px; margin-left: 3px; }
 td { padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: top; }
 tr.bounced { background: rgba(239,68,68,0.06); }
 tr.opened  { background: rgba(34,197,94,0.04); }
+tr.clicked { background: rgba(34,197,94,0.10); }
 tr.clickable { cursor: pointer; }
 tr.clickable:hover { background: rgba(16,185,129,0.08); }
 tr:hover { background: rgba(255,255,255,0.05); }
@@ -285,7 +286,7 @@ function render(d) {
   dEl.classList.toggle('bad',  dPct < 85);
 
   // Opened = pixel opens (summary.opened, unique recipients) / delivered
-  const uniqueOpeners = s.opened || 0;
+  const uniqueOpeners = s.opened || 0;  // undefined on old cached responses (pre-deploy)
   const openRate = (s.delivered > 0) ? (uniqueOpeners / s.delivered * 100) : 0;
   const oEl = document.getElementById('cOpenRate');
   oEl.textContent = openRate.toFixed(1) + '%';
@@ -337,7 +338,7 @@ function renderTable(emails) {
       va = (a.page_views && a.page_views.total_views) || 0;
       vb = (b.page_views && b.page_views.total_views) || 0;
     } else if (sortCol === 'status') {
-      const score = e => e.bounced ? 2 : (e.page_views && e.page_views.total_views > 0 ? 1 : 0);
+      const score = e => e.bounced ? 3 : (e.page_views && e.page_views.total_views > 0 ? 2 : (e.opens && e.opens.total_opens > 0 ? 1 : 0));
       va = score(a); vb = score(b);
     } else {
       va = 0; vb = 0;
@@ -358,14 +359,15 @@ function renderTable(emails) {
   tbody.innerHTML = sorted.map(e => {
     const biz = e.business;
     const views = e.page_views;
-    const opened = views && views.total_views > 0;
-    const rowClass = e.bounced ? 'bounced' : (opened ? 'opened' : '');
+    const clicked = views && views.total_views > 0;
+    const openedPixel = e.opens && e.opens.total_opens > 0;
+    const rowClass = e.bounced ? 'bounced' : (clicked ? 'clicked' : (openedPixel ? 'opened' : ''));
     let statusHtml;
     if (e.bounced) {
       const t = (e.bounce_info && e.bounce_info.bounce_type) || 'unknown';
       const tag = t === 'hard' ? 'hard' : (t === 'soft' ? 'soft' : 'unknown');
       statusHtml = `<span class="status-bounced">📭 ${tag}</span>`;
-    } else if (opened) {
+    } else if (clicked) {
       statusHtml = '<span class="status-opened">👁 clicked</span>';
     } else if (e.opens && e.opens.total_opens > 0) {
       statusHtml = '<span class="status-opened">📬 opened</span>';
