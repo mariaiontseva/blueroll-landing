@@ -211,7 +211,7 @@ async function openDetail(fhrsId) {
       <div><div class="dlabel">Cuisine</div><div class="dvalue">${esc(b.business_type || '—')}</div></div>
       <div><div class="dlabel">Phone</div><div class="dvalue">${b.phone ? `<a href="tel:${esc(b.phone)}">${esc(b.phone)}</a>` : '—'}</div></div>
       <div><div class="dlabel">Email</div><div class="dvalue">${b.email ? `<a href="mailto:${esc(b.email)}">${esc(b.email)}</a>` : '—'}</div></div>
-      <div><div class="dlabel">Website</div><div class="dvalue">${b.website ? `<a href="${esc(b.website)}" target="_blank">${esc(b.website.replace(/^https?:\/\/(www\.)?/, '').split('/')[0])}</a>` : '—'}</div></div>
+      <div><div class="dlabel">Website</div><div class="dvalue">${b.website ? `<a ="${esc(b.website)}" target="_blank">${esc(b.website.replace(/^https?:\/\/(www\.)?/, '').split('/')[0])}</a>` : '—'}</div></div>
       <div><div class="dlabel">Instagram</div><div class="dvalue">${b.instagram ? `<a href="https://instagram.com/${esc(b.instagram.replace('@',''))}" target="_blank">@${esc(b.instagram.replace('@',''))}</a>` : '—'}</div></div>
       <div><div class="dlabel">Google</div><div class="dvalue">${b.google_rating ? `★ ${b.google_rating} (${b.google_reviews || 0})` : '—'}</div></div>
     </div>

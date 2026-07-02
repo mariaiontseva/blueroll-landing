@@ -1769,7 +1769,7 @@ function renderFeedRow(e) {
     if (values.phone) parts.push(`<span class="lf-val"><span class="lf-val-label">TEL</span> <a href="tel:${esc(values.phone)}" onclick="event.stopPropagation()">${esc(values.phone)}</a></span>`);
     if (values.website) {
       const shortUrl = values.website.replace(/^https?:\/\/(www\.)?/,'').split('/')[0];
-      parts.push(`<span class="lf-val"><span class="lf-val-label">WEB</span> <a href="${esc(values.website)}" target="_blank" onclick="event.stopPropagation()">${esc(shortUrl)}</a></span>`);
+      parts.push(`<span class="lf-val"><span class="lf-val-label">WEB</span> <a ="${esc(values.website)}" target="_blank" onclick="event.stopPropagation()">${esc(shortUrl)}</a></span>`);
     }
     if (values.email) parts.push(`<span class="lf-val"><span class="lf-val-label">MAIL</span> <a href="mailto:${esc(values.email)}" onclick="event.stopPropagation()">${esc(values.email)}</a></span>`);
     if (values.instagram) parts.push(`<span class="lf-val"><span class="lf-val-label">IG</span> <a href="https://instagram.com/${esc(values.instagram)}" target="_blank" onclick="event.stopPropagation()">@${esc(values.instagram)}</a></span>`);
@@ -2194,7 +2194,7 @@ ${intro}
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 8px;">
   <tr><td style="text-align:center;padding:20px 0 24px;">
-    <a href="${rPage}" target="_blank" style="text-decoration:none;display:inline-block;">${badgeCard}</a>
+    <a ="${rPage}" target="_blank" style="text-decoration:none;display:inline-block;">${badgeCard}</a>
   </td></tr>
 </table>
 
@@ -2202,7 +2202,7 @@ ${intro}
 
 <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 0 28px;">
   <tr><td style="text-align:center;">
-    <a href="${rPage}" target="_blank" style="display:inline-block;background:#047857;color:#ffffff;text-decoration:none;padding:15px 36px;border-radius:12px;font-size:15px;font-weight:600;font-family:${font};letter-spacing:-0.01em;">See Your Full Rating Breakdown &nbsp;&rarr;</a>
+    <a ="${rPage}" target="_blank" style="display:inline-block;background:#047857;color:#ffffff;text-decoration:none;padding:15px 36px;border-radius:12px;font-size:15px;font-weight:600;font-family:${font};letter-spacing:-0.01em;">See Your Full Rating Breakdown &nbsp;&rarr;</a>
   </td></tr>
 </table>
 

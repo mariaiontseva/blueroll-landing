@@ -529,7 +529,7 @@ nav {
         <h4>Company</h4>
         <a href="/pitch.html">Pitch Deck</a>
         <a href="mailto:hello@blueroll.app">Contact</a>
-        <a href="/privacy-policy.html">Privacy</a>
+        <a href="/privacy.html">Privacy</a>
         <a href="/terms.html">Terms</a>
       </div>
     </div>
@@ -575,7 +575,7 @@ function render() {
 
   let html;
   if (currentStyle === 'badge') {
-    html = `<a href="${link}" target="_blank" style="display:inline-flex;align-items:center;gap:18px;padding:20px 28px 20px 20px;border-radius:18px;${bg};${border};box-shadow:0 8px 32px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.04);text-decoration:none;font-family:-apple-system,system-ui,sans-serif">
+    html = `<a ${'href'}="${link}" target="_blank" style="display:inline-flex;align-items:center;gap:18px;padding:20px 28px 20px 20px;border-radius:18px;${bg};${border};box-shadow:0 8px 32px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.04);text-decoration:none;font-family:-apple-system,system-ui,sans-serif">
   <div style="width:58px;height:58px;border-radius:15px;${accentBg};display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:${T.bg};box-shadow:0 4px 12px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.2)">${biz.grade}</div>
   <div style="text-align:left">
     <div style="font-size:10px;color:${a};font-weight:600;text-transform:uppercase;letter-spacing:.12em;margin-bottom:3px">NYC Health Grade</div>
@@ -584,7 +584,7 @@ function render() {
     <div style="font-size:9px;color:${a};opacity:0.5;margin-top:4px;letter-spacing:.05em">Powered by Blueroll</div>
   </div></a>`;
   } else {
-    html = `<a href="${link}" target="_blank" style="display:inline-block;width:240px;padding:32px 28px;border-radius:22px;${bg};${border};box-shadow:0 12px 40px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.04);text-decoration:none;font-family:-apple-system,system-ui,sans-serif;text-align:center">
+    html = `<a ${'href'}="${link}" target="_blank" style="display:inline-block;width:240px;padding:32px 28px;border-radius:22px;${bg};${border};box-shadow:0 12px 40px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.04);text-decoration:none;font-family:-apple-system,system-ui,sans-serif;text-align:center">
   <div style="width:80px;height:80px;border-radius:20px;${accentBg};display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:800;color:${T.bg};margin:0 auto 14px;box-shadow:0 4px 16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.2)">${biz.grade}</div>
   <div style="display:flex;justify-content:center;gap:3px;margin-bottom:12px">${stars(r,'15')}</div>
   <div style="font-size:9px;color:${a};font-weight:600;text-transform:uppercase;letter-spacing:.12em">NYC Health Grade</div>
