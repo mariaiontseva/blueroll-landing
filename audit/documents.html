@@ -34,6 +34,7 @@
 }
 html { scroll-behavior: smooth; }
 body { font-family: 'Plus Jakarta Sans', -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -176,6 +177,7 @@ nav {
 <link rel="stylesheet" href="../site-chrome.css">
 </head>
 <body>
+<h1 class="sr-only">Restaurant Documents Audit for EHO Readiness</h1>
 <input type="checkbox" id="bx-burger-cb" class="bx-burger-cb">
 <header class="bx-nav">
   <a href="/" class="bx-logo"><img src="../blueroll-logo.svg" alt="Blueroll"><b>Blueroll</b></a>
