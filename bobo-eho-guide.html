@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>EHO Visit Guide — Bobo & Wild · Blueroll</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fcfcfc; --panel:#ffffff; --panel-2:#f8fafa;
+    --ink:#171717; --ink-soft:#6b7280; --ink-faint:#9aa2ab;
+    --line:#e6e8eb; --line-soft:#eef0f2;
+    --em-600:#059669; --em-700:#047857; --em-50:#ecfdf5; --em-100:#d1fae5; --em-200:#a7f3d0;
+    --amber-50:#fffbeb; --amber-700:#b45309; --amber-200:#fde68a;
+    --blue-50:#eff6ff; --blue-700:#1d4ed8; --blue-200:#bfdbfe;
+    --red-50:#fef2f2; --red-700:#b91c1c; --red-200:#fecaca;
+    --radius:10px;
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --bg:#0e1211; --panel:#151b1a; --panel-2:#1a2220; --ink:#e9edec; --ink-soft:#9aa6a2; --ink-faint:#6f7c78;
+    --line:#26302d; --line-soft:#1f2825;
+    --em-600:#10b981; --em-700:#34d399; --em-50:#0f241d; --em-100:#123528; --em-200:#1c4b39;
+    --amber-50:#2a2110; --amber-700:#fbbf24; --amber-200:#4a3a15;
+    --blue-50:#111d33; --blue-700:#93c5fd; --blue-200:#26406b;
+    --red-50:#2a1414; --red-700:#f87171; --red-200:#4a2020;
+  }}
+  :root[data-theme="light"]{--bg:#fcfcfc;--panel:#fff;--panel-2:#f8fafa;--ink:#171717;--ink-soft:#6b7280;--ink-faint:#9aa2ab;--line:#e6e8eb;--line-soft:#eef0f2;--em-600:#059669;--em-700:#047857;--em-50:#ecfdf5;--em-100:#d1fae5;--em-200:#a7f3d0;--amber-50:#fffbeb;--amber-700:#b45309;--amber-200:#fde68a;--blue-50:#eff6ff;--blue-700:#1d4ed8;--blue-200:#bfdbfe;--red-50:#fef2f2;--red-700:#b91c1c;--red-200:#fecaca;}
+  :root[data-theme="dark"]{--bg:#0e1211;--panel:#151b1a;--panel-2:#1a2220;--ink:#e9edec;--ink-soft:#9aa6a2;--ink-faint:#6f7c78;--line:#26302d;--line-soft:#1f2825;--em-600:#10b981;--em-700:#34d399;--em-50:#0f241d;--em-100:#123528;--em-200:#1c4b39;--amber-50:#2a2110;--amber-700:#fbbf24;--amber-200:#4a3a15;--blue-50:#111d33;--blue-700:#93c5fd;--blue-200:#26406b;--red-50:#2a1414;--red-700:#f87171;--red-200:#4a2020;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:14px;line-height:1.55;
+    -webkit-font-smoothing:antialiased;letter-spacing:-0.006em}
+  .wrap{max-width:880px;margin:0 auto;padding:0 20px 72px}
+
+  /* Topbar — Blueroll shell style: white, thin border, no shadow */
+  .top{position:sticky;top:0;z-index:20;background:rgba(252,252,252,.85);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line)}
+  .top .in{max-width:880px;margin:0 auto;padding:11px 20px;display:flex;align-items:center;gap:11px}
+  .logo{width:26px;height:26px;border-radius:7px;background:var(--em-600);color:#fff;font-weight:700;font-size:15px;
+    display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .top .name{font-weight:600;font-size:14px}
+  .top .name span{color:var(--ink-faint);font-weight:500}
+  .top .badge{margin-left:auto;font-size:11px;font-weight:600;color:var(--em-700);background:var(--em-50);
+    border:1px solid var(--em-200);border-radius:999px;padding:3px 10px}
+
+  .hero{padding:34px 0 6px}
+  .eyebrow{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.13em;color:var(--em-700)}
+  h1{margin:9px 0 0;font-size:30px;line-height:1.12;font-weight:700;letter-spacing:-0.02em;text-wrap:balance}
+  .sub{margin:11px 0 0;font-size:15px;color:var(--ink-soft);max-width:64ch}
+
+  .callout{background:var(--em-50);border:1px solid var(--em-200);border-radius:var(--radius);padding:14px 16px;margin:22px 0;font-size:14.5px}
+  .callout b{color:var(--em-700)}
+
+  h2{font-size:20px;line-height:1.2;font-weight:600;letter-spacing:-0.015em;margin:38px 0 4px;display:flex;align-items:center;gap:11px;scroll-margin-top:70px}
+  h2 .n{flex:0 0 auto;font-size:12px;font-weight:700;color:#fff;background:var(--em-600);border-radius:7px;min-width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center}
+  h2 + .say{color:var(--ink-soft);margin:0 0 14px;font-size:14px;max-width:68ch}
+  h3{font-size:15px;font-weight:600;margin:0 0 6px}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:15px 16px}
+  .grid{display:grid;grid-template-columns:1fr;gap:12px;margin:12px 0}
+  @media (min-width:640px){.g3{grid-template-columns:1fr 1fr 1fr}.g2{grid-template-columns:1fr 1fr}}
+  .card p{margin:0;font-size:13.5px;color:var(--ink-soft)}
+  .pill{display:inline-block;font-size:11px;font-weight:600;border-radius:999px;padding:2px 9px;margin-top:9px;border:1px solid}
+  .pill.em{color:var(--em-700);background:var(--em-50);border-color:var(--em-200)}
+  .pill.am{color:var(--amber-700);background:var(--amber-50);border-color:var(--amber-200)}
+  .pill.bl{color:var(--blue-700);background:var(--blue-50);border-color:var(--blue-200)}
+  .star{color:var(--em-600)}
+
+  ol.steps{list-style:none;counter-reset:s;margin:10px 0;padding:0}
+  ol.steps li{counter-increment:s;position:relative;padding:11px 0 11px 42px;border-bottom:1px solid var(--line-soft);font-size:14px}
+  ol.steps li:last-child{border-bottom:0}
+  ol.steps li::before{content:counter(s);position:absolute;left:0;top:9px;width:28px;height:28px;border-radius:50%;background:var(--em-50);color:var(--em-700);border:1px solid var(--em-200);font-weight:700;display:flex;align-items:center;justify-content:center;font-size:13px}
+  b{color:var(--ink);font-weight:600}
+
+  /* SFBB section cards */
+  .sfbb{display:grid;grid-template-columns:1fr;gap:12px;margin:14px 0}
+  @media (min-width:720px){.sfbb{grid-template-columns:1fr 1fr}}
+  .sec{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 15px}
+  .sec .h{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+  .sec .dot{width:9px;height:9px;border-radius:3px;flex:0 0 auto}
+  .sec .h b{font-size:14.5px}
+  .sec ul{margin:0;padding:0;list-style:none}
+  .sec li{font-size:13px;padding:4px 0;border-top:1px solid var(--line-soft);color:var(--ink)}
+  .sec li:first-child{border-top:0}
+  .sec li span{color:var(--ink-faint);font-size:12px}
+  .sec .auto{margin-top:10px;font-size:11.5px;color:var(--em-700);background:var(--em-50);border:1px solid var(--em-200);border-radius:7px;padding:6px 9px}
+
+  /* temperature table */
+  .tblwrap{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:12px 0}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  thead th{text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-faint);background:var(--panel-2);padding:9px 14px;border-bottom:1px solid var(--line)}
+  tbody td{padding:9px 14px;border-top:1px solid var(--line-soft);vertical-align:top}
+  tbody tr:first-child td{border-top:0}
+  td.val{font-weight:700;color:var(--em-700);white-space:nowrap;font-variant-numeric:tabular-nums}
+  td.where{color:var(--ink-soft);font-size:12.5px}
+
+  .qa{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:12px 0}
+  .qarow{display:grid;grid-template-columns:1fr;border-top:1px solid var(--line-soft)}
+  @media (min-width:640px){.qarow{grid-template-columns:0.85fr 1.15fr}}
+  .qarow:first-child{border-top:0}
+  .qarow .q{padding:12px 15px;font-weight:600;background:var(--panel-2);font-size:13.5px}
+  .qarow .a{padding:12px 15px;font-size:13.5px;color:var(--ink-soft)}
+  .chip{display:inline-block;background:var(--em-50);color:var(--em-700);border:1px solid var(--em-200);border-radius:6px;padding:1px 7px;font-size:12px;font-weight:600;white-space:nowrap}
+  .a b{color:var(--ink)}
+
+  ul.ready{list-style:none;margin:10px 0;padding:0}
+  ul.ready li{position:relative;padding:8px 0 8px 28px;border-bottom:1px solid var(--line-soft);font-size:14px}
+  ul.ready li:last-child{border-bottom:0}
+  ul.ready li::before{content:"";position:absolute;left:3px;top:12px;width:8px;height:8px;border-radius:3px;background:var(--em-600)}
+
+  .two{display:grid;grid-template-columns:1fr;gap:12px;margin:12px 0}
+  @media (min-width:620px){.two{grid-template-columns:1fr 1fr}}
+  .box{border-radius:var(--radius);padding:14px 16px;border:1px solid var(--line)}
+  .box.do{background:var(--em-50);border-color:var(--em-200)}
+  .box.dont{background:var(--red-50);border-color:var(--red-200)}
+  .box h3{margin:0 0 8px} .box.do h3{color:var(--em-700)} .box.dont h3{color:var(--red-700)}
+  .box ul{margin:0;padding-left:17px} .box li{margin:0 0 6px;font-size:13.5px}
+
+  .foot{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:12.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  .noprint button{position:fixed;right:18px;bottom:18px;z-index:30;background:var(--em-600);color:#fff;border:0;border-radius:10px;padding:11px 17px;font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit}
+  .noprint button:hover{background:var(--em-700)}
+  @media print{.noprint{display:none}.top{position:static;background:#fff}body{background:#fff;font-size:11px}.wrap{padding-bottom:0}
+    .card,.sec,.tblwrap,.qa,.box,.callout{break-inside:avoid}h2{break-after:avoid}}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top"><div class="in">
+  <div class="logo">B</div>
+  <div class="name">Bobo &amp; Wild <span>· Blueroll</span></div>
+  <div class="badge">EHO Visit Guide</div>
+</div></header>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="eyebrow">For managers &amp; front of house</div>
+    <h1>Handling an EHO visit with Blueroll</h1>
+    <p class="sub">How to show the Environmental Health Officer everything they need — calmly, from one tablet.
+    Everything you record in Blueroll each day <em>is</em> your inspection evidence; you don't prepare for the visit,
+    you just keep logging and it's all here.</p>
+  </div>
+
+  <div class="callout">Officers score you on three things. Blueroll gives you evidence for all of them — and it's
+  <b>strongest on “Confidence in Management”</b> (your records &amp; food-safety system), which is where most sites
+  gain or lose their rating.</div>
+
+  <h2><span class="n">1</span> What the officer scores</h2>
+  <p class="say">Your Food Hygiene Rating is built from these three areas. Know which screen backs each one.</p>
+  <div class="grid g3">
+    <div class="card"><h3>Food Hygiene</h3><p>How food is handled — temperatures, cooking, chilling, cross-contamination, cleaning.</p><span class="pill em">Reports · temperature logs</span></div>
+    <div class="card"><h3>Structure &amp; Cleanliness</h3><p>The premises — cleaning, pest control, layout, facilities, maintenance.</p><span class="pill am">Cleaning records · pest docs</span></div>
+    <div class="card"><h3>Confidence in Management <span class="star">★</span></h3><p>Your records &amp; system — proof you know and control your risks. Blueroll’s home ground.</p><span class="pill bl">HACCP Pack (SFBB)</span></div>
+  </div>
+
+  <h2><span class="n">2</span> When the officer arrives</h2>
+  <p class="say">Calm, organised and open scores better than nervous. You drive the tablet — don’t just hand it over.</p>
+  <ol class="steps">
+    <li>Greet them, bring the manager to the tablet and <b>log in as Manager</b>.</li>
+    <li>Set the tone: <b>“We manage all our food safety on Blueroll — I can show you whatever you need on here.”</b></li>
+    <li><b>You</b> walk them through each screen — don’t open the profile and leave them to hunt (that reads as disorganised).</li>
+    <li>If they want a copy, use <b>Export → PDF</b> (HACCP Pack and Reports both export a clean document).</li>
+  </ol>
+
+  <h2><span class="n">3</span> Your food-safety system — the HACCP Pack (SFBB)</h2>
+  <p class="say">This is the centrepiece. Blueroll’s <b>HACCP Pack</b> is a live Safer Food, Better Business document,
+  <b>auto-built from the data you already record</b> (recipes, checklists, documents, suppliers, team). It’s laid out
+  in the five SFBB sections the officer expects — open it and walk through them.</p>
+  <div class="sfbb">
+    <div class="sec"><div class="h"><span class="dot" style="background:#dc2626"></span><b>1 · Cross-Contamination</b></div>
+      <ul><li>Personal Hygiene</li><li>Cloths</li><li>Separating Foods <span>(raw vs ready-to-eat)</span></li><li>Food Allergies <span>(allergen matrix)</span></li><li>Contamination Prevention</li><li>Pest Control</li></ul>
+      <div class="auto">Auto-filled from: recipes (raw ingredients), suppliers (delivery days), allergen matrix, pest-control document.</div></div>
+    <div class="sec"><div class="h"><span class="dot" style="background:#7c3aed"></span><b>2 · Cleaning</b></div>
+      <ul><li>Handwashing</li><li>Cleaning Effectively</li><li>Clean As You Go</li><li>Cleaning Schedule <span>(incl. beer lines &amp; kegs)</span></li></ul>
+      <div class="auto">Auto-filled from: your cleaning checklists + uploaded cleaning schedule.</div></div>
+    <div class="sec"><div class="h"><span class="dot" style="background:#0891b2"></span><b>3 · Chilling</b></div>
+      <ul><li>Chilled Storage <span>(fridges &lt; 5 °C, freezers &lt; −18 °C)</span></li><li>Chilling Down Hot Food</li><li>Defrosting</li><li>Freezing</li></ul>
+      <div class="auto">Auto-filled from: temperature checklists + recipe chilling / defrosting / freezing methods.</div></div>
+    <div class="sec"><div class="h"><span class="dot" style="background:#ea580c"></span><b>4 · Cooking</b></div>
+      <ul><li>Cooking Safely <span>(core ≥ 75 °C)</span></li><li>Extra Care Foods <span>(eggs, rice, shellfish…)</span></li><li>Reheating <span>(≥ 85 °C)</span></li><li>Menu Checks</li><li>Hot Holding <span>(&gt; 63 °C)</span></li><li>Ready-to-Eat</li></ul>
+      <div class="auto">Auto-filled from: recipe cooking / reheating / hot-holding methods and temperatures.</div></div>
+    <div class="sec"><div class="h"><span class="dot" style="background:#9333ea"></span><b>5 · Management</b></div>
+      <ul><li>Opening &amp; Closing Checks</li><li>Suppliers</li><li>Stock Control</li><li>Training <span>(certificates)</span></li><li>Temperature Probes <span>(calibration)</span></li><li>Daily Diary</li></ul>
+      <div class="auto">Auto-filled from: checklist templates, suppliers table, team + training documents, calibration checklist.</div></div>
+  </div>
+
+  <h2><span class="n">4</span> Cooking &amp; temperature methods — the numbers</h2>
+  <p class="say">These are the standards behind your daily records. If asked “what temperature…”, quote the number and
+  then show it being logged in the matching checklist.</p>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Method</th><th>Standard</th><th>Where it’s recorded in Blueroll</th></tr></thead>
+    <tbody>
+      <tr><td>Cooking (core)</td><td class="val">≥ 75 °C</td><td class="where">Cooking &amp; Cooling / Temperature Records</td></tr>
+      <tr><td>Reheating</td><td class="val">≥ 85 °C</td><td class="where">Temperature Records</td></tr>
+      <tr><td>Hot holding</td><td class="val">&gt; 63 °C</td><td class="where">Temperature Records</td></tr>
+      <tr><td>Cooling hot food</td><td class="val">63→20 °C ≤ 2 h, 20→&lt;5 °C ≤ 4 h</td><td class="where">Cooling Temperature Records</td></tr>
+      <tr><td>Fridge</td><td class="val">&lt; 5 °C</td><td class="where">Fridge &amp; Freezer Temperature Records</td></tr>
+      <tr><td>Freezer</td><td class="val">&lt; −18 °C</td><td class="where">Fridge &amp; Freezer Temperature Records</td></tr>
+      <tr><td>Deliveries</td><td class="val">chilled ≤ 5 °C · frozen ≤ −16 °C</td><td class="where">Delivery Records</td></tr>
+      <tr><td>Dishwasher (final rinse)</td><td class="val">&gt; 82 °C</td><td class="where">Dishwasher Checks</td></tr>
+      <tr><td>Hot water (legionella)</td><td class="val">hot &gt; 50 °C · cold &lt; 20 °C</td><td class="where">Sink &amp; Hot Water Records</td></tr>
+      <tr><td>Probe calibration</td><td class="val">ice −1…1 °C · boiling 99…101 °C</td><td class="where">Weekly Probe Calibration</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2><span class="n">5</span> The 4-Weekly HACCP Review</h2>
+  <p class="say">Officers don’t just want records — they want proof the system is <b>kept current</b>. SFBB requires a review
+  every 4 weeks, and Blueroll builds it in.</p>
+  <div class="grid g2">
+    <div class="card"><h3>What it is</h3><p>A short manager sign-off every 4 weeks confirming each SFBB section is still accurate. It runs as the default <b>“4-Weekly HACCP Review”</b> checklist — one line per section (Cross-Contamination up to date, Cleaning up to date, and so on).</p></div>
+    <div class="card"><h3>Where to show it</h3><p>The HACCP Pack shows a <b>“Last reviewed: {date}”</b> banner at the top. Blueroll reminds the manager <b>3 days before</b>, on the day, and if it’s overdue — so it’s never missed. Open the banner to prove it’s current.</p></div>
+  </div>
+  <div class="callout">If the officer asks <b>“how do you keep your food-safety system up to date?”</b> — point straight at the
+  <b>Last reviewed</b> date in the HACCP Pack and the 4-weekly review checklist in your history. That single answer
+  is worth a lot under “Confidence in Management”.</div>
+
+  <h2><span class="n">6</span> What to open for each question</h2>
+  <p class="say">The officer asks → you open this.</p>
+  <div class="qa">
+    <div class="qarow"><div class="q">“Temperature records” (fridges / freezers)</div><div class="a"><span class="chip">Reports</span> filter the Fridge &amp; Freezer templates + a date range → history &amp; <b>compliance %</b>. Or <span class="chip">Checklists → History</span>.</div></div>
+    <div class="qarow"><div class="q">“Cooking / reheating / hot-holding temps”</div><div class="a"><span class="chip">Reports</span> (Temperature / Cooling templates) and <span class="chip">HACCP Pack → Cooking</span>.</div></div>
+    <div class="qarow"><div class="q">“Cleaning schedule &amp; records”</div><div class="a"><span class="chip">Reports</span> (Deep Clean / Cleaning Schedule) + <span class="chip">HACCP Pack → Cleaning</span>.</div></div>
+    <div class="qarow"><div class="q">“Your HACCP / SFBB system”</div><div class="a"><span class="chip">HACCP Pack</span> — the whole document, auto-built. <b>Export → PDF</b> for a copy.</div></div>
+    <div class="qarow"><div class="q">“How do you keep it up to date?”</div><div class="a"><span class="chip">HACCP Pack</span> “Last reviewed” banner (4-weekly review) + <span class="chip">Diary</span>.</div></div>
+    <div class="qarow"><div class="q">“Allergen information”</div><div class="a"><span class="chip">Allergen Matrix</span> (per dish) + <span class="chip">Menu</span>.</div></div>
+    <div class="qarow"><div class="q">“Pest control”</div><div class="a"><span class="chip">Documents</span> (contract / reports) + <span class="chip">HACCP Pack → Pest Control</span>.</div></div>
+    <div class="qarow"><div class="q">“Staff training &amp; supervision”</div><div class="a"><span class="chip">Documents</span> (certificates), <span class="chip">Team</span> (roles), <span class="chip">HACCP Pack → Training</span>.</div></div>
+    <div class="qarow"><div class="q">“Deliveries &amp; suppliers (cold chain)”</div><div class="a"><span class="chip">Deliveries</span> (temps on receipt) + <span class="chip">Suppliers</span>.</div></div>
+    <div class="qarow"><div class="q">“What do you do when something’s wrong?”</div><div class="a"><span class="chip">Incidents</span> + flagged checklist items + the <b>Corrective Action Log</b>. A logged problem <b>with</b> a fix beats a blank record.</div></div>
+  </div>
+
+  <h2><span class="n">7</span> Keep-ready — before any visit</h2>
+  <p class="say">If these are true every day, you’re inspection-ready at any moment:</p>
+  <ul class="ready">
+    <li>Today’s opening &amp; closing checks completed and signed off</li>
+    <li>Fridge/freezer, cooking, cooling and hot-water temperatures logged</li>
+    <li>Anything flagged has a corrective action recorded against it</li>
+    <li>The 4-weekly HACCP review is <b>not overdue</b> (check the HACCP Pack banner)</li>
+    <li>Training certificates &amp; pest-control documents are current in Documents</li>
+    <li>The Allergen Matrix matches the current menu</li>
+    <li>Probes calibrated this week</li>
+  </ul>
+
+  <h2><span class="n">8</span> Do &amp; don’t</h2>
+  <div class="two">
+    <div class="box do"><h3>Do</h3><ul>
+      <li>Drive the tablet yourself and walk them through it</li>
+      <li>Show completed <b>history</b>, not just today</li>
+      <li>Quote the standard, then show it being logged</li>
+      <li>Use <b>Export → PDF</b> if they want copies</li>
+      <li>Be honest about a gap — and show the corrective action you took</li>
+    </ul></div>
+    <div class="box dont"><h3>Don’t</h3><ul>
+      <li>Hand over the login and walk away</li>
+      <li>Back-fill or edit records during the visit</li>
+      <li>Hide a flagged item — a recorded problem + fix scores better than a blank</li>
+      <li>Guess an answer — open the screen and show it</li>
+    </ul></div>
+  </div>
+
+  <div class="foot"><span>Bobo &amp; Wild — EHO Visit Guide</span><span>Powered by Blueroll · app.blueroll.app</span></div>
+</div>
+
+<div class="noprint"><button type="button" onclick="window.print()">Print / Save PDF</button></div>
+</body>
+</html>
