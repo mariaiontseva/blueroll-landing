@@ -57,6 +57,7 @@ Blueroll is a mobile app that replaces paper HACCP records with digital checklis
 - SFBB Guide: https://blueroll.app/sfbb-guide.html
 - EHO Inspection Checklist: https://blueroll.app/eho-inspection-checklist.html
 - 14 Allergens UK Guide: https://blueroll.app/14-allergens-uk.html
+- Food Hygiene Certificate Scotland — 2026 Guide to Business Compliance: https://blueroll.app/food-hygiene-certificate-scotland.html
 
 ## Links
 - Website: https://blueroll.app
