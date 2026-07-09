@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Wanstead Bakery — Checklist Confirmation · Bobo & Wild</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --bg:#eef3f4; --panel:#ffffff; --panel-2:#f6f9fa;
+    --ink:#152227; --ink-soft:#4a5c62; --ink-faint:#7c8b90;
+    --line:#dbe4e7; --line-soft:#e8eef0;
+    --accent:#0b5c68; --accent-2:#0f7d8c; --accent-tint:#e2f1f2;
+    --remove:#c6564a; --remove-tint:#f7e7e4; --keep:#1c9c6b;
+    --shadow:0 1px 2px rgba(19,34,39,.05),0 5px 16px rgba(19,34,39,.05);
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --bg:#0d1618; --panel:#152125; --panel-2:#1a282d; --ink:#e7eef0; --ink-soft:#a9b8bd; --ink-faint:#7d8d92;
+    --line:#26383e; --line-soft:#203035; --accent:#0f7d8c; --accent-2:#33b0bf; --accent-tint:#123138;
+    --remove:#e2776b; --remove-tint:#2c1c1a; --keep:#37b980; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.28);
+  }}
+  :root[data-theme="light"]{--bg:#eef3f4;--panel:#fff;--panel-2:#f6f9fa;--ink:#152227;--ink-soft:#4a5c62;--ink-faint:#7c8b90;--line:#dbe4e7;--line-soft:#e8eef0;--accent:#0b5c68;--accent-2:#0f7d8c;--accent-tint:#e2f1f2;--remove:#c6564a;--remove-tint:#f7e7e4;--keep:#1c9c6b;--shadow:0 1px 2px rgba(19,34,39,.05),0 5px 16px rgba(19,34,39,.05);}
+  :root[data-theme="dark"]{--bg:#0d1618;--panel:#152125;--panel-2:#1a282d;--ink:#e7eef0;--ink-soft:#a9b8bd;--ink-faint:#7d8d92;--line:#26383e;--line-soft:#203035;--accent:#0f7d8c;--accent-2:#33b0bf;--accent-tint:#123138;--remove:#e2776b;--remove-tint:#2c1c1a;--keep:#37b980;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.28);}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.4;-webkit-font-smoothing:antialiased;padding-bottom:86px}
+  .wrap{max-width:860px;margin:0 auto;padding:0 14px}
+  .hdr{background:var(--accent);color:#fff;border-radius:0 0 14px 14px;padding:22px 20px 24px;box-shadow:0 3px 16px rgba(0,0,0,.14)}
+  .hdr .in{max-width:860px;margin:0 auto}
+  .hdr h1{margin:0;font-size:1.9rem;line-height:1.12;letter-spacing:.005em;font-weight:750;text-wrap:balance}
+  .hdr .sub{font-size:.82rem;text-transform:uppercase;letter-spacing:.16em;opacity:.82;margin-top:7px}
+  .hdr .lead{margin:15px 0 0;font-size:1.06rem;line-height:1.5;color:#eaf6f7;max-width:62ch}
+  .hdr .lead b{color:#fff;font-weight:750}
+  .hdr .lead .rm{color:#ffd7cf;font-weight:750}
+  .who{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:16px 0 2px;font-size:.92rem;color:var(--ink-soft)}
+  .who label{font-weight:650;color:var(--ink)}
+  .who input{flex:1;min-width:180px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--ink);
+    font-family:inherit;font-size:.95rem;padding:9px 11px}
+  .who input:focus{outline:none;border-color:var(--accent-2)}
+  h2.grp{color:var(--accent-2);font-size:.82rem;text-transform:uppercase;letter-spacing:.12em;border-bottom:2px solid var(--accent-2);padding-bottom:5px;margin:24px 2px 11px;font-weight:700}
+  h2.grp .gn{color:var(--ink-faint);font-weight:600;letter-spacing:.02em;text-transform:none}
+  .card{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--line);border-radius:11px;box-shadow:var(--shadow);padding:11px 13px;margin:0 0 9px;transition:opacity .15s,border-color .15s,background .15s}
+  .card.off,.card:has(.cbx:checked){opacity:.72;background:var(--remove-tint);border-left-color:var(--remove)}
+  .chead{display:flex;align-items:flex-start;gap:11px;cursor:pointer;user-select:none}
+  .ct{display:block;flex:1;min-width:0}
+  .cn{display:block;font-weight:700;font-size:1.04rem;line-height:1.28;text-wrap:balance}
+  .card.off .cn,.card:has(.cbx:checked) .cn{text-decoration:line-through;text-decoration-color:var(--remove);text-decoration-thickness:2.5px;color:var(--ink-faint)}
+  .rmtag{display:none;margin-left:8px;background:var(--remove);color:#fff;font-size:.64rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:5px;vertical-align:2px;text-decoration:none;white-space:nowrap}
+  .card.off .rmtag,.card:has(.cbx:checked) .rmtag{display:inline-block}
+  .cm{display:block;color:var(--ink-soft);font-size:.79rem;margin-top:3px}
+  .rec{margin:8px 0 1px 31px;font-size:.83rem;color:var(--ink-faint);font-style:italic}
+  ul.items{list-style:none;margin:9px 0 1px;padding:0 0 0 31px;columns:2;column-gap:22px}
+  @media (max-width:560px){ul.items{columns:1}}
+  ul.items li{break-inside:avoid;margin:0 0 5px}
+  label.item{display:flex;align-items:flex-start;gap:9px;font-size:.91rem;line-height:1.32;cursor:pointer}
+  label.item .ix{flex:1}
+  .card.off ul.items,.card:has(.cbx:checked) ul.items{opacity:.6;pointer-events:none}
+  label.item.off .ix,label.item:has(.ib:checked) .ix{text-decoration:line-through;text-decoration-color:var(--remove);text-decoration-thickness:2px;color:var(--ink-faint)}
+  .kw{color:var(--ink-faint);font-weight:700}
+  .notewrap{margin:9px 0 1px 31px}
+  .nt{width:100%;min-height:34px;border:1px dashed var(--line);border-radius:8px;background:var(--panel-2);color:var(--ink);font-family:inherit;font-size:.86rem;line-height:1.4;padding:7px 9px;resize:vertical;transition:.13s}
+  .nt::placeholder{color:var(--ink-faint)}
+  .nt:focus{outline:none;border-color:var(--accent-2);border-style:solid;background:var(--panel)}
+  .nt.has{border-style:solid;border-color:var(--accent-2)}
+  input[type=checkbox]{flex:0 0 auto;appearance:none;-webkit-appearance:none;width:21px;height:21px;margin:1px 0 0;border:2px solid var(--ink-faint);border-radius:6px;background:var(--panel-2);cursor:pointer;position:relative;transition:.12s}
+  input.ib{width:18px;height:18px;border-radius:5px}
+  input[type=checkbox]:hover{border-color:var(--remove)}
+  input[type=checkbox]:checked{background:var(--remove);border-color:var(--remove)}
+  input[type=checkbox]:checked::after{content:"";position:absolute;left:6px;top:2px;width:6px;height:11px;border:solid #fff;border-width:0 2.6px 2.6px 0;transform:rotate(45deg)}
+  input.ib:checked::after{left:5px;top:2px;width:5px;height:9px;border-width:0 2.2px 2.2px 0}
+  input[type=checkbox]:focus-visible{outline:3px solid var(--accent-2);outline-offset:2px}
+  footer.bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--panel);border-top:1px solid var(--line);box-shadow:0 -4px 16px rgba(19,34,39,.08)}
+  .bin{max-width:860px;margin:0 auto;padding:10px 14px;display:flex;align-items:center;gap:10px}
+  .sum{flex:1;min-width:0;font-size:.84rem;color:var(--ink-soft);font-variant-numeric:tabular-nums;line-height:1.3}
+  .sum .rm{color:var(--remove);font-weight:700}
+  .btn{flex:0 0 auto;border:0;border-radius:10px;padding:12px 20px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit;transition:.13s}
+  .btn.primary{background:var(--accent-2);color:#fff}
+  .btn.primary:hover{background:var(--accent)}
+  .btn.primary:disabled{opacity:.6;cursor:default}
+  .btn.primary.done{background:var(--keep)}
+  .btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .ok{display:none;margin:16px 0;padding:16px 18px;border:1px solid var(--keep);background:var(--panel);border-left:5px solid var(--keep);border-radius:11px}
+  .ok.show{display:block}
+  .ok h3{margin:0 0 5px;color:var(--keep);font-size:1.15rem}
+  .ok p{margin:0;color:var(--ink-soft);font-size:.95rem}
+  .err{color:var(--remove);font-size:.82rem;margin-right:4px}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="hdr"><div class="in">
+  <h1>Bobo&nbsp;&amp;&nbsp;Wild — Wanstead Bakery</h1>
+  <div class="sub">Checklist confirmation</div>
+  <p class="lead">These are the checklists we'll set up for <b>Wanstead Bakery</b>, from your current Trail.
+  Everything is <b>kept by default</b> — just <span class="rm">tick the box next to anything to remove</span>
+  (a whole checklist or single lines), add notes where useful, then tap <b>Save</b> at the bottom. 🙌</p>
+</div></header>
+
+<div class="wrap">
+  <div class="who"><label for="who">Your name:</label><input id="who" type="text" placeholder="so we know who confirmed (optional)"></div>
+  <div class="ok" id="ok"><h3>✓ Saved — thank you!</h3><p>Your choices for <b>Wanstead Bakery</b> are with us. We'll set the site up accordingly and get it live for you.</p></div>
+  <div id="content"><h2 class="grp">Daily <span class="gn">— 7 checklists</span></h2><div class="card" id="c0" data-name="Bakery Closing Checklist🥐">
+          <label class="chead"><input type="checkbox" class="cbx" data-c="c0"><span class="ct"><span class="cn">Bakery Closing Checklist🥐<span class="rmtag">Remove</span></span><span class="cm">daily · Bakery</span></span></label>
+          <ul class="items"><li><label class="item"><input type="checkbox" class="ib" data-c="c0"><span class="ix">Sweep the floor</span></label></li><li><label class="item"><input type="checkbox" class="ib" data-c="c0"><span class="ix">Antibac oven and handle</span></label></li><li><label class="item"><input type="checkbox" class="ib" data-c="c0"><span class="ix">Antibac all fridge</span></label></li><li><label class="item"><input type="checkbox" class="ib" data-c="c0"><span class="ix">Check/set the proofer</span></label></li><li><label class="item"><input type="checkbox" class="ib" data-c="c0"><span class="ix">Set the oven</span></label></li><li><label class="item"><input type="checkbox" class="ib" data-c="c0"><span class="ix">Empty the bins and change bin bags</span></label></li><li><label class="item"><input type="checkbox" class="ib" data-c="c0"><span class="ix">Clean and drain the diswasher</span></label></li></ul>
+          <div class="notewrap"><textarea class="nt" rows="1" placeholder="✎ Notes for us on this checklist (optional)…"></textarea></div>
+        </div><div class="card" id="c1" data-name="Bakery Fridge &amp; Freezer Temperature Records 🌡️">
+          <label class="chead"><input type="checkbox" class="cbx" data-c="c1"><span class="ct"><span class="cn">Bakery Fridge &amp; Freezer Temperature Records 🌡️<span class="rmtag">Remove</span></span><span class="cm">daily · Bakery</span></span></label>
+          <ul class="items"><li><label class="item"><input type="checkbox" class="ib" data-c="c1"><span class="ix">Fridge Bar 1</span></label></li><li><label class="item"><input type="checkbox" class="ib" data-c="c1"><span class="ix">Fridge Bar 2 (Coffee Machine)</span></label></li><li><label class="item"><input type="checkbox" class="ib" data-c="c1"><span class="ix">Fridge cake fridge</span></label></li><li><label class="item"><input type="checkbox" class="ib" data-c="c1"><span class="ix">Fridge Wine</span></label></li><li><label class="item"><input type="checkbox" class="ib" data-c="c1"><span class="ix">Freezer 1</span></label></li></ul>
+          <div class="notewrap"><textarea class="nt" rows="1" placeholder="✎ Notes for us on this checklist (optional)…"></textarea></div>
+        </div><div class="card" id="c2" data-name="Bakery Fridge Temperature">
+          <label class="chead"><input type="checkbox" class="cbx" data-c="c2"><span class="ct"><span class="cn">Bakery Fridge Temperature<span class="rmtag">Remove</span></span><span class="cm">daily · Bakery</span></span></label>
+          <ul class="items"><li><label class="item"><input type="checkbox" class="ib" data-c="c2"><span class="ix">Fridge 1</span></label></li><li><label class="item"><input type="checkbox" class="ib" data-c="c2"><span class="ix">Fridge 2</span></label></li><li><label class="item"><input type="checkbox" class="ib" data-c="c2"><span class="ix">Fridge 3</span></label></li><li><label class="item"><input type="checkbox" class="ib" data-c="c2"><span class="ix">Freezer 1</span></label></li></ul>
+          <div class="notewrap"><textarea class="nt" rows="1" placeholder="✎ Notes for us on this checklist (optional)…"></textarea></div>
+        </div><div class="card" id="c3" data-name="Bakery Opening Checklist🍞">
+          <label class="chead"><input type="checkbox" class="cbx" data-c="c3"><span class="ct"><span class="cn">Bakery Opening Checklist🍞<span class="rmtag">Remove</span></span><span class="cm">daily · Bakery</span></span></label>
+          <ul class="items"><li><label class="item"><input type="checkbox" class="ib" data-c="c3"><span class="ix">Finishing the display and delivery</span></label></li><li><label class="item"><input type="checkbox" class="ib" data-c="c3"><span class="ix">Bake the sourdough</span></label></li><li><label class="item"><input type="checkbox" class="ib" data-c="c3"><span class="ix">Bake the focaccia</span></label></li></ul>
+          <div class="notewrap"><textarea class="nt" rows="1" placeholder="✎ Notes for us on this checklist (optional)…"></textarea></div>
+        </div><div class="card" id="c4" data-name="Bakery Wastage Records 🗑">
+          <label class="chead"><input type="checkbox" class="cbx" data-c="c4"><span class="ct"><span class="cn">Bakery Wastage Records 🗑<span class="rmtag">Remove</span></span><span class="cm">daily @07:00 · Bakery</span></span></label>
+          <div class="rec">Record form</div>
+          <div class="notewrap"><textarea class="nt" rows="1" placeholder="✎ Notes for us on this checklist (optional)…"></textarea></div>
+        </div><div class="card" id="c5" data-name="Delivery ( Deliveroo, Uber, Just Eat)">
+          <label class="chead"><input type="checkbox" class="cbx" data-c="c5"><span class="ct"><span class="cn">Delivery ( Deliveroo, Uber, Just Eat)<span class="rmtag">Remove</span></span><span class="cm">daily</span></span></label>
+          <ul class="items"><li><label class="item"><input type="checkbox" class="ib" data-c="c5"><span class="ix">deliveroo is on</span></label></li><li><label class="item"><input type="checkbox" class="ib" data-c="c5"><span class="ix">Uber Eat is on</span></label></li><li><label class="item"><input type="checkbox" class="ib" data-c="c5"><span class="ix">Just eat in On</span></label></li></ul>
+          <div class="notewrap"><textarea class="nt" rows="1" placeholder="✎ Notes for us on this checklist (optional)…"></textarea></div>
+        </div><div class="card" id="c6" data-name="Record Wansted Bakery tasts count">
+          <label class="chead"><input type="checkbox" class="cbx" data-c="c6"><span class="ct"><span class="cn">Record Wansted Bakery tasts count<span class="rmtag">Remove</span></span><span class="cm">one-off · Bakery</span></span></label>
+          <ul class="items"><li><label class="item"><input type="checkbox" class="ib" data-c="c6"><span class="ix">Bakery</span></label></li></ul>
+          <div class="notewrap"><textarea class="nt" rows="1" placeholder="✎ Notes for us on this checklist (optional)…"></textarea></div>
+        </div></div>
+</div>
+
+<footer class="bar"><div class="bin">
+  <div class="sum" id="sum">Nothing marked for removal — keeping all 7 checklists.</div>
+  <button class="btn primary" id="save" type="button">Save</button>
+</div></footer>
+
+<script id="meta" type="application/json">[{"id": "c0", "name": "Bakery Closing Checklist🥐"}, {"id": "c1", "name": "Bakery Fridge & Freezer Temperature Records 🌡️"}, {"id": "c2", "name": "Bakery Fridge Temperature"}, {"id": "c3", "name": "Bakery Opening Checklist🍞"}, {"id": "c4", "name": "Bakery Wastage Records 🗑"}, {"id": "c5", "name": "Delivery ( Deliveroo, Uber, Just Eat)"}, {"id": "c6", "name": "Record Wansted Bakery tasts count"}]</script>
+<script>
+(function(){
+  var API='https://web-production-54cc.up.railway.app/api/onboarding/checklist-confirmation';
+  var SITE='wanstead-bakery', SITE_NAME='Wanstead Bakery';
+  var META=JSON.parse(document.getElementById('meta').textContent);
+
+  document.querySelectorAll('.cbx').forEach(function(cb){
+    cb.addEventListener('change',function(){ document.getElementById(cb.dataset.c).classList.toggle('off',cb.checked); recount(); });
+    cb.addEventListener('click',function(e){e.stopPropagation();});
+  });
+  document.querySelectorAll('.ib').forEach(function(cb){
+    cb.addEventListener('change',function(){ cb.closest('label.item').classList.toggle('off',cb.checked); recount(); });
+  });
+  document.querySelectorAll('.nt').forEach(function(t){
+    t.addEventListener('input',function(){ t.style.height='auto'; t.style.height=(t.scrollHeight+2)+'px'; t.classList.toggle('has',t.value.trim().length>0); });
+  });
+
+  function recount(){
+    var cards=0,items=0;
+    document.querySelectorAll('.card').forEach(function(card){
+      if(card.querySelector('.cbx').checked){cards++;return;}
+      items+=card.querySelectorAll('.ib:checked').length;
+    });
+    var el=document.getElementById('sum');
+    if(!cards&&!items){el.innerHTML='Nothing marked for removal — keeping all '+META.length+' checklists.';return;}
+    var p=[]; if(cards)p.push('<span class="rm">'+cards+' checklist'+(cards>1?'s':'')+'</span>'); if(items)p.push('<span class="rm">'+items+' line'+(items>1?'s':'')+'</span>');
+    el.innerHTML='Marked to remove: '+p.join(' · ');
+  }
+
+  function collect(){
+    var removed=[],edited=[],notes=[];
+    document.querySelectorAll('.card').forEach(function(card){
+      var name=card.dataset.name;
+      var note=card.querySelector('.nt')?card.querySelector('.nt').value.trim():'';
+      if(note) notes.push({checklist:name,note:note});
+      if(card.querySelector('.cbx').checked){removed.push(name);return;}
+      var lines=[]; card.querySelectorAll('.ib:checked').forEach(function(ib){lines.push(ib.closest('label.item').querySelector('.ix').textContent.trim());});
+      if(lines.length) edited.push({checklist:name,lines:lines});
+    });
+    return {site:SITE,site_name:SITE_NAME,submitter:(document.getElementById('who').value||'').trim(),
+            total:META.length,kept:META.length-removed.length,removed_checklists:removed,removed_items:edited,notes:notes};
+  }
+
+  var btn=document.getElementById('save');
+  btn.onclick=function(){
+    var payload=collect(); btn.disabled=true; var old=btn.textContent; btn.textContent='Saving…';
+    document.querySelectorAll('.err').forEach(function(e){e.remove();});
+    fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+      .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+      .then(function(){
+        btn.textContent='Saved ✓'; btn.classList.add('done');
+        var ok=document.getElementById('ok'); ok.classList.add('show'); window.scrollTo({top:0,behavior:'smooth'});
+      })
+      .catch(function(e){
+        btn.disabled=false; btn.textContent=old;
+        var s=document.getElementById('sum'); var m=document.createElement('span'); m.className='err'; m.textContent='Could not save — check connection & try again. '; s.parentNode.insertBefore(m,s);
+      });
+  };
+  recount();
+})();
+</script>
+</body>
+</html>
