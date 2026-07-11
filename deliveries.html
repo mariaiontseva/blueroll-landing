@@ -30,18 +30,54 @@
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      {"@type": "Question", "name": "What should I record when food is delivered?", "acceptedAnswer": {"@type": "Answer", "text": "Record the supplier, the date and time, and the temperature of chilled and frozen items checked with a clean probe. Note the condition of the packaging and add a photo of the probe reading or any damage. If a delivery arrives above its safe temperature or in a damaged state, reject it and log the reason — that record is part of your food safety management system."}},
-      {"@type": "Question", "name": "Why log delivery temperatures?", "acceptedAnswer": {"@type": "Answer", "text": "Goods-in is the first point where the cold chain can break. In the UK, chilled food must be kept at or below 8°C by law, and good practice keeps it at 5°C or below; frozen food should be around -18°C. Logging the temperature on arrival proves the cold chain held before the food entered your fridge, and gives an Environmental Health Officer the evidence they look for."}},
-      {"@type": "Question", "name": "Can I add photo evidence?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Attach a photo of the probe reading, the delivery note or any damaged or out-of-temperature stock to each delivery. The photo is saved against the time-stamped record and the staff member who checked it, so you have clear evidence if a delivery is rejected or queried later."}}
+      {
+        "@type": "Question",
+        "name": "What should I record when food is delivered?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Record the supplier, the date and time, and the temperature of chilled and frozen items checked with a clean probe. Note the condition of the packaging and add a photo of the probe reading or any damage. If a delivery arrives above its safe temperature or in a damaged state, reject it and log the reason — that record is part of your food safety management system."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why log delivery temperatures?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Goods-in is the first point where the cold chain can break. In the UK, chilled food must be kept at or below 8°C by law, and good practice keeps it at 5°C or below; frozen food should be around -18°C. Logging the temperature on arrival proves the cold chain held before the food entered your fridge, and gives an Environmental Health Officer the evidence they look for."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I add photo evidence?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Attach a photo of the probe reading, the delivery note or any damaged or out-of-temperature stock to each delivery. The photo is saved against the time-stamped record and the staff member who checked it, so you have clear evidence if a delivery is rejected or queried later."
+        }
+      }
     ]
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Blueroll", "item": "https://blueroll.app/"},
-      {"@type": "ListItem", "position": 2, "name": "Product", "item": "https://blueroll.app/haccp-checklists.html"},
-      {"@type": "ListItem", "position": 3, "name": "Deliveries", "item": "https://blueroll.app/deliveries.html"}
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Blueroll",
+        "item": "https://blueroll.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Product",
+        "item": "https://blueroll.app/#features"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Deliveries",
+        "item": "https://blueroll.app/deliveries.html"
+      }
     ]
   }
 ]
@@ -240,6 +276,16 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 48px
 
 <!-- ===== HERO ===== -->
 <section class="hero">
+<div class="seo-breadcrumb" role="navigation" aria-label="Breadcrumb" style="margin:0 0 22px;text-align:left;font-size:13px;font-weight:700;color:#8A8378;">
+  <ol style="list-style:none;display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0;padding:0;">
+    <li><a href="/" style="color:#047857;text-decoration:none;">Blueroll</a></li>
+    <li aria-hidden="true" style="color:#B6B0A7;">›</li>
+    <li><a href="/#features" style="color:#047857;text-decoration:none;">Product</a></li>
+    <li aria-hidden="true" style="color:#B6B0A7;">›</li>
+    <li aria-current="page" style="color:#555;">Deliveries</li>
+  </ol>
+</div>
+
   <div class="eyebrow">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
     Product · Deliveries

@@ -30,18 +30,54 @@
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      {"@type": "Question", "name": "What is a digital HACCP checklist?", "acceptedAnswer": {"@type": "Answer", "text": "A digital HACCP checklist is your daily food safety routine — opening checks, fridge and freezer temperatures, cooking and cooling logs, cleaning sign-offs and closing checks — completed on a phone instead of paper. Each entry is time-stamped and tied to the staff member who completed it, so you have a tamper-evident record ready for an EHO inspection."}},
-      {"@type": "Question", "name": "Do digital checklists satisfy UK food safety law?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. UK law (EC Regulation 852/2004) requires a documented food safety management system based on HACCP principles, but it does not require paper. Digital records are accepted by Environmental Health Officers and are often preferred because they are legible, time-stamped and harder to back-fill."}},
-      {"@type": "Question", "name": "How do temperature alerts work?", "acceptedAnswer": {"@type": "Answer", "text": "When a fridge, freezer or cooking temperature is logged outside its safe range, Blueroll flags it immediately and prompts a corrective action. The out-of-range reading and the fix are both recorded, which is exactly the evidence an EHO looks for under the Confidence in Management score."}}
+      {
+        "@type": "Question",
+        "name": "What is a digital HACCP checklist?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A digital HACCP checklist is your daily food safety routine — opening checks, fridge and freezer temperatures, cooking and cooling logs, cleaning sign-offs and closing checks — completed on a phone instead of paper. Each entry is time-stamped and tied to the staff member who completed it, so you have a tamper-evident record ready for an EHO inspection."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do digital checklists satisfy UK food safety law?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. UK law (EC Regulation 852/2004) requires a documented food safety management system based on HACCP principles, but it does not require paper. Digital records are accepted by Environmental Health Officers and are often preferred because they are legible, time-stamped and harder to back-fill."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do temperature alerts work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "When a fridge, freezer or cooking temperature is logged outside its safe range, Blueroll flags it immediately and prompts a corrective action. The out-of-range reading and the fix are both recorded, which is exactly the evidence an EHO looks for under the Confidence in Management score."
+        }
+      }
     ]
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Blueroll", "item": "https://blueroll.app/"},
-      {"@type": "ListItem", "position": 2, "name": "Product", "item": "https://blueroll.app/haccp-checklists.html"},
-      {"@type": "ListItem", "position": 3, "name": "HACCP Checklists", "item": "https://blueroll.app/haccp-checklists.html"}
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Blueroll",
+        "item": "https://blueroll.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Product",
+        "item": "https://blueroll.app/#features"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "HACCP Checklists",
+        "item": "https://blueroll.app/haccp-checklists.html"
+      }
     ]
   }
 ]
@@ -240,6 +276,16 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 48px
 
 <!-- ===== HERO ===== -->
 <section class="hero">
+<div class="seo-breadcrumb" role="navigation" aria-label="Breadcrumb" style="margin:0 0 22px;text-align:left;font-size:13px;font-weight:700;color:#8A8378;">
+  <ol style="list-style:none;display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0;padding:0;">
+    <li><a href="/" style="color:#047857;text-decoration:none;">Blueroll</a></li>
+    <li aria-hidden="true" style="color:#B6B0A7;">›</li>
+    <li><a href="/#features" style="color:#047857;text-decoration:none;">Product</a></li>
+    <li aria-hidden="true" style="color:#B6B0A7;">›</li>
+    <li aria-current="page" style="color:#555;">HACCP Checklists</li>
+  </ol>
+</div>
+
   <div class="eyebrow">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
     Product · HACCP Checklists

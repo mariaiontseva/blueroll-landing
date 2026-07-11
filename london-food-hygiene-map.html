@@ -42,10 +42,25 @@
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Any",
     "browserRequirements": "Modern browser with JavaScript",
-    "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"},
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "GBP"
+    },
     "description": "Free interactive map of every London restaurant, cafe, takeaway and food business with its current food hygiene rating from the UK Food Standards Agency.",
-    "provider": {"@type": "Organization", "name": "Blueroll", "url": "https://blueroll.app"},
-    "areaServed": {"@type": "City", "name": "London", "containedInPlace": {"@type": "Country", "name": "United Kingdom"}}
+    "provider": {
+      "@type": "Organization",
+      "name": "Blueroll",
+      "url": "https://blueroll.app"
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": "London",
+      "containedInPlace": {
+        "@type": "Country",
+        "name": "United Kingdom"
+      }
+    }
   },
   {
     "@context": "https://schema.org",
@@ -53,38 +68,106 @@
     "name": "London Food Hygiene Ratings",
     "description": "Live food hygiene ratings for every registered food business in Greater London, sourced directly from the UK Food Standards Agency (FSA) ratings API. Covers restaurants, cafes, pubs, takeaways, schools, hospitals and care homes.",
     "url": "https://blueroll.app/london-food-hygiene-map.html",
-    "keywords": ["food hygiene", "FSA", "London", "restaurants", "food safety"],
-    "creator": {"@type": "Organization", "name": "UK Food Standards Agency", "url": "https://www.food.gov.uk/"},
-    "publisher": {"@type": "Organization", "name": "Blueroll", "url": "https://blueroll.app"},
+    "keywords": [
+      "food hygiene",
+      "FSA",
+      "London",
+      "restaurants",
+      "food safety"
+    ],
+    "creator": {
+      "@type": "Organization",
+      "name": "UK Food Standards Agency",
+      "url": "https://www.food.gov.uk/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Blueroll",
+      "url": "https://blueroll.app"
+    },
     "license": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
     "isAccessibleForFree": true,
-    "spatialCoverage": {"@type": "Place", "name": "Greater London, United Kingdom"}
+    "spatialCoverage": {
+      "@type": "Place",
+      "name": "Greater London, United Kingdom"
+    }
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      {"@type": "Question", "name": "Where does the data on this map come from?",
-        "acceptedAnswer": {"@type": "Answer", "text": "Every rating on this map is pulled live from the UK Food Standards Agency (FSA) ratings API, which is the official source for all food hygiene ratings in England, Wales and Northern Ireland. Data is refreshed on each map load."}},
-      {"@type": "Question", "name": "What do the 0–5 food hygiene ratings mean?",
-        "acceptedAnswer": {"@type": "Answer", "text": "5 = Very good, 4 = Good, 3 = Generally satisfactory, 2 = Improvement necessary, 1 = Major improvement necessary, 0 = Urgent improvement necessary. Ratings are given by Environmental Health Officers (EHOs) after on-site inspections."}},
-      {"@type": "Question", "name": "How often are ratings updated?",
-        "acceptedAnswer": {"@type": "Answer", "text": "Ratings only change when an EHO re-inspects a business. The FSA publishes the new rating within a few days of the inspection. Our map reflects whatever is currently live in the FSA database."}},
-      {"@type": "Question", "name": "Can a restaurant appeal a low rating?",
-        "acceptedAnswer": {"@type": "Answer", "text": "Yes. A business can request a re-rating visit after making improvements, appeal against the rating, or post a 'right to reply' statement that appears alongside the rating. All of this is handled through the local council's food safety team."}},
-      {"@type": "Question", "name": "Is it illegal to eat at a restaurant with a 0 or 1 rating?",
-        "acceptedAnswer": {"@type": "Answer", "text": "No, it is not illegal. A low rating indicates serious hygiene issues that need urgent improvement, but the business is still permitted to trade unless the council issues a Hygiene Emergency Prohibition Notice. We would simply advise caution."}},
-      {"@type": "Question", "name": "Do I need to display my rating on the window?",
-        "acceptedAnswer": {"@type": "Answer", "text": "In Wales and Northern Ireland, yes — display is mandatory. In England, display is voluntary (though strongly encouraged). On blueroll.app we also offer a free auto-updating rating badge you can embed on your restaurant's own website."}}
+      {
+        "@type": "Question",
+        "name": "Where does the data on this map come from?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Every rating on this map is pulled live from the UK Food Standards Agency (FSA) ratings API, which is the official source for all food hygiene ratings in England, Wales and Northern Ireland. Data is refreshed on each map load."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What do the 0–5 food hygiene ratings mean?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "5 = Very good, 4 = Good, 3 = Generally satisfactory, 2 = Improvement necessary, 1 = Major improvement necessary, 0 = Urgent improvement necessary. Ratings are given by Environmental Health Officers (EHOs) after on-site inspections."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How often are ratings updated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ratings only change when an EHO re-inspects a business. The FSA publishes the new rating within a few days of the inspection. Our map reflects whatever is currently live in the FSA database."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can a restaurant appeal a low rating?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. A business can request a re-rating visit after making improvements, appeal against the rating, or post a 'right to reply' statement that appears alongside the rating. All of this is handled through the local council's food safety team."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is it illegal to eat at a restaurant with a 0 or 1 rating?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No, it is not illegal. A low rating indicates serious hygiene issues that need urgent improvement, but the business is still permitted to trade unless the council issues a Hygiene Emergency Prohibition Notice. We would simply advise caution."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need to display my rating on the window?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "In Wales and Northern Ireland, yes — display is mandatory. In England, display is voluntary (though strongly encouraged). On blueroll.app we also offer a free auto-updating rating badge you can embed on your restaurant's own website."
+        }
+      }
     ]
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Blueroll", "item": "https://blueroll.app/"},
-      {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://blueroll.app/tools.html"},
-      {"@type": "ListItem", "position": 3, "name": "London Food Hygiene Map", "item": "https://blueroll.app/london-food-hygiene-map.html"}
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Blueroll",
+        "item": "https://blueroll.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Free Tools",
+        "item": "https://blueroll.app/tools.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "London Hygiene Map",
+        "item": "https://blueroll.app/london-food-hygiene-map.html"
+      }
     ]
   }
 ]
