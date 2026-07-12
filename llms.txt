@@ -4,7 +4,7 @@
 ## Hub pages
 - UK Restaurant Operations & Food Safety Library (all guides): https://blueroll.app/guides/uk
 
-Blueroll is a mobile app that replaces paper HACCP records with digital checklists, AI-powered recipe import, allergen tracking, and one-tap compliance reports. Built for independent restaurants at $14.99/month with a 14-day free trial.
+Blueroll is a mobile app that replaces paper HACCP records with digital checklists, AI-powered recipe import, allergen tracking, multi-site management, and one-tap compliance reports. Built for independent restaurants and growing restaurant groups at £24.99/site/month with a 14-day free trial.
 
 ## Features
 - Digital HACCP checklists (daily, weekly, monthly)

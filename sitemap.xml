@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://blueroll.app/</loc><lastmod>2026-07-02</lastmod><priority>1.0</priority></url>
+  <url><loc>https://blueroll.app/</loc><lastmod>2026-07-12</lastmod><priority>1.0</priority></url>
   <url><loc>https://blueroll.app/check-food-hygiene-rating.html</loc><lastmod>2026-07-02</lastmod><priority>0.9</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://blueroll.app/haccp-checklists.html</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://blueroll.app/allergen-matrix.html</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
@@ -9,17 +9,18 @@
   <url><loc>https://blueroll.app/deliveries.html</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://blueroll.app/document-management.html</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://blueroll.app/team-management.html</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
-  <url><loc>https://blueroll.app/free-food-hygiene-rating-badge.html</loc><lastmod>2026-07-02</lastmod><priority>0.9</priority></url>
+  <url><loc>https://blueroll.app/trail-alternative.html</loc><lastmod>2026-07-12</lastmod><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://blueroll.app/free-food-hygiene-rating-badge.html</loc><lastmod>2026-07-12</lastmod><priority>0.9</priority></url>
   <url><loc>https://blueroll.app/london-food-hygiene-map.html</loc><lastmod>2026-07-02</lastmod><priority>0.9</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://blueroll.app/how-to-improve-food-hygiene-rating.html</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://blueroll.app/food-hygiene-ratings-explained.html</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://blueroll.app/sfbb-guide.html</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://blueroll.app/eho-inspection-checklist.html</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
   <url><loc>https://blueroll.app/tools.html</loc><lastmod>2026-07-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://blueroll.app/terms.html</loc><lastmod>2026-07-02</lastmod><priority>0.3</priority></url>
+  <url><loc>https://blueroll.app/terms.html</loc><lastmod>2026-07-12</lastmod><priority>0.3</priority></url>
   <url><loc>https://blueroll.app/privacy.html</loc><lastmod>2026-07-02</lastmod><priority>0.3</priority></url>
   <url><loc>https://blueroll.app/14-allergens-uk.html</loc><lastmod>2026-07-02</lastmod><priority>0.8</priority></url>
-  <url><loc>https://blueroll.app/free-haccp-template.html</loc><lastmod>2026-07-02</lastmod><priority>0.95</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://blueroll.app/free-haccp-template.html</loc><lastmod>2026-07-12</lastmod><priority>0.95</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://blueroll.app/nyc-restaurant-grade.html</loc><lastmod>2026-07-02</lastmod><priority>0.9</priority></url>
   <url><loc>https://blueroll.app/nyc-restaurant-map.html</loc><lastmod>2026-07-02</lastmod><priority>0.9</priority></url>
   <url><loc>https://blueroll.app/chicago-restaurant-inspection.html</loc><lastmod>2026-07-02</lastmod><priority>0.9</priority></url>
@@ -30,25 +31,25 @@
   <url><loc>https://blueroll.app/seattle-restaurant-inspection.html</loc><lastmod>2026-07-02</lastmod><priority>0.9</priority></url>
   <url><loc>https://blueroll.app/50k-restaurant-grades.html</loc><lastmod>2026-07-02</lastmod><priority>1.0</priority></url>
   <url><loc>https://blueroll.app/food-recalls-2026.html</loc><lastmod>2026-07-02</lastmod><priority>0.9</priority></url>
-  <url><loc>https://blueroll.app/recalls/</loc><lastmod>2026-07-02</lastmod><priority>0.95</priority><changefreq>daily</changefreq></url>
-  <url><loc>https://blueroll.app/recalls-us/</loc><lastmod>2026-07-02</lastmod><priority>0.95</priority><changefreq>daily</changefreq></url>
+  <url><loc>https://blueroll.app/recalls/</loc><lastmod>2026-07-12</lastmod><priority>0.95</priority><changefreq>daily</changefreq></url>
+  <url><loc>https://blueroll.app/recalls-us/</loc><lastmod>2026-07-12</lastmod><priority>0.95</priority><changefreq>daily</changefreq></url>
   <url><loc>https://blueroll.app/cut-by-wolfgang-puck/</loc><lastmod>2026-07-02</lastmod><priority>0.85</priority></url>
   <url><loc>https://blueroll.app/links/</loc><lastmod>2026-07-02</lastmod><priority>0.7</priority></url>
-  <url><loc>https://blueroll.app/launch-new-menu-15-minutes.html</loc><lastmod>2026-07-02</lastmod><priority>0.85</priority></url>
-  <url><loc>https://blueroll.app/restaurant-staff-onboarding-checklist.html</loc><lastmod>2026-07-02</lastmod><priority>0.85</priority></url>
-  <url><loc>https://blueroll.app/restaurant-opening-checklist.html</loc><lastmod>2026-07-02</lastmod><priority>0.9</priority></url>
-  <url><loc>https://blueroll.app/keep-restaurant-regulars-coming-back.html</loc><lastmod>2026-07-02</lastmod><priority>0.9</priority></url>
-  <url><loc>https://blueroll.app/onboard-new-chef-14-days.html</loc><lastmod>2026-07-02</lastmod><priority>0.9</priority></url>
-  <url><loc>https://blueroll.app/front-of-house-kitchen-communication.html</loc><lastmod>2026-07-02</lastmod><priority>0.9</priority></url>
-  <url><loc>https://blueroll.app/natashas-law-2026.html</loc><lastmod>2026-07-02</lastmod><priority>0.9</priority></url>
-  <url><loc>https://blueroll.app/keep-restaurant-staff-longer.html</loc><lastmod>2026-07-02</lastmod><priority>0.9</priority></url>
-  <url><loc>https://blueroll.app/food-hygiene-certificate-scotland-a-2026-guide-to-business-compliance.html</loc><lastmod>2026-07-07</lastmod><priority>0.9</priority></url>
-  <url><loc>https://blueroll.app/guides/uk/</loc><lastmod>2026-07-07</lastmod><priority>0.95</priority></url>
+  <url><loc>https://blueroll.app/launch-new-menu-15-minutes.html</loc><lastmod>2026-07-12</lastmod><priority>0.85</priority></url>
+  <url><loc>https://blueroll.app/restaurant-staff-onboarding-checklist.html</loc><lastmod>2026-07-12</lastmod><priority>0.85</priority></url>
+  <url><loc>https://blueroll.app/restaurant-opening-checklist.html</loc><lastmod>2026-07-12</lastmod><priority>0.9</priority></url>
+  <url><loc>https://blueroll.app/keep-restaurant-regulars-coming-back.html</loc><lastmod>2026-07-12</lastmod><priority>0.9</priority></url>
+  <url><loc>https://blueroll.app/onboard-new-chef-14-days.html</loc><lastmod>2026-07-12</lastmod><priority>0.9</priority></url>
+  <url><loc>https://blueroll.app/front-of-house-kitchen-communication.html</loc><lastmod>2026-07-12</lastmod><priority>0.9</priority></url>
+  <url><loc>https://blueroll.app/natashas-law-2026.html</loc><lastmod>2026-07-12</lastmod><priority>0.9</priority></url>
+  <url><loc>https://blueroll.app/keep-restaurant-staff-longer.html</loc><lastmod>2026-07-12</lastmod><priority>0.9</priority></url>
+  <url><loc>https://blueroll.app/food-hygiene-certificate-scotland-a-2026-guide-to-business-compliance.html</loc><lastmod>2026-07-12</lastmod><priority>0.9</priority></url>
+  <url><loc>https://blueroll.app/guides/uk/</loc><lastmod>2026-07-12</lastmod><priority>0.95</priority></url>
   <url><loc>https://blueroll.app/haccp-pack.html</loc><lastmod>2026-07-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://blueroll.app/audit/</loc><lastmod>2026-07-02</lastmod><priority>0.6</priority></url>
+  <url><loc>https://blueroll.app/audit/</loc><lastmod>2026-07-12</lastmod><priority>0.6</priority></url>
   <url><loc>https://blueroll.app/audit/allergens.html</loc><lastmod>2026-07-02</lastmod><priority>0.6</priority></url>
   <url><loc>https://blueroll.app/audit/cleanliness.html</loc><lastmod>2026-07-02</lastmod><priority>0.6</priority></url>
   <url><loc>https://blueroll.app/audit/cross-contamination.html</loc><lastmod>2026-07-02</lastmod><priority>0.6</priority></url>
-  <url><loc>https://blueroll.app/audit/documents.html</loc><lastmod>2026-07-02</lastmod><priority>0.6</priority></url>
+  <url><loc>https://blueroll.app/audit/documents.html</loc><lastmod>2026-07-12</lastmod><priority>0.6</priority></url>
   <url><loc>https://blueroll.app/audit/staff-training.html</loc><lastmod>2026-07-02</lastmod><priority>0.6</priority></url>
 </urlset>

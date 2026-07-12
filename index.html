@@ -45,10 +45,10 @@
   "name": "Blueroll",
   "operatingSystem": "iOS",
   "applicationCategory": "BusinessApplication",
-  "description": "Blueroll is a food safety management app for UK restaurants that offers digital HACCP checklists, AI recipe import, allergen tracking, and compliance reports at £14.99/month.",
+  "description": "Blueroll is a food safety management app for UK restaurants that offers digital HACCP checklists, AI recipe import, allergen tracking, and compliance reports at £24.99/site/month.",
   "url": "https://blueroll.app",
   "author": {"@type": "Organization", "name": "Blueroll", "url": "https://blueroll.app"},
-  "offers": {"@type": "Offer", "price": "14.99", "priceCurrency": "GBP", "description": "14-day free trial, then £14.99/month"},
+  "offers": {"@type": "Offer", "price": "24.99", "priceCurrency": "GBP", "description": "14-day free trial, then £24.99/site/month"},
   "aggregateRating": {"@type": "AggregateRating", "ratingValue": "5", "ratingCount": "1", "bestRating": "5"}
 }
 </script>
@@ -607,6 +607,8 @@ nav {
 }
 .comp-row:last-child { border-bottom: none; }
 .comp-name { font-size: 14px; color: var(--mid); }
+.comp-row a.comp-name { color: var(--green); font-weight: 700; text-decoration: none; }
+.comp-row a.comp-name:hover { text-decoration: underline; }
 .comp-price { font-size: 14px; color: var(--light); text-decoration: line-through; }
 .comp-you { font-size: 14px; font-weight: 700; color: var(--green); }
 
@@ -939,7 +941,7 @@ nav {
     <div class="hero-stat"><div class="hero-stat-num">2M+</div><div class="hero-stat-text">Restaurants required to keep HACCP records in the US, UK &amp; EU</div></div>
     <div class="hero-stat"><div class="hero-stat-num">HACCP</div><div class="hero-stat-text">Mandatory in every country we serve</div></div>
     <div class="hero-stat"><div class="hero-stat-num">89%</div><div class="hero-stat-text">Improve after switching to digital records</div></div>
-    <div class="hero-stat"><div class="hero-stat-num">$14.99</div><div class="hero-stat-text">/month — cheaper than any competitor</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">£24.99</div><div class="hero-stat-text">/site/month — unlimited team and multi-site ready</div></div>
   </div>
 </div>
 
@@ -966,8 +968,8 @@ nav {
     </div>
     <div class="f-card">
       <div class="f-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg></div>
-      <h3>Team Management</h3>
-      <p>Check-in/out, task tracking, role-based access. See who completed what.</p>
+      <h3>Team &amp; Multi-site Management</h3>
+      <p>Manage staff, roles, tasks and food safety records across every location from one account.</p>
     </div>
     <div class="f-card">
       <div class="f-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg></div>
@@ -1044,8 +1046,8 @@ nav {
   </div>
   <div class="pricing-layout">
     <div class="pricing-left">
-      <div class="price-amount">£14.99</div>
-      <div class="price-period">per month, unlimited team</div>
+      <div class="price-amount">£24.99</div>
+      <div class="price-period">per site / month, unlimited team</div>
       <div class="price-trial">14-day free trial — cancel anytime</div>
       <a href="https://app.blueroll.app/" class="price-cta">Start Free Trial</a>
     </div>
@@ -1054,6 +1056,7 @@ nav {
       <ul>
         <li>Unlimited checklists and SFBB templates</li>
         <li>Unlimited team members and roles</li>
+        <li>Multi-site dashboard and location management</li>
         <li>AI recipe import from photo, text, or PDF</li>
         <li>Allergen matrix with 14 EU allergens</li>
         <li>One-tap PDF compliance reports</li>
@@ -1062,10 +1065,10 @@ nav {
         <li>FSA rating lookup and integration</li>
       </ul>
       <div class="pr-label" style="margin-top:24px;">vs. competitors</div>
-      <div class="comp-row"><span class="comp-name">Trail</span><span class="comp-price">£38/site/mo</span></div>
+      <div class="comp-row"><a class="comp-name" href="trail-alternative.html">Trail comparison →</a><span class="comp-price">£38/site/mo</span></div>
       <div class="comp-row"><span class="comp-name">FoodDocs</span><span class="comp-price">£59/site/mo</span></div>
       <div class="comp-row"><span class="comp-name">Navitas</span><span class="comp-price">£129/mo</span></div>
-      <div class="comp-row"><span class="comp-name">Blueroll</span><span class="comp-you">£14.99/mo</span></div>
+      <div class="comp-row"><span class="comp-name">Blueroll</span><span class="comp-you">£24.99/site/mo</span></div>
     </div>
   </div>
 </section>
@@ -1248,7 +1251,7 @@ nav {
     <div class="faq-item">
       <button class="faq-q" aria-expanded="false"><span>How much does it cost?</span><svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg></button>
       <div class="faq-a">
-        <p>£14.99 per month — one plan, everything included, unlimited team members. Less than a single main course on most menus. 14-day free trial to set everything up before you pay. No contracts, cancel anytime.</p>
+        <p>£24.99 per site per month — one plan, everything included, unlimited team members and multi-site management. 14-day free trial to set everything up before you pay. No contracts, cancel anytime.</p>
       </div>
     </div>
 
@@ -1282,7 +1285,7 @@ nav {
       <div class="bx-foot-col"><h4>US Guides</h4>
         <a href="nyc-restaurant-grade.html">New York City</a><a href="la-restaurant-grade.html">Los Angeles</a><a href="chicago-restaurant-inspection.html">Chicago</a><a href="sf-restaurant-inspection.html">San Francisco</a><a href="seattle-restaurant-inspection.html">Seattle</a><a href="50k-restaurant-grades.html">50k US Grades</a><a href="recalls-us/">US Recalls Hub</a></div>
       <div class="bx-foot-col"><h4>Company</h4>
-        <a href="/#pricing">Pricing</a><a href="free-food-hygiene-rating-badge.html">Rating Badge</a><a href="restaurant-opening-checklist.html">Opening Checklist</a><a href="cut-by-wolfgang-puck/">Cut by Wolfgang Puck</a><a href="/privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a><a href="https://app.blueroll.app/">Start for Free</a></div>
+        <a href="/#pricing">Pricing</a><a href="trail-alternative.html">Trail Alternative</a><a href="free-food-hygiene-rating-badge.html">Rating Badge</a><a href="restaurant-opening-checklist.html">Opening Checklist</a><a href="cut-by-wolfgang-puck/">Cut by Wolfgang Puck</a><a href="/privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a><a href="https://app.blueroll.app/">Start for Free</a></div>
     </div>
     <div class="bx-foot-bot">
       <span>&copy; 2026 Blueroll. London &amp; New York.</span>
@@ -1304,7 +1307,7 @@ nav {
     {"@type":"Question","name":"A customer asks 'does this have nuts?' — can my staff check quickly?","acceptedAnswer":{"@type":"Answer","text":"That's exactly what the allergen matrix is for. Your front-of-house staff open the app, tap the dish, and see all 14 allergens at a glance. No guessing, no running to the kitchen. The matrix updates automatically whenever you change a recipe."}},
     {"@type":"Question","name":"Can my whole team use it, or just managers?","acceptedAnswer":{"@type":"Answer","text":"Everyone. Blueroll has five roles — Owner, Manager, Chef, Kitchen Staff, and Front of House. Each person sees the checklists and tasks relevant to them. Kitchen staff tick off opening checks, chefs manage recipes, managers sign off and review reports. Unlimited team members included."}},
     {"@type":"Question","name":"What happens when the EHO inspector turns up?","acceptedAnswer":{"@type":"Answer","text":"You tap 'Generate Report', pick a date range, and hand them a clean PDF — every checklist completion, temperature log, incident record, and delivery photo in one document. No digging through folders, no missing pages. Ready in seconds."}},
-    {"@type":"Question","name":"How much does it cost?","acceptedAnswer":{"@type":"Answer","text":"£14.99 per month — one plan, everything included, unlimited team members. Less than a single main course on most menus. 14-day free trial to set everything up before you pay. No contracts, cancel anytime."}},
+    {"@type":"Question","name":"How much does it cost?","acceptedAnswer":{"@type":"Answer","text":"£24.99 per site per month — one plan, everything included, unlimited team members and multi-site management. 14-day free trial to set everything up before you pay. No contracts, cancel anytime."}},
     {"@type":"Question","name":"Does it work on iPhone, Android, and tablets?","acceptedAnswer":{"@type":"Answer","text":"Available on iOS and Android, and in any browser — Chrome, Safari, Firefox — so your team can use it on tablets behind the pass or on a laptop in the office. Same account, same data, everywhere."}}
   ]
 }
