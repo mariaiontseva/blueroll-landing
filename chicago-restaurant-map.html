@@ -290,6 +290,7 @@ const CanvasOverlay = L.Layer.extend({
     canvas.height = size.y * (window.devicePixelRatio || 1);
     canvas.style.width = size.x + 'px';
     canvas.style.height = size.y + 'px';
+    canvas.style.pointerEvents = 'none';
     this._canvas = canvas;
     this._ctx = canvas.getContext('2d');
     map.getPanes().overlayPane.appendChild(canvas);
@@ -299,19 +300,14 @@ const CanvasOverlay = L.Layer.extend({
     };
     map.on('moveend zoomend resize', this._redraw, this);
     map.on('move zoom', this._throttledRedraw, this);
-    canvas.addEventListener('click', (e) => this._onTap(e));
-    canvas.addEventListener('touchend', (e) => {
-      if (e.changedTouches.length === 1) {
-        const t = e.changedTouches[0];
-        this._onTap({ clientX: t.clientX, clientY: t.clientY });
-      }
-    });
+    map.on('click', this._onMapClick, this);
     this._redraw();
   },
   onRemove(map) {
     L.DomUtil.remove(this._canvas);
     map.off('moveend zoomend resize', this._redraw, this);
     map.off('move zoom', this._throttledRedraw, this);
+    map.off('click', this._onMapClick, this);
   },
   _redraw() {
     const map = this._map;
@@ -369,13 +365,12 @@ const CanvasOverlay = L.Layer.extend({
       }
     }
   },
-  _onTap(e) {
+  _onMapClick(e) {
     const map = this._map;
-    const rect = this._canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const x = e.containerPoint.x;
+    const y = e.containerPoint.y;
     const zoom = map.getZoom();
-    const hitR = 'ontouchstart' in window ? 18 : (zoom >= 15 ? 10 : 8);
+    const hitR = 'ontouchstart' in window ? 22 : (zoom >= 15 ? 14 : 12);
 
     let best = null, bestDist = Infinity;
     for (const d of filtered) {
