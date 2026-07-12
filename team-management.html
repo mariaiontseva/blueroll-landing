@@ -16,13 +16,16 @@
 <meta property="og:url" content="https://blueroll.app/team-management.html">
 <meta property="og:title" content="Restaurant Team Management & Task Tracking">
 <meta property="og:description" content="Check-in and check-out, task tracking and role-based access — see who completed what and when, across your whole kitchen team.">
-<meta property="og:image" content="https://blueroll.app/og-image.png">
+<meta property="og:image" content="https://blueroll.app/team-management-og.webp">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Blueroll team management showing staff roles, site access and training records">
 <meta property="og:site_name" content="Blueroll">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Restaurant Team Management & Task Tracking">
-<meta name="twitter:image" content="https://blueroll.app/og-image.png">
+<meta name="twitter:description" content="Invite staff, assign site access and roles, and keep food-safety training visible across every location.">
+<meta name="twitter:image" content="https://blueroll.app/team-management-og.webp">
+<meta name="twitter:image:alt" content="Blueroll team management showing staff roles, site access and training records">
 
 <script type="application/ld+json">
 [
@@ -143,18 +146,16 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 48px
 .btn-ghost { color: var(--mid); padding: 14px 18px; font-weight: 600; font-size: 15px; text-decoration: none; }
 .btn-ghost:hover { color: var(--ink); }
 
-/* App showcase — the real product on web + phone */
-.showcase { max-width: 900px; margin: 44px auto 0; padding: 0 24px; }
-.showcase-stage { position: relative; background: linear-gradient(160deg, #eef0ea 0%, #e6f1ec 100%); border: 1px solid var(--border); border-radius: 24px; padding: 38px 40px 0; display: flex; justify-content: center; overflow: hidden; }
-.sc-browser { width: 100%; max-width: 540px; background: #fff; border-radius: 12px 12px 0 0; box-shadow: 0 40px 80px -30px rgba(17,24,39,0.4), 0 0 0 1px rgba(17,24,39,0.06); overflow: hidden; }
+/* App showcase — real team management product screen */
+.showcase { max-width: 1200px; margin: 44px auto 0; padding: 0 24px; }
+.showcase-stage { position: relative; background: linear-gradient(160deg, #eef0ea 0%, #e6f1ec 100%); border: 1px solid var(--border); border-radius: 24px; padding: 28px 28px 0; display: flex; justify-content: center; overflow: hidden; }
+.sc-browser { width: 100%; max-width: 1120px; background: #fff; border-radius: 12px 12px 0 0; box-shadow: 0 40px 80px -30px rgba(17,24,39,0.4), 0 0 0 1px rgba(17,24,39,0.06); overflow: hidden; }
 .sc-chrome { background: #F4F2ED; border-bottom: 1px solid rgba(17,24,39,0.06); padding: 9px 12px; display: flex; align-items: center; gap: 10px; }
 .sc-dots { display: flex; gap: 6px; }
 .sc-dots span { width: 10px; height: 10px; border-radius: 50%; }
 .sc-dots span:nth-child(1){background:#FF5F57}.sc-dots span:nth-child(2){background:#FEBC2E}.sc-dots span:nth-child(3){background:#28C840}
 .sc-url { flex: 1; height: 22px; background: #fff; border: 1px solid rgba(17,24,39,0.05); border-radius: 6px; display: flex; align-items: center; padding: 0 10px; font-size: 11px; color: #7A7468; font-weight: 600; }
 .sc-browser > img { display: block; width: 100%; height: auto; }
-.sc-phone { position: absolute; right: 22px; bottom: 0; width: 156px; background: var(--ink); border-radius: 26px; padding: 7px; box-shadow: 0 30px 60px -18px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,0,0,0.12); }
-.sc-phone img { display: block; width: 100%; border-radius: 20px; }
 .showcase-cap { text-align: center; font-size: 13px; color: var(--light); margin-top: 14px; }
 
 .section { max-width: 920px; margin: 0 auto; padding: 24px; }
@@ -211,7 +212,6 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 48px
   .benefit-grid { grid-template-columns: 1fr; }
   .prose h2 { font-size: 23px; }
   .showcase-stage { padding: 24px 18px 0; }
-  .sc-phone { display: none; }
 }
 </style>
 </head>
@@ -303,11 +303,10 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 48px
   <div class="showcase-stage">
     <div class="sc-browser">
       <div class="sc-chrome"><div class="sc-dots"><span></span><span></span><span></span></div><div class="sc-url">app.blueroll.app</div></div>
-      <img src="desktop_preview.png" width="2136" height="1250" loading="eager" fetchpriority="high" decoding="async" alt="Blueroll restaurant compliance dashboard on the web">
+      <img src="team-management-dashboard.webp" width="2000" height="1079" loading="eager" fetchpriority="high" decoding="async" alt="Blueroll restaurant team management showing staff roles, assigned sites and food-safety training records">
     </div>
-    <div class="sc-phone"><img src="app_screen.png" width="1320" height="2868" loading="lazy" decoding="async" alt="Blueroll restaurant compliance app on iPhone"></div>
   </div>
-  <p class="showcase-cap">The real thing — manage your team on web and iPhone, unlimited members.</p>
+  <p class="showcase-cap">The real Team workspace — invite staff, assign roles and sites, and keep food-safety training visible across every location.</p>
 </section>
 
 <!-- ===== BENEFITS ===== -->
