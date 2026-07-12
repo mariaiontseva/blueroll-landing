@@ -16,13 +16,16 @@
 <meta property="og:url" content="https://blueroll.app/ai-recipe-import.html">
 <meta property="og:title" content="AI Recipe Import — Digitise Any Recipe in Seconds">
 <meta property="og:description" content="Paste, type or photograph any recipe and Blueroll's AI extracts ingredients, allergens and method, then builds your allergen matrix automatically.">
-<meta property="og:image" content="https://blueroll.app/og-image.png">
+<meta property="og:image" content="https://blueroll.app/ai-recipe-import-og.webp">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Blueroll AI extracting ingredients and allergens from a watermelon feta salad photo">
 <meta property="og:site_name" content="Blueroll">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AI Recipe Import — Digitise Any Recipe in Seconds">
-<meta name="twitter:image" content="https://blueroll.app/og-image.png">
+<meta name="twitter:description" content="Turn a recipe photo into editable ingredients, allergens and dietary labels in seconds.">
+<meta name="twitter:image" content="https://blueroll.app/ai-recipe-import-og.webp">
+<meta name="twitter:image:alt" content="Blueroll AI extracting ingredients and allergens from a watermelon feta salad photo">
 
 <script type="application/ld+json">
 [
@@ -143,18 +146,26 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 48px
 .btn-ghost { color: var(--mid); padding: 14px 18px; font-weight: 600; font-size: 15px; text-decoration: none; }
 .btn-ghost:hover { color: var(--ink); }
 
-/* App showcase — the real product on web + phone */
-.showcase { max-width: 900px; margin: 44px auto 0; padding: 0 24px; }
-.showcase-stage { position: relative; background: linear-gradient(160deg, #eef0ea 0%, #e6f1ec 100%); border: 1px solid var(--border); border-radius: 24px; padding: 38px 40px 0; display: flex; justify-content: center; overflow: hidden; }
-.sc-browser { width: 100%; max-width: 540px; background: #fff; border-radius: 12px 12px 0 0; box-shadow: 0 40px 80px -30px rgba(17,24,39,0.4), 0 0 0 1px rgba(17,24,39,0.06); overflow: hidden; }
-.sc-chrome { background: #F4F2ED; border-bottom: 1px solid rgba(17,24,39,0.06); padding: 9px 12px; display: flex; align-items: center; gap: 10px; }
-.sc-dots { display: flex; gap: 6px; }
-.sc-dots span { width: 10px; height: 10px; border-radius: 50%; }
-.sc-dots span:nth-child(1){background:#FF5F57}.sc-dots span:nth-child(2){background:#FEBC2E}.sc-dots span:nth-child(3){background:#28C840}
-.sc-url { flex: 1; height: 22px; background: #fff; border: 1px solid rgba(17,24,39,0.05); border-radius: 6px; display: flex; align-items: center; padding: 0 10px; font-size: 11px; color: #7A7468; font-weight: 600; }
-.sc-browser > img { display: block; width: 100%; height: auto; }
-.sc-phone { position: absolute; right: 22px; bottom: 0; width: 156px; background: var(--ink); border-radius: 26px; padding: 7px; box-shadow: 0 30px 60px -18px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,0,0,0.12); }
-.sc-phone img { display: block; width: 100%; border-radius: 20px; }
+/* AI extraction demo — source photo, structured result, real review screen */
+.showcase { max-width: 1120px; margin: 52px auto 0; padding: 0 24px; }
+.ai-demo-head { max-width: 680px; margin: 0 auto 24px; text-align: center; }
+.ai-demo-head h2 { font-size: 30px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; }
+.ai-demo-head p { color: var(--mid); font-size: 16px; line-height: 1.55; }
+.ai-demo-stage { background: linear-gradient(160deg, #eef0ea 0%, #e6f1ec 100%); border: 1px solid var(--border); border-radius: 24px; padding: 24px; }
+.ai-demo-flow { display: grid; grid-template-columns: minmax(0, 1fr) 52px minmax(0, 1fr); gap: 18px; align-items: stretch; }
+.ai-demo-card { display: flex; flex-direction: column; background: #fff; border: 1px solid rgba(17,24,39,0.08); border-radius: 17px; overflow: hidden; box-shadow: 0 18px 45px -30px rgba(17,24,39,0.45); }
+.ai-step { display: flex; align-items: center; gap: 9px; padding: 14px 16px; color: var(--mid); font-size: 13px; font-weight: 700; }
+.ai-step span { display: inline-flex; width: 24px; height: 24px; align-items: center; justify-content: center; border-radius: 50%; background: var(--green); color: #fff; font-size: 12px; }
+.ai-source-image, .ai-processing-image { display: block; width: 100%; height: clamp(280px, 31vw, 360px); object-fit: cover; }
+.ai-processing-image { object-position: center; }
+.ai-card-meta { display: flex; justify-content: space-between; gap: 12px; margin-top: auto; padding: 13px 16px; font-size: 12px; color: var(--light); }
+.ai-card-meta strong { color: var(--ink); font-weight: 700; }
+.ai-flow-arrow { width: 44px; height: 44px; margin: auto; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--green); color: #fff; box-shadow: 0 10px 25px -12px rgba(4,120,87,0.8); }
+.ai-flow-arrow svg { width: 22px; height: 22px; }
+.ai-review-shot { display: block; margin-top: 20px; background: #fff; border: 1px solid rgba(17,24,39,0.08); border-radius: 17px; overflow: hidden; color: var(--ink); text-decoration: none; box-shadow: 0 18px 45px -30px rgba(17,24,39,0.45); }
+.ai-review-shot > span { display: flex; justify-content: space-between; gap: 12px; padding: 13px 16px; font-size: 13px; font-weight: 700; }
+.ai-review-shot > span em { color: var(--green); font-style: normal; font-weight: 600; }
+.ai-review-shot img { display: block; width: 100%; height: auto; border-top: 1px solid var(--border); }
 .showcase-cap { text-align: center; font-size: 13px; color: var(--light); margin-top: 14px; }
 
 .section { max-width: 920px; margin: 0 auto; padding: 24px; }
@@ -210,9 +221,13 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 48px
   .hero h1 { font-size: 34px; }
   .benefit-grid { grid-template-columns: 1fr; }
   .prose h2 { font-size: 23px; }
-  .showcase-stage { padding: 24px 18px 0; }
-  .sc-phone { display: none; }
+  .ai-demo-head h2 { font-size: 25px; }
+  .ai-demo-stage { padding: 17px; }
+  .ai-demo-flow { grid-template-columns: 1fr; }
+  .ai-flow-arrow { transform: rotate(90deg); }
+  .ai-source-image, .ai-processing-image { height: clamp(240px, 70vw, 360px); }
 }
+@media (max-width: 520px) { .ai-review-shot > span { align-items: flex-start; flex-direction: column; } }
 </style>
 </head>
 <body>
@@ -299,15 +314,36 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 48px
 </section>
 
 <!-- ===== APP SHOWCASE ===== -->
-<section class="showcase">
-  <div class="showcase-stage">
-    <div class="sc-browser">
-      <div class="sc-chrome"><div class="sc-dots"><span></span><span></span><span></span></div><div class="sc-url">app.blueroll.app</div></div>
-      <img src="desktop_preview.png" alt="HACCP checklists in the Blueroll web app">
-    </div>
-    <div class="sc-phone"><img src="app_screen.png" alt="Blueroll checklists on iPhone"></div>
+<section class="showcase" aria-labelledby="ai-demo-title">
+  <div class="ai-demo-head">
+    <h2 id="ai-demo-title">From food photo to structured recipe</h2>
+    <p>Blueroll reads the dish, structures the ingredients and flags what your team should verify before saving.</p>
   </div>
-  <p class="showcase-cap">The real thing — import recipes on web or iPhone, allergens detected automatically.</p>
+  <div class="ai-demo-stage">
+    <div class="ai-demo-flow">
+      <article class="ai-demo-card">
+        <div class="ai-step"><span>1</span> Upload a food photo</div>
+        <img class="ai-source-image" src="ai-recipe-photo-input.webp" width="900" height="900" loading="eager" fetchpriority="high" decoding="async" alt="Watermelon blueberry feta salad photo uploaded for AI recipe extraction">
+        <div class="ai-card-meta"><strong>Watermelon Feta Salad</strong><span>Photo input</span></div>
+      </article>
+
+      <div class="ai-flow-arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-5-5 5 5-5 5"/></svg>
+      </div>
+
+      <article class="ai-demo-card">
+        <div class="ai-step"><span>2</span> AI reads and checks the recipe</div>
+        <img class="ai-processing-image" src="ai-recipe-processing.webp" width="1136" height="878" loading="eager" decoding="async" alt="Blueroll AI reading a recipe, matching the 14 UK allergens and suggesting HACCP controls">
+        <div class="ai-card-meta"><strong>Automatic processing</strong><span>Ingredients · Allergens · HACCP</span></div>
+      </article>
+    </div>
+
+    <a class="ai-review-shot" href="ai-recipe-extraction-review.webp" target="_blank" rel="noopener" aria-label="Open the full Blueroll AI extraction review screen">
+      <span>3. Review and approve the extraction <em>Open full size ↗</em></span>
+      <img src="ai-recipe-extraction-review.webp" width="1800" height="983" loading="lazy" decoding="async" alt="Blueroll AI review screen after extracting ingredients and the milk allergen from a watermelon blueberry feta salad photo">
+    </a>
+  </div>
+  <p class="showcase-cap">Photo in. Editable recipe, allergens and dietary labels out — with human review before saving.</p>
 </section>
 
 <!-- ===== BENEFITS ===== -->
