@@ -1494,14 +1494,15 @@ window.addEventListener('DOMContentLoaded', checkGmailStatus);
 const LEGACY_PLATFORM_DOMAINS = new Set([
   'foodhub.com', 'touch2success.com', 'eateasy.co.uk', 'just-eat.co.uk',
   'deliveroo.co.uk', 'ubereats.com', 'tripadvisor.com', 'tripadvisor.co.uk',
-  'yell.com', 'orderyoyo.com', 'epospeople.co.uk'
+  'yell.com', 'orderyoyo.com', 'epospeople.co.uk', 'facebook.com',
+  'instagram.com', 'sumup.com'
 ]);
 
 function legacyEmailIssue(email) {
   const normalized = String(email || '').trim().toLowerCase();
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalized)) return 'Malformed · review';
+  if (!/^[a-z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)*\.[a-z]{2,63}$/i.test(normalized)) return 'Malformed · review';
   const domain = normalized.split('@').pop().replace(/[^a-z0-9.-].*$/, '');
-  if (LEGACY_PLATFORM_DOMAINS.has(domain)) return 'Platform · review';
+  if ([...LEGACY_PLATFORM_DOMAINS].some(blocked => domain === blocked || domain.endsWith(`.${blocked}`))) return 'Platform · review';
   return '';
 }
 
