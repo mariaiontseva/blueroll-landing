@@ -333,7 +333,7 @@ tr:hover { background: rgba(16,185,129,0.03); }
 .ems-rating-label input:checked + span { color: var(--accent); }
 
 /* Filter row layout */
-.filter-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.filter-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
 .filter-row-2 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px; }
 
 /* Responsive */
@@ -341,6 +341,7 @@ tr:hover { background: rgba(16,185,129,0.03); }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .detail-grid { grid-template-columns: 1fr; }
   .enrich-cards { grid-template-columns: 1fr; }
+  .filter-row, .filter-row-2 { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -649,18 +650,24 @@ tr:hover { background: rgba(16,185,129,0.03); }
     <div style="margin-bottom:10px;">
       <label class="detail-label">Rating</label>
       <div class="ems-ratings" id="enrichRatings">
-        <label class="ems-rating-label"><input type="checkbox" value="0" checked><span>0</span></label>
-        <label class="ems-rating-label"><input type="checkbox" value="1" checked><span>1</span></label>
+        <label class="ems-rating-label"><input type="checkbox" value="0"><span>0</span></label>
+        <label class="ems-rating-label"><input type="checkbox" value="1"><span>1</span></label>
         <label class="ems-rating-label"><input type="checkbox" value="2" checked><span>2</span></label>
-        <label class="ems-rating-label"><input type="checkbox" value="3"><span>3</span></label>
+        <label class="ems-rating-label"><input type="checkbox" value="3" checked><span>3</span></label>
         <label class="ems-rating-label"><input type="checkbox" value="4"><span>4</span></label>
         <label class="ems-rating-label"><input type="checkbox" value="5"><span>5</span></label>
         <label class="ems-rating-label"><input type="checkbox" value="null"><span>No rating</span></label>
       </div>
     </div>
 
-    <!-- Row 2: Authority, Type, Location -->
+    <!-- Row 2: Region, Authority, Type, Location -->
     <div class="filter-row" style="margin-bottom:10px;">
+      <div>
+        <label class="detail-label">FSA Region</label>
+        <select class="filter-select" id="enrichRegion" style="width:100%;margin-top:4px;">
+          <option value="">All regions</option>
+        </select>
+      </div>
       <div>
         <label class="detail-label">Authority</label>
         <div class="ems" id="emsAuthority">
@@ -725,47 +732,67 @@ tr:hover { background: rgba(16,185,129,0.03); }
 
   <!-- Pipeline cards -->
   <div class="enrich-cards">
-    <!-- Google Places -->
+    <!-- FSA source -->
     <div class="enrich-card">
-      <h3>1. Google Places</h3>
-      <div class="desc">Finds phone, website, Google rating &amp; reviews via Google Places API</div>
-      <div class="stat-row"><span>Matching targets</span><span class="val" id="googleTarget">—</span></div>
-      <div class="stat-row"><span style="font-size:10px;color:var(--muted);">Without website or phone</span></div>
-      <div style="margin-top:10px;">
-        <label class="detail-label">API Key</label>
-        <div style="display:flex;gap:4px;margin-top:4px;">
-          <input class="search-input" id="enrichApiKey" type="password" placeholder="AIza..." style="flex:1;padding:7px 10px;font-size:12px;">
-          <button class="btn-sm" onclick="document.getElementById('enrichApiKey').type = document.getElementById('enrichApiKey').type === 'password' ? 'text' : 'password'">Show</button>
-        </div>
-      </div>
-      <div style="display:flex;gap:8px;align-items:center;margin-top:10px;">
-        <select class="filter-select" id="googleLimit">
-          <option value="50">50 records</option>
-          <option value="100" selected>100 records</option>
-          <option value="250">250 records</option>
-          <option value="500">500 records</option>
-        </select>
-        <button class="btn btn-accent" onclick="runEnrich('google')" id="btnGoogle">Run Google</button>
-      </div>
-      <div class="enrich-progress" id="progressGoogle"></div>
+      <h3>1. FSA API</h3>
+      <div class="desc">Daily UK restaurant register. Region, authority and rating filters define the lead segment before paid enrichment starts.</div>
+      <div class="stat-row"><span>Selected FSA records</span><span class="val" id="fsaTarget">—</span></div>
+      <div class="stat-row"><span style="font-size:10px;color:var(--muted);">Default segment: ratings 2–3, independent hospitality businesses</span></div>
+      <div style="margin-top:12px;font-size:11px;color:var(--muted);">FSA data is refreshed by the existing daily sync. No API key is required.</div>
     </div>
 
-    <!-- Website scraping (email + socials) -->
+    <!-- SearchGraph website discovery -->
     <div class="enrich-card">
-      <h3>2. Website Scraping</h3>
-      <div class="desc">One visit per website — extracts email (homepage + /contact), Instagram, Facebook, TikTok. Only scrapes fields not yet filled.</div>
-      <div class="stat-row"><span>Matching targets</span><span class="val" id="scrapeTarget">—</span></div>
-      <div class="stat-row"><span style="font-size:10px;color:var(--muted);">Have website, missing email or socials</span></div>
+      <h3>2. SearchGraph</h3>
+      <div class="desc">Finds the official first-party website from restaurant name, full FSA address and postcode. Directories and delivery platforms are rejected.</div>
+      <div class="stat-row"><span>Need website</span><span class="val" id="searchgraphTarget">—</span></div>
+      <div class="stat-row"><span style="font-size:10px;color:var(--muted);">Accepted only at confidence ≥ 0.65 with a matching search-result domain</span></div>
+      <div style="display:flex;gap:8px;align-items:center;margin-top:12px;">
+        <select class="filter-select" id="searchgraphLimit">
+          <option value="5">5 records</option>
+          <option value="10" selected>10 records</option>
+          <option value="25">25 records</option>
+          <option value="50">50 records</option>
+        </select>
+        <button class="btn btn-accent" onclick="runEnrich('searchgraph')" id="btnSearchgraph">Run SearchGraph</button>
+      </div>
+      <div class="enrich-progress" id="progressSearchgraph"></div>
+    </div>
+
+    <!-- Free public-web email extraction -->
+    <div class="enrich-card">
+      <h3>3. Free Email Extractor</h3>
+      <div class="desc">Reads the official site's HTML and contact pages, decodes hidden mailto links, Cloudflare and JavaScript addresses, then falls back to Wayback.</div>
+      <div class="stat-row"><span>Sites missing contact data</span><span class="val" id="scrapeTarget">—</span></div>
+      <div class="stat-row"><span style="font-size:10px;color:var(--muted);">No paid API · MX checked · platform emails rejected · confidence ≥ 0.78</span></div>
       <div style="display:flex;gap:8px;align-items:center;margin-top:12px;">
         <select class="filter-select" id="scrapeLimit">
+          <option value="10">10 records</option>
+          <option value="25" selected>25 records</option>
           <option value="50">50 records</option>
-          <option value="100" selected>100 records</option>
-          <option value="250">250 records</option>
-          <option value="500">500 records</option>
+          <option value="100">100 records</option>
         </select>
-        <button class="btn btn-accent" onclick="runEnrich('scrape')" id="btnScrape">Run Scrape</button>
+        <button class="btn btn-accent" onclick="runEnrich('scrape')" id="btnScrape">Run Free Email</button>
       </div>
       <div class="enrich-progress" id="progressScrape"></div>
+    </div>
+
+    <!-- SmartScraperGraph structured extraction -->
+    <div class="enrich-card">
+      <h3>4. SmartScraperGraph</h3>
+      <div class="desc">Extracts a typed profile from the official site: email, owner, cuisine, allergen menu, delivery and chain/independent status.</div>
+      <div class="stat-row"><span>Need structured profile</span><span class="val" id="smartgraphTarget">—</span></div>
+      <div class="stat-row"><span style="font-size:10px;color:var(--muted);">Uses a strict JSON schema; unsupported values stay null instead of being guessed</span></div>
+      <div style="display:flex;gap:8px;align-items:center;margin-top:12px;">
+        <select class="filter-select" id="smartgraphLimit">
+          <option value="5">5 records</option>
+          <option value="10" selected>10 records</option>
+          <option value="25">25 records</option>
+          <option value="50">50 records</option>
+        </select>
+        <button class="btn btn-accent" onclick="runEnrich('smartgraph')" id="btnSmartgraph">Run SmartGraph</button>
+      </div>
+      <div class="enrich-progress" id="progressSmartgraph"></div>
     </div>
   </div>
 </div>
@@ -1441,6 +1468,25 @@ function renderDetail(data) {
     outreachHTML += '</div>';
   }
 
+  let enrichmentAuditHTML = '';
+  if (data.enrichment_runs && data.enrichment_runs.length > 0) {
+    enrichmentAuditHTML = '<div class="detail-section"><h3>Enrichment Audit</h3>';
+    data.enrichment_runs.forEach(run => {
+      const d = new Date(run.created_at).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+      const confidence = run.confidence == null ? '' : ` · confidence ${Number(run.confidence).toFixed(2)}`;
+      const error = run.error ? `<div style="color:var(--red);font-size:10px;margin-top:2px;">${esc(run.error)}</div>` : '';
+      const candidate = run.status === 'candidate' && run.output_payload && run.output_payload.best_candidate;
+      const candidateInfo = candidate && candidate.email
+        ? `<div style="color:var(--orange);font-size:10px;margin-top:3px;">Review candidate: ${esc(candidate.email)}</div>`
+        : '';
+      enrichmentAuditHTML += `<div style="font-size:11px;margin-bottom:7px;padding:7px 10px;background:var(--surface2);border-radius:6px;">
+        <span style="font-family:var(--mono);color:var(--muted);">${d}</span> · <strong>${esc(run.stage)}</strong> · ${esc(run.status)}${confidence}${error}
+        ${candidateInfo}
+      </div>`;
+    });
+    enrichmentAuditHTML += '</div>';
+  }
+
   const fhrsId = b.fhrs_id;
 
   document.getElementById('modalContent').innerHTML = `
@@ -1474,6 +1520,7 @@ function renderDetail(data) {
         <div class="detail-item">
           <div class="detail-label">Email</div>
           ${editableField(fhrsId, 'email', b.email)}
+          ${b.email_confidence != null ? `<div style="font-size:10px;color:var(--muted);margin-top:3px;">${esc(b.email_source || 'public web')} · confidence ${Number(b.email_confidence).toFixed(2)}${b.email_mx_valid === true ? ' · MX ✓' : ''}${b.email_is_archived ? ' · archived' : ''}${b.email_source_url ? ` · <a href="${esc(b.email_source_url)}" target="_blank">source</a>` : ''}</div>` : ''}
         </div>
         <div class="detail-item">
           <div class="detail-label">Phone</div>
@@ -1489,11 +1536,42 @@ function renderDetail(data) {
         </div>
         <div class="detail-item">
           <div class="detail-label">Website</div>
-          <div class="detail-value">${b.website ? '<a href="' + esc(b.website) + '" target="_blank">' + esc(b.website.substring(0, 50)) + '</a>' : '—'}</div>
+          <div class="detail-value">${b.website ? '<a href="' + esc(b.website) + '" target="_blank">' + esc(b.website.substring(0, 50)) + '</a>' : '—'}
+            ${b.website_confidence != null ? '<div style="font-size:10px;color:var(--muted);margin-top:3px;">' + esc(b.website_source || 'unknown source') + ' · confidence ' + Number(b.website_confidence).toFixed(2) + '</div>' : ''}</div>
         </div>
         <div class="detail-item">
           <div class="detail-label">TikTok</div>
           ${editableField(fhrsId, 'tiktok', b.tiktok)}
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <h3>Structured Restaurant Profile</h3>
+      <div class="detail-grid">
+        <div class="detail-item">
+          <div class="detail-label">Owner / Operator</div>
+          ${editableField(fhrsId, 'owner_name', b.owner_name)}
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Cuisine</div>
+          ${editableField(fhrsId, 'cuisine', b.cuisine)}
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Allergen Menu</div>
+          <div class="detail-value">${b.has_allergen_menu == null ? 'Unknown' : (b.has_allergen_menu ? 'Yes — explicit evidence' : 'No — explicitly unavailable')}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Delivery</div>
+          <div class="detail-value">${b.has_delivery == null ? 'Unknown' : (b.has_delivery ? 'Yes' : 'No')}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Business Scope</div>
+          <div class="detail-value">${esc(b.business_scope || 'Unknown')}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Profile Source</div>
+          <div class="detail-value">${esc(b.enrichment_source || '—')}</div>
         </div>
       </div>
     </div>
@@ -1507,6 +1585,7 @@ function renderDetail(data) {
     </div>
 
     ${outreachHTML}
+    ${enrichmentAuditHTML}
   `;
 }
 
@@ -1610,18 +1689,13 @@ document.addEventListener('click', e => {
   }
 });
 
-// Load/save API key from localStorage
-function loadSavedApiKey() {
-  const saved = localStorage.getItem('blueroll_google_api_key');
-  if (saved) document.getElementById('enrichApiKey').value = saved;
-}
-
 function getEnrichFilters() {
   const ratings = [...document.querySelectorAll('#enrichRatings input:checked')].map(c => c.value).join(',');
   const authorities = getEMSValues('emsAuthority').join(',');
   const types = getEMSValues('emsType').join(',');
   return {
     ratings,
+    regions: document.getElementById('enrichRegion').value,
     authorities,
     types,
     location: document.getElementById('enrichLocation').value.trim(),
@@ -1631,15 +1705,25 @@ function getEnrichFilters() {
   };
 }
 
+const DEFAULT_ENRICH_TYPES = [
+  'Restaurant/Cafe/Canteen',
+  'Takeaway/sandwich shop',
+  'Pub/bar/nightclub'
+];
+
 function clearEnrichFilters() {
-  // Ratings: check 0,1,2
+  // Ratings: focus the compliance segment with a recorded 2–3 rating
   document.querySelectorAll('#enrichRatings input').forEach(c => {
-    c.checked = ['0','1','2'].includes(c.value);
+    c.checked = ['2','3'].includes(c.value);
   });
-  // Authority & Type: uncheck all
+  // Authority: all. Business type: Blueroll hospitality ICP.
   emsNone('emsAuthority');
-  emsNone('emsType');
+  document.querySelectorAll('#emsType .ems-options input').forEach(c => {
+    c.checked = DEFAULT_ENRICH_TYPES.includes(c.value);
+  });
+  updateEMSLabel('emsType');
   // Location
+  document.getElementById('enrichRegion').value = '';
   document.getElementById('enrichLocation').value = '';
   // Dates & skip
   document.getElementById('enrichRatedAfter').value = '';
@@ -1647,11 +1731,25 @@ function clearEnrichFilters() {
   document.getElementById('enrichSkipDays').value = '60';
   // Clear preview
   document.getElementById('previewResult').textContent = '';
-  document.getElementById('googleTarget').textContent = '—';
+  document.getElementById('fsaTarget').textContent = '—';
+  document.getElementById('searchgraphTarget').textContent = '—';
   document.getElementById('scrapeTarget').textContent = '—';
+  document.getElementById('smartgraphTarget').textContent = '—';
 }
 
 async function loadEnrichDropdowns() {
+  // FSA regions
+  try {
+    const r = await fetch(`${CRM_API}/api/regions`);
+    const list = await r.json();
+    const select = document.getElementById('enrichRegion');
+    list.forEach(region => {
+      const option = document.createElement('option');
+      option.value = region.name;
+      option.textContent = `${region.name} (${region.count.toLocaleString()})`;
+      select.appendChild(option);
+    });
+  } catch (e) {}
   // Authorities
   try {
     const r = await fetch(`${CRM_API}/api/authorities`);
@@ -1670,9 +1768,11 @@ async function loadEnrichDropdowns() {
     const container = document.querySelector('#emsType .ems-options');
     list.forEach(t => {
       const label = document.createElement('label');
-      label.innerHTML = `<input type="checkbox" value="${esc(t.name)}" onchange="updateEMSLabel('emsType')"><span>${esc(t.name)}</span><span class="cnt">${t.count.toLocaleString()}</span>`;
+      const checked = DEFAULT_ENRICH_TYPES.includes(t.name) ? ' checked' : '';
+      label.innerHTML = `<input type="checkbox" value="${esc(t.name)}" onchange="updateEMSLabel('emsType')"${checked}><span>${esc(t.name)}</span><span class="cnt">${t.count.toLocaleString()}</span>`;
       container.appendChild(label);
     });
+    updateEMSLabel('emsType');
   } catch (e) {}
 }
 
@@ -1770,12 +1870,17 @@ function renderFeedRow(e) {
     if (values.phone) parts.push(`<span class="lf-val"><span class="lf-val-label">TEL</span> <a href="tel:${esc(values.phone)}" onclick="event.stopPropagation()">${esc(values.phone)}</a></span>`);
     if (values.website) {
       const shortUrl = values.website.replace(/^https?:\/\/(www\.)?/,'').split('/')[0];
-      parts.push(`<span class="lf-val"><span class="lf-val-label">WEB</span> <a ="${esc(values.website)}" target="_blank" onclick="event.stopPropagation()">${esc(shortUrl)}</a></span>`);
+      parts.push(`<span class="lf-val"><span class="lf-val-label">WEB</span> <a href="${esc(values.website)}" target="_blank" onclick="event.stopPropagation()">${esc(shortUrl)}</a></span>`);
     }
     if (values.email) parts.push(`<span class="lf-val"><span class="lf-val-label">MAIL</span> <a href="mailto:${esc(values.email)}" onclick="event.stopPropagation()">${esc(values.email)}</a></span>`);
     if (values.instagram) parts.push(`<span class="lf-val"><span class="lf-val-label">IG</span> <a href="https://instagram.com/${esc(values.instagram)}" target="_blank" onclick="event.stopPropagation()">@${esc(values.instagram)}</a></span>`);
     if (values.facebook) parts.push(`<span class="lf-val"><span class="lf-val-label">FB</span> <a href="https://facebook.com/${esc(values.facebook)}" target="_blank" onclick="event.stopPropagation()">${esc(values.facebook)}</a></span>`);
     if (values.google_rating) parts.push(`<span class="lf-val"><span class="lf-val-label">G★</span> ${values.google_rating}${values.google_reviews ? ` (${values.google_reviews} reviews)` : ''}</span>`);
+    if (values.owner_name) parts.push(`<span class="lf-val"><span class="lf-val-label">OWNER</span> ${esc(values.owner_name)}</span>`);
+    if (values.cuisine) parts.push(`<span class="lf-val"><span class="lf-val-label">CUISINE</span> ${esc(values.cuisine)}</span>`);
+    if (values.business_scope) parts.push(`<span class="lf-val"><span class="lf-val-label">SCOPE</span> ${esc(values.business_scope)}</span>`);
+    if (values.has_allergen_menu !== undefined) parts.push(`<span class="lf-val"><span class="lf-val-label">ALLERGEN</span> ${values.has_allergen_menu ? 'menu found' : 'explicitly unavailable'}</span>`);
+    if (values.has_delivery !== undefined) parts.push(`<span class="lf-val"><span class="lf-val-label">DELIVERY</span> ${values.has_delivery ? 'yes' : 'no'}</span>`);
     detailHtml = parts.join('');
   } else {
     detailHtml = '<span class="lf-empty-text">nothing found</span>';
@@ -1874,7 +1979,6 @@ function stopLiveFeed() {
 }
 
 async function loadEnrichStats() {
-  loadSavedApiKey();
   loadAutoEnrichStatus();
   if (!enrichDropdownsLoaded) {
     enrichDropdownsLoaded = true;
@@ -1905,6 +2009,11 @@ async function loadEnrichStats() {
         <div class="progress-bar"><div class="progress-fill" style="width:${pct(s.with_email)}%;background:var(--blue);"></div></div>
       </div>
       <div class="stat-card">
+        <div class="num">${(s.free_email_enriched || 0).toLocaleString()}</div>
+        <div class="label">Free Email Finds</div>
+        <div class="pct">${(s.archived_email_enriched || 0).toLocaleString()} from archive</div>
+      </div>
+      <div class="stat-card">
         <div class="num">${s.with_phone.toLocaleString()}</div>
         <div class="label">With Phone</div>
         <div class="pct">${pct(s.with_phone)}%</div>
@@ -1929,6 +2038,22 @@ async function loadEnrichStats() {
         <div class="progress-bar"><div class="progress-fill" style="width:${pct(s.with_facebook)}%;background:var(--orange);"></div></div>
       </div>
       <div class="stat-card">
+        <div class="num">${(s.smartgraph_profiled || 0).toLocaleString()}</div>
+        <div class="label">Structured Profiles</div>
+        <div class="pct">${pct(s.smartgraph_profiled || 0)}%</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct(s.smartgraph_profiled || 0)}%;background:var(--accent);"></div></div>
+      </div>
+      <div class="stat-card">
+        <div class="num">${(s.with_allergen_menu || 0).toLocaleString()}</div>
+        <div class="label">Allergen Menu</div>
+        <div class="pct">explicit evidence</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">${(s.with_delivery || 0).toLocaleString()}</div>
+        <div class="label">Offers Delivery</div>
+        <div class="pct">explicit evidence</div>
+      </div>
+      <div class="stat-card">
         <div class="num" style="color:var(--red);">${s.leads_needing_enrichment.toLocaleString()}</div>
         <div class="label">Leads Need Enrichment</div>
         <div class="pct">non-chain, rating 0-4, no data</div>
@@ -1950,9 +2075,11 @@ async function previewTargets() {
       body: JSON.stringify(filters)
     });
     const counts = await r.json();
-    document.getElementById('googleTarget').textContent = counts.google.toLocaleString();
+    document.getElementById('fsaTarget').textContent = counts.fsa.toLocaleString();
+    document.getElementById('searchgraphTarget').textContent = counts.searchgraph.toLocaleString();
     document.getElementById('scrapeTarget').textContent = counts.scrape.toLocaleString();
-    el.innerHTML = `Google: <span style="color:var(--accent);">${counts.google.toLocaleString()}</span> &middot; Scrape: <span style="color:var(--blue);">${counts.scrape.toLocaleString()}</span>`;
+    document.getElementById('smartgraphTarget').textContent = counts.smartgraph.toLocaleString();
+    el.innerHTML = `FSA segment: <span style="color:var(--text);">${counts.fsa.toLocaleString()}</span> &middot; SearchGraph: <span style="color:var(--accent);">${counts.searchgraph.toLocaleString()}</span> &middot; Free email: <span style="color:var(--orange);">${counts.scrape.toLocaleString()}</span> &middot; SmartGraph: <span style="color:var(--blue);">${counts.smartgraph.toLocaleString()}</span>`;
   } catch (err) {
     el.innerHTML = `<span style="color:var(--red);">Error: ${err.message}</span>`;
   }
@@ -1961,22 +2088,16 @@ async function previewTargets() {
 let enrichPollTimer = null;
 
 async function runEnrich(stage) {
-  const limitEl = document.getElementById(stage + 'Limit') || document.getElementById('googleLimit');
+  const config = {
+    searchgraph: { button: 'Searchgraph', label: 'SearchGraph' },
+    scrape: { button: 'Scrape', label: 'Free Email' },
+    smartgraph: { button: 'Smartgraph', label: 'SmartGraph' }
+  }[stage];
+  if (!config) return;
+  const limitEl = document.getElementById(stage + 'Limit');
   const limit = parseInt(limitEl.value);
   const filters = getEnrichFilters();
-  const api_key = document.getElementById('enrichApiKey').value.trim();
-  const btnName = stage === 'google' ? 'Google' : 'Scrape';
-  const btn = document.getElementById('btn' + btnName);
-
-  // Save API key to localStorage
-  if (api_key) localStorage.setItem('blueroll_google_api_key', api_key);
-
-  // Validate Google key
-  if (stage === 'google' && !api_key) {
-    alert('Enter your Google Places API Key first');
-    document.getElementById('enrichApiKey').focus();
-    return;
-  }
+  const btn = document.getElementById('btn' + config.button);
 
   btn.disabled = true;
   btn.textContent = 'Running...';
@@ -1985,7 +2106,7 @@ async function runEnrich(stage) {
     const r = await fetch(`${CRM_API}/api/enrichment/run`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ stage, limit, filters, api_key })
+      body: JSON.stringify({ stage, limit, filters })
     });
     if (!r.ok) {
       const err = await r.json();
@@ -1994,7 +2115,7 @@ async function runEnrich(stage) {
 
     // Start polling
     if (enrichPollTimer) clearInterval(enrichPollTimer);
-    const progressEl = document.getElementById('progress' + btnName);
+    const progressEl = document.getElementById('progress' + config.button);
     enrichPollTimer = setInterval(async () => {
       try {
         const r = await fetch(`${CRM_API}/api/enrichment/status`);
@@ -2006,7 +2127,7 @@ async function runEnrich(stage) {
           progressEl.innerHTML = `\u2713 Done: ${s.processed} processed \u00b7 ${s.found} found \u00b7 ${s.errors} errors${errMsg}`;
           clearInterval(enrichPollTimer);
           btn.disabled = false;
-          btn.textContent = 'Run ' + btnName;
+          btn.textContent = 'Run ' + config.label;
           loadEnrichStats();
           previewTargets();
         }
@@ -2016,7 +2137,7 @@ async function runEnrich(stage) {
     }, 2000);
   } catch (err) {
     btn.disabled = false;
-    btn.textContent = 'Run ' + btnName;
+    btn.textContent = 'Run ' + config.label;
     alert('Failed to start: ' + err.message);
   }
 }
