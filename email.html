@@ -115,12 +115,12 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
   letter-spacing: 0.06em; font-family: var(--mono); min-width: 50px;
 }
 .filter-sep { width: 1px; height: 20px; background: var(--border); margin: 0 4px; }
-.fbtn, .sbtn, .tbtn {
+.fbtn, .sbtn, .tbtn, .qbtn {
   padding: 6px 14px; font-size: 13px; border-radius: 8px; cursor: pointer;
   border: 1px solid var(--border); background: var(--surface); color: var(--text-secondary);
   font-family: inherit; font-weight: 500; transition: all 0.12s;
 }
-.fbtn:hover, .sbtn:hover, .tbtn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+.fbtn:hover, .sbtn:hover, .tbtn:hover, .qbtn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
 .fbtn.active { background: var(--blue); color: white; border-color: var(--blue); }
 .fbtn-red.active { background: #DC2626; border-color: #DC2626; }
 .fbtn-orange.active { background: #EA580C; border-color: #EA580C; }
@@ -128,6 +128,8 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 .fbtn-green.active { background: #059669; border-color: #059669; }
 .sbtn.active { background: var(--text); color: white; border-color: var(--text); }
 .tbtn.active { background: var(--text); color: white; border-color: var(--text); }
+.qbtn.active { background: #047857; color: white; border-color: #047857; }
+.qbtn-review.active { background: var(--red); border-color: var(--red); }
 
 /* Table */
 .table-wrap { overflow-x: auto; background: var(--surface); }
@@ -357,11 +359,12 @@ tr:hover { background: var(--blue-soft); }
     <option value="clicked">Clicked</option>
     <option value="not_clicked">Sent, no clicks</option>
   </select>
-  <select class="toolbar-select" id="filterQuality" onchange="curPage=1;applyClientFilters()">
+  <select class="toolbar-select" id="filterQuality" onchange="setQualityFromSelect(this.value)">
     <option value="">All email quality</option>
     <option value="verified">Free · verified</option>
     <option value="mx">MX checked</option>
     <option value="archived">Archive recovered</option>
+    <option value="review">Needs review</option>
     <option value="legacy">Legacy · unchecked</option>
   </select>
   <select class="toolbar-select" id="perPage" onchange="curPage=1;applyClientFilters()">
@@ -481,6 +484,14 @@ tr:hover { background: var(--blue-soft); }
     <button class="sbtn active" data-sort="rating_date" onclick="setSortBtn(this,'rating_date','desc')">Newest rated</button>
     <button class="sbtn" data-sort="rating" onclick="setSortBtn(this,'rating','asc')">Lowest rating</button>
     <button class="sbtn" data-sort="name" onclick="setSortBtn(this,'name','asc')">A-Z</button>
+  </div>
+  <div class="filter-row" style="margin-top:8px;">
+    <span class="filter-label">Email</span>
+    <button class="qbtn active" data-quality="" onclick="setQuality(this,'')">All</button>
+    <button class="qbtn" data-quality="verified" onclick="setQuality(this,'verified')">✓ Verified only</button>
+    <button class="qbtn" data-quality="mx" onclick="setQuality(this,'mx')">MX checked</button>
+    <button class="qbtn qbtn-review" data-quality="review" onclick="setQuality(this,'review')">Needs review</button>
+    <button class="qbtn" data-quality="legacy" onclick="setQuality(this,'legacy')">Legacy</button>
   </div>
 </div>
 
@@ -651,6 +662,7 @@ function applyClientFilters() {
   if (quality === 'verified') filtered = filtered.filter(r => r.email_source);
   else if (quality === 'mx') filtered = filtered.filter(r => r.email_source && r.email_mx_valid === true);
   else if (quality === 'archived') filtered = filtered.filter(r => r.email_source && r.email_is_archived === true);
+  else if (quality === 'review') filtered = filtered.filter(r => !r.email_source && legacyEmailIssue(r.email));
   else if (quality === 'legacy') filtered = filtered.filter(r => !r.email_source);
 
   // Filter by rating (numeric FHRS or Scottish FHIS text results)
@@ -1699,6 +1711,22 @@ function setSortBtn(btn, col, ord) {
   document.querySelectorAll('.sbtn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   document.querySelectorAll('.sort-arrow').forEach(s => s.textContent = '');
+  applyClientFilters();
+}
+
+function setQuality(btn, value) {
+  document.getElementById('filterQuality').value = value;
+  document.querySelectorAll('.qbtn').forEach(button => button.classList.remove('active'));
+  btn.classList.add('active');
+  curPage = 1;
+  applyClientFilters();
+}
+
+function setQualityFromSelect(value) {
+  document.querySelectorAll('.qbtn').forEach(button => {
+    button.classList.toggle('active', button.dataset.quality === value);
+  });
+  curPage = 1;
   applyClientFilters();
 }
 
