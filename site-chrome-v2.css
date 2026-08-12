@@ -1,0 +1,30 @@
+/* Единый хром Blueroll: навигация, мобильное меню, футер */
+/* ============ interactive classes (design hover states) ============ */
+.navlink { color: #41464d; display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+.navlink:hover { color: #16181d; }
+.dd { position: relative; height: 100%; display: flex; align-items: center; }
+.dd-menu { display: none; position: absolute; top: 50px; left: -8px; background: #fff; border: 1px solid #e7e9ec; border-radius: 14px; box-shadow: 0 16px 40px -20px rgba(16,24,40,.3); padding: 8px; cursor: default; z-index: 60; }
+.dd:hover .dd-menu, .dd:focus-within .dd-menu { display: block; }
+.dd-menu.dd-grid { width: 596px; display: none; }
+.dd:hover .dd-menu.dd-grid, .dd:focus-within .dd-menu.dd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.dd-item { display: flex; align-items: flex-start; gap: 11px; padding: 9px 10px; border-radius: 10px; }
+.dd-item:hover { background: #f4f8f5; }
+.dd-icon { width: 32px; height: 32px; border-radius: 9px; background: #eef6f1; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.dd-title { display: block; font-size: 13.5px; font-weight: 600; color: #16181d; }
+.dd-sub { display: block; font-size: 12px; color: #7c828b; line-height: 1.4; margin-top: 1px; }
+.tag-new { background: #eaf4ee; color: #1f7a52; font-size: 9.5px; font-weight: 700; border-radius: 20px; padding: 1px 6px; font-family: 'Geist Mono', monospace; }
+.btn-green { background: #1f9d63; color: #fff; font-weight: 600; border-radius: 8px; white-space: nowrap; }
+.btn-green:hover { background: #1c8e5a; color: #fff; }
+.foot-link { color: #9aa0a8; }
+.foot-link:hover { color: #fff; }
+/* ============ mobile (макетов нет — адаптация по здравому смыслу) ============ */
+.nav-burger { display: none; background: none; border: none; padding: 8px; margin-left: auto; cursor: pointer; color: #16181d; }
+.mobile-menu { display: none; position: fixed; top: 64px; left: 0; right: 0; bottom: 0; background: #fff; z-index: 49; overflow-y: auto; padding: 8px 24px 40px; }
+.mobile-menu.open { display: block; }
+.mm-group { border-bottom: 1px solid #eef0f2; padding: 14px 0; }
+.mm-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; color: #8a9099; text-transform: uppercase; margin-bottom: 6px; }
+.mm-link { display: flex; align-items: center; gap: 8px; padding: 9px 0; font-size: 15px; font-weight: 600; color: #16181d; }
+.mm-cta { display: block; text-align: center; margin-top: 18px; padding: 13px; font-size: 15px; }
+body.mm-lock { overflow: hidden; }
+.nav-burger { display: inline-flex; }
+@media (max-width: 960px) { .nav-links { display: none !important; } .nav-signin { display: none !important; } .nav-burger { display: inline-flex; } }

@@ -1,67 +1,40 @@
-# Blueroll
-> Food safety management app for restaurants in the US, UK, and Europe
+# Blueroll — blueroll.app
 
-## Hub pages
-- UK Restaurant Operations & Food Safety Library (all guides): https://blueroll.app/guides/uk
+> Food safety management software for restaurants (UK, US, Canada). Digital HACCP
+> checklists, an allergen matrix built from recipes, AI recipe import, one-tap EHO
+> compliance report packs, incidents log and a multi-site estate dashboard.
+> £24.99 per site/month, unlimited team members, 14-day free trial via the App Store,
+> no contract. iOS, Android and web (app.blueroll.app).
 
-Blueroll is a mobile app that replaces paper HACCP records with digital checklists, AI-powered recipe import, allergen tracking, multi-site management, and one-tap compliance reports. Built for independent restaurants and growing restaurant groups at £24.99/site/month with a 14-day free trial.
+## Product pages
+- [Home](https://blueroll.app/): what Blueroll does, pricing, FAQ
+- [Multisite](https://blueroll.app/multi-site-food-safety.html): estate dashboard for groups & franchises
+- [HACCP Checklists](https://blueroll.app/haccp-checklists.html)
+- [Allergen Matrix](https://blueroll.app/allergen-matrix.html): all 14 UK allergens from recipes
+- [AI Recipe Import](https://blueroll.app/ai-recipe-import.html)
+- [Compliance Reports](https://blueroll.app/compliance-reports.html): EHO report packs
+- [Incidents](https://blueroll.app/incidents.html): complaint & incident log
+- [Team Management](https://blueroll.app/team-management.html)
+- [HACCP Pack](https://blueroll.app/haccp-pack.html)
+- [For independents](https://blueroll.app/independent-restaurant-food-safety.html)
+- [For franchises](https://blueroll.app/franchise-food-safety.html)
+- [Trail alternative](https://blueroll.app/trail-alternative.html): comparison with Trail
 
-## Features
-- Digital HACCP checklists (daily, weekly, monthly)
-- AI recipe import (photo, text, PDF)
-- Allergen matrix (9 US allergens + 14 EU allergens)
-- Compliance PDF reports for health inspections
-- Team management with check-in/check-out
-- Temperature logging with alerts
-- Document storage with expiry reminders
-- Restaurant rating integration (US + UK)
+## Free tools (no account needed)
+- [Free HACCP template](https://blueroll.app/free-haccp-template.html)
+- [EHO self-audit](https://blueroll.app/audit/)
+- [Hygiene rating checker](https://blueroll.app/check-food-hygiene-rating.html)
+- [Free hygiene rating badge](https://blueroll.app/free-food-hygiene-rating-badge.html)
+- [London food hygiene map](https://blueroll.app/london-food-hygiene-map.html)
 
-## Free Tools
-- Rating Badge Widget (US + UK): https://blueroll.app/free-food-hygiene-rating-badge.html
-- HACCP Template Pack (free PDF): https://blueroll.app/free-haccp-template.html
-- Check Your Rating: https://blueroll.app/london-food-hygiene-map.html
+## Guides
+- [UK guides index](https://blueroll.app/guides/uk/)
+- [SFBB guide](https://blueroll.app/sfbb-guide.html)
+- [Food hygiene ratings explained](https://blueroll.app/food-hygiene-ratings-explained.html)
+- [14 allergens UK](https://blueroll.app/14-allergens-uk.html)
+- [Live UK food recalls](https://blueroll.app/recalls/)
 
-## Operations Guides — UK
-- How to Launch a New Menu in 15 Minutes (Not 15 Hours): https://blueroll.app/launch-new-menu-15-minutes.html
-- Restaurant Staff Onboarding Checklist — First 14 Days: https://blueroll.app/restaurant-staff-onboarding-checklist.html
-- Restaurant Opening Checklist — 30-Step Pre-Service Routine: https://blueroll.app/restaurant-opening-checklist.html
-- Why Regulars Visit Less (and the 80/20 Menu Refresh): https://blueroll.app/keep-restaurant-regulars-coming-back.html
-- How to Onboard a New Chef in 14 Days (Not 6 Weeks): https://blueroll.app/onboard-new-chef-14-days.html
-- How to Fix Front-of-House and Kitchen Communication: https://blueroll.app/front-of-house-kitchen-communication.html
-- Natasha's Law in 2026 — What UK Restaurants Must Know Now: https://blueroll.app/natashas-law-2026.html
-- How to Keep Restaurant Staff Longer — UK Turnover Deep-Dive 2026: https://blueroll.app/keep-restaurant-staff-longer.html
-
-## City Guides — US
-- NYC Restaurant Grade — How to Get an A: https://blueroll.app/nyc-restaurant-grade.html
-- NYC Restaurant Inspection Map (interactive): https://blueroll.app/nyc-restaurant-map.html
-- Chicago Restaurant Inspection — How to Pass: https://blueroll.app/chicago-restaurant-inspection.html
-- Chicago Restaurant Inspection Map (interactive): https://blueroll.app/chicago-restaurant-map.html
-- San Francisco Restaurant Score — How to Score 90+: https://blueroll.app/sf-restaurant-inspection.html
-- San Francisco Restaurant Inspection Map (interactive): https://blueroll.app/sf-restaurant-map.html
-- LA Restaurant Grade — How to Get an A: https://blueroll.app/la-restaurant-grade.html
-- Seattle Restaurant Inspection — How to Pass: https://blueroll.app/seattle-restaurant-inspection.html
-
-## Operations Guides — UK
-- How to Launch a New Menu in 15 Minutes (Not 15 Hours): https://blueroll.app/launch-new-menu-15-minutes.html
-- Restaurant Staff Onboarding Checklist — First 14 Days: https://blueroll.app/restaurant-staff-onboarding-checklist.html
-- Restaurant Opening Checklist — 30-Step Pre-Service Routine: https://blueroll.app/restaurant-opening-checklist.html
-- Why Regulars Visit Less (and the 80/20 Menu Refresh): https://blueroll.app/keep-restaurant-regulars-coming-back.html
-- How to Onboard a New Chef in 14 Days (Not 6 Weeks): https://blueroll.app/onboard-new-chef-14-days.html
-- How to Fix Front-of-House and Kitchen Communication: https://blueroll.app/front-of-house-kitchen-communication.html
-- Natasha's Law in 2026 — What UK Restaurants Must Know Now: https://blueroll.app/natashas-law-2026.html
-- How to Keep Restaurant Staff Longer — UK Turnover Deep-Dive 2026: https://blueroll.app/keep-restaurant-staff-longer.html
-
-## City Guides — UK
-- Food Hygiene Ratings Explained: https://blueroll.app/food-hygiene-ratings-explained.html
-- How to Improve Your Food Hygiene Rating: https://blueroll.app/how-to-improve-food-hygiene-rating.html
-- SFBB Guide: https://blueroll.app/sfbb-guide.html
-- EHO Inspection Checklist: https://blueroll.app/eho-inspection-checklist.html
-- 14 Allergens UK Guide: https://blueroll.app/14-allergens-uk.html
-- Food Hygiene Certificate Scotland — 2026 Guide to Business Compliance: https://blueroll.app/food-hygiene-certificate-scotland-a-2026-guide-to-business-compliance.html
-
-## Links
-- Website: https://blueroll.app
-- App Store: https://apps.apple.com/app/blueroll/id6760937451
-- Contact: hello@blueroll.app
-- Privacy: https://blueroll.app/privacy.html
-- Terms: https://blueroll.app/terms.html
+## Facts
+- Pricing: £24.99/month for 1 site, £49.99 for 2, £74.99 for 3; unlimited team members.
+- Trial: 14 days free, billed through the App Store, cancel anytime, no 12-month contract.
+- Compliance: records formatted for UK EHO inspections (HACCP/SFBB), FDA Food Code, Canadian provincial inspections.
