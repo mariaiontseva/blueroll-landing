@@ -1,1115 +1,225 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <script src="https://t.contentsquare.net/uxa/f84aff336d942.js" defer></script>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>HACCP Pack for Restaurant Food Safety Records | Blueroll</title>
-<meta name="description" content="Mobile-friendly HACCP pack for restaurants: cleaning checks, allergen records, delivery logs, temperatures, corrective actions and inspection-ready food safety records.">
-<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZFY0GPZYYQ');
+</script>
+<script src="/geo-analytics.js" defer></script>
 <link rel="canonical" href="https://blueroll.app/haccp-pack.html">
+<title>HACCP Pack for Restaurant Food Safety Records | Blueroll</title>
+<meta name="description" content="A mobile-friendly HACCP record pack that builds itself from your recipes, suppliers, cleaning schedules and training records — SFBB-style, inspection-ready. £24.99/month.">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://blueroll.app/haccp-pack.html">
-<meta property="og:title" content="HACCP Pack for Restaurant Food Safety Records">
-<meta property="og:description" content="A mobile-friendly HACCP pack for cleaning, allergens, deliveries, temperatures and inspection-ready records.">
+<meta property="og:title" content="HACCP Pack for Restaurant Food Safety Records | Blueroll">
+<meta property="og:description" content="Your SFBB file, writing itself — assembled from recipes, suppliers, cleaning schedules and training records.">
 <meta property="og:image" content="https://blueroll.app/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is this the same as the FSA’s SFBB pack?", "acceptedAnswer": {"@type": "Answer", "text": "It’s structured the same way, so an EHO opens a familiar document. The difference: it’s filled from your live records — recipes, suppliers, cleaning, training — instead of being written once and left to age."}}, {"@type": "Question", "name": "What happens when I change a recipe?", "acceptedAnswer": {"@type": "Answer", "text": "Cooking methods, temperatures and allergens update in the pack automatically, and the change is queued for the next 4-weekly review so a manager signs off on it."}}, {"@type": "Question", "name": "Can I print it for the folder?", "acceptedAnswer": {"@type": "Answer", "text": "Yes — export the whole pack as a PDF in one tap, or email it straight to your EHO with a compliance report."}}]}</script>
 <style>
-:root {
-  --bg: #F8F8F6;
-  --card: #FFFFFF;
-  --border: rgba(0,0,0,0.06);
-  --ink: #1A1A1A;
-  --ink2: #6B7280;
-  --ink3: #9CA3AF;
-  --green: #047857;
-  --green-light: #ECFDF5;
-  --red: #DC2626;
-  --purple: #7C3AED;
-  --teal: #0891B2;
-  --orange: #EA580C;
-  --magenta: #A21CAF;
-  --radius: 14px;
-  --radius-sm: 10px;
-  --radius-pill: 100px;
-  --shadow: 0 1px 3px rgba(0,0,0,0.04);
-  --transition: 0.2s ease;
-  --safe-top: env(safe-area-inset-top, 0px);
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
-}
+/* ============ base ============ */
+* { box-sizing: border-box; }
+body { margin: 0; background: #f6f7f8; color: #16181d; font-family: 'Geist', -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
+a { color: #1f7a52; text-decoration: none; }
+a:hover { color: #1f9d63; }
+img { max-width: 100%; }
 
-* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-
-html {
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--bg);
-  color: var(--ink);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-  max-width: 480px;
-  margin: 0 auto;
-  min-height: 100dvh;
-  padding-top: var(--safe-top);
-  padding-bottom: calc(72px + var(--safe-bottom));
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior-y: contain;
-}
-
+/* ============ keyframes (from design) ============ */
+@keyframes fg-cycle { 0%, 12% { opacity: 0; transform: translateY(4px); } 22%, 90% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes fg-tick { 0%, 15% { transform: scale(0); opacity: 0; } 26%, 90% { transform: scale(1); opacity: 1; } 100% { transform: scale(0); opacity: 0; } }
+@keyframes fg-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(210,69,63,.45); } 60% { box-shadow: 0 0 0 6px rgba(210,69,63,0); } }
+@keyframes fg-pulse-a { 0%, 100% { box-shadow: 0 0 0 0 rgba(217,138,26,.5); } 60% { box-shadow: 0 0 0 6px rgba(217,138,26,0); } }
+@keyframes fg-fill { 0%, 12% { width: 6%; } 68%, 100% { width: 86%; } }
+@keyframes fg-shimmer { 0%, 10% { transform: translateX(-120%); } 55%, 100% { transform: translateX(240%); } }
+@keyframes pageIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes heroBlob { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(34px, -26px) scale(1.14); } }
+@keyframes heroBlob2 { 0%, 100% { transform: translate(0, 0) scale(1.1); } 50% { transform: translate(-30px, 22px) scale(1); } }
+@keyframes heroChip { 0%, 6% { opacity: 0; transform: translateY(30px); } 16%, 74% { opacity: .55; } 92%, 100% { opacity: 0; transform: translateY(-36px); } }
+@keyframes flowDot { 0%, 6% { top: 40px; opacity: 0; } 10% { opacity: 1; } 30%, 38% { top: 152px; } 58%, 66% { top: 264px; opacity: 1; } 74%, 100% { top: 264px; opacity: 0; } }
+@keyframes flowPing { 0%, 4% { box-shadow: 0 0 0 0 rgba(31,157,99,0); } 10% { box-shadow: 0 0 0 9px rgba(31,157,99,.2); } 18%, 100% { box-shadow: 0 0 0 0 rgba(31,157,99,0); } }
+@keyframes logoMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes ctaProg { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes ctaNode { from { background: #0f2b1e; border-color: rgba(255,255,255,.25); box-shadow: none; } to { background: #1f9d63; border-color: #1f9d63; box-shadow: 0 0 14px rgba(31,157,99,.5); } }
+.cta-live .cta-node { animation-play-state: running !important; }
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* ── Sticky Top ── */
-.sticky-top {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(248,248,246,0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-}
-
-.header-inner {
-  padding: 12px 16px 0;
-}
-
-.header-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
-
-.header-right-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.header-title {
-  font-size: 17px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  color: var(--ink);
-}
-
-/* xp bar moved to bottom */
-
-.level-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: var(--green-light);
-  color: var(--green);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 3px 8px;
-  border-radius: var(--radius-pill);
-  letter-spacing: -0.1px;
-}
-
-.level-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--green);
-}
-
-.xp-display {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--ink3);
-  letter-spacing: -0.2px;
-  font-variant-numeric: tabular-nums;
-}
-
-.xp-number {
-  font-weight: 800;
-  color: var(--ink2);
-}
-
-/* ── Tab Bar ── */
-.tab-bar {
-  display: flex;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  border-bottom: 1px solid var(--border);
-}
-.tab-bar::-webkit-scrollbar { display: none; }
-
-.tab-item {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 14px;
-  cursor: pointer;
-  user-select: none;
-  position: relative;
-  transition: all var(--transition);
-  white-space: nowrap;
-  border-bottom: 2px solid transparent;
-}
-
-.tab-item.active {
-  border-bottom-color: var(--section-color, var(--green));
-}
-
-.tab-item:active {
-  opacity: 0.7;
-}
-
-.tab-icon {
-  display: flex;
-  align-items: center;
-  color: var(--ink3);
-  transition: color var(--transition);
-}
-
-.tab-item.active .tab-icon {
-  color: var(--section-color, var(--green));
-}
-
-.tab-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--ink3);
-  letter-spacing: -0.1px;
-  transition: color var(--transition);
-}
-
-.tab-item.active .tab-name {
-  color: var(--ink);
-}
-
-/* Tab Progress Ring (24px) */
-.tab-ring-wrap {
-  width: 24px;
-  height: 24px;
-  position: relative;
-  flex-shrink: 0;
-}
-
-.tab-ring {
-  transform: rotate(-90deg);
-}
-
-.tab-ring-bg {
-  fill: none;
-  stroke: rgba(0,0,0,0.06);
-  stroke-width: 2.5;
-}
-
-.tab-ring-fill {
-  fill: none;
-  stroke: var(--section-color, var(--green));
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  transition: stroke-dashoffset 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.tab-ring-text {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 7px;
-  font-weight: 800;
-  color: var(--ink2);
-  letter-spacing: -0.3px;
-}
-
-/* ── Section Content ── */
-.section-content-wrap {
-  padding: 0 16px;
-}
-
-.section-content {
-  animation: fadeIn 0.2s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.section-header-area {
-  padding: 16px 4px 12px;
-}
-
-.section-title {
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: -0.6px;
-  color: var(--ink);
-  margin-bottom: 2px;
-}
-
-.section-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.section-subtitle {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--ink2);
-}
-
-.section-progress-bar {
-  width: 100%;
-  height: 4px;
-  background: rgba(0,0,0,0.04);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.section-progress-fill {
-  height: 100%;
-  border-radius: 2px;
-  transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  will-change: width;
-}
-
-.section-progress-label {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 6px;
-}
-
-.section-progress-text {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--ink3);
-  font-variant-numeric: tabular-nums;
-}
-
-/* ── Method Card ── */
-.method-list {
-  background: var(--card);
-  border: 1px solid rgba(0,0,0,0.07);
-  border-radius: 16px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.03), 0 4px 16px rgba(0,0,0,0.03);
-  overflow: hidden;
-  margin-bottom: 14px;
-  transition: box-shadow 0.25s ease, border-color 0.25s ease;
-}
-
-.method-list:hover {
-  box-shadow: 0 2px 4px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.05);
-}
-
-.method-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 18px;
-  cursor: pointer;
-  user-select: none;
-  transition: background 0.15s ease;
-}
-
-.method-header:active {
-  background: rgba(0,0,0,0.015);
-}
-
-.method-header-left {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  flex: 1;
-  min-width: 0;
-}
-
-.method-title {
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: -0.4px;
-  color: var(--ink);
-}
-
-.method-subtitle {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--ink3);
-  font-variant-numeric: tabular-nums;
-}
-
-.method-chevron {
-  width: 20px;
-  height: 20px;
-  color: var(--ink3);
-  transition: transform 0.25s ease;
-  flex-shrink: 0;
-  margin-left: 8px;
-}
-
-.method-list.collapsed .method-chevron {
-  transform: rotate(-90deg);
-}
-
-.method-body {
-  max-height: 3000px;
-  overflow: hidden;
-  transition: max-height 0.35s ease, opacity 0.2s ease;
-  opacity: 1;
-}
-
-.method-list.collapsed .method-body {
-  max-height: 0;
-  opacity: 0;
-}
-
-.method-sep {
-  height: 1px;
-  background: var(--border);
-  margin: 0 16px;
-}
-
-.method-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 11px 18px;
-  background: rgba(0,0,0,0.015);
-  border-top: 1px solid rgba(0,0,0,0.04);
-}
-
-.method-footer-text {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--ink3);
-  font-variant-numeric: tabular-nums;
-}
-
-.method-footer-xp {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--green);
-}
-
-.method-list.all-done {
-  border-color: rgba(4,120,87,0.15);
-  box-shadow: 0 1px 2px rgba(4,120,87,0.04), 0 4px 16px rgba(4,120,87,0.06);
-}
-
-.method-list.all-done .method-footer {
-  background: linear-gradient(135deg, rgba(4,120,87,0.06), rgba(4,120,87,0.03));
-  border-top-color: rgba(4,120,87,0.08);
-}
-
-.method-list.all-done .method-title {
-  color: var(--green);
-}
-
-.method-list.all-done .method-footer-text {
-  color: var(--green);
-}
-
-/* ── Toggle Row ── */
-.toggle-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 18px;
-  min-height: 52px;
-  gap: 16px;
-  transition: background 0.15s ease;
-}
-
-.toggle-row:active {
-  background: rgba(0,0,0,0.015);
-}
-
-.toggle-row + .toggle-row {
-  border-top: 1px solid rgba(0,0,0,0.04);
-}
-
-.toggle-row + .input-row,
-.input-row + .toggle-row {
-  border-top: 1px solid rgba(0,0,0,0.04);
-}
-
-.toggle-label {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--ink);
-  letter-spacing: -0.1px;
-  flex: 1;
-  line-height: 1.35;
-}
-
-/* ── Premium Toggle Switch (51x31) ── */
-.toggle-switch {
-  position: relative;
-  width: 51px;
-  height: 31px;
-  flex-shrink: 0;
-  cursor: pointer;
-  display: block;
-}
-
-.toggle-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-  position: absolute;
-}
-
-.toggle-track {
-  position: absolute;
-  inset: 0;
-  background: #D1D5DB;
-  border-radius: 15.5px;
-  transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: background;
-}
-
-.toggle-track::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 15.5px;
-  border: 0.5px solid rgba(0,0,0,0.04);
-  pointer-events: none;
-}
-
-.toggle-switch input:checked + .toggle-track {
-  background: var(--green);
-  box-shadow: inset 0 0 0 0.5px rgba(255,255,255,0.1);
-}
-
-.toggle-knob {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 27px;
-  height: 27px;
-  background: white;
-  border-radius: 50%;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.15), 0 1px 1px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.15s ease, box-shadow 0.2s ease;
-  pointer-events: none;
-  will-change: transform;
-}
-
-.toggle-switch input:checked ~ .toggle-knob {
-  transform: translateX(20px);
-  box-shadow: 0 3px 8px rgba(4,120,87,0.2), 0 1px 1px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04);
-}
-
-.toggle-switch:active .toggle-knob {
-  width: 31px;
-  border-radius: 15.5px;
-}
-
-.toggle-switch:active input:checked ~ .toggle-knob {
-  transform: translateX(16px);
-  width: 31px;
-  border-radius: 15.5px;
-}
-
-@keyframes toggleGlow {
-  0% { box-shadow: 0 0 0 0 rgba(4,120,87,0.3); }
-  50% { box-shadow: 0 0 0 6px rgba(4,120,87,0.08); }
-  100% { box-shadow: 0 0 0 0 transparent; }
-}
-
-.toggle-switch.just-toggled .toggle-track {
-  animation: toggleGlow 0.5s ease;
-}
-
-/* Done state — subtle checkmark glow on the row */
-.toggle-row.is-on .toggle-label {
-  color: var(--ink);
-}
-
-.toggle-row:not(.is-on) .toggle-label {
-  color: var(--ink2);
-}
-
-/* ── Custom Checkbox ── */
-.checkbox-row {
-  display: flex;
-  align-items: center;
-  padding: 12px 16px;
-  gap: 12px;
-  cursor: pointer;
-  user-select: none;
-}
-
-.checkbox-row + .checkbox-row {
-  border-top: 1px solid rgba(0,0,0,0.04);
-}
-
-.custom-checkbox {
-  position: relative;
-  width: 22px;
-  height: 22px;
-  flex-shrink: 0;
-}
-
-.custom-checkbox input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-  position: absolute;
-}
-
-.checkbox-box {
-  width: 22px;
-  height: 22px;
-  border: 2px solid #D1D5DB;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s ease;
-  background: white;
-}
-
-.custom-checkbox input:checked + .checkbox-box {
-  background: var(--green);
-  border-color: var(--green);
-}
-
-.checkbox-check {
-  opacity: 0;
-  transform: scale(0);
-  transition: all 0.15s ease;
-}
-
-.custom-checkbox input:checked + .checkbox-box .checkbox-check {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* ── Text Input ── */
-.input-row {
-  padding: 12px 18px 16px;
-}
-
-.input-row + .input-row {
-  border-top: 1px solid rgba(0,0,0,0.04);
-}
-
-.input-label {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--ink2);
-  margin-bottom: 7px;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.input-label svg {
-  color: var(--ink3);
-}
-
-.text-input {
-  width: 100%;
-  min-height: 48px;
-  padding: 12px 14px;
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--ink);
-  background: #FFFFFF;
-  border: 1.5px solid rgba(0,0,0,0.1);
-  border-radius: 12px;
-  outline: none;
-  resize: vertical;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-  letter-spacing: -0.1px;
-  line-height: 1.45;
-}
-
-.text-input::placeholder {
-  color: #BCBCBC;
-  font-weight: 400;
-  font-size: 14px;
-}
-
-.text-input:focus {
-  border-color: var(--green);
-  box-shadow: 0 0 0 3px rgba(4,120,87,0.1);
-  background: #FFFFFF;
-}
-
-/* Filled state */
-.text-input:not(:placeholder-shown) {
-  border-color: rgba(4,120,87,0.2);
-  background: rgba(4,120,87,0.02);
-}
-
-/* ── Select ── */
-.select-wrap {
-  position: relative;
-}
-
-.select-input {
-  width: 100%;
-  height: 48px;
-  padding: 0 36px 0 14px;
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--ink);
-  background: #FFFFFF;
-  border: 1.5px solid rgba(0,0,0,0.1);
-  border-radius: 12px;
-  outline: none;
-  appearance: none;
-  -webkit-appearance: none;
-  cursor: pointer;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.select-input:focus {
-  border-color: var(--green);
-  box-shadow: 0 0 0 3px rgba(4,120,87,0.1);
-}
-
-.select-arrow {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  color: var(--ink3);
-}
-
-/* ── File Upload ── */
-.file-upload {
-  padding: 12px 18px 16px;
-}
-
-.file-drop {
-  border: 2px dashed rgba(0,0,0,0.1);
-  border-radius: 14px;
-  padding: 20px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  background: rgba(0,0,0,0.01);
-  position: relative;
-  overflow: hidden;
-}
-
-.file-drop:hover, .file-drop.dragover {
-  border-color: var(--green);
-  background: rgba(4,120,87,0.03);
-  transform: scale(1.005);
-}
-
-.file-drop-icon {
-  margin-bottom: 6px;
-  display: flex;
-  justify-content: center;
-  color: var(--ink3);
-}
-
-.file-drop-text {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--ink2);
-  display: block;
-}
-
-.file-drop-hint {
-  font-size: 12px;
-  color: var(--ink3);
-  margin-top: 3px;
-  font-weight: 400;
-  display: block;
-}
-
-.file-drop input[type="file"] {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  cursor: pointer;
-  font-size: 0;
-}
-
-.file-drop.has-file {
-  border-style: solid;
-  border-color: rgba(4,120,87,0.25);
-  background: rgba(4,120,87,0.04);
-}
-
-.file-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--green);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-.file-remove {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: rgba(4,120,87,0.15);
-  border: none;
-  cursor: pointer;
-  color: var(--green);
-  padding: 0;
-  flex-shrink: 0;
-}
-
-/* ── Bottom Bar ── */
-.bottom-bar {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 480px;
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-top: 1px solid var(--border);
-  padding: 10px 16px calc(10px + var(--safe-bottom));
-  z-index: 200;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.bottom-progress-wrap {
-  flex: 1;
-  min-width: 0;
-}
-
-.bottom-progress-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 5px;
-}
-
-.bottom-progress-label {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--ink2);
-  font-variant-numeric: tabular-nums;
-}
-
-.bottom-progress-label strong {
-  font-weight: 800;
-  color: var(--ink);
-}
-
-.bottom-progress-pct {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--green);
-  font-variant-numeric: tabular-nums;
-}
-
-.bottom-progress-track {
-  width: 100%;
-  height: 6px;
-  background: rgba(0,0,0,0.06);
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.bottom-progress-fill {
-  height: 100%;
-  background: var(--green);
-  border-radius: 3px;
-  transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  will-change: width;
-}
-
-.export-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 9px 18px;
-  background: var(--green);
-  color: white;
-  border: none;
-  border-radius: var(--radius-sm);
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all var(--transition);
-  letter-spacing: -0.2px;
-}
-
-.export-btn:active {
-  transform: scale(0.96);
-  opacity: 0.9;
-}
-
-/* ── XP Toast ── */
-.xp-toast {
-  position: fixed;
-  bottom: calc(80px + var(--safe-bottom));
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  background: var(--ink);
-  color: white;
-  padding: 6px 16px;
-  border-radius: var(--radius-pill);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: -0.2px;
-  z-index: 300;
-  opacity: 0;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  pointer-events: none;
-  font-variant-numeric: tabular-nums;
-}
-
-.xp-toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-/* ── Confetti ── */
-.confetti-container {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  overflow: hidden;
-}
-
-.confetti-piece {
-  position: absolute;
-  top: -8px;
-  opacity: 0;
-  animation: confettiFall 2s ease-in forwards;
-}
-
-@keyframes confettiFall {
-  0% { opacity: 0.8; transform: translateY(0) rotate(0deg) scale(1); }
-  70% { opacity: 0.6; }
-  100% { opacity: 0; transform: translateY(100vh) rotate(540deg) scale(0.3); }
-}
-
-/* ── Celebration Overlay ── */
-.celebration-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(248,248,246,0.94);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-.celebration-overlay.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.celebration-card {
-  text-align: center;
-  padding: 40px;
-  transform: scale(0.85);
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.celebration-overlay.show .celebration-card {
-  transform: scale(1);
-}
-
-.celebration-icon {
-  width: 64px;
-  height: 64px;
-  margin: 0 auto 16px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.celebration-title {
-  font-size: 24px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  color: var(--ink);
-  margin-bottom: 6px;
-}
-
-.celebration-sub {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--ink2);
-  margin-bottom: 24px;
-}
-
-.celebration-dismiss {
-  padding: 12px 32px;
-  background: var(--green);
-  color: white;
-  border: none;
-  border-radius: var(--radius-sm);
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all var(--transition);
-  letter-spacing: -0.2px;
-}
-
-.celebration-dismiss:active {
-  transform: scale(0.96);
+  .cta-node { animation-duration: 0s !important; animation-delay: 0s !important; }
+  .hero-chip, [data-hero-blob] { animation: none !important; }
+}
+
+/* ============ interactive classes (design hover states) ============ */
+.navlink { color: #41464d; display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+.navlink:hover { color: #16181d; }
+.dd { position: relative; height: 100%; display: flex; align-items: center; }
+.dd-menu { display: none; position: absolute; top: 50px; left: -8px; background: #fff; border: 1px solid #e7e9ec; border-radius: 14px; box-shadow: 0 16px 40px -20px rgba(16,24,40,.3); padding: 8px; cursor: default; z-index: 60; }
+.dd:hover .dd-menu, .dd:focus-within .dd-menu { display: block; }
+.dd-menu.dd-grid { width: 596px; display: none; }
+.dd:hover .dd-menu.dd-grid, .dd:focus-within .dd-menu.dd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.dd-item { display: flex; align-items: flex-start; gap: 11px; padding: 9px 10px; border-radius: 10px; }
+.dd-item:hover { background: #f4f8f5; }
+.dd-icon { width: 32px; height: 32px; border-radius: 9px; background: #eef6f1; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.dd-title { display: block; font-size: 13.5px; font-weight: 600; color: #16181d; }
+.dd-sub { display: block; font-size: 12px; color: #7c828b; line-height: 1.4; margin-top: 1px; }
+.tag-new { background: #eaf4ee; color: #1f7a52; font-size: 9.5px; font-weight: 700; border-radius: 20px; padding: 1px 6px; font-family: 'Geist Mono', monospace; }
+.btn-green { background: #1f9d63; color: #fff; font-weight: 600; border-radius: 8px; white-space: nowrap; }
+.btn-green:hover { background: #1c8e5a; color: #fff; }
+.btn-cta-final:hover { background: #24ab6d !important; color: #fff; }
+.ghost-btn { border: 1px solid rgba(255,255,255,.22); color: #fff; }
+.ghost-btn:hover { border-color: rgba(255,255,255,.55); color: #fff; }
+.aud-card { color: #16181d; display: flex; flex-direction: column; background: #fff; border: 1px solid #e7e9ec; border-radius: 20px; padding: 26px 28px; box-shadow: 0 1px 2px rgba(16,24,40,.03); transition: border-color .15s, box-shadow .15s, transform .15s; }
+.aud-card:hover { color: #16181d; border-color: #bfe0cd; box-shadow: 0 20px 44px -28px rgba(31,122,82,.35); transform: translateY(-2px); }
+.feat-card { background: #fff; border: 1px solid #e7e9ec; border-radius: 18px; color: #16181d; box-shadow: 0 1px 2px rgba(16,24,40,.03); transition: border-color .18s; padding: 26px 28px; display: flex; flex-direction: column; }
+.feat-card:hover { border-color: #c9cfd6; color: #16181d; }
+a:hover .feat-arrow { transform: translateX(4px); }
+.feat-arrow { display: inline-block; transition: transform .2s; }
+.text-cta { display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; font-weight: 600; color: #1f7a52; }
+.text-cta:hover { color: #1f9d63; }
+.foot-link { color: #9aa0a8; }
+.foot-link:hover { color: #fff; }
+.faq-q { display: flex; align-items: center; gap: 18px; padding: 19px 0; cursor: pointer; user-select: none; }
+.faq-q:hover { color: #1f7a52; }
+.faq-chev { width: 27px; height: 27px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform .2s, background .2s; background: #f1f2f4; color: #5c626b; }
+.faq-item.open .faq-chev { background: #1f9d63; color: #fff; transform: rotate(180deg); }
+.faq-a { display: grid; transition: grid-template-rows .4s cubic-bezier(.2,.8,.2,1); grid-template-rows: 0fr; }
+.faq-item.open .faq-a { grid-template-rows: 1fr; }
+.faq-a > div { overflow: hidden; }
+.faq-a p { font-size: 14px; color: #5c626b; line-height: 1.65; margin: -6px 0 0; padding: 0 45px 20px 0; text-wrap: pretty; transition: opacity .32s; opacity: 0; }
+.faq-item.open .faq-a p { opacity: 1; }
+.hero-chip { display: inline-flex; }
+
+/* ============ mobile (макетов нет — адаптация по здравому смыслу) ============ */
+.nav-burger { display: none; background: none; border: none; padding: 8px; margin-left: auto; cursor: pointer; color: #16181d; }
+.mobile-menu { display: none; position: fixed; top: 64px; left: 0; right: 0; bottom: 0; background: #fff; z-index: 49; overflow-y: auto; padding: 8px 24px 40px; }
+.mobile-menu.open { display: block; }
+.mm-group { border-bottom: 1px solid #eef0f2; padding: 14px 0; }
+.mm-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; color: #8a9099; text-transform: uppercase; margin-bottom: 6px; }
+.mm-link { display: flex; align-items: center; gap: 8px; padding: 9px 0; font-size: 15px; font-weight: 600; color: #16181d; }
+.mm-cta { display: block; text-align: center; margin-top: 18px; padding: 13px; font-size: 15px; }
+body.mm-lock { overflow: hidden; }
+@media (max-width: 960px) {
+  .nav-links { display: none !important; }
+  .nav-signin { display: none !important; }
+  .nav-burger { display: inline-flex; }
+  h1.hero-h1 { font-size: 44px !important; }
+  .hero-sub { font-size: 16.5px !important; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr !important; }
+  .feat-wide { grid-column: span 1 !important; grid-template-columns: 1fr !important; }
+  .case-grid { grid-template-columns: 1fr !important; }
+  .case-photo { min-height: 300px !important; }
+  .mobile-grid { grid-template-columns: 1fr !important; }
+  .pricing-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+  .pricing-grid > div { border-left: none !important; padding-left: 0 !important; }
+  .footer-grid { grid-template-columns: 1fr 1fr !important; }
+  .cta-panel { padding: 44px 24px !important; }
+  .cta-panel h2 { font-size: 32px !important; }
+  .cta-timeline-labels { font-size: 10.5px !important; }
+  .cta-timeline .cta-tl-label { font-size: 10.5px !important; white-space: normal !important; }
+  .phone-float { display: none !important; }
+  .hero-chips { display: none; }
 }
 </style>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Blueroll",
-      "item": "https://blueroll.app/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Free Tools",
-      "item": "https://blueroll.app/tools.html"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "HACCP Pack",
-      "item": "https://blueroll.app/haccp-pack.html"
-    }
-  ]
+<style>
+@keyframes fg-shimmer-hp { 0% { left: -20%; } 60%, 100% { left: 110%; } }
+.ghost-light { border: 1px solid #e2e4e8; background: #fff; color: #16181d; }
+.ghost-light:hover { border-color: #1f9d63; color: #16181d; }
+@media (max-width: 960px) {
+  .fz-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+  h1.hp-h1 { font-size: 38px !important; }
 }
-</script>
-<script src="/geo-analytics.js" defer></script>
-<link rel="stylesheet" href="/site-chrome-v2.css?v=20260812">
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</style>
 </head>
 <body>
 <!-- ============ NAV ============ -->
 <div style="position: sticky; top: 0; z-index: 50; background: rgba(246,247,248,.9); backdrop-filter: blur(12px); border-bottom: 1px solid #e7e9ec;">
   <div style="max-width: 1160px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; gap: 26px;">
     <a href="/" style="display: flex; align-items: center; gap: 9px; color: #16181d; font-weight: 700; font-size: 17px; white-space: nowrap;">
-      <img src="/assets/blueroll-logo-v2.svg" alt="Blueroll" style="height: 26px; display: block;">
+      <img src="assets/blueroll-logo-v2.svg" alt="Blueroll" style="height: 26px; display: block;">
       <span>Blueroll</span>
     </a>
     <div class="nav-links" style="display: flex; align-items: center; gap: 22px; font-size: 13.5px; font-weight: 500; color: #41464d; flex: 1; height: 100%;">
       <span class="dd">
-        <a href="#audiences" class="navlink">Who it's for <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
+        <a href="/#audiences" class="navlink">Who it's for <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
         <div class="dd-menu" style="width: 312px;">
-          <a href="/independent-restaurant-food-safety.html" class="dd-item">
+          <a href="independent-restaurant-food-safety.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a7 7 0 0 0-7 7c0 4.5 4.5 8.5 6.4 10.1a1 1 0 0 0 1.2 0C14.5 18.5 19 14.5 19 10a7 7 0 0 0-7-7z"></path><circle cx="12" cy="10" r="2.5"></circle></svg></span>
             <span><span class="dd-title">Independents</span><span class="dd-sub">One kitchen, one folder — fully digital</span></span>
           </a>
-          <a href="/multi-site-food-safety.html" class="dd-item">
+          <a href="multi-site-food-safety.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M3.5 12h17"></path><path d="M12 3.5c-2.5 2.3-3.8 5.2-3.8 8.5s1.3 6.2 3.8 8.5c2.5-2.3 3.8-5.2 3.8-8.5S14.5 5.8 12 3.5z"></path></svg></span>
             <span><span style="display: flex; align-items: center; gap: 7px;" class="dd-title">Groups &amp; estates <span class="tag-new">NEW</span></span><span class="dd-sub">Every site on one dashboard</span></span>
           </a>
-          <a href="/franchise-food-safety.html" class="dd-item">
+          <a href="franchise-food-safety.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"></circle><path d="M9 6H4M20 6h-5"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="18" r="3"></circle><path d="M9 18h6"></path><path d="M12 9v3M7.5 15.5L10 12M16.5 15.5L14 12"></path></svg></span>
             <span><span class="dd-title">Franchises</span><span class="dd-sub">Central standards, local execution</span></span>
           </a>
         </div>
       </span>
       <span class="dd">
-        <a href="#features" class="navlink">Features <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
+        <a href="/#features" class="navlink">Features <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
         <div class="dd-menu dd-grid">
-          <a href="/multi-site-food-safety.html" class="dd-item">
+          <a href="multi-site-food-safety.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.2"></circle><circle cx="5" cy="5" r="2.2"></circle><circle cx="19" cy="5" r="2.2"></circle><circle cx="5" cy="19" r="2.2"></circle><circle cx="19" cy="19" r="2.2"></circle><path d="M6.6 6.6l3.8 3.8M17.4 6.6l-3.8 3.8M6.6 17.4l3.8-3.8M17.4 17.4l-3.8-3.8"></path></svg></span>
             <span><span style="display: flex; align-items: center; gap: 7px;" class="dd-title">Multisite <span class="tag-new">NEW</span></span><span class="dd-sub">Run every site from one dashboard</span></span>
           </a>
-          <a href="/haccp-checklists.html" class="dd-item">
+          <a href="haccp-checklists.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 8h8M8 12h8M8 16h5"></path></svg></span>
             <span><span class="dd-title">HACCP Checklists</span><span class="dd-sub">Daily tasks, temps and sign-offs</span></span>
           </a>
-          <a href="/allergen-matrix.html" class="dd-item">
+          <a href="allergen-matrix.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L4 19h16z"></path><path d="M12 10v4M12 16.5v.5"></path></svg></span>
             <span><span class="dd-title">Allergen Matrix</span><span class="dd-sub">Auto-built from your recipes</span></span>
           </a>
-          <a href="/ai-recipe-import.html" class="dd-item">
+          <a href="ai-recipe-import.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4c0-.6 3-1.5 5-1.5S21 3.1 21 3.7V19c0 .6-2-1-4-1s-5 .9-5 1.5c0-.6-3-1.5-5-1.5s-4 1.6-4 1V3.7C3 3.1 5 2.5 7 2.5s5 .9 5 1.5z"></path><path d="M12 4v15.5"></path></svg></span>
             <span><span class="dd-title">AI Recipe Import</span><span class="dd-sub">Photograph a recipe, get it typed up</span></span>
           </a>
-          <a href="/compliance-reports.html" class="dd-item">
+          <a href="compliance-reports.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M8.5 12.3l2.3 2.3 4.7-5"></path></svg></span>
             <span><span class="dd-title">Compliance Reports</span><span class="dd-sub">One-tap packs for EHO visits</span></span>
           </a>
-          <a href="/team-management.html" class="dd-item">
+          <a href="team-management.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20a7 7 0 0 1 14 0"></path></svg></span>
             <span><span class="dd-title">Team Management</span><span class="dd-sub">Roles, training and accountability</span></span>
           </a>
-          <a href="/deliveries.html" class="dd-item">
+          <a href="deliveries.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5v8l9 5 9-5z"></path><path d="M3.3 8.2L12 13l8.7-4.8M12 13v8.5"></path></svg></span>
             <span><span class="dd-title">Deliveries</span><span class="dd-sub">Log suppliers and check-ins fast</span></span>
           </a>
-          <a href="/document-management.html" class="dd-item">
+          <a href="document-management.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></span>
             <span><span class="dd-title">Documents</span><span class="dd-sub">Certificates and policies in one place</span></span>
           </a>
-          <a href="/haccp-pack.html" class="dd-item">
+          <a href="haccp-pack.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5h11.5a2 2 0 0 1 2 2V21H7a2 2 0 0 1-2-2z"></path><path d="M5 4.5A1.75 1.75 0 0 1 6.75 3H16v3.5"></path><path d="M9 10.5h6M9 14h6"></path></svg></span>
             <span><span class="dd-title">HACCP Pack</span><span class="dd-sub">Your SFBB file, writing itself</span></span>
           </a>
-          <a href="/incidents.html" class="dd-item">
+          <a href="incidents.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21.5 20h-19z"></path><line x1="12" y1="10" x2="12" y2="14"></line><circle cx="12" cy="17" r="0.5" fill="currentColor"></circle></svg></span>
             <span><span class="dd-title">Incidents</span><span class="dd-sub">Complaints logged, owned, resolved</span></span>
           </a>
         </div>
       </span>
       <span class="dd">
-        <a href="/tools.html" class="navlink">Free tools <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
+        <a href="tools.html" class="navlink">Free tools <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
         <div class="dd-menu" style="width: 312px;">
-          <a href="/free-haccp-template.html" class="dd-item">
+          <a href="free-haccp-template.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7.5 11l4.5 4.5L16.5 11"></path><path d="M4.5 16v3a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5v-3"></path></svg></span>
             <span><span class="dd-title">Free HACCP template</span><span class="dd-sub">Printable pack — logs, schedules, checks</span></span>
           </a>
-          <a href="/audit/" class="dd-item">
+          <a href="audit/" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"></path><path d="M9 11.8l2.2 2.2 3.8-4"></path></svg></span>
             <span><span class="dd-title">Free self-audit</span><span class="dd-sub">Score your kitchen like an EHO would</span></span>
           </a>
-          <a href="/check-food-hygiene-rating.html" class="dd-item">
+          <a href="check-food-hygiene-rating.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg></span>
             <span><span class="dd-title">Check a hygiene rating</span><span class="dd-sub">Live FSA rating of any UK venue</span></span>
           </a>
@@ -1117,15 +227,15 @@ body {
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5c-4.7 0-8.5 3-8.5 6.8 0 2.2 1.3 4.2 3.3 5.4L6 20.5l4-2.1c.6.1 1.3.2 2 .2 4.7 0 8.5-3 8.5-6.8S16.7 3.5 12 3.5z"></path></svg></span>
             <span><span class="dd-title">GPT food safety coach</span><span class="dd-sub">Ask anything about HACCP or allergens</span></span>
           </a>
-          <a href="/london-food-hygiene-map.html" class="dd-item">
+          <a href="london-food-hygiene-map.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20l-5.5-2V4L9 6M9 20l6-2M9 20V6M15 18l5.5 2V6L15 4M15 18V4M9 6l6-2"></path></svg></span>
             <span><span class="dd-title">Hygiene rating maps</span><span class="dd-sub">London, NYC &amp; SF — live inspection data</span></span>
           </a>
-          <div style="border-top: 1px solid #f2f3f5; margin-top: 6px; padding: 9px 10px;"><a href="/tools.html" style="font-size: 13px; font-weight: 700; color: #1f7a52;">See all free tools →</a></div>
+          <div style="border-top: 1px solid #f2f3f5; margin-top: 6px; padding: 9px 10px;"><a href="tools.html" style="font-size: 13px; font-weight: 700; color: #1f7a52;">See all free tools →</a></div>
         </div>
       </span>
-      <a href="#pricing" class="navlink">Pricing</a>
-      <a href="#faq" class="navlink">FAQ</a>
+      <a href="/#pricing" class="navlink">Pricing</a>
+      <a href="/#faq" class="navlink">FAQ</a>
     </div>
     <a href="https://app.blueroll.app/" class="nav-signin" style="font-size: 13.5px; font-weight: 600; color: #41464d; white-space: nowrap; margin-left: auto;">Sign in</a>
     <a href="https://app.blueroll.app/" class="btn-green" style="font-size: 13.5px; padding: 9px 18px; box-shadow: 0 1px 2px rgba(16,24,40,.1);">Start for free</a>
@@ -1138,840 +248,185 @@ body {
 <div class="mobile-menu" id="mobile-menu">
   <div class="mm-group">
     <div class="mm-label">Who it's for</div>
-    <a class="mm-link" href="/independent-restaurant-food-safety.html">Independents</a>
-    <a class="mm-link" href="/multi-site-food-safety.html">Groups &amp; estates <span class="tag-new">NEW</span></a>
-    <a class="mm-link" href="/franchise-food-safety.html">Franchises</a>
+    <a class="mm-link" href="independent-restaurant-food-safety.html">Independents</a>
+    <a class="mm-link" href="multi-site-food-safety.html">Groups &amp; estates <span class="tag-new">NEW</span></a>
+    <a class="mm-link" href="franchise-food-safety.html">Franchises</a>
   </div>
   <div class="mm-group">
     <div class="mm-label">Features</div>
-    <a class="mm-link" href="/multi-site-food-safety.html">Multisite <span class="tag-new">NEW</span></a>
-    <a class="mm-link" href="/haccp-checklists.html">HACCP Checklists</a>
-    <a class="mm-link" href="/allergen-matrix.html">Allergen Matrix</a>
-    <a class="mm-link" href="/ai-recipe-import.html">AI Recipe Import</a>
-    <a class="mm-link" href="/compliance-reports.html">Compliance Reports</a>
-    <a class="mm-link" href="/team-management.html">Team Management</a>
-    <a class="mm-link" href="/deliveries.html">Deliveries</a>
-    <a class="mm-link" href="/document-management.html">Documents</a>
-    <a class="mm-link" href="/haccp-pack.html">HACCP Pack</a>
-    <a class="mm-link" href="/incidents.html">Incidents</a>
+    <a class="mm-link" href="multi-site-food-safety.html">Multisite <span class="tag-new">NEW</span></a>
+    <a class="mm-link" href="haccp-checklists.html">HACCP Checklists</a>
+    <a class="mm-link" href="allergen-matrix.html">Allergen Matrix</a>
+    <a class="mm-link" href="ai-recipe-import.html">AI Recipe Import</a>
+    <a class="mm-link" href="compliance-reports.html">Compliance Reports</a>
+    <a class="mm-link" href="team-management.html">Team Management</a>
+    <a class="mm-link" href="deliveries.html">Deliveries</a>
+    <a class="mm-link" href="document-management.html">Documents</a>
+    <a class="mm-link" href="haccp-pack.html">HACCP Pack</a>
+    <a class="mm-link" href="incidents.html">Incidents</a>
   </div>
   <div class="mm-group">
     <div class="mm-label">Free tools</div>
-    <a class="mm-link" href="/free-haccp-template.html">Free HACCP template</a>
-    <a class="mm-link" href="/audit/">Free self-audit</a>
-    <a class="mm-link" href="/check-food-hygiene-rating.html">Check a hygiene rating</a>
-    <a class="mm-link" href="/london-food-hygiene-map.html">Hygiene rating maps</a>
-    <a class="mm-link" href="/tools.html">See all free tools →</a>
+    <a class="mm-link" href="free-haccp-template.html">Free HACCP template</a>
+    <a class="mm-link" href="audit/">Free self-audit</a>
+    <a class="mm-link" href="check-food-hygiene-rating.html">Check a hygiene rating</a>
+    <a class="mm-link" href="london-food-hygiene-map.html">Hygiene rating maps</a>
+    <a class="mm-link" href="tools.html">See all free tools →</a>
   </div>
   <div class="mm-group" style="border-bottom: none;">
-    <a class="mm-link" href="#pricing">Pricing</a>
-    <a class="mm-link" href="#faq">FAQ</a>
+    <a class="mm-link" href="/#pricing">Pricing</a>
+    <a class="mm-link" href="/#faq">FAQ</a>
     <a class="mm-link" href="https://app.blueroll.app/">Sign in</a>
   </div>
   <a href="https://app.blueroll.app/" class="btn-green mm-cta">Start for free</a>
 </div>
 
 
-<h1 class="sr-only">HACCP Pack for Restaurant Food Safety Records</h1>
+<div style="max-width: 1160px; margin: 22px auto 0; padding: 0 24px; font-size: 12.5px; color: #8a9099;"><a href="/">Blueroll</a> <span style="color: #c6cad0;">›</span> <a href="/#features">Features</a> <span style="color: #c6cad0;">›</span> <span style="color: #5c626b; font-weight: 600;">HACCP Pack</span></div>
 
-<!-- Sticky Top: Header + Tabs -->
-<div class="sticky-top">
-  <div class="header-inner">
-    <div class="header-top">
-      <div class="header-left">
-        <span class="header-title">HACCP Pack</span>
+<div style="max-width: 1160px; margin: 52px auto 0; padding: 0 24px; text-align: center;">
+  <div style="max-width: 820px; margin: 0 auto;">
+    <div style="display: inline-flex; align-items: center; gap: 7px; background: #eaf4ee; color: #1f7a52; font-size: 12.5px; font-weight: 700; border-radius: 20px; padding: 5px 14px;">Feature · HACCP Pack</div>
+    <h1 class="hp-h1" style="font-size: 54px; line-height: 1.05; font-weight: 800; letter-spacing: -0.04em; margin: 18px 0 0; text-wrap: balance;">Your SFBB file, writing itself</h1>
+    <p style="font-size: 17px; line-height: 1.6; color: #5c626b; margin: 18px auto 0; max-width: 620px; text-wrap: pretty;">The HACCP pack every UK kitchen must keep — assembled from what you already run in Blueroll: recipes, suppliers, cleaning schedules, training records. You review it; you don’t write it.</p>
+    <div style="display: flex; justify-content: center; gap: 12px; margin-top: 28px; flex-wrap: wrap;">
+      <a href="https://app.blueroll.app/" class="btn-green btn-cta-final" style="font-size: 15px; font-weight: 700; padding: 13px 26px; box-shadow: 0 12px 32px -14px rgba(31,157,99,.9);">Start for free</a>
+      <a href="/#hero-demo" class="ghost-light" style="font-size: 15px; font-weight: 600; padding: 13px 26px; border-radius: 8px; display: inline-flex; align-items: center; gap: 9px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="#1f7a52"><path d="M7 4.8v14.4c0 .9 1 1.4 1.7.9l11-7.2c.7-.4.7-1.4 0-1.8l-11-7.2c-.7-.5-1.7 0-1.7.9z"></path></svg>Watch the 60-second tour</a>
+    </div>
+  </div>
+</div>
+
+<div style="max-width: 1160px; margin: 48px auto 0; padding: 0 24px;">
+  <div style="background: #fff; border: 1px solid #e7e9ec; border-radius: 18px; box-shadow: 0 1px 2px rgba(16,24,40,.03), 0 40px 80px -40px rgba(16,24,40,.25); overflow: hidden;">
+    <div style="height: 42px; display: flex; align-items: center; gap: 8px; padding: 0 16px; border-bottom: 1px solid #eef0f2; background: #fafbfb;">
+      <span style="width: 11px; height: 11px; border-radius: 50%; background: #e8eaec;"></span>
+      <span style="width: 11px; height: 11px; border-radius: 50%; background: #e8eaec;"></span>
+      <span style="width: 11px; height: 11px; border-radius: 50%; background: #e8eaec;"></span>
+      <div style="flex: 1; display: flex; justify-content: center;">
+        <div style="background: #f1f2f4; border-radius: 8px; padding: 5px 46px; font-size: 11.5px; color: #8a9099; font-family: 'Geist Mono', monospace;">app.blueroll.app</div>
       </div>
-      <div class="header-right-group">
-        <div class="level-badge"><span class="level-dot"></span><span id="levelLabel">Level 1</span></div>
-        <div class="xp-display"><span class="xp-number" id="xpNumber">0</span> XP</div>
+    </div>
+    <div style="aspect-ratio: 1512 / 860; background: #f6f7f8;">
+      <img src="/uploads/shot-haccp-pack.png" alt="Blueroll HACCP Pack — SFBB-style sections auto-filled from live records" width="1512" height="860" loading="lazy" style="display: block; width: 100%; height: auto;">
+    </div>
+  </div>
+</div>
+
+<div style="max-width: 1160px; margin: 96px auto 0; padding: 0 24px;">
+  <div class="fz-grid" style="display: grid; grid-template-columns: 1fr 1.05fr; gap: 64px; align-items: center;">
+    <div>
+      <div style="display: inline-flex; align-items: center; background: #eaf4ee; color: #1f7a52; font-size: 12.5px; font-weight: 700; border-radius: 20px; padding: 5px 13px;">Build</div>
+      <h2 style="font-size: 36px; font-weight: 700; letter-spacing: -0.03em; margin: 14px 0 0; line-height: 1.12;">86% of it writes itself</h2>
+      <p style="font-size: 15px; color: #5c626b; line-height: 1.65; margin: 14px 0 0; text-wrap: pretty;">Cooking methods and temperatures come from your recipes. The allergen matrix comes from the same place. Cleaning schedules, the supplier list and training records are already in Blueroll — the pack assembles them into one living document.</p>
+    </div>
+    <div style="background: #eef1f0; border-radius: 20px; padding: 40px; display: flex; flex-direction: column; gap: 12px; justify-content: center;"><div style="background: #fff; border-radius: 14px; padding: 16px 18px; box-shadow: 0 20px 44px -24px rgba(16,24,40,.35);"><div style="display: flex; align-items: center; gap: 8px;"><span style="font-size: 13.5px; font-weight: 700;">HACCP Pack</span><span style="margin-left: auto; background: #eaf4ee; color: #1f7a52; font-size: 9.5px; font-weight: 700; border-radius: 20px; padding: 2px 8px; animation: fg-cycle 4s .6s infinite;">Auto-filled</span></div><div style="display: flex; align-items: center; gap: 8px; margin-top: 12px;"><div style="flex: 1; height: 5px; background: #eef0f2; border-radius: 4px;"><div style="height: 100%; border-radius: 4px; background: #1f9d63; animation: fg-fill 4s ease-in-out infinite;"></div></div><span style="font-size: 10px; font-weight: 700; color: #1f7a52; font-family: 'Geist Mono', monospace;">86%</span></div><div style="display: flex; flex-direction: column; gap: 6px; margin-top: 12px;"><div style="display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #eef0f2; border-radius: 9px; padding: 8px 11px; font-size: 11.5px; white-space: nowrap;"><span style="width: 14px; height: 14px; border-radius: 50%; background: #1f9d63; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 8px; flex-shrink: 0; animation: fg-tick 5s 0.3s infinite both;">✓</span>Cooking methods &amp; temps<span style="margin-left: auto; color: #8a9099; font-size: 10px;">from recipes</span></div><div style="display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #eef0f2; border-radius: 9px; padding: 8px 11px; font-size: 11.5px; white-space: nowrap;"><span style="width: 14px; height: 14px; border-radius: 50%; background: #1f9d63; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 8px; flex-shrink: 0; animation: fg-tick 5s 1s infinite both;">✓</span>Allergen matrix<span style="margin-left: auto; color: #8a9099; font-size: 10px;">from recipes</span></div><div style="display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #eef0f2; border-radius: 9px; padding: 8px 11px; font-size: 11.5px; white-space: nowrap;"><span style="width: 14px; height: 14px; border-radius: 50%; background: #1f9d63; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 8px; flex-shrink: 0; animation: fg-tick 5s 1.7s infinite both;">✓</span>Cleaning schedules &amp; suppliers<span style="margin-left: auto; color: #8a9099; font-size: 10px;">from records</span></div></div></div></div>
+  </div>
+</div>
+
+<div style="max-width: 1160px; margin: 96px auto 0; padding: 0 24px;">
+  <div class="fz-grid" style="display: grid; grid-template-columns: 1.05fr 1fr; gap: 64px; align-items: center;">
+    <div style="background: #eef1f0; border-radius: 20px; padding: 40px; display: flex; flex-direction: column; gap: 12px; justify-content: center;"><div style="background: #fff; border-radius: 14px; padding: 16px 18px; box-shadow: 0 20px 44px -24px rgba(16,24,40,.35);"><div style="display: flex; align-items: center; gap: 8px;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #d98a1a; animation: fg-pulse 2.4s ease-out infinite;"></span><span style="font-size: 13.5px; font-weight: 700;">4-weekly HACCP review</span><span style="margin-left: auto; background: #fbf1e1; color: #b07d1e; font-size: 10.5px; font-weight: 700; border-radius: 20px; padding: 3px 10px;">Due Friday</span></div><div style="display: flex; align-items: center; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #f2f3f5;"><span style="font-size: 12px; color: #41464d;">2 changes since last review: new supplier, tahini in house sauce</span></div></div><div style="display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #eef0f2; border-radius: 9px; padding: 8px 11px; font-size: 11.5px; white-space: nowrap;"><span style="width: 14px; height: 14px; border-radius: 50%; background: #1f9d63; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 8px; flex-shrink: 0; animation: fg-tick 5s 1.4s infinite both;">✓</span><span style="font-weight: 600;">Reviewed &amp; signed — Priya</span><span style="margin-left: auto; color: #1f7a52; font-weight: 700; font-size: 10px; animation: fg-cycle 5s 1.4s infinite;">DONE ✓</span></div></div>
+    <div>
+      <div style="display: inline-flex; align-items: center; background: #eaf4ee; color: #1f7a52; font-size: 12.5px; font-weight: 700; border-radius: 20px; padding: 5px 13px;">Review</div>
+      <h2 style="font-size: 36px; font-weight: 700; letter-spacing: -0.03em; margin: 14px 0 0; line-height: 1.12;">The 4-weekly review, remembered for you</h2>
+      <p style="font-size: 15px; color: #5c626b; line-height: 1.65; margin: 14px 0 0; text-wrap: pretty;">SFBB expects a regular review — Blueroll tracks what changed since the last one (new suppliers, edited recipes, new starters) and puts the diff in front of the manager to sign. Five minutes, not an evening.</p>
+    </div>
+  </div>
+</div>
+
+<div style="max-width: 1160px; margin: 96px auto 0; padding: 0 24px;">
+  <div class="fz-grid" style="display: grid; grid-template-columns: 1fr 1.05fr; gap: 64px; align-items: center;">
+    <div>
+      <div style="display: inline-flex; align-items: center; background: #eaf4ee; color: #1f7a52; font-size: 12.5px; font-weight: 700; border-radius: 20px; padding: 5px 13px;">Show</div>
+      <h2 style="font-size: 36px; font-weight: 700; letter-spacing: -0.03em; margin: 14px 0 0; line-height: 1.12;">Inspection-ready, in the format EHOs know</h2>
+      <p style="font-size: 15px; color: #5c626b; line-height: 1.65; margin: 14px 0 0; text-wrap: pretty;">Export the full pack as one PDF structured like the FSA’s Safer Food, Better Business file: methods, allergens, cleaning, suppliers, training. The inspector opens a familiar document — filled from your real records, not copied from last year’s.</p>
+    </div>
+    <div style="background: #eef1f0; border-radius: 20px; padding: 40px; display: flex; flex-direction: column; gap: 12px; justify-content: center;"><div style="background: #fff; border-radius: 14px; padding: 16px 18px; box-shadow: 0 20px 44px -24px rgba(16,24,40,.35);"><div style="display: flex; align-items: center; gap: 10px;"><span style="width: 24px; height: 30px; background: #fbecec; border-radius: 5px; display: inline-flex; align-items: center; justify-content: center; color: #c0403a; font-size: 7px; font-weight: 700; font-family: 'Geist Mono', monospace; flex-shrink: 0;">PDF</span><span style="font-size: 13px; font-weight: 700;">HACCP Pack — full export</span><span style="margin-left: auto; color: #1f7a52; font-weight: 700; font-size: 10px; animation: fg-cycle 5s 1s infinite;">READY ✓</span></div><div style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 12px;"><span style="background: #f1f2f4; color: #5c626b; font-size: 10.5px; font-weight: 600; border-radius: 20px; padding: 3px 9px;">Methods</span><span style="background: #f1f2f4; color: #5c626b; font-size: 10.5px; font-weight: 600; border-radius: 20px; padding: 3px 9px;">Allergens</span><span style="background: #f1f2f4; color: #5c626b; font-size: 10.5px; font-weight: 600; border-radius: 20px; padding: 3px 9px;">Cleaning</span><span style="background: #f1f2f4; color: #5c626b; font-size: 10.5px; font-weight: 600; border-radius: 20px; padding: 3px 9px;">Suppliers</span><span style="background: #f1f2f4; color: #5c626b; font-size: 10.5px; font-weight: 600; border-radius: 20px; padding: 3px 9px;">Training</span></div><div style="font-size: 11px; color: #6b727b; margin-top: 8px;">The file the EHO recognises — structured like SFBB</div></div></div>
+  </div>
+</div>
+
+<div style="max-width: 760px; margin: 96px auto 0; padding: 0 24px;">
+  <h2 style="font-size: 26px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.25;">Frequently asked questions</h2>
+  <div style="margin-top: 8px;">
+    <h3 style="font-size: 15.5px; font-weight: 700; margin: 22px 0 0;">Is this the same as the FSA’s SFBB pack?</h3>
+    <p style="font-size: 14px; color: #5c626b; line-height: 1.65; margin: 6px 0 0;">It’s structured the same way, so an EHO opens a familiar document. The difference: it’s filled from your live records — recipes, suppliers, cleaning, training — instead of being written once and left to age.</p>
+    <h3 style="font-size: 15.5px; font-weight: 700; margin: 22px 0 0;">What happens when I change a recipe?</h3>
+    <p style="font-size: 14px; color: #5c626b; line-height: 1.65; margin: 6px 0 0;">Cooking methods, temperatures and allergens update in the pack automatically, and the change is queued for the next 4-weekly review so a manager signs off on it.</p>
+    <h3 style="font-size: 15.5px; font-weight: 700; margin: 22px 0 0;">Can I print it for the folder?</h3>
+    <p style="font-size: 14px; color: #5c626b; line-height: 1.65; margin: 6px 0 0;">Yes — export the whole pack as a PDF in one tap, or email it straight to your EHO with a compliance report.</p>
+  </div>
+</div>
+<!-- ============ FINAL CTA ============ -->
+<div style="max-width: 1160px; margin: 96px auto 0; padding: 0 24px 96px;">
+  <div id="final-cta" class="cta-panel" style="position: relative; background: linear-gradient(105deg, #14382a, #0f2b1e 55%, #0a1f15); border-radius: 28px; padding: 64px 56px 58px; text-align: center; color: #fff; overflow: hidden;">
+    <span aria-hidden="true" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -54%); font-size: 560px; font-weight: 800; line-height: 1; color: rgba(255,255,255,.035); user-select: none; pointer-events: none; font-variant-numeric: tabular-nums;">5</span>
+    <span data-hero-blob style="position: absolute; top: -120px; left: 8%; width: 460px; height: 460px; border-radius: 50%; background: radial-gradient(circle, rgba(31,157,99,.18), rgba(31,157,99,0) 68%); animation: heroBlob 17s ease-in-out infinite;"></span>
+    <div style="position: relative; z-index: 1;">
+      <h2 style="font-size: 44px; font-weight: 800; letter-spacing: -0.035em; margin: 0; line-height: 1.08;">The 5 on your door<br>starts tonight.</h2>
+      <p style="font-size: 16.5px; margin: 18px auto 0; max-width: 520px; color: rgba(255,255,255,.66); line-height: 1.6; text-wrap: balance;">Ten minutes to set up. Built-in UK checklists, fridge temps, allergens and sign-offs — live before tomorrow's opening checks.</p>
+      <div id="cta-timeline" class="cta-timeline" style="max-width: 780px; margin: 44px auto 0; position: relative;">
+        <span style="position: absolute; top: 8px; left: 9%; right: 9%; height: 2px; background: rgba(255,255,255,.14); border-radius: 2px;"></span>
+        <span class="cta-node" style="position: absolute; top: 8px; left: 9%; right: 9%; height: 2px; background: linear-gradient(90deg, #1f9d63, #3fbf82); border-radius: 2px; transform-origin: left; animation: ctaProg 2.1s cubic-bezier(.4,0,.2,1) .3s both; animation-play-state: paused;"></span>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr);">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; position: relative;">
+          <span class="cta-node" style="width: 18px; height: 18px; border-radius: 50%; background: #0f2b1e; border: 2px solid rgba(255,255,255,.25); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 9px; z-index: 1; animation: ctaNode .45s cubic-bezier(.2,.8,.2,1) 0.35s both; animation-play-state: paused;">✓</span>
+          <span style="display: flex; flex-direction: column; align-items: center; gap: 3px;">
+            <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: rgba(255,255,255,.45);">07:58</span>
+            <span class="cta-tl-label" style="font-size: 13px; font-weight: 600; color: rgba(255,255,255,.85); white-space: nowrap;">Opening checks · 9/9</span>
+          </span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; position: relative;">
+          <span class="cta-node" style="width: 18px; height: 18px; border-radius: 50%; background: #0f2b1e; border: 2px solid rgba(255,255,255,.25); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 9px; z-index: 1; animation: ctaNode .45s cubic-bezier(.2,.8,.2,1) 0.9s both; animation-play-state: paused;">✓</span>
+          <span style="display: flex; flex-direction: column; align-items: center; gap: 3px;">
+            <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: rgba(255,255,255,.45);">11:20</span>
+            <span class="cta-tl-label" style="font-size: 13px; font-weight: 600; color: rgba(255,255,255,.85); white-space: nowrap;">Delivery · 4.1°C</span>
+          </span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; position: relative;">
+          <span class="cta-node" style="width: 18px; height: 18px; border-radius: 50%; background: #0f2b1e; border: 2px solid rgba(255,255,255,.25); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 9px; z-index: 1; animation: ctaNode .45s cubic-bezier(.2,.8,.2,1) 1.45s both; animation-play-state: paused;">✓</span>
+          <span style="display: flex; flex-direction: column; align-items: center; gap: 3px;">
+            <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: rgba(255,255,255,.45);">13:00</span>
+            <span class="cta-tl-label" style="font-size: 13px; font-weight: 600; color: rgba(255,255,255,.85); white-space: nowrap;">Hot-hold · 63°C</span>
+          </span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; position: relative;">
+          <span class="cta-node" style="width: 18px; height: 18px; border-radius: 50%; background: #0f2b1e; border: 2px solid rgba(255,255,255,.25); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 9px; z-index: 1; animation: ctaNode .45s cubic-bezier(.2,.8,.2,1) 2s both; animation-play-state: paused;">✓</span>
+          <span style="display: flex; flex-direction: column; align-items: center; gap: 3px;">
+            <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: rgba(255,255,255,.45);">22:41</span>
+            <span class="cta-tl-label" style="font-size: 13px; font-weight: 600; color: rgba(255,255,255,.85); white-space: nowrap;">Signed off · Priya</span>
+          </span>
+        </div>
+        </div>
       </div>
+      <div style="display: flex; justify-content: center; gap: 12px; margin-top: 32px; flex-wrap: wrap;">
+        <a href="https://app.blueroll.app/" class="btn-green btn-cta-final" style="font-size: 15px; font-weight: 700; padding: 14px 28px; box-shadow: 0 12px 32px -14px rgba(31,157,99,.9);">Start for free</a>
+        <a href="/#hero-demo" class="ghost-btn" style="font-size: 15px; font-weight: 600; padding: 14px 28px; border-radius: 8px; white-space: nowrap; display: inline-flex; align-items: center; gap: 9px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.8v14.4c0 .9 1 1.4 1.7.9l11-7.2c.7-.4.7-1.4 0-1.8l-11-7.2c-.7-.5-1.7 0-1.7.9z"></path></svg>Watch the 60-second tour</a>
+      </div>
+      <div style="margin-top: 24px; font-size: 12.5px; color: rgba(255,255,255,.42); letter-spacing: .01em;">14-day free trial · Cancel anytime in the App Store</div>
     </div>
-  </div>
-  <div class="tab-bar" id="tabBar"></div>
-</div>
-
-<!-- Content -->
-<div class="section-content-wrap" id="contentWrap"></div>
-
-<!-- Bottom Bar -->
-<div class="bottom-bar">
-  <div class="bottom-progress-wrap">
-    <div class="bottom-progress-row">
-      <span class="bottom-progress-label" id="bottomStats"><strong>0</strong>/96 tasks</span>
-      <span class="bottom-progress-pct" id="bottomPct">0%</span>
-    </div>
-    <div class="bottom-progress-track">
-      <div class="bottom-progress-fill" id="bottomProgressFill" style="width:0%"></div>
-    </div>
-  </div>
-  <button class="export-btn" onclick="exportPack()">
-    Export
-  </button>
-</div>
-
-<!-- XP Toast -->
-<div class="xp-toast" id="xpToast">+10 XP</div>
-
-<!-- Confetti -->
-<div class="confetti-container" id="confettiContainer"></div>
-
-<!-- Celebration -->
-<div class="celebration-overlay" id="celebrationOverlay">
-  <div class="celebration-card">
-    <div class="celebration-icon" id="celebIcon"></div>
-    <div class="celebration-title" id="celebTitle">Section Complete!</div>
-    <div class="celebration-sub" id="celebSub">Badge unlocked</div>
-    <button class="celebration-dismiss" onclick="dismissCelebration()">Continue</button>
   </div>
 </div>
 
-<script>
-// =====================================================================
-// SVG ICONS
-// =====================================================================
-var ICONS = {
-  shield: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2L3 6v4c0 4.4 3 8.5 7 9.5 4-1 7-5.1 7-9.5V6l-7-4z"/></svg>',
-  droplet: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2S5 8.5 5 12a5 5 0 0010 0c0-3.5-5-10-5-10z"/></svg>',
-  snowflake: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="10" y1="2" x2="10" y2="18"/><line x1="3" y1="6" x2="17" y2="14"/><line x1="3" y1="14" x2="17" y2="6"/><line x1="7" y1="3" x2="10" y2="5"/><line x1="13" y1="3" x2="10" y2="5"/><line x1="7" y1="17" x2="10" y2="15"/><line x1="13" y1="17" x2="10" y2="15"/></svg>',
-  flame: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2C10 2 5 8 5 12.5a5 5 0 0010 0C15 8 10 2 10 2z"/><path d="M10 18a2.5 2.5 0 002.5-2.5c0-2.5-2.5-5-2.5-5s-2.5 2.5-2.5 5A2.5 2.5 0 0010 18z"/></svg>',
-  clipboard: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="12" height="15" rx="2"/><path d="M8 2h4v2H8z"/><line x1="7" y1="8" x2="13" y2="8"/><line x1="7" y1="11" x2="13" y2="11"/><line x1="7" y1="14" x2="10" y2="14"/></svg>',
-  chevronDown: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6,8 10,12 14,8"/></svg>',
-  check: '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2.5,6 5,8.5 9.5,3.5"/></svg>',
-  upload: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13v2a2 2 0 002 2h8a2 2 0 002-2v-2"/><polyline points="13,7 10,4 7,7"/><line x1="10" y1="4" x2="10" y2="14"/></svg>',
-  x: '<svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="2" y1="2" x2="8" y2="8"/><line x1="8" y1="2" x2="2" y2="8"/></svg>',
-  pencil: '<svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2.5a2.12 2.12 0 013 3L6 17l-4 1 1-4L14.5 2.5z"/></svg>',
-  file: '<svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2h8l4 4v12a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z"/><polyline points="12,2 12,6 16,6"/></svg>',
-  select: '<svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="6,8 10,12 14,8"/></svg>',
-  badgeCheck: '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,6 5.5,8.5 9,3.5"/></svg>'
-};
-
-var SECTION_ICONS = ['shield', 'droplet', 'snowflake', 'flame', 'clipboard'];
-
-// =====================================================================
-// DATA MODEL
-// =====================================================================
-var SECTIONS = [
-  {
-    id: 'cross', name: 'Cross-Contamination', shortName: 'Cross-C.', color: '#DC2626',
-    methods: [
-      { id: 'personal-hygiene', title: 'Personal Hygiene',
-        toggles: ['Staff wash hands before work','Wear clean clothes','Change before starting','Hair tied back','No jewellery worn','Trained on fitness to work'],
-        texts: [
-          { key: 'work-clothes', label: 'Work clothes', placeholder: 'e.g. White chef jacket, black trousers, non-slip shoes, clean apron' },
-          { key: 'change-location', label: 'Changing area', placeholder: 'e.g. Staff changing room at the back of the kitchen' },
-          { key: 'apron-storage', label: 'Apron storage', placeholder: 'e.g. Clean aprons on hooks by the staff entrance' }
-        ]
-      },
-      { id: 'cloths', title: 'Cloths',
-        toggles: ['Use disposable cloths','Separate cloths for different jobs'],
-        texts: [
-          { key: 'dirty-cloths', label: 'Dirty cloths', placeholder: 'e.g. Basket under the pot wash sink' },
-          { key: 'clean-cloths', label: 'Clean cloths', placeholder: 'e.g. Shelf above the pot wash area' }
-        ]
-      },
-      { id: 'separating-foods', title: 'Separating Foods',
-        toggles: [],
-        texts: [
-          { key: 'delivery-times', label: 'Delivery times', placeholder: 'e.g. Mon-Fri 7am from Brakes, Tues/Thurs 6am from local butcher' },
-          { key: 'raw-rte', label: 'Raw vs ready-to-eat', placeholder: 'e.g. Raw meat on bottom shelf, ready-to-eat on top. Separate labelled containers with lids' },
-          { key: 'defrost-location', label: 'Defrost area', placeholder: 'e.g. Bottom shelf of fridge in gastro tray with lid, overnight' },
-          { key: 'raw-meat-sep', label: 'Raw meat separation', placeholder: 'e.g. Separate chopping boards (red for raw, blue for fish, green for salad)' }
-        ]
-      },
-      { id: 'food-allergies', title: 'Food Allergies',
-        toggles: [],
-        texts: [
-          { key: 'allergen-check', label: 'Allergen checks', placeholder: 'e.g. Check allergen matrix folder, verify all ingredients on the recipe sheet' },
-          { key: 'allergy-prep', label: 'Allergy prep', placeholder: 'e.g. Use clean gloves, separate boards and utensils, inform chef verbally' }
-        ],
-        files: [{ key: 'allergen-matrix', label: 'Allergen matrix' }]
-      },
-      { id: 'contamination-prevention', title: 'Contamination Prevention',
-        toggles: ['Chemicals stored safely','Food kept covered','Pest control in place','Equipment maintained'],
-        texts: [
-          { key: 'pest-provider', label: 'Pest control provider', placeholder: 'e.g. Rentokil, contract #12345, monthly visits' }
-        ]
-      },
-      { id: 'pest-control', title: 'Pest Control',
-        toggles: [],
-        texts: [
-          { key: 'pest-check-when', label: 'Pest checks', placeholder: 'e.g. Daily visual check — look for droppings, damaged goods, gnaw marks' },
-          { key: 'delivery-check', label: 'Delivery checks', placeholder: 'e.g. Inspect packaging before bringing into kitchen, reject if damaged' },
-          { key: 'external-check', label: 'External areas', placeholder: 'e.g. Daily — check bins have lids, no food waste outside, clear weeds' }
-        ],
-        files: [{ key: 'pest-contract', label: 'Pest control contract' }]
-      }
-    ]
-  },
-  {
-    id: 'cleaning', name: 'Cleaning', shortName: 'Cleaning', color: '#7C3AED',
-    methods: [
-      { id: 'handwashing', title: 'Handwashing',
-        toggles: ['Liquid soap available','Disposable towels provided','Handwash signs displayed'],
-        texts: []
-      },
-      { id: 'cleaning-effectively', title: 'Cleaning Effectively',
-        toggles: ['Two-stage cleaning used','High-priority surfaces cleaned regularly'],
-        texts: []
-      },
-      { id: 'clean-as-you-go', title: 'Clear & Clean As You Go',
-        toggles: ['Food waste bins available','Sink strainers used','Dedicated waste area'],
-        texts: [
-          { key: 'cayg-practice', label: 'Your practice', placeholder: 'e.g. After each task, wipe surfaces with sanitiser, put tools in wash area, bin packaging immediately' }
-        ]
-      },
-      { id: 'cleaning-schedule', title: 'Cleaning Schedule',
-        toggles: ['Schedule displayed for staff'],
-        texts: [],
-        files: [{ key: 'cleaning-schedule-file', label: 'Cleaning schedule' }]
-      }
-    ]
-  },
-  {
-    id: 'chilling', name: 'Chilling', shortName: 'Chilling', color: '#0891B2',
-    methods: [
-      { id: 'chilled-storage', title: 'Chilled Storage',
-        toggles: ['Check chilled foods daily','Follow use-by dates','Follow manufacturer instructions'],
-        texts: [
-          { key: 'date-tracking', label: 'Date tracking', placeholder: 'e.g. Label stickers with prep date and use-by, check daily during opening' }
-        ],
-        selects: [{ key: 'fridge-method', label: 'Fridge temp check method', options: ['Select method...','Digital display','Dial thermometer'] }]
-      },
-      { id: 'chilling-hot', title: 'Chilling Down Hot Food',
-        toggles: ['Divide into portions','Cut joints smaller','Move to cold area','Stir while chilling','Spread on trays'],
-        texts: [
-          { key: 'other-chill', label: 'Other method', placeholder: 'e.g. Run pasta under cold water, use blast chiller for large batches of soup' }
-        ]
-      },
-      { id: 'defrosting', title: 'Defrosting',
-        toggles: ['Defrost in fridge','Use cold water','Use microwave'],
-        texts: [
-          { key: 'meat-defrost', label: 'Meat & poultry', placeholder: 'e.g. In a covered container on the bottom shelf of the fridge, overnight' },
-          { key: 'defrost-time', label: 'Time allowed', placeholder: 'e.g. 24 hours for chicken portions, 48 hours for whole birds' }
-        ]
-      },
-      { id: 'freezing', title: 'Freezing',
-        toggles: ['Freeze on delivery','Label with date','Use containers or bags','Divide into portions'],
-        texts: []
-      }
-    ]
-  },
-  {
-    id: 'cooking', name: 'Cooking', shortName: 'Cooking', color: '#EA580C',
-    methods: [
-      { id: 'cooking-safely', title: 'Cooking Safely',
-        toggles: ['Preheat equipment','Never mix raw and cooked utensils','Turn meat during cooking','Check food is steaming hot'],
-        texts: []
-      },
-      { id: 'extra-care', title: 'Foods Needing Extra Care',
-        toggles: ['Cook eggs thoroughly','Follow pulses instructions'],
-        texts: [
-          { key: 'egg-dishes', label: 'Egg dishes', placeholder: 'e.g. Omelettes, scrambled eggs, poached eggs, quiche, carbonara' },
-          { key: 'rice-handling', label: 'Rice handling', placeholder: 'e.g. Cook and serve immediately, or chill within 1 hour in shallow gastro trays' },
-          { key: 'shellfish', label: 'Shellfish', placeholder: 'e.g. Prawns (garlic butter), mussels (mariniere), scallops (pan-seared)' }
-        ]
-      },
-      { id: 'reheating', title: 'Reheating',
-        toggles: ['Preheat before reheating'],
-        texts: [
-          { key: 'reheat-check', label: 'Reheating check', placeholder: 'e.g. Probe to 75°C core temp, check food is steaming hot throughout' },
-          { key: 'reheat-dishes', label: 'Dishes reheated', placeholder: 'e.g. Soup, curry, bolognese, chilli, rice dishes, stews' }
-        ]
-      },
-      { id: 'menu-checks', title: 'Menu Checks',
-        toggles: [],
-        texts: [
-          { key: 'cooked-dishes', label: 'Key dishes & checks', placeholder: 'e.g. Chicken — juices run clear, no pink. Burgers — steaming hot, no pink centre. Fish — flakes easily, changed colour' }
-        ]
-      },
-      { id: 'hot-holding', title: 'Hot Holding',
-        toggles: ['Use hot holding','Preheat equipment','Cook before holding'],
-        texts: [
-          { key: 'hh-equipment', label: 'Equipment used', placeholder: 'e.g. Bain-marie for sauces, soup kettle, hot holding cabinet' }
-        ]
-      },
-      { id: 'ready-to-eat', title: 'Ready-to-Eat Food',
-        toggles: ['Keep separate from raw','Wash vegetables','Follow instructions'],
-        texts: [
-          { key: 'rte-list', label: 'RTE foods handled', placeholder: 'e.g. Salads, cooked meats, smoked salmon, desserts, sandwiches, cheese boards' }
-        ]
-      }
-    ]
-  },
-  {
-    id: 'management', name: 'Management', shortName: 'Manage', color: '#A21CAF',
-    methods: [
-      { id: 'opening-closing', title: 'Opening & Closing Checks',
-        toggles: ['Do opening checks','Do closing checks'],
-        texts: [],
-        files: [{ key: 'checklist-template', label: 'Checklist template' }]
-      },
-      { id: 'suppliers', title: 'Suppliers',
-        toggles: [],
-        texts: [
-          { key: 'supplier-list', label: 'Main suppliers', placeholder: 'e.g. Brakes (dry goods), Local Butcher Ltd (meat), Borough Market Fish (seafood)' }
-        ],
-        files: [{ key: 'supplier-certs', label: 'Supplier certificates' }]
-      },
-      { id: 'stock-control', title: 'Stock Control',
-        toggles: ['FIFO stock rotation','Check use-by dates daily'],
-        texts: []
-      },
-      { id: 'training', title: 'Training',
-        toggles: [],
-        texts: [
-          { key: 'fs-responsible', label: 'Responsible person', placeholder: 'e.g. Head Chef — John Smith, trained Level 3 Food Hygiene' },
-          { key: 'last-training', label: 'Last training', placeholder: 'e.g. March 2026, Level 2 Food Safety refresher for all kitchen staff' }
-        ],
-        files: [{ key: 'training-certs', label: 'Training certificates' }]
-      },
-      { id: 'temp-probes', title: 'Temperature Probes',
-        toggles: ['Use probe','Calibrate probe regularly'],
-        texts: [
-          { key: 'calibration-method', label: 'Calibration method', placeholder: 'e.g. Ice water test weekly — probe reads 0°C in crushed ice and water mix' }
-        ]
-      },
-      { id: 'daily-diary', title: 'Daily Diary',
-        toggles: ['Diary completed every day'],
-        texts: [],
-        files: [{ key: 'diary-sample', label: 'Sample diary page' }]
-      }
-    ]
-  }
-];
-
-var LEVELS = [
-  { name: 'Kitchen Starter', min: 0, max: 100 },
-  { name: 'Safety Aware', min: 100, max: 300 },
-  { name: 'Hygiene Pro', min: 300, max: 600 },
-  { name: 'Compliance Expert', min: 600, max: 1000 },
-  { name: 'HACCP Master', min: 1000, max: Infinity }
-];
-
-// =====================================================================
-// STATE
-// =====================================================================
-var state = {};
-var currentSection = 0;
-var celebratedSections = {};
-var collapsedCards = {};
-
-function loadState() {
-  try { var s = localStorage.getItem('haccp-state'); if (s) state = JSON.parse(s); } catch(e) { state = {}; }
-  try { var c = localStorage.getItem('haccp-celebrated'); if (c) celebratedSections = JSON.parse(c); } catch(e) { celebratedSections = {}; }
-  try { var cs = localStorage.getItem('haccp-collapsed'); if (cs) collapsedCards = JSON.parse(cs); } catch(e) { collapsedCards = {}; }
-}
-
-function saveState() { localStorage.setItem('haccp-state', JSON.stringify(state)); }
-
-function getVal(key) { return state[key] || ''; }
-function setVal(key, val) { state[key] = val; saveState(); }
-function getToggle(key) { return state['t_' + key] === true; }
-function setToggle(key, val) { state['t_' + key] = val; saveState(); }
-function getFile(key) { return state['f_' + key] || ''; }
-function setFile(key, name) { state['f_' + key] = name; saveState(); }
-function getSelect(key) { return state['s_' + key] || ''; }
-function setSelectVal(key, val) { state['s_' + key] = val; saveState(); }
-
-// =====================================================================
-// COUNTING
-// =====================================================================
-function countMethod(method) {
-  var total = 0, done = 0, xp = 0;
-  (method.toggles || []).forEach(function(t, i) {
-    total++;
-    if (getToggle(method.id + '-' + i)) { done++; xp += 10; }
-  });
-  (method.texts || []).forEach(function(t) {
-    total++;
-    if (getVal(method.id + '-' + t.key).trim()) { done++; xp += 20; }
-  });
-  (method.files || []).forEach(function(f) {
-    total++;
-    if (getFile(method.id + '-' + f.key)) { done++; xp += 50; }
-  });
-  (method.selects || []).forEach(function(s) {
-    total++;
-    if (getSelect(method.id + '-' + s.key)) { done++; xp += 20; }
-  });
-  return { total: total, done: done, xp: xp };
-}
-
-function countSection(section) {
-  var total = 0, done = 0, xp = 0;
-  section.methods.forEach(function(m) {
-    var c = countMethod(m);
-    total += c.total; done += c.done; xp += c.xp;
-  });
-  return { total: total, done: done, pct: total > 0 ? Math.round(done / total * 100) : 0, xp: xp };
-}
-
-function totalXP() {
-  var xp = 0;
-  SECTIONS.forEach(function(s) { xp += countSection(s).xp; });
-  return xp;
-}
-
-function totalTasks() {
-  var total = 0, done = 0;
-  SECTIONS.forEach(function(s) { var c = countSection(s); total += c.total; done += c.done; });
-  return { total: total, done: done };
-}
-
-function badgesEarned() {
-  return SECTIONS.filter(function(s) { return countSection(s).pct === 100; }).length;
-}
-
-function getLevel(xp) {
-  for (var i = LEVELS.length - 1; i >= 0; i--) {
-    if (xp >= LEVELS[i].min) return { level: i + 1, name: LEVELS[i].name, min: LEVELS[i].min, max: LEVELS[i].max };
-  }
-  return { level: 1, name: LEVELS[0].name, min: LEVELS[0].min, max: LEVELS[0].max };
-}
-
-// =====================================================================
-// RENDERING
-// =====================================================================
-function renderTabs() {
-  var wrap = document.getElementById('tabBar');
-  var html = '';
-  SECTIONS.forEach(function(s, i) {
-    var c = countSection(s);
-    var active = i === currentSection ? ' active' : '';
-    var circumference = 2 * Math.PI * 9;
-    var offset = circumference - (c.pct / 100) * circumference;
-    var iconKey = SECTION_ICONS[i];
-
-    html += '<div class="tab-item' + active + '" style="--section-color:' + s.color + '" onclick="switchSection(' + i + ')">' +
-      '<span class="tab-icon">' + ICONS[iconKey] + '</span>' +
-      '<span class="tab-name">' + s.shortName + '</span>' +
-      '<div class="tab-ring-wrap">' +
-        '<svg class="tab-ring" width="24" height="24" viewBox="0 0 24 24">' +
-          '<circle class="tab-ring-bg" cx="12" cy="12" r="9"/>' +
-          '<circle class="tab-ring-fill" cx="12" cy="12" r="9" stroke-dasharray="' + circumference.toFixed(2) + '" stroke-dashoffset="' + offset.toFixed(2) + '" style="--section-color:' + s.color + '"/>' +
-        '</svg>' +
-        '<span class="tab-ring-text">' + c.pct + '</span>' +
-      '</div>' +
-    '</div>';
-  });
-  wrap.innerHTML = html;
-}
-
-function escapeHtml(text) {
-  var div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
-
-function renderContent() {
-  var wrap = document.getElementById('contentWrap');
-  var s = SECTIONS[currentSection];
-  var sc = countSection(s);
-
-  var html = '<div class="section-content" style="--section-color:' + s.color + '">';
-
-  // Section header
-  html += '<div class="section-header-area">';
-  html += '<h2 class="section-title">' + s.name + '</h2>';
-  html += '<div class="section-meta">';
-  html += '<span class="section-subtitle">' + s.methods.length + ' methods</span>';
-  html += '<span class="section-subtitle" style="color:var(--ink3)">' + sc.pct + '% complete</span>';
-  html += '</div>';
-  html += '<div class="section-progress-bar"><div class="section-progress-fill" style="width:' + sc.pct + '%;background:' + s.color + '"></div></div>';
-  html += '<div class="section-progress-label">';
-  html += '<span class="section-progress-text">' + sc.done + '/' + sc.total + ' tasks</span>';
-  html += '<span class="section-progress-text" style="color:' + s.color + '">' + sc.xp + ' XP earned</span>';
-  html += '</div>';
-  html += '</div>';
-
-  // Methods
-  s.methods.forEach(function(m) {
-    var mc = countMethod(m);
-    var isCollapsed = collapsedCards[m.id] !== false && collapsedCards[m.id] !== undefined ? (collapsedCards[m.id] === true) : false;
-    var allDone = mc.total > 0 && mc.done === mc.total;
-
-    html += '<div class="method-list' + (isCollapsed ? ' collapsed' : '') + (allDone ? ' all-done' : '') + '" id="card-' + m.id + '">';
-
-    // Header
-    html += '<div class="method-header" onclick="toggleCard(\'' + m.id + '\')">';
-    html += '<div class="method-header-left">';
-    html += '<span class="method-title">' + m.title + '</span>';
-    html += '<span class="method-subtitle">' + mc.done + '/' + mc.total + ' complete</span>';
-    html += '</div>';
-    html += '<span class="method-chevron">' + ICONS.chevronDown + '</span>';
-    html += '</div>';
-
-    // Body
-    html += '<div class="method-body">';
-
-    // Toggles
-    (m.toggles || []).forEach(function(t, i) {
-      var key = m.id + '-' + i;
-      var isOn = getToggle(key);
-      var checked = isOn ? ' checked' : '';
-      html += '<div class="toggle-row' + (isOn ? ' is-on' : '') + '">' +
-        '<span class="toggle-label">' + t + '</span>' +
-        '<label class="toggle-switch">' +
-          '<input type="checkbox"' + checked + ' onchange="onToggle(\'' + key + '\', this.checked);this.closest(\'.toggle-row\').classList.toggle(\'is-on\',this.checked)">' +
-          '<span class="toggle-track"></span>' +
-          '<span class="toggle-knob"></span>' +
-        '</label>' +
-      '</div>';
-    });
-
-    // Selects
-    (m.selects || []).forEach(function(sel) {
-      var key = m.id + '-' + sel.key;
-      var val = getSelect(key);
-      var optHtml = '';
-      sel.options.forEach(function(o, oi) {
-        var optVal = oi === 0 ? '' : o;
-        optHtml += '<option value="' + escapeHtml(optVal) + '"' + (val === o ? ' selected' : '') + '>' + escapeHtml(o) + '</option>';
-      });
-      html += '<div class="input-row">' +
-        '<div class="input-label">' + ICONS.select + ' ' + sel.label + '</div>' +
-        '<div class="select-wrap">' +
-          '<select class="select-input" onchange="onSelect(\'' + key + '\', this.value)">' + optHtml + '</select>' +
-          '<svg class="select-arrow" width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,8 10,12 14,8"/></svg>' +
-        '</div>' +
-      '</div>';
-    });
-
-    // Texts
-    (m.texts || []).forEach(function(t) {
-      var key = m.id + '-' + t.key;
-      var val = getVal(key);
-      html += '<div class="input-row">' +
-        '<div class="input-label">' + ICONS.pencil + ' ' + t.label + '</div>' +
-        '<textarea class="text-input" rows="2" placeholder="' + escapeHtml(t.placeholder) + '" oninput="onText(\'' + key + '\', this.value)">' + escapeHtml(val) + '</textarea>' +
-      '</div>';
-    });
-
-    // Files
-    (m.files || []).forEach(function(f) {
-      var key = m.id + '-' + f.key;
-      var fname = getFile(key);
-      html += '<div class="file-upload">' +
-        '<div class="input-label">' + ICONS.file + ' ' + f.label + '</div>' +
-        '<div class="file-drop' + (fname ? ' has-file' : '') + '" id="drop-' + key + '">' +
-          (fname
-            ? '<span class="file-name">' + ICONS.check + ' ' + escapeHtml(fname) +
-              ' <button class="file-remove" onclick="event.stopPropagation();removeFile(\'' + key + '\')" aria-label="Remove">' + ICONS.x + '</button></span>'
-            : '<span class="file-drop-icon">' + ICONS.upload + '</span><span class="file-drop-text">Upload file</span><span class="file-drop-hint">Tap to browse or drag and drop</span>') +
-          '<input type="file" onchange="onFile(\'' + key + '\', this)">' +
-        '</div>' +
-      '</div>';
-    });
-
-    html += '</div>'; // method-body
-
-    // Footer
-    html += '<div class="method-footer">' +
-      '<span class="method-footer-text">' + mc.done + '/' + mc.total + ' complete</span>' +
-      '<span class="method-footer-xp">+' + mc.xp + ' XP</span>' +
-    '</div>';
-
-    html += '</div>'; // method-list
-  });
-
-  html += '</div>';
-  wrap.innerHTML = html;
-}
-
-function renderBadgeDots() {
-  // Update bottom bar progress
-  var totalDone = 0, totalAll = 0;
-  SECTIONS.forEach(function(s) {
-    var c = countSection(s);
-    totalDone += c.done;
-    totalAll += c.total;
-  });
-  var pct = totalAll > 0 ? Math.round((totalDone / totalAll) * 100) : 0;
-  var statsEl = document.getElementById('bottomStats');
-  if (statsEl) statsEl.innerHTML = '<strong>' + totalDone + '</strong>/' + totalAll + ' tasks';
-  var pctEl = document.getElementById('bottomPct');
-  if (pctEl) pctEl.textContent = pct + '%';
-  var fillEl = document.getElementById('bottomProgressFill');
-  if (fillEl) fillEl.style.width = pct + '%';
-  return;
-  // legacy badge code below
-  var html = '';
-  SECTIONS.forEach(function(s, i) {
-    var c = countSection(s);
-    var earned = c.pct === 100;
-    html += '<div class="badge-dot' + (earned ? ' earned' : '') + '" style="' + (earned ? 'background:' + s.color + ';border-color:' + s.color : '') + '">' +
-      ICONS.badgeCheck +
-    '</div>';
-  });
-  document.getElementById('badgeDots').innerHTML = html;
-}
-
-function updateTopStats() {
-  var xp = totalXP();
-  var lv = getLevel(xp);
-  document.getElementById('xpNumber').textContent = xp;
-  document.getElementById('levelLabel').textContent = 'Level ' + lv.level + ' \u00B7 ' + lv.name;
-
-  var tt = totalTasks();
-  var taskPct = tt.total > 0 ? Math.round((tt.done / tt.total) * 100) : 0;
-  document.getElementById('bottomStats').innerHTML =
-    '<strong>' + tt.done + '</strong>/' + tt.total + ' tasks';
-  var pctEl = document.getElementById('bottomPct');
-  if (pctEl) pctEl.textContent = taskPct + '%';
-  var fillEl = document.getElementById('bottomProgressFill');
-  if (fillEl) fillEl.style.width = taskPct + '%';
-}
-
-function updateAll() {
-  renderTabs();
-  renderContent();
-  renderBadgeDots();
-  updateTopStats();
-  checkCelebration();
-}
-
-// =====================================================================
-// EVENT HANDLERS
-// =====================================================================
-var xpToastTimer = null;
-
-function showXPToast(amount) {
-  var toast = document.getElementById('xpToast');
-  toast.textContent = '+' + amount + ' XP';
-  toast.classList.add('show');
-  clearTimeout(xpToastTimer);
-  xpToastTimer = setTimeout(function() { toast.classList.remove('show'); }, 1500);
-}
-
-function onToggle(key, val) {
-  var oldXP = totalXP();
-  setToggle(key, val);
-  var newXP = totalXP();
-  if (newXP > oldXP) showXPToast(newXP - oldXP);
-  updateStatsOnly();
-}
-
-var textTimers = {};
-function onText(key, val) {
-  var hadVal = getVal(key).trim().length > 0;
-  state[key] = val;
-  clearTimeout(textTimers[key]);
-  textTimers[key] = setTimeout(function() {
-    saveState();
-    var hasVal = val.trim().length > 0;
-    if (hasVal && !hadVal) showXPToast(20);
-    updateStatsOnly();
-  }, 500);
-}
-
-function onSelect(key, val) {
-  var oldXP = totalXP();
-  setSelectVal(key, val);
-  var newXP = totalXP();
-  if (newXP > oldXP) showXPToast(newXP - oldXP);
-  updateStatsOnly();
-}
-
-// Update stats/progress without re-rendering content (prevents scroll jump)
-function updateStatsOnly() {
-  renderTabs();
-  renderBadgeDots();
-  updateTopStats();
-  checkCelebration();
-  // Update method footers and section header in-place
-  var s = SECTIONS[currentSection];
-  var sc = countSection(s);
-  var sTitle = document.querySelector('.section-subtitle + .section-subtitle');
-  if (sTitle) sTitle.textContent = sc.pct + '% complete';
-  var sFill = document.querySelector('.section-progress-fill');
-  if (sFill) { sFill.style.width = sc.pct + '%'; }
-  var sText = document.querySelector('.section-progress-text');
-  if (sText) sText.textContent = sc.done + '/' + sc.total + ' tasks';
-  var sXP = document.querySelectorAll('.section-progress-text')[1];
-  if (sXP) sXP.textContent = sc.xp + ' XP earned';
-  // Update each method footer
-  s.methods.forEach(function(m) {
-    var mc = countMethod(m);
-    var card = document.getElementById('card-' + m.id);
-    if (!card) return;
-    var ft = card.querySelector('.method-footer-text');
-    var fx = card.querySelector('.method-footer-xp');
-    var sub = card.querySelector('.method-subtitle');
-    if (ft) ft.textContent = mc.done + '/' + mc.total + ' complete';
-    if (fx) fx.textContent = '+' + mc.xp + ' XP';
-    if (sub) sub.textContent = mc.done + '/' + mc.total + ' complete';
-    if (mc.total > 0 && mc.done === mc.total) {
-      card.classList.add('all-done');
-    } else {
-      card.classList.remove('all-done');
-    }
-  });
-}
-
-function onFile(key, input) {
-  if (input.files && input.files[0]) {
-    var oldXP = totalXP();
-    setFile(key, input.files[0].name);
-    var newXP = totalXP();
-    if (newXP > oldXP) showXPToast(newXP - oldXP);
-    updateAll();
-  }
-}
-
-function removeFile(key) {
-  state['f_' + key] = '';
-  saveState();
-  updateAll();
-}
-
-function switchSection(i) {
-  if (i === currentSection) return;
-  currentSection = i;
-  updateAll();
-  setTimeout(function() {
-    var tabs = document.querySelectorAll('.tab-item');
-    if (tabs[i]) tabs[i].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-  }, 50);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function toggleCard(id) {
-  var card = document.getElementById('card-' + id);
-  if (!card) return;
-  card.classList.toggle('collapsed');
-  collapsedCards[id] = card.classList.contains('collapsed');
-  localStorage.setItem('haccp-collapsed', JSON.stringify(collapsedCards));
-}
-
-// =====================================================================
-// CONFETTI (subtle, muted)
-// =====================================================================
-function fireConfetti() {
-  var container = document.getElementById('confettiContainer');
-  container.innerHTML = '';
-  var colors = ['#D4D4D8','#A1A1AA','#047857','#10B981','#6EE7B7','#A78BFA','#93C5FD'];
-  for (var i = 0; i < 24; i++) {
-    var piece = document.createElement('div');
-    piece.className = 'confetti-piece';
-    var size = 4 + Math.random() * 4;
-    piece.style.left = (10 + Math.random() * 80) + '%';
-    piece.style.width = size + 'px';
-    piece.style.height = size + 'px';
-    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-    piece.style.animationDelay = (Math.random() * 0.4) + 's';
-    piece.style.animationDuration = (1.2 + Math.random() * 1) + 's';
-    container.appendChild(piece);
-  }
-  setTimeout(function() { container.innerHTML = ''; }, 2500);
-}
-
-// =====================================================================
-// CELEBRATION
-// =====================================================================
-function checkCelebration() {
-  SECTIONS.forEach(function(s) {
-    var c = countSection(s);
-    if (c.pct === 100 && !celebratedSections[s.id]) {
-      celebratedSections[s.id] = true;
-      localStorage.setItem('haccp-celebrated', JSON.stringify(celebratedSections));
-      showCelebration(s, false);
-    }
-  });
-  if (badgesEarned() === 5 && !celebratedSections['_all']) {
-    celebratedSections['_all'] = true;
-    localStorage.setItem('haccp-celebrated', JSON.stringify(celebratedSections));
-    setTimeout(function() { showCelebration({ name: 'Entire HACCP Pack', color: '#047857' }, true); }, 600);
-  }
-}
-
-function showCelebration(section, isFull) {
-  fireConfetti();
-  var overlay = document.getElementById('celebrationOverlay');
-  var iconEl = document.getElementById('celebIcon');
-  var color = isFull ? '#047857' : (section.color || '#047857');
-  iconEl.style.background = color + '18';
-  iconEl.innerHTML = '<svg width="32" height="32" viewBox="0 0 20 20" fill="none" stroke="' + color + '" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><polyline points="6.5,10 9,12.5 13.5,7.5"/></svg>';
-  document.getElementById('celebTitle').textContent = isFull ? 'Pack Complete!' : section.name + ' Complete!';
-  document.getElementById('celebSub').textContent = isFull
-    ? 'Your HACCP pack is fully built. Outstanding work.'
-    : 'Badge unlocked. Great job on ' + section.name + '.';
-  setTimeout(function() { overlay.classList.add('show'); }, 200);
-}
-
-function dismissCelebration() {
-  document.getElementById('celebrationOverlay').classList.remove('show');
-}
-
-// =====================================================================
-// EXPORT
-// =====================================================================
-function exportPack() {
-  var text = 'BLUEROLL HACCP PACK EXPORT\n';
-  text += '===========================\n';
-  text += 'Generated: ' + new Date().toLocaleString() + '\n';
-  text += 'Total XP: ' + totalXP() + '\n';
-  var lv = getLevel(totalXP());
-  text += 'Level: ' + lv.level + ' - ' + lv.name + '\n';
-  var tt = totalTasks();
-  text += 'Completion: ' + tt.done + '/' + tt.total + ' tasks (' + (tt.total > 0 ? Math.round(tt.done/tt.total*100) : 0) + '%)\n';
-  text += 'Badges: ' + badgesEarned() + '/5\n\n';
-
-  SECTIONS.forEach(function(s) {
-    var sc = countSection(s);
-    text += '------------------------------\n';
-    text += s.name.toUpperCase() + ' (' + sc.pct + '% complete)\n';
-    text += '------------------------------\n\n';
-
-    s.methods.forEach(function(m) {
-      text += '> ' + m.title + '\n';
-      (m.toggles || []).forEach(function(t, i) {
-        text += '  ' + (getToggle(m.id + '-' + i) ? '[x]' : '[ ]') + ' ' + t + '\n';
-      });
-      (m.selects || []).forEach(function(sel) {
-        var val = getSelect(m.id + '-' + sel.key);
-        text += '  ' + sel.label + ': ' + (val || '-') + '\n';
-      });
-      (m.texts || []).forEach(function(t) {
-        var val = getVal(m.id + '-' + t.key);
-        text += '  ' + t.label + ': ' + (val.trim() || '-') + '\n';
-      });
-      (m.files || []).forEach(function(f) {
-        var fname = getFile(m.id + '-' + f.key);
-        text += '  ' + f.label + ': ' + (fname || 'Not uploaded') + '\n';
-      });
-      text += '\n';
-    });
-  });
-
-  var blob = new Blob([text], { type: 'text/plain' });
-  var a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'HACCP-Pack-' + new Date().toISOString().split('T')[0] + '.txt';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(a.href);
-}
-
-// =====================================================================
-// INIT
-// =====================================================================
-loadState();
-// init
-updateAll();
-</script>
 <script>
 (function () {
   var btn = document.getElementById('nav-burger'), menu = document.getElementById('mobile-menu');
-  if (!btn || !menu) return;
-  var set = function (open) {
-    menu.classList.toggle('open', open);
-    document.body.classList.toggle('mm-lock', open);
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-  };
-  btn.addEventListener('click', function () { set(!menu.classList.contains('open')); });
-  menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { set(false); }); });
+  if (btn && menu) {
+    var set = function (open) {
+      menu.classList.toggle('open', open);
+      document.body.classList.toggle('mm-lock', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    btn.addEventListener('click', function () { set(!menu.classList.contains('open')); });
+    menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { set(false); }); });
+  }
+  var el = document.getElementById('final-cta');
+  if (el) {
+    if (!('IntersectionObserver' in window)) { el.classList.add('cta-live'); return; }
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { el.classList.add('cta-live'); io.disconnect(); } });
+    }, { threshold: 0.35 });
+    io.observe(el);
+  }
 })();
 </script>
 </body>

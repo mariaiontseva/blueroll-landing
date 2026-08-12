@@ -4,343 +4,221 @@
 <script src="https://t.contentsquare.net/uxa/f84aff336d942.js" defer></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Check Food Hygiene Rating by Name or Postcode | Blueroll</title>
-<meta name="description" content="Free UK food hygiene rating checker. Search any restaurant, cafe or takeaway by name or postcode and see the latest FSA 0–5 rating and inspection date.">
-<meta name="keywords" content="check food hygiene rating, food hygiene rating check, look up food hygiene rating, check restaurant hygiene rating, FSA rating check, food hygiene rating by postcode, food hygiene rating uk">
-<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
-<meta name="author" content="Blueroll">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZFY0GPZYYQ');
+</script>
+<script src="/geo-analytics.js" defer></script>
 <link rel="canonical" href="https://blueroll.app/check-food-hygiene-rating.html">
-<link rel="alternate" hreflang="en-gb" href="https://blueroll.app/check-food-hygiene-rating.html">
-<link rel="alternate" hreflang="en" href="https://blueroll.app/check-food-hygiene-rating.html">
+<title>Check a Food Hygiene Rating — Free FSA Lookup | Blueroll</title>
+<meta name="description" content="Check the food hygiene rating of any restaurant, cafe or takeaway in England, Wales or Northern Ireland — live from the FSA register, by name or postcode. Free, no signup.">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://blueroll.app/check-food-hygiene-rating.html">
-<meta property="og:title" content="Check Food Hygiene Rating by Name or Postcode">
-<meta property="og:description" content="Search any UK restaurant, cafe or takeaway and see the latest FSA 0–5 rating and inspection date.">
+<meta property="og:title" content="Check a Food Hygiene Rating — Free FSA Lookup | Blueroll">
+<meta property="og:description" content="Any UK venue's 0–5 rating and inspection date, straight from the Food Standards Agency register.">
 <meta property="og:image" content="https://blueroll.app/og-image.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:site_name" content="Blueroll">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Check Food Hygiene Rating by Name or Postcode">
-<meta name="twitter:description" content="Search any UK restaurant, cafe or takeaway and see the latest FSA rating and inspection date.">
-<meta name="twitter:image" content="https://blueroll.app/og-image.png">
-
-<script type="application/ld+json">
-[
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Food Hygiene Rating Checker",
-    "url": "https://blueroll.app/check-food-hygiene-rating.html",
-    "applicationCategory": "UtilitiesApplication",
-    "operatingSystem": "Any",
-    "browserRequirements": "Modern browser with JavaScript",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "GBP"
-    },
-    "description": "Free tool to check the current food hygiene rating of any registered food business in England, Wales or Northern Ireland. Search by name or postcode using live data from the UK Food Standards Agency.",
-    "provider": {
-      "@type": "Organization",
-      "name": "Blueroll",
-      "url": "https://blueroll.app"
-    },
-    "areaServed": {
-      "@type": "Country",
-      "name": "United Kingdom"
-    }
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How do I check a food hygiene rating?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Type the business name or its postcode into the search box on this page. We query the official UK Food Standards Agency (FSA) database live and show the current 0–5 rating, the inspection date and the local authority. You can also search directly on the FSA website at ratings.food.gov.uk."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Is checking a food hygiene rating free?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. Food hygiene ratings are public data published by the FSA under the Open Government Licence. Checking a rating is completely free, with no account or sign-up required."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Can I check any UK restaurant's hygiene rating?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "You can check any food business registered in England, Wales or Northern Ireland — restaurants, cafes, takeaways, pubs, schools, hospitals and care homes. Scotland uses a separate scheme (the Food Hygiene Information Scheme) that returns Pass or Improvement Required instead of a 0–5 number."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What is the range of food hygiene ratings?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Ratings run from 0 to 5. 5 is the top rating (very good), and 0 means urgent improvement is necessary. The number is set after an inspection by an Environmental Health Officer and shown on the green-and-black FSA sticker."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How often are food hygiene ratings updated?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "A rating only changes when an Environmental Health Officer re-inspects the business. The FSA publishes the new rating within a few days of the inspection, and this tool always reflects whatever is currently live in the FSA database."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How can I check or improve my own restaurant's rating?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Search your business name or postcode above to see your current rating and score breakdown. The fastest way to raise the Confidence in Management score — which often caps the overall rating — is to replace paper records with a digital food safety system such as Blueroll, and to keep daily temperature and cleaning logs up to date."
-        }
-      }
-    ]
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Blueroll",
-        "item": "https://blueroll.app/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Free Tools",
-        "item": "https://blueroll.app/tools.html"
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "name": "Check Food Hygiene Rating",
-        "item": "https://blueroll.app/check-food-hygiene-rating.html"
-      }
-    ]
-  }
-]
-</script>
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZFY0GPZYYQ');</script>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How current is the data?", "acceptedAnswer": {"@type": "Answer", "text": "The checker queries the FSA register live — you see exactly what the official record shows, including the latest inspection date."}}, {"@type": "Question", "name": "Why isn't a business showing up?", "acceptedAnswer": {"@type": "Answer", "text": "New businesses appear after their first inspection. Some venues are registered under a different trading name — try the postcode instead."}}, {"@type": "Question", "name": "Can I show my rating on my own website?", "acceptedAnswer": {"@type": "Answer", "text": "Yes — grab the free auto-updating rating badge. It takes about 30 seconds."}}]}</script>
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-:root {
-  --green: #047857; --green-dark: #065F46; --green-deep: #022c22;
-  --bg: #FAFAF7; --card: #FFFFFF; --border: #E8E5DF;
-  --ink: #111; --mid: #555; --light: #999;
+/* ============ base ============ */
+* { box-sizing: border-box; }
+body { margin: 0; background: #f6f7f8; color: #16181d; font-family: 'Geist', -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
+a { color: #1f7a52; text-decoration: none; }
+a:hover { color: #1f9d63; }
+img { max-width: 100%; }
+
+/* ============ keyframes (from design) ============ */
+@keyframes fg-cycle { 0%, 12% { opacity: 0; transform: translateY(4px); } 22%, 90% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes fg-tick { 0%, 15% { transform: scale(0); opacity: 0; } 26%, 90% { transform: scale(1); opacity: 1; } 100% { transform: scale(0); opacity: 0; } }
+@keyframes fg-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(210,69,63,.45); } 60% { box-shadow: 0 0 0 6px rgba(210,69,63,0); } }
+@keyframes fg-pulse-a { 0%, 100% { box-shadow: 0 0 0 0 rgba(217,138,26,.5); } 60% { box-shadow: 0 0 0 6px rgba(217,138,26,0); } }
+@keyframes fg-fill { 0%, 12% { width: 6%; } 68%, 100% { width: 86%; } }
+@keyframes fg-shimmer { 0%, 10% { transform: translateX(-120%); } 55%, 100% { transform: translateX(240%); } }
+@keyframes pageIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes heroBlob { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(34px, -26px) scale(1.14); } }
+@keyframes heroBlob2 { 0%, 100% { transform: translate(0, 0) scale(1.1); } 50% { transform: translate(-30px, 22px) scale(1); } }
+@keyframes heroChip { 0%, 6% { opacity: 0; transform: translateY(30px); } 16%, 74% { opacity: .55; } 92%, 100% { opacity: 0; transform: translateY(-36px); } }
+@keyframes flowDot { 0%, 6% { top: 40px; opacity: 0; } 10% { opacity: 1; } 30%, 38% { top: 152px; } 58%, 66% { top: 264px; opacity: 1; } 74%, 100% { top: 264px; opacity: 0; } }
+@keyframes flowPing { 0%, 4% { box-shadow: 0 0 0 0 rgba(31,157,99,0); } 10% { box-shadow: 0 0 0 9px rgba(31,157,99,.2); } 18%, 100% { box-shadow: 0 0 0 0 rgba(31,157,99,0); } }
+@keyframes logoMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes ctaProg { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes ctaNode { from { background: #0f2b1e; border-color: rgba(255,255,255,.25); box-shadow: none; } to { background: #1f9d63; border-color: #1f9d63; box-shadow: 0 0 14px rgba(31,157,99,.5); } }
+.cta-live .cta-node { animation-play-state: running !important; }
+@media (prefers-reduced-motion: reduce) {
+  .cta-node { animation-duration: 0s !important; animation-delay: 0s !important; }
+  .hero-chip, [data-hero-blob] { animation: none !important; }
 }
-html { scroll-behavior: smooth; }
-body { font-family: 'Plus Jakarta Sans', -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
 
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; background: rgba(250,250,247,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,0.06); }
-.nav-left { display: flex; align-items: center; gap: 6px; text-decoration: none; color: inherit; }
-.nav-left img { width: 22px; height: auto; }
-.nav-left span { font-size: 17px; font-weight: 800; letter-spacing: -0.5px; }
-.nav-right { display: flex; gap: 16px; align-items: center; }
-.nav-right a { text-decoration: none; color: var(--mid); font-size: 13px; font-weight: 600; }
-.nav-btn { background: var(--green) !important; color: white !important; padding: 8px 18px !important; border-radius: 8px !important; font-weight: 700 !important; }
+/* ============ interactive classes (design hover states) ============ */
+.navlink { color: #41464d; display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+.navlink:hover { color: #16181d; }
+.dd { position: relative; height: 100%; display: flex; align-items: center; }
+.dd-menu { display: none; position: absolute; top: 50px; left: -8px; background: #fff; border: 1px solid #e7e9ec; border-radius: 14px; box-shadow: 0 16px 40px -20px rgba(16,24,40,.3); padding: 8px; cursor: default; z-index: 60; }
+.dd:hover .dd-menu, .dd:focus-within .dd-menu { display: block; }
+.dd-menu.dd-grid { width: 596px; display: none; }
+.dd:hover .dd-menu.dd-grid, .dd:focus-within .dd-menu.dd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.dd-item { display: flex; align-items: flex-start; gap: 11px; padding: 9px 10px; border-radius: 10px; }
+.dd-item:hover { background: #f4f8f5; }
+.dd-icon { width: 32px; height: 32px; border-radius: 9px; background: #eef6f1; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.dd-title { display: block; font-size: 13.5px; font-weight: 600; color: #16181d; }
+.dd-sub { display: block; font-size: 12px; color: #7c828b; line-height: 1.4; margin-top: 1px; }
+.tag-new { background: #eaf4ee; color: #1f7a52; font-size: 9.5px; font-weight: 700; border-radius: 20px; padding: 1px 6px; font-family: 'Geist Mono', monospace; }
+.btn-green { background: #1f9d63; color: #fff; font-weight: 600; border-radius: 8px; white-space: nowrap; }
+.btn-green:hover { background: #1c8e5a; color: #fff; }
+.btn-cta-final:hover { background: #24ab6d !important; color: #fff; }
+.ghost-btn { border: 1px solid rgba(255,255,255,.22); color: #fff; }
+.ghost-btn:hover { border-color: rgba(255,255,255,.55); color: #fff; }
+.aud-card { color: #16181d; display: flex; flex-direction: column; background: #fff; border: 1px solid #e7e9ec; border-radius: 20px; padding: 26px 28px; box-shadow: 0 1px 2px rgba(16,24,40,.03); transition: border-color .15s, box-shadow .15s, transform .15s; }
+.aud-card:hover { color: #16181d; border-color: #bfe0cd; box-shadow: 0 20px 44px -28px rgba(31,122,82,.35); transform: translateY(-2px); }
+.feat-card { background: #fff; border: 1px solid #e7e9ec; border-radius: 18px; color: #16181d; box-shadow: 0 1px 2px rgba(16,24,40,.03); transition: border-color .18s; padding: 26px 28px; display: flex; flex-direction: column; }
+.feat-card:hover { border-color: #c9cfd6; color: #16181d; }
+a:hover .feat-arrow { transform: translateX(4px); }
+.feat-arrow { display: inline-block; transition: transform .2s; }
+.text-cta { display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; font-weight: 600; color: #1f7a52; }
+.text-cta:hover { color: #1f9d63; }
+.foot-link { color: #9aa0a8; }
+.foot-link:hover { color: #fff; }
+.faq-q { display: flex; align-items: center; gap: 18px; padding: 19px 0; cursor: pointer; user-select: none; }
+.faq-q:hover { color: #1f7a52; }
+.faq-chev { width: 27px; height: 27px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform .2s, background .2s; background: #f1f2f4; color: #5c626b; }
+.faq-item.open .faq-chev { background: #1f9d63; color: #fff; transform: rotate(180deg); }
+.faq-a { display: grid; transition: grid-template-rows .4s cubic-bezier(.2,.8,.2,1); grid-template-rows: 0fr; }
+.faq-item.open .faq-a { grid-template-rows: 1fr; }
+.faq-a > div { overflow: hidden; }
+.faq-a p { font-size: 14px; color: #5c626b; line-height: 1.65; margin: -6px 0 0; padding: 0 45px 20px 0; text-wrap: pretty; transition: opacity .32s; opacity: 0; }
+.faq-item.open .faq-a p { opacity: 1; }
+.hero-chip { display: inline-flex; }
 
-.hero { max-width: 760px; margin: 0 auto; padding: 104px 24px 8px; text-align: center; }
-.hero .label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--green); margin-bottom: 16px; }
-.hero h1 { font-size: 44px; font-weight: 800; letter-spacing: -1.8px; line-height: 1.08; margin-bottom: 16px; }
-.hero h1 em { color: var(--green); font-style: normal; }
-.hero p.lede { font-size: 18px; color: var(--mid); line-height: 1.55; max-width: 560px; margin: 0 auto; }
-
-/* ── Search ── */
-.search-wrap { max-width: 640px; margin: 28px auto 0; padding: 0 24px; }
-.search-row { display: flex; gap: 8px; }
-.search-row input {
-  flex: 1; padding: 16px 18px; font-size: 16px; font-family: inherit;
-  border: 1px solid var(--border); border-radius: 12px; background: var(--card);
-  color: var(--ink); outline: none; transition: border-color 0.15s, box-shadow 0.15s;
-}
-.search-row input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(4,120,87,0.12); }
-.search-row button {
-  padding: 0 24px; font-size: 15px; font-weight: 700; font-family: inherit;
-  background: var(--green); color: #fff; border: none; border-radius: 12px; cursor: pointer;
-  transition: background 0.15s;
-}
-.search-row button:hover { background: #036B4E; }
-.search-hint { font-size: 13px; color: var(--light); margin-top: 10px; text-align: center; }
-
-.search-anchor { position: relative; }
-.results { position: absolute; top: calc(100% + 8px); left: 0; right: 0; z-index: 60; }
-.searching { font-size: 14px; color: var(--light); text-align: center; padding: 18px 0; margin: 0; }
-.res {
-  display: flex; gap: 14px; align-items: flex-start;
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: 14px; padding: 16px; margin-bottom: 10px;
-}
-.res-badge {
-  width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0; color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 20px;
-}
-.res-badge.small { font-size: 11px; line-height: 1.1; text-align: center; padding: 2px; }
-.res-name { font-size: 15px; font-weight: 700; color: var(--ink); letter-spacing: -0.2px; }
-.res-addr { font-size: 13px; color: var(--mid); margin-top: 2px; }
-.res-meta { font-size: 12px; color: var(--light); margin-top: 4px; }
-.res-list { max-height: 472px; overflow-y: auto; -webkit-overflow-scrolling: touch; background: var(--card); border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.07); padding: 8px; }
-.res-list .res { margin-bottom: 8px; }
-.res-list .res:last-child { margin-bottom: 0; }
-.res-list::-webkit-scrollbar { width: 8px; }
-.res-list::-webkit-scrollbar-thumb { background: #d8d4cc; border-radius: 8px; }
-.res-count { font-size: 11px; color: var(--light); text-align: center; padding: 4px 4px 8px; }
-
-/* ── SEO content ── */
-.seo-content { max-width: 760px; margin: 0 auto; padding: 56px 24px 24px; line-height: 1.7; }
-.seo-content h2 { font-size: 26px; font-weight: 700; letter-spacing: -0.8px; margin: 44px 0 14px; color: var(--ink); }
-.seo-content h3 { font-size: 17px; font-weight: 700; letter-spacing: -0.2px; margin: 26px 0 6px; color: var(--ink); }
-.seo-content p { font-size: 16px; color: var(--mid); margin-bottom: 14px; }
-.seo-content a { color: var(--green); text-decoration: none; font-weight: 600; }
-.seo-content a:hover { text-decoration: underline; }
-.seo-content strong { color: var(--ink); font-weight: 700; }
-.quick-answer { background: #DFF5EA; border: 2px solid #4ABA7D; border-radius: 14px; padding: 22px 26px; margin-bottom: 36px; }
-.quick-answer p { margin: 0; font-size: 15px; color: #0A6640; line-height: 1.65; }
-.quick-answer strong { color: #064E30; }
-.next-links { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px 28px; margin: 36px 0 8px; }
-.next-links h2 { margin-top: 0; }
-.next-links ul { margin: 8px 0 0 20px; }
-.next-links li { color: var(--mid); margin-bottom: 8px; }
-
-.rating-legend {
-  display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: 16px; padding: 24px; margin: 20px 0 28px;
-}
-.rl-row { display: flex; align-items: flex-start; gap: 14px; }
-.rl-dot { width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-weight: 800; color: white; font-size: 16px; }
-.rl-title { font-size: 14px; font-weight: 700; color: var(--ink); }
-.rl-desc { font-size: 13px; color: var(--light); line-height: 1.45; }
-
-.seo-cta { background: var(--green-deep); color: white; border-radius: 20px; padding: 40px 32px; margin: 52px 0 8px; text-align: center; position: relative; overflow: hidden; }
-.seo-cta::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 500px 400px at 20% 30%, rgba(4,120,87,0.35), transparent); pointer-events: none; }
-.seo-cta * { position: relative; }
-.seo-cta h2 { color: white !important; font-size: 24px; margin: 0 0 10px; }
-.seo-cta p { color: rgba(255,255,255,0.65); margin-bottom: 24px; }
-.seo-cta a { display: inline-flex; align-items: center; gap: 8px; background: white; color: var(--green-deep); padding: 14px 26px; border-radius: 10px; font-weight: 700; font-size: 15px; text-decoration: none; }
-
-.seo-footer { border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; font-size: 13px; color: var(--light); }
-.seo-footer a { color: var(--mid); text-decoration: none; margin: 0 10px; }
-.seo-footer a:hover { color: var(--green); }
-
-@media (max-width: 720px) {
-  .hero h1 { font-size: 32px; }
-  .seo-content h2 { font-size: 22px; }
-  .rating-legend { grid-template-columns: 1fr; }
+/* ============ mobile (макетов нет — адаптация по здравому смыслу) ============ */
+.nav-burger { display: none; background: none; border: none; padding: 8px; margin-left: auto; cursor: pointer; color: #16181d; }
+.mobile-menu { display: none; position: fixed; top: 64px; left: 0; right: 0; bottom: 0; background: #fff; z-index: 49; overflow-y: auto; padding: 8px 24px 40px; }
+.mobile-menu.open { display: block; }
+.mm-group { border-bottom: 1px solid #eef0f2; padding: 14px 0; }
+.mm-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; color: #8a9099; text-transform: uppercase; margin-bottom: 6px; }
+.mm-link { display: flex; align-items: center; gap: 8px; padding: 9px 0; font-size: 15px; font-weight: 600; color: #16181d; }
+.mm-cta { display: block; text-align: center; margin-top: 18px; padding: 13px; font-size: 15px; }
+body.mm-lock { overflow: hidden; }
+@media (max-width: 960px) {
+  .nav-links { display: none !important; }
+  .nav-signin { display: none !important; }
+  .nav-burger { display: inline-flex; }
+  h1.hero-h1 { font-size: 44px !important; }
+  .hero-sub { font-size: 16.5px !important; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr !important; }
+  .feat-wide { grid-column: span 1 !important; grid-template-columns: 1fr !important; }
+  .case-grid { grid-template-columns: 1fr !important; }
+  .case-photo { min-height: 300px !important; }
+  .mobile-grid { grid-template-columns: 1fr !important; }
+  .pricing-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+  .pricing-grid > div { border-left: none !important; padding-left: 0 !important; }
+  .footer-grid { grid-template-columns: 1fr 1fr !important; }
+  .cta-panel { padding: 44px 24px !important; }
+  .cta-panel h2 { font-size: 32px !important; }
+  .cta-timeline-labels { font-size: 10.5px !important; }
+  .cta-timeline .cta-tl-label { font-size: 10.5px !important; white-space: normal !important; }
+  .phone-float { display: none !important; }
+  .hero-chips { display: none; }
 }
 </style>
-<link rel="stylesheet" href="site-chrome.css?v=20260720-solutions-v1">
-<script src="/geo-analytics.js" defer></script>
-<link rel="stylesheet" href="/site-chrome-v2.css?v=20260812">
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+.fc-input { flex: 1; padding: 12px 14px; border: 1.5px solid #e2e4e8; border-radius: 10px; font-size: 15px; outline: none; background: #fff; font-family: 'Geist', sans-serif; min-width: 0; }
+.fc-input:focus { border-color: #1f9d63; box-shadow: 0 0 0 3px rgba(31,157,99,.12); }
+.fc-btn { border: none; cursor: pointer; padding: 12px 22px; border-radius: 10px; background: #1f9d63; color: #fff; font-size: 14px; font-weight: 600; font-family: 'Geist', sans-serif; white-space: nowrap; }
+.fc-btn:hover { background: #1c8e5a; }
+.cta-dark-btn:hover { background: #24ab6d !important; color: #fff; }
+@media (max-width: 960px) { .fc-cta-grid { grid-template-columns: 1fr !important; } h1 { font-size: 36px !important; } }
+</style>
 </head>
 <body>
-
 <!-- ============ NAV ============ -->
 <div style="position: sticky; top: 0; z-index: 50; background: rgba(246,247,248,.9); backdrop-filter: blur(12px); border-bottom: 1px solid #e7e9ec;">
   <div style="max-width: 1160px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; gap: 26px;">
     <a href="/" style="display: flex; align-items: center; gap: 9px; color: #16181d; font-weight: 700; font-size: 17px; white-space: nowrap;">
-      <img src="/assets/blueroll-logo-v2.svg" alt="Blueroll" style="height: 26px; display: block;">
+      <img src="assets/blueroll-logo-v2.svg" alt="Blueroll" style="height: 26px; display: block;">
       <span>Blueroll</span>
     </a>
     <div class="nav-links" style="display: flex; align-items: center; gap: 22px; font-size: 13.5px; font-weight: 500; color: #41464d; flex: 1; height: 100%;">
       <span class="dd">
-        <a href="#audiences" class="navlink">Who it's for <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
+        <a href="/#audiences" class="navlink">Who it's for <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
         <div class="dd-menu" style="width: 312px;">
-          <a href="/independent-restaurant-food-safety.html" class="dd-item">
+          <a href="independent-restaurant-food-safety.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a7 7 0 0 0-7 7c0 4.5 4.5 8.5 6.4 10.1a1 1 0 0 0 1.2 0C14.5 18.5 19 14.5 19 10a7 7 0 0 0-7-7z"></path><circle cx="12" cy="10" r="2.5"></circle></svg></span>
             <span><span class="dd-title">Independents</span><span class="dd-sub">One kitchen, one folder — fully digital</span></span>
           </a>
-          <a href="/multi-site-food-safety.html" class="dd-item">
+          <a href="multi-site-food-safety.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M3.5 12h17"></path><path d="M12 3.5c-2.5 2.3-3.8 5.2-3.8 8.5s1.3 6.2 3.8 8.5c2.5-2.3 3.8-5.2 3.8-8.5S14.5 5.8 12 3.5z"></path></svg></span>
             <span><span style="display: flex; align-items: center; gap: 7px;" class="dd-title">Groups &amp; estates <span class="tag-new">NEW</span></span><span class="dd-sub">Every site on one dashboard</span></span>
           </a>
-          <a href="/franchise-food-safety.html" class="dd-item">
+          <a href="franchise-food-safety.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"></circle><path d="M9 6H4M20 6h-5"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="18" r="3"></circle><path d="M9 18h6"></path><path d="M12 9v3M7.5 15.5L10 12M16.5 15.5L14 12"></path></svg></span>
             <span><span class="dd-title">Franchises</span><span class="dd-sub">Central standards, local execution</span></span>
           </a>
         </div>
       </span>
       <span class="dd">
-        <a href="#features" class="navlink">Features <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
+        <a href="/#features" class="navlink">Features <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
         <div class="dd-menu dd-grid">
-          <a href="/multi-site-food-safety.html" class="dd-item">
+          <a href="multi-site-food-safety.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.2"></circle><circle cx="5" cy="5" r="2.2"></circle><circle cx="19" cy="5" r="2.2"></circle><circle cx="5" cy="19" r="2.2"></circle><circle cx="19" cy="19" r="2.2"></circle><path d="M6.6 6.6l3.8 3.8M17.4 6.6l-3.8 3.8M6.6 17.4l3.8-3.8M17.4 17.4l-3.8-3.8"></path></svg></span>
             <span><span style="display: flex; align-items: center; gap: 7px;" class="dd-title">Multisite <span class="tag-new">NEW</span></span><span class="dd-sub">Run every site from one dashboard</span></span>
           </a>
-          <a href="/haccp-checklists.html" class="dd-item">
+          <a href="haccp-checklists.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 8h8M8 12h8M8 16h5"></path></svg></span>
             <span><span class="dd-title">HACCP Checklists</span><span class="dd-sub">Daily tasks, temps and sign-offs</span></span>
           </a>
-          <a href="/allergen-matrix.html" class="dd-item">
+          <a href="allergen-matrix.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L4 19h16z"></path><path d="M12 10v4M12 16.5v.5"></path></svg></span>
             <span><span class="dd-title">Allergen Matrix</span><span class="dd-sub">Auto-built from your recipes</span></span>
           </a>
-          <a href="/ai-recipe-import.html" class="dd-item">
+          <a href="ai-recipe-import.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4c0-.6 3-1.5 5-1.5S21 3.1 21 3.7V19c0 .6-2-1-4-1s-5 .9-5 1.5c0-.6-3-1.5-5-1.5s-4 1.6-4 1V3.7C3 3.1 5 2.5 7 2.5s5 .9 5 1.5z"></path><path d="M12 4v15.5"></path></svg></span>
             <span><span class="dd-title">AI Recipe Import</span><span class="dd-sub">Photograph a recipe, get it typed up</span></span>
           </a>
-          <a href="/compliance-reports.html" class="dd-item">
+          <a href="compliance-reports.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M8.5 12.3l2.3 2.3 4.7-5"></path></svg></span>
             <span><span class="dd-title">Compliance Reports</span><span class="dd-sub">One-tap packs for EHO visits</span></span>
           </a>
-          <a href="/team-management.html" class="dd-item">
+          <a href="team-management.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20a7 7 0 0 1 14 0"></path></svg></span>
             <span><span class="dd-title">Team Management</span><span class="dd-sub">Roles, training and accountability</span></span>
           </a>
-          <a href="/deliveries.html" class="dd-item">
+          <a href="deliveries.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5v8l9 5 9-5z"></path><path d="M3.3 8.2L12 13l8.7-4.8M12 13v8.5"></path></svg></span>
             <span><span class="dd-title">Deliveries</span><span class="dd-sub">Log suppliers and check-ins fast</span></span>
           </a>
-          <a href="/document-management.html" class="dd-item">
+          <a href="document-management.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></span>
             <span><span class="dd-title">Documents</span><span class="dd-sub">Certificates and policies in one place</span></span>
           </a>
-          <a href="/haccp-pack.html" class="dd-item">
+          <a href="haccp-pack.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5h11.5a2 2 0 0 1 2 2V21H7a2 2 0 0 1-2-2z"></path><path d="M5 4.5A1.75 1.75 0 0 1 6.75 3H16v3.5"></path><path d="M9 10.5h6M9 14h6"></path></svg></span>
             <span><span class="dd-title">HACCP Pack</span><span class="dd-sub">Your SFBB file, writing itself</span></span>
           </a>
-          <a href="/incidents.html" class="dd-item">
+          <a href="incidents.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21.5 20h-19z"></path><line x1="12" y1="10" x2="12" y2="14"></line><circle cx="12" cy="17" r="0.5" fill="currentColor"></circle></svg></span>
             <span><span class="dd-title">Incidents</span><span class="dd-sub">Complaints logged, owned, resolved</span></span>
           </a>
         </div>
       </span>
       <span class="dd">
-        <a href="/tools.html" class="navlink">Free tools <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
+        <a href="tools.html" class="navlink">Free tools <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
         <div class="dd-menu" style="width: 312px;">
-          <a href="/free-haccp-template.html" class="dd-item">
+          <a href="free-haccp-template.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7.5 11l4.5 4.5L16.5 11"></path><path d="M4.5 16v3a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5v-3"></path></svg></span>
             <span><span class="dd-title">Free HACCP template</span><span class="dd-sub">Printable pack — logs, schedules, checks</span></span>
           </a>
-          <a href="/audit/" class="dd-item">
+          <a href="audit/" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"></path><path d="M9 11.8l2.2 2.2 3.8-4"></path></svg></span>
             <span><span class="dd-title">Free self-audit</span><span class="dd-sub">Score your kitchen like an EHO would</span></span>
           </a>
-          <a href="/check-food-hygiene-rating.html" class="dd-item">
+          <a href="check-food-hygiene-rating.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg></span>
             <span><span class="dd-title">Check a hygiene rating</span><span class="dd-sub">Live FSA rating of any UK venue</span></span>
           </a>
@@ -348,15 +226,15 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 24px
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5c-4.7 0-8.5 3-8.5 6.8 0 2.2 1.3 4.2 3.3 5.4L6 20.5l4-2.1c.6.1 1.3.2 2 .2 4.7 0 8.5-3 8.5-6.8S16.7 3.5 12 3.5z"></path></svg></span>
             <span><span class="dd-title">GPT food safety coach</span><span class="dd-sub">Ask anything about HACCP or allergens</span></span>
           </a>
-          <a href="/london-food-hygiene-map.html" class="dd-item">
+          <a href="london-food-hygiene-map.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20l-5.5-2V4L9 6M9 20l6-2M9 20V6M15 18l5.5 2V6L15 4M15 18V4M9 6l6-2"></path></svg></span>
             <span><span class="dd-title">Hygiene rating maps</span><span class="dd-sub">London, NYC &amp; SF — live inspection data</span></span>
           </a>
-          <div style="border-top: 1px solid #f2f3f5; margin-top: 6px; padding: 9px 10px;"><a href="/tools.html" style="font-size: 13px; font-weight: 700; color: #1f7a52;">See all free tools →</a></div>
+          <div style="border-top: 1px solid #f2f3f5; margin-top: 6px; padding: 9px 10px;"><a href="tools.html" style="font-size: 13px; font-weight: 700; color: #1f7a52;">See all free tools →</a></div>
         </div>
       </span>
-      <a href="#pricing" class="navlink">Pricing</a>
-      <a href="#faq" class="navlink">FAQ</a>
+      <a href="/#pricing" class="navlink">Pricing</a>
+      <a href="/#faq" class="navlink">FAQ</a>
     </div>
     <a href="https://app.blueroll.app/" class="nav-signin" style="font-size: 13.5px; font-weight: 600; color: #41464d; white-space: nowrap; margin-left: auto;">Sign in</a>
     <a href="https://app.blueroll.app/" class="btn-green" style="font-size: 13.5px; padding: 9px 18px; box-shadow: 0 1px 2px rgba(16,24,40,.1);">Start for free</a>
@@ -369,237 +247,156 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 24px
 <div class="mobile-menu" id="mobile-menu">
   <div class="mm-group">
     <div class="mm-label">Who it's for</div>
-    <a class="mm-link" href="/independent-restaurant-food-safety.html">Independents</a>
-    <a class="mm-link" href="/multi-site-food-safety.html">Groups &amp; estates <span class="tag-new">NEW</span></a>
-    <a class="mm-link" href="/franchise-food-safety.html">Franchises</a>
+    <a class="mm-link" href="independent-restaurant-food-safety.html">Independents</a>
+    <a class="mm-link" href="multi-site-food-safety.html">Groups &amp; estates <span class="tag-new">NEW</span></a>
+    <a class="mm-link" href="franchise-food-safety.html">Franchises</a>
   </div>
   <div class="mm-group">
     <div class="mm-label">Features</div>
-    <a class="mm-link" href="/multi-site-food-safety.html">Multisite <span class="tag-new">NEW</span></a>
-    <a class="mm-link" href="/haccp-checklists.html">HACCP Checklists</a>
-    <a class="mm-link" href="/allergen-matrix.html">Allergen Matrix</a>
-    <a class="mm-link" href="/ai-recipe-import.html">AI Recipe Import</a>
-    <a class="mm-link" href="/compliance-reports.html">Compliance Reports</a>
-    <a class="mm-link" href="/team-management.html">Team Management</a>
-    <a class="mm-link" href="/deliveries.html">Deliveries</a>
-    <a class="mm-link" href="/document-management.html">Documents</a>
-    <a class="mm-link" href="/haccp-pack.html">HACCP Pack</a>
-    <a class="mm-link" href="/incidents.html">Incidents</a>
+    <a class="mm-link" href="multi-site-food-safety.html">Multisite <span class="tag-new">NEW</span></a>
+    <a class="mm-link" href="haccp-checklists.html">HACCP Checklists</a>
+    <a class="mm-link" href="allergen-matrix.html">Allergen Matrix</a>
+    <a class="mm-link" href="ai-recipe-import.html">AI Recipe Import</a>
+    <a class="mm-link" href="compliance-reports.html">Compliance Reports</a>
+    <a class="mm-link" href="team-management.html">Team Management</a>
+    <a class="mm-link" href="deliveries.html">Deliveries</a>
+    <a class="mm-link" href="document-management.html">Documents</a>
+    <a class="mm-link" href="haccp-pack.html">HACCP Pack</a>
+    <a class="mm-link" href="incidents.html">Incidents</a>
   </div>
   <div class="mm-group">
     <div class="mm-label">Free tools</div>
-    <a class="mm-link" href="/free-haccp-template.html">Free HACCP template</a>
-    <a class="mm-link" href="/audit/">Free self-audit</a>
-    <a class="mm-link" href="/check-food-hygiene-rating.html">Check a hygiene rating</a>
-    <a class="mm-link" href="/london-food-hygiene-map.html">Hygiene rating maps</a>
-    <a class="mm-link" href="/tools.html">See all free tools →</a>
+    <a class="mm-link" href="free-haccp-template.html">Free HACCP template</a>
+    <a class="mm-link" href="audit/">Free self-audit</a>
+    <a class="mm-link" href="check-food-hygiene-rating.html">Check a hygiene rating</a>
+    <a class="mm-link" href="london-food-hygiene-map.html">Hygiene rating maps</a>
+    <a class="mm-link" href="tools.html">See all free tools →</a>
   </div>
   <div class="mm-group" style="border-bottom: none;">
-    <a class="mm-link" href="#pricing">Pricing</a>
-    <a class="mm-link" href="#faq">FAQ</a>
+    <a class="mm-link" href="/#pricing">Pricing</a>
+    <a class="mm-link" href="/#faq">FAQ</a>
     <a class="mm-link" href="https://app.blueroll.app/">Sign in</a>
   </div>
   <a href="https://app.blueroll.app/" class="btn-green mm-cta">Start for free</a>
 </div>
 
 
-<div class="bx-mobile">
-  <!-- SOLUTIONS_MOBILE_START -->
-  <h4>Solutions for</h4>
-  <a href="/independent-restaurant-food-safety.html">Independent restaurants</a>
-  <a href="/multi-site-food-safety.html" class="bx-mobile-featured">Multi-site groups <small>New</small></a>
-  <a href="/franchise-food-safety.html">Franchises</a>
-  <a href="/hospitality-group-food-safety.html">Hospitality groups</a>
-  <h4>Benefits</h4>
-  <a href="/inspection-ready-compliance.html">Inspection-ready compliance</a>
-  <a href="/food-safety-consistency.html">Consistency across sites</a>
-  <a href="/team-accountability.html">Team accountability</a>
-  <a href="/paperless-food-safety.html">Time &amp; paper savings</a>
-  <a href="/best-food-safety-apps-uk.html">Compare food-safety apps</a>
-<!-- SOLUTIONS_MOBILE_END -->
-  <h4>Product</h4>
-  <a href="haccp-checklists.html">HACCP Checklists</a>
-  <a href="allergen-matrix.html">Allergen Matrix</a>
-  <a href="ai-recipe-import.html">AI Recipe Import</a>
-  <a href="compliance-reports.html">Compliance Reports</a>
-  <a href="deliveries.html">Deliveries</a>
-  <a href="document-management.html">Documents</a>
-  <a href="team-management.html">Team Management</a>
-  <h4>Free Tools</h4>
-  <a href="/audit/">Free Self-Audit</a>
-  <a href="check-food-hygiene-rating.html">Check a Hygiene Rating</a>
-  <a href="https://chatgpt.com/g/g-6a0c75c897108191956d8c9f3223abb4-blueroll-uk-food-safety-coach" target="_blank" rel="noopener">GPT Food Safety Coach</a>
-  <a href="london-food-hygiene-map.html">London Hygiene Map</a>
-  <a href="nyc-restaurant-map.html">NYC Restaurant Map</a>
-  <a href="sf-restaurant-map.html">SF Restaurant Map</a>
-  <a href="tools.html">See all free tools</a>
-  <h4>&nbsp;</h4>
-  <a href="/#pricing">Pricing</a>
-  <a href="mailto:hello@blueroll.app?subject=Blueroll%20demo">Book a Demo</a>
-  <a href="https://app.blueroll.app/" class="bx-m-cta">Start for Free</a>
+<div style="max-width: 760px; margin: 64px auto 0; padding: 0 24px; text-align: center;">
+  <div style="display: inline-flex; align-items: center; gap: 7px; background: #eaf4ee; color: #1f7a52; font-size: 12.5px; font-weight: 700; border-radius: 20px; padding: 5px 14px;">Free · official FSA data</div>
+  <h1 style="font-size: 48px; line-height: 1.06; font-weight: 800; letter-spacing: -0.04em; margin: 18px auto 0; max-width: 640px; text-wrap: balance;">Check any food hygiene rating</h1>
+  <p style="font-size: 17px; line-height: 1.6; color: #5c626b; margin: 16px auto 0; max-width: 540px; text-wrap: pretty;">Any restaurant, cafe or takeaway in England, Wales or Northern Ireland — by name or postcode. The latest 0–5 rating and inspection date, straight from the Food Standards Agency register.</p>
 </div>
 
-<section class="hero">
-<div class="seo-breadcrumb" role="navigation" aria-label="Breadcrumb" style="margin:0 0 22px;text-align:left;font-size:13px;font-weight:700;color:#8A8378;">
-  <ol style="list-style:none;display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0;padding:0;">
-    <li><a href="/" style="color:#047857;text-decoration:none;">Blueroll</a></li>
-    <li aria-hidden="true" style="color:#B6B0A7;">›</li>
-    <li><a href="/tools.html" style="color:#047857;text-decoration:none;">Free Tools</a></li>
-    <li aria-hidden="true" style="color:#B6B0A7;">›</li>
-    <li aria-current="page" style="color:#555;">Check Food Hygiene Rating</li>
-  </ol>
-</div>
-
-  <div class="label">Free FSA Lookup</div>
-  <h1>Check any <em>food hygiene rating</em></h1>
-  <p class="lede">Look up the current food hygiene rating of any UK restaurant, cafe or takeaway. Search by business name or postcode — results come live from the official Food Standards Agency database.</p>
-</section>
-
-<div class="search-wrap">
-  <div class="search-anchor">
-    <div class="search-row">
-      <input id="q" type="search" placeholder="Business name or postcode (e.g. SW1A 1AA)" autocomplete="off" aria-label="Search by business name or postcode">
-      <button onclick="runSearch()">Check</button>
+<div style="max-width: 560px; margin: 36px auto 0; padding: 0 24px;">
+  <div style="background: #fff; border: 1px solid #e7e9ec; border-radius: 18px; padding: 24px; box-shadow: 0 1px 2px rgba(16,24,40,.03);">
+    <div style="font-size: 11px; letter-spacing: .08em; font-weight: 600; color: #8a9099; text-transform: uppercase;">Search by name or postcode</div>
+    <div style="display: flex; gap: 8px; margin-top: 8px;">
+      <input id="fc-query" class="fc-input" placeholder="e.g. Bobo &amp; Wild or AL1 3ED">
+      <button id="fc-go" class="fc-btn" type="button">Search</button>
     </div>
-    <div class="results" id="results" aria-live="polite"></div>
+    <div id="fc-results" style="margin-top: 12px; border: 1px solid #eef0f2; border-radius: 12px; max-height: 380px; overflow-y: auto; display: none;"></div>
+    <div id="fc-status" style="margin-top: 12px; padding: 12px; text-align: center; color: #8a9099; font-size: 13px; display: none;"></div>
   </div>
-  <p class="search-hint">Covers England, Wales &amp; Northern Ireland. Scotland uses a Pass / Improvement Required scheme.</p>
+  <div style="text-align: center; font-size: 12.5px; color: #9aa0a8; margin-top: 14px;">Data: Food Standards Agency food hygiene rating scheme (FHRS). Scotland uses the separate Food Hygiene Information Scheme.</div>
 </div>
 
-<article class="seo-content">
-  <div class="quick-answer">
-    <p><strong>Quick answer:</strong> Enter a business name or postcode above to check a UK food hygiene rating from the official FSA database. You will see the current 0-5 rating, inspection date and local authority for restaurants, cafes, takeaways and other food businesses.</p>
+<div style="max-width: 760px; margin: 88px auto 0; padding: 0 24px;">
+  <h2 style="font-size: 26px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.25;">What the 0–5 rating means</h2>
+  <p style="font-size: 14.5px; color: #5c626b; line-height: 1.7; margin: 14px 0 0; text-wrap: pretty;">Environmental Health Officers score three areas at every inspection: hygienic food handling; the physical condition and cleanliness of the premises; and food safety management — the HACCP procedures, training and temperature records that prove the kitchen is under control. A 5 means "very good" compliance in all three; anything below a 4 usually traces back to the paperwork, not the pass.</p>
+  <p style="font-size: 14.5px; color: #5c626b; line-height: 1.7; margin: 12px 0 0; text-wrap: pretty;">Ratings are public and re-issued after every inspection. If you're checking your own business and don't like the number, the fastest fixes are usually documentary: an up-to-date HACCP plan, complete fridge logs and allergen records. Our free <a href="/audit/">self-audit</a> shows the gaps in five minutes, and the <a href="/free-haccp-template.html">HACCP template</a> covers the paperwork itself.</p>
+  <h2 style="font-size: 26px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.25; margin-top: 40px;">Frequently asked questions</h2>
+  <div style="margin-top: 8px;">
+    <h3 style="font-size: 15.5px; font-weight: 700; margin: 22px 0 0;">How current is the data?</h3>
+    <p style="font-size: 14px; color: #5c626b; line-height: 1.65; margin: 6px 0 0;">The checker queries the FSA register live — you see exactly what the official record shows, including the latest inspection date.</p>
+    <h3 style="font-size: 15.5px; font-weight: 700; margin: 22px 0 0;">Why isn't a business showing up?</h3>
+    <p style="font-size: 14px; color: #5c626b; line-height: 1.65; margin: 6px 0 0;">New businesses appear after their first inspection. Some venues are registered under a different trading name — try the postcode instead.</p>
+    <h3 style="font-size: 15.5px; font-weight: 700; margin: 22px 0 0;">Can I show my rating on my own website?</h3>
+    <p style="font-size: 14px; color: #5c626b; line-height: 1.65; margin: 6px 0 0;">Yes — grab the free <a href="/free-food-hygiene-rating-badge.html">auto-updating rating badge</a>. It takes about 30 seconds.</p>
   </div>
+</div>
 
-  <h2>How to check a food hygiene rating</h2>
-  <p>Every food business in the UK is inspected by its local council's Environmental Health team and given a rating from <strong>0 to 5</strong>. Those ratings are public. To check one, type the venue's name or postcode into the search box above — this tool queries the official <a href="https://www.food.gov.uk/" target="_blank" rel="noopener">Food Standards Agency</a> (FSA) database live and shows the current rating, the date it was last inspected, and the local authority that issued it. You can also search directly on the FSA's own site at <a href="https://ratings.food.gov.uk/" target="_blank" rel="noopener">ratings.food.gov.uk</a>.</p>
-
-  <h2>What the 0–5 ratings mean</h2>
-  <p>The rating reflects three things checked during the inspection: how hygienically food is handled, the physical condition of the premises, and how well the business manages food safety. The lowest of the three scores usually sets the overall rating.</p>
-
-  <div class="rating-legend">
-    <div class="rl-row"><div class="rl-dot" style="background:#047857;">5</div><div><div class="rl-title">Very good</div><div class="rl-desc">Hygiene standards are very high.</div></div></div>
-    <div class="rl-row"><div class="rl-dot" style="background:#10B981;">4</div><div><div class="rl-title">Good</div><div class="rl-desc">Meets legal requirements comfortably.</div></div></div>
-    <div class="rl-row"><div class="rl-dot" style="background:#F59E0B;">3</div><div><div class="rl-title">Generally satisfactory</div><div class="rl-desc">Minor improvements needed.</div></div></div>
-    <div class="rl-row"><div class="rl-dot" style="background:#F97316;">2</div><div><div class="rl-title">Improvement necessary</div><div class="rl-desc">Some standards need work.</div></div></div>
-    <div class="rl-row"><div class="rl-dot" style="background:#EF4444;">1</div><div><div class="rl-title">Major improvement necessary</div><div class="rl-desc">Major issues across several areas.</div></div></div>
-    <div class="rl-row"><div class="rl-dot" style="background:#7F1D1D;">0</div><div><div class="rl-title">Urgent improvement necessary</div><div class="rl-desc">Urgent action required.</div></div></div>
-  </div>
-
-  <h2>Where the data comes from</h2>
-  <p>Every rating shown here is pulled directly from the FSA's open data API. The FSA publishes ratings under the Open Government Licence, covering every registered food premises in England, Wales and Northern Ireland — not just restaurants, but schools, hospitals, care homes, manufacturers and distributors too. Because we query the FSA live, you always see the most current rating. Scotland operates a separate <a href="food-hygiene-ratings-explained.html">Food Hygiene Information Scheme</a> that returns Pass or Improvement Required rather than a 0–5 number.</p>
-
-  <h2>Checking your own restaurant's rating</h2>
-  <p>If you run a food business, search your name or postcode above to see your current rating and score breakdown. A low rating usually comes down to one of three things: weak paperwork (no documented <a href="free-haccp-template.html">HACCP plan</a>, missing temperature logs), physical problems (pest control, structural condition), or food-handling mistakes seen during the inspection.</p>
-  <p>The component that catches most businesses out is <strong>Confidence in Management</strong> — and it often caps your overall score no matter how clean the kitchen is. The quickest fix is to move from paper to a digital food safety system. See our guide on <a href="how-to-improve-food-hygiene-rating.html">how to improve your food hygiene rating</a>.</p>
-
-  <h2>Frequently asked questions</h2>
-
-  <h3>How do I check a food hygiene rating?</h3>
-  <p>Type the business name or its postcode into the search box above. We query the official FSA database live and show the current 0–5 rating, the inspection date and the local authority. You can also search on the FSA website at <a href="https://ratings.food.gov.uk/" target="_blank" rel="noopener">ratings.food.gov.uk</a>.</p>
-
-  <h3>Is checking a food hygiene rating free?</h3>
-  <p>Yes. Food hygiene ratings are public data published by the FSA under the Open Government Licence. Checking a rating is completely free — no account or sign-up needed.</p>
-
-  <h3>Can I check any UK restaurant's hygiene rating?</h3>
-  <p>You can check any food business registered in England, Wales or Northern Ireland — restaurants, cafes, takeaways, pubs, schools, hospitals and care homes. Scotland uses a separate Pass / Improvement Required scheme.</p>
-
-  <h3>What is the range of food hygiene ratings?</h3>
-  <p>Ratings run from 0 to 5. A 5 is the top rating (very good) and 0 means urgent improvement is necessary.</p>
-
-  <h3>How often are ratings updated?</h3>
-  <p>A rating only changes when an Environmental Health Officer re-inspects the business. The FSA publishes the new rating within a few days, and this tool always shows whatever is currently live in the FSA database.</p>
-
-  <div class="next-links">
-    <h2>What to do after checking a rating</h2>
-    <ul>
-      <li><a href="food-hygiene-ratings-explained.html">Understand what each 0-5 rating means</a></li>
-      <li><a href="how-to-improve-food-hygiene-rating.html">Improve your food hygiene rating</a></li>
-      <li><a href="eho-inspection-checklist.html">Run the EHO inspection checklist</a></li>
-      <li><a href="free-haccp-template.html">Download a free HACCP template</a></li>
-    </ul>
-  </div>
-
-  <div class="seo-cta">
-    <h2>Run a food business?</h2>
-    <p>Blueroll replaces your paper food safety folder with digital HACCP, allergen tracking, temperature logs and one-tap EHO-ready reports — so your next inspection protects your rating.</p>
-    <a href="/">Try Blueroll free for 14 days →</a>
-  </div>
-</article>
-
-
-
-<script>
-const FSA = 'https://api.ratings.food.gov.uk';
-const HDR = { 'x-api-version': '2', 'Accept': 'application/json' };
-const colors = {5:'#047857',4:'#10B981',3:'#F59E0B',2:'#F97316',1:'#EF4444',0:'#7F1D1D'};
-const labels = {5:'Very good',4:'Good',3:'Generally satisfactory',2:'Improvement necessary',1:'Major improvement necessary',0:'Urgent improvement necessary'};
-const input = document.getElementById('q');
-const results = document.getElementById('results');
-
-function esc(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-
-async function runSearch(){
-  const q = input.value.trim();
-  if (q.length < 2){ results.innerHTML = ''; return; }
-  results.innerHTML = '<div class="res-list"><p class="searching">Searching the FSA database…</p></div>';
-  const isPostcode = /\d/.test(q);
-  const param = isPostcode ? 'address' : 'name';
-  try {
-    const resp = await fetch(`${FSA}/Establishments?${param}=${encodeURIComponent(q)}&pageSize=30`, { headers: HDR });
-    if (!resp.ok) throw new Error('FSA ' + resp.status);
-    const data = await resp.json();
-    render(data.establishments || []);
-  } catch (e) {
-    results.innerHTML = '<div class="res-list"><p class="searching">Couldn\'t reach the FSA right now. Please try again, or search on <a href="https://ratings.food.gov.uk/" target="_blank" rel="noopener">ratings.food.gov.uk</a>.</p></div>';
-  }
-}
-
-function render(list){
-  if (!list.length){ results.innerHTML = '<div class="res-list"><p class="searching">No matches found. Try the full business name, or a postcode.</p></div>'; return; }
-  const cards = list.map(e => {
-    const num = parseInt(e.RatingValue, 10);
-    const isNum = !isNaN(num) && num >= 0 && num <= 5;
-    const color = isNum ? colors[num] : '#9CA3AF';
-    const badge = isNum ? `<div class="res-badge" style="background:${color}">${num}</div>`
-                        : `<div class="res-badge small" style="background:${color}">${esc(e.RatingValue || '—')}</div>`;
-    const label = isNum ? labels[num] : (e.RatingValue === 'Pass' ? 'Pass (Scotland scheme)' : (e.RatingValue || ''));
-    const addr = [e.AddressLine1, e.AddressLine2, e.AddressLine3, e.PostCode].filter(Boolean).join(', ');
-    let date = '';
-    if (e.RatingDate){ const d = new Date(e.RatingDate); if (!isNaN(d)) date = d.toLocaleDateString('en-GB', {year:'numeric', month:'short', day:'numeric'}); }
-    const sc = e.scores || {};
-    const breakdown = (sc.Hygiene != null && sc.Structural != null)
-      ? `Hygiene ${sc.Hygiene} · Structural ${sc.Structural} · Management ${sc.ConfidenceInManagement} (lower is better)` : '';
-    return `<div class="res">
-      ${badge}
-      <div class="res-body">
-        <div class="res-name">${esc(e.BusinessName)}</div>
-        <div class="res-addr">${esc(addr)}</div>
-        <div class="res-meta">${esc(label)}${date ? ` · rated ${date}` : ''}${e.LocalAuthorityName ? ` · ${esc(e.LocalAuthorityName)}` : ''}</div>
-        ${breakdown ? `<div class="res-meta">${breakdown}</div>` : ''}
+<div style="max-width: 1160px; margin: 80px auto 0; padding: 0 24px 88px;">
+  <div class="fc-cta-grid" style="position: relative; background: linear-gradient(105deg, #14382a, #0f2b1e 55%, #0a1f15); border-radius: 24px; padding: 56px; color: #fff; overflow: hidden; display: grid; grid-template-columns: 1.35fr 1fr; gap: 44px; align-items: center;">
+    <span aria-hidden="true" style="position: absolute; top: 50%; right: -30px; transform: translateY(-52%); font-size: 340px; font-weight: 800; line-height: 1; color: rgba(255,255,255,.045); user-select: none; pointer-events: none;">5</span>
+    <div style="position: relative;">
+      <h2 style="font-size: 34px; font-weight: 800; letter-spacing: -0.03em; margin: 0; line-height: 1.12; text-wrap: balance;">Checking your own kitchen?</h2>
+      <p style="font-size: 15px; margin: 14px 0 0; max-width: 440px; color: rgba(255,255,255,.6); line-height: 1.6; text-wrap: pretty;">The rating follows the records. Blueroll keeps them inspection-ready every day — £24.99 a month, 14-day free trial.</p>
+      <a href="/" class="cta-dark-btn" style="display: inline-block; margin-top: 26px; background: #1f9d63; color: #fff; font-size: 15px; font-weight: 700; padding: 13px 26px; border-radius: 8px; box-shadow: 0 12px 32px -14px rgba(31,157,99,.9);">See how Blueroll works</a>
+      <div style="margin-top: 18px; font-size: 12px; color: rgba(255,255,255,.4);">14-day free trial · Cancel anytime in the App Store</div>
+    </div>
+    <div style="position: relative;">
+      <div style="display: flex; flex-direction: column; align-items: stretch; max-width: 250px; margin-left: auto;">
+        <div style="display: flex; align-items: center; gap: 9px; background: #fff; border-radius: 11px; padding: 10px 13px; font-size: 12.5px; color: #16181d; white-space: nowrap; box-shadow: 0 14px 34px -16px rgba(0,0,0,.5);"><span style="width: 15px; height: 15px; border-radius: 50%; background: #1f9d63; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 8.5px; flex-shrink: 0;">✓</span><span style="font-weight: 600;">Opening checks</span><span style="margin-left: auto; color: #1f7a52; font-weight: 700; font-size: 11px;">12/12</span></div>
+        <div style="display: flex; align-items: center; gap: 9px; background: #fff; border-radius: 11px; padding: 10px 13px; font-size: 12.5px; color: #16181d; white-space: nowrap; box-shadow: 0 14px 34px -16px rgba(0,0,0,.5); margin-top: 8px;"><span style="width: 15px; height: 15px; border-radius: 50%; background: #1f9d63; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 8.5px; flex-shrink: 0;">✓</span><span style="font-weight: 600;">Fridge 2</span><span style="margin-left: auto; color: #1f7a52; font-weight: 700; font-variant-numeric: tabular-nums;">3.1°C</span></div>
+        <div style="display: flex; align-items: center; gap: 9px; background: #fff; border-radius: 11px; padding: 10px 13px; font-size: 12.5px; color: #16181d; white-space: nowrap; box-shadow: 0 14px 34px -16px rgba(0,0,0,.5); margin-top: 8px;"><span style="width: 15px; height: 15px; border-radius: 50%; background: #1f9d63; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 8.5px; flex-shrink: 0;">✓</span><span style="font-weight: 600;">HACCP pack</span><span style="margin-left: auto; color: #1f7a52; font-weight: 700; font-size: 11px;">Ready</span></div>
       </div>
-    </div>`;
-  }).join('');
-  const note = list.length >= 30 ? '<div class="res-count">First 30 matches — narrow your search for fewer</div>' : '';
-  results.innerHTML = '<div class="res-list">' + note + cards + '</div>';
-}
-
-let debounce = null;
-input.addEventListener('input', () => { clearTimeout(debounce); debounce = setTimeout(runSearch, 400); });
-input.addEventListener('keydown', e => { if (e.key === 'Enter'){ clearTimeout(debounce); runSearch(); } });
-</script>
-
+    </div>
+  </div>
+</div>
 <script>
 (function () {
   var btn = document.getElementById('nav-burger'), menu = document.getElementById('mobile-menu');
-  if (!btn || !menu) return;
-  var set = function (open) {
-    menu.classList.toggle('open', open);
-    document.body.classList.toggle('mm-lock', open);
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-  };
-  btn.addEventListener('click', function () { set(!menu.classList.contains('open')); });
-  menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { set(false); }); });
+  if (btn && menu) {
+    var set = function (open) {
+      menu.classList.toggle('open', open);
+      document.body.classList.toggle('mm-lock', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    btn.addEventListener('click', function () { set(!menu.classList.contains('open')); });
+    menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { set(false); }); });
+  }
+})();
+
+(function () {
+  var input = document.getElementById('fc-query'), go = document.getElementById('fc-go');
+  var results = document.getElementById('fc-results'), status = document.getElementById('fc-status');
+  var debounce = null, searching = false;
+  function ratingColor(r) { return r >= 5 ? '#1f7a52' : r >= 4 ? '#1f9d63' : r >= 3 ? '#d98a1a' : '#d2453f'; }
+  function setStatus(msg) { status.textContent = msg || ''; status.style.display = msg ? '' : 'none'; }
+  function search() {
+    var q = input.value.trim();
+    if (!q) return;
+    searching = true; go.textContent = 'Searching…';
+    results.style.display = 'none'; results.innerHTML = ''; setStatus('Searching…');
+    var isPostcode = /\d/.test(q) && q.length <= 8;
+    var url = 'https://api.ratings.food.gov.uk/Establishments?' + (isPostcode ? 'address=' : 'name=') + encodeURIComponent(q) + '&pageSize=40';
+    fetch(url, { headers: { 'x-api-version': '2', 'Accept': 'application/json' } })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        var list = (data.establishments || []).filter(function (e) {
+          return e.RatingValue && !isNaN(parseInt(e.RatingValue));
+        }).map(function (e) {
+          return {
+            name: e.BusinessName,
+            addr: [e.AddressLine1, e.AddressLine2, e.PostCode].filter(function (s) { return s && s !== e.BusinessName; }).join(', '),
+            rating: parseInt(e.RatingValue) || 0,
+            date: e.RatingDate ? new Date(e.RatingDate).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' }) : ''
+          };
+        });
+        searching = false; go.textContent = 'Search';
+        if (!list.length) { setStatus('No rated businesses found. Try a postcode.'); return; }
+        setStatus('');
+        results.style.display = '';
+        list.forEach(function (x) {
+          var row = document.createElement('div');
+          row.style.cssText = 'display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid #f2f3f5;';
+          row.innerHTML = '<span style="width:36px;height:36px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;flex-shrink:0;background:' + ratingColor(x.rating) + ';">' + x.rating + '</span>' +
+            '<span style="flex:1;min-width:0;"><span class="fc-n" style="display:block;font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></span>' +
+            '<span class="fc-a" style="display:block;font-size:12px;color:#8a9099;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></span></span>' +
+            '<span style="font-size:11px;color:#9aa0a8;white-space:nowrap;">' + x.date + '</span>';
+          row.querySelector('.fc-n').textContent = x.name;
+          row.querySelector('.fc-a').textContent = x.addr;
+          results.appendChild(row);
+        });
+      })
+      .catch(function () { searching = false; go.textContent = 'Search'; setStatus('Search failed — try again.'); });
+  }
+  input.addEventListener('input', function () {
+    clearTimeout(debounce);
+    if (input.value.trim().length >= 3) debounce = setTimeout(search, 500);
+  });
+  input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { clearTimeout(debounce); search(); } });
+  go.addEventListener('click', function () { clearTimeout(debounce); search(); });
 })();
 </script>
 </body>
