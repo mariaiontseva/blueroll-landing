@@ -65,6 +65,9 @@
       } else if (/apps\.apple\.com|play\.google\.com/i.test(href)) {
         eventName = 'app_store_click';
         destination = href.includes('apple.com') ? 'apple_app_store' : 'google_play';
+      } else if (link.hasAttribute('data-proof-link')) {
+        eventName = 'proof_link_click';
+        destination = link.getAttribute('data-proof-link') || new URL(link.href, window.location.href).hostname;
       }
 
       if (!eventName) return;
@@ -75,6 +78,18 @@
         transport_type: 'beacon'
       });
     }, { capture: true });
+
+    document.querySelectorAll('details.ms-faq').forEach((item, index) => {
+      item.addEventListener('toggle', () => {
+        if (!item.open) return;
+        sendEvent('faq_open', {
+          ai_source: sessionSource || '(not_ai_referred)',
+          landing_page: window.location.pathname,
+          faq_position: index + 1,
+          faq_question: item.querySelector('summary')?.textContent?.trim() || '(unknown)'
+        });
+      });
+    });
   } catch (error) {
     // Analytics must never interfere with page use, storage restrictions included.
   }
