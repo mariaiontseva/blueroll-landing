@@ -312,6 +312,7 @@ tr:hover { background: var(--blue-soft); }
 .email-provenance.archived { color: #7C3AED; background: #F5F3FF; }
 .email-provenance.legacy { color: #B45309; background: #FFFBEB; }
 .email-provenance.review { color: var(--red); background: var(--red-soft); }
+.email-provenance.overture { color: #0369A1; background: #EFF6FF; }
 
 @media (max-width: 1050px) {
   .quality-grid { grid-template-columns: 1fr 1fr; }
@@ -345,7 +346,9 @@ tr:hover { background: var(--blue-soft); }
 <div class="toolbar">
   <input class="toolbar-input" id="searchQ" type="text" placeholder="Search name, postcode, email, IG..." onkeydown="if(event.key==='Enter') loadData(1)">
   <select class="toolbar-select" id="filterHas" onchange="loadData()">
-    <option value="email" selected>Has email</option>
+    <option value="any_email" selected>Has email (any source)</option>
+    <option value="email">Has email · scraped only</option>
+    <option value="overture_email">Has email · Overture only</option>
     <option value="instagram">Has Instagram</option>
     <option value="both">Has both</option>
   </select>
@@ -600,7 +603,7 @@ async function loadData() {
 
   // Server caps per_page at 200 — fetch page 1 to learn total, then fan out the rest in parallel.
   // sent/clicked filters are applied client-side (server-side contacted=email filter is broken).
-  const serverHas = has === 'both' ? 'email' : has;
+  const serverHas = has === 'both' ? 'any_email' : has;
   const baseParams = new URLSearchParams({
     per_page: 200, sort: 'rating_date', order: 'desc', has: serverHas
   });
@@ -624,6 +627,12 @@ async function loadData() {
       for (const d of rest) results = results.concat(d.results || []);
     }
     if (has === 'both') results = results.filter(x => x.instagram);
+    for (const r of results) {
+      if (!r.email && r.overture_email) { r.email = r.overture_email; r.email_from_overture = true; }
+      if (!r.website && r.overture_website) r.website = r.overture_website;
+      if (!r.phone && r.overture_phone) r.phone = r.overture_phone;
+      if (!r.instagram && r.overture_social && /instagram\.com/i.test(r.overture_social)) r.instagram = r.overture_social;
+    }
     rawData = results;
     if (loadRetryTimer) {
       clearTimeout(loadRetryTimer);
@@ -1584,6 +1593,12 @@ function renderQualityFallback(rows) {
 function renderEmailQuality(row) {
   if (!row.email) return '<span style="color:#CBD5E0;">—</span>';
   const email = esc(row.email);
+  // Overture Places (CDLA-Permissive / Apache / CC0) — the provenance-clean source.
+  // Exact name match is trustworthy; a token match is a weaker join worth eyeballing.
+  if (row.email_from_overture) {
+    const kind = row.overture_match === 'exact' ? 'Overture · exact match' : 'Overture · name match';
+    return `<div class="email-stack"><span class="email-address">${email}</span><span class="email-provenance overture">${kind}</span></div>`;
+  }
   if (!row.email_source) {
     const issue = legacyEmailIssue(row.email);
     return `<div class="email-stack"><span class="email-address">${email}</span><span class="email-provenance ${issue ? 'review' : 'legacy'}">${issue || 'Legacy · unchecked'}</span></div>`;
