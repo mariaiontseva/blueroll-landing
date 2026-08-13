@@ -22,12 +22,14 @@
 
 <!-- Favicon -->
 <link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="152x152" href="/app_icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Blueroll">
 <meta property="og:url" content="https://blueroll.app/">
 <meta property="og:title" content="Blueroll — Food Safety &amp; HACCP Compliance App for Restaurants">
 <meta property="og:description" content="Digital HACCP checklists, allergen matrix, EHO report packs and a multi-site dashboard. £24.99 per site/month. Try free for 14 days.">
@@ -43,8 +45,20 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://blueroll.app/#website",
+  "name": "Blueroll",
+  "alternateName": "blueroll.app",
+  "url": "https://blueroll.app/",
+  "inLanguage": "en-GB",
+  "publisher": {"@id": "https://blueroll.app/#organization"}
+}
+</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -251,8 +265,8 @@ body.mm-lock { overflow: hidden; }
       <img src="assets/blueroll-logo-v2.svg" alt="Blueroll" style="height: 26px; display: block;">
       <span>Blueroll</span>
     </a>
-    <div class="nav-links" style="display: flex; align-items: center; gap: 22px; font-size: 13.5px; font-weight: 500; color: #41464d; flex: 1; height: 100%;">
-      <span class="dd">
+    <nav class="nav-links" aria-label="Primary navigation" style="display: flex; align-items: center; gap: 22px; font-size: 13.5px; font-weight: 500; color: #41464d; flex: 1; height: 100%;">
+      <div class="dd">
         <a href="#audiences" class="navlink">Who it's for <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
         <div class="dd-menu" style="width: 312px;">
           <a href="independent-restaurant-food-safety.html" class="dd-item">
@@ -268,8 +282,8 @@ body.mm-lock { overflow: hidden; }
             <span><span class="dd-title">Franchises</span><span class="dd-sub">Central standards, local execution</span></span>
           </a>
         </div>
-      </span>
-      <span class="dd">
+      </div>
+      <div class="dd">
         <a href="#features" class="navlink">Features <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
         <div class="dd-menu dd-grid">
           <a href="multi-site-food-safety.html" class="dd-item">
@@ -313,8 +327,8 @@ body.mm-lock { overflow: hidden; }
             <span><span class="dd-title">Incidents</span><span class="dd-sub">Complaints logged, owned, resolved</span></span>
           </a>
         </div>
-      </span>
-      <span class="dd">
+      </div>
+      <div class="dd">
         <a href="tools.html" class="navlink">Free tools <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
         <div class="dd-menu" style="width: 312px;">
           <a href="free-haccp-template.html" class="dd-item">
@@ -339,10 +353,10 @@ body.mm-lock { overflow: hidden; }
           </a>
           <div style="border-top: 1px solid #f2f3f5; margin-top: 6px; padding: 9px 10px;"><a href="tools.html" style="font-size: 13px; font-weight: 700; color: #1f7a52;">See all free tools →</a></div>
         </div>
-      </span>
+      </div>
       <a href="#pricing" class="navlink">Pricing</a>
       <a href="#faq" class="navlink">FAQ</a>
-    </div>
+    </nav>
     <a href="https://app.blueroll.app/" class="nav-signin" style="font-size: 13.5px; font-weight: 600; color: #41464d; white-space: nowrap; margin-left: auto;">Sign in</a>
     <a href="https://app.blueroll.app/" class="btn-green" style="font-size: 13.5px; padding: 9px 18px; box-shadow: 0 1px 2px rgba(16,24,40,.1);">Start for free</a>
     <button class="nav-burger" id="nav-burger" aria-label="Menu" aria-expanded="false">
