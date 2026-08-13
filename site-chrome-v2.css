@@ -28,3 +28,11 @@
 body.mm-lock { overflow: hidden; }
 .nav-burger { display: inline-flex; }
 @media (max-width: 960px) { .nav-links { display: none !important; } .nav-signin { display: none !important; } .nav-burger { display: inline-flex; } }
+
+/* единый вид шапки/футера на страницах со своим шрифтом и отступами */
+div[style*="position: sticky"][style*="z-index: 50"], div[style*="position: sticky"][style*="z-index: 50"] *,
+.mobile-menu, .mobile-menu *,
+div[style*="background: #14161b"], div[style*="background: #14161b"] * {
+  font-family: 'Geist', -apple-system, 'Segoe UI', sans-serif;
+}
+body { padding-top: 0 !important; }
