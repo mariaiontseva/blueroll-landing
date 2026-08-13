@@ -86,6 +86,7 @@
       "name": "Blueroll",
       "url": "https://blueroll.app"
     },
+    "dateModified": "2026-08-13",
     "license": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
     "isAccessibleForFree": true,
     "spatialCoverage": {
@@ -355,6 +356,11 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 24px
   html, body { overflow-x: clip; }
   a[href="#hero-demo"], a[href="/#hero-demo"] { display: none !important; }
   input, select, textarea { font-size: 16px !important; }
+  /* тап-таргеты: ссылки футера, крошек и текстовые CTA */
+  .foot-link { display: inline-block; padding: 7px 0; }
+  .text-cta { padding: 8px 0; }
+  div[style*="margin: 22px auto 0"] a { display: inline-block; padding: 8px 2px; }
+  div[style*="background: #14161b"] a { display: inline-block; padding: 6px 0; }
   div[style*="grid-template-columns"] > div:has(h2) { order: -1; }
   div[style*="grid-template-columns"] > div:has(h1) { order: -1; }
   table, table.compare { display: block !important; max-width: 100% !important; width: 100%; overflow-x: auto; }
@@ -515,7 +521,7 @@ div[style*="background: #14161b"] { display: none !important; }
   <a href="https://app.blueroll.app/" class="btn-green mm-cta">Start for free</a>
 </div>
 
-<div style="max-width: 1160px; margin: 22px auto 0; padding: 0 24px; font-size: 12.5px; color: #8a9099;"><a href="/">Blueroll</a> <span style="color: #c6cad0;">›</span> <a href="/tools.html">Free Tools</a> <span style="color: #c6cad0;">›</span> <span style="color: #5c626b; font-weight: 600;">Food Hygiene Ratings Near Me: London Map</span></div>
+<div style="max-width: 1160px; margin: 22px auto 0; padding: 0 24px; font-size: 12.5px; color: #8a9099;"><a href="/">Blueroll</a> <span style="color: #c6cad0;">›</span> <a href="/tools.html">Free Tools</a> <span style="color: #c6cad0;">›</span> <span style="color: #5c626b; font-weight: 600;">London Food Hygiene Ratings Map</span></div>
 
 
 <div class="bx-mobile">
@@ -604,14 +610,14 @@ div[style*="background: #14161b"] { display: none !important; }
   </div>
 
   <h1>London Food Hygiene Rating Map</h1>
-  <p class="lede">An interactive map of every London restaurant, cafe, pub and takeaway with its current food hygiene rating from the UK Food Standards Agency. Search by postcode or venue name, filter by rating, and check any place before you eat — all data is live from the official FSA ratings API.</p>
+  <p class="lede">The London food hygiene ratings map lets you search any restaurant, cafe, pub or takeaway by name or postcode and see its current 0–5 rating. Results come live from the official UK Food Standards Agency ratings API.</p>
 
   <h2>How the map works</h2>
   <p>Each coloured dot on the map above represents a food business registered with the FSA. The colour tells you the hygiene rating it received on its most recent inspection by an Environmental Health Officer (EHO). Click a dot to see the venue name, address and rating date. Use the filter pills in the top-left to hide or show specific rating levels — for example, turn off 5 and 4 to reveal only problem venues.</p>
   <p>The map loads restaurants within a five-mile radius of whatever part of London is on screen. Pan or zoom to a new area and click <strong>"Search this area"</strong> to refresh with the venues in that viewport. You can also type a postcode (e.g. <em>SW1A</em>) or a restaurant name into the search box to jump straight to it.</p>
 
   <h2>What the 0–5 food hygiene ratings mean</h2>
-  <p>Ratings are awarded after an on-site inspection covering three areas: how hygienically food is handled and prepared, the physical condition of the premises, and how the business manages food safety going forward. The lowest of the three scores generally sets the overall rating.</p>
+  <p>Ratings are awarded after an on-site inspection covering three areas: how hygienically food is handled and prepared, the physical condition of the premises, and how the business manages food safety going forward. Read <a href="food-hygiene-ratings-explained.html">food hygiene ratings explained</a> for the meaning of every score and the official scoring limits.</p>
 
   <div class="rating-legend">
     <div class="rl-row">
@@ -660,11 +666,12 @@ div[style*="background: #14161b"] { display: none !important; }
 
   <h2>Where the data comes from</h2>
   <p>All ratings on this map are pulled directly from the <a href="https://www.food.gov.uk/" target="_blank" rel="noopener">Food Standards Agency</a> open data API. The FSA publishes ratings under the Open Government Licence, so anyone can build tools on top of it. The database covers every registered food premises in England, Wales and Northern Ireland — not just restaurants, but also schools, hospitals, care homes, manufacturers and distributors. (Scotland operates a different pass/fail system which is not shown on this map.)</p>
+  <p><strong>London snapshot, 13 August 2026:</strong> across the 33 London local-authority areas, the FSA API returned 81,156 registered establishments. Of the 70,964 with a numerical 0–5 rating, 68.4% held a 5 and 5.6% held a rating from 0 to 2. Newham had the largest share rated 0–2 (14.1%), followed by Ealing (12.6%) and Waltham Forest (11.8%). Percentages include every rated establishment type in the FSA data, not only restaurants.</p>
   <p>Because we query the FSA live every time someone uses the map, you always see the most current rating. If a restaurant was re-inspected yesterday and its rating changed, it will show the new rating as soon as the FSA updates its database — usually within a few days of the visit.</p>
 
   <h2>For restaurants: how to check and improve your own rating</h2>
   <p>If you own or manage a restaurant and want to check your current rating, search your postcode above or look up your venue on the <a href="check-food-hygiene-rating.html">FSA rating lookup</a>. A low rating has three main causes in practice: sloppy paperwork (no HACCP plan, missing temperature logs), physical issues (poor pest control, structural damage), or food handling mistakes observed during the inspection.</p>
-  <p>The fastest way to raise your score on the "Confidence in Management" component — which often caps the overall rating — is to make daily evidence consistent. Read <a href="how-to-improve-food-hygiene-rating.html">how to improve your food hygiene rating</a>, download the <a href="free-haccp-template.html">free HACCP template</a>, or use <a href="haccp-checklists.html">digital HACCP checklists</a> to keep temperatures, cleaning and corrective actions together.</p>
+  <p>The fastest way to raise your score on the "Confidence in Management" component — which often caps the overall rating — is to make daily evidence consistent. Read <a href="how-to-improve-food-hygiene-rating.html">how to improve your food hygiene rating</a>, download the <a href="free-haccp-template.html">free HACCP plan template UK</a>, or use <a href="haccp-checklists.html">digital HACCP checklists</a> to keep temperatures, cleaning and corrective actions together.</p>
   <p>Managing more than one venue? Blueroll's <a href="multi-site-food-safety.html">multi-site food safety dashboard</a> shows which locations are inspection-ready and where checks are being missed.</p>
 
   <h2>Frequently asked questions</h2>

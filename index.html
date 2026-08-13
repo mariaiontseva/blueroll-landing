@@ -260,6 +260,11 @@ body.mm-lock { overflow: hidden; }
   html, body { overflow-x: clip; }
   a[href="#hero-demo"], a[href="/#hero-demo"] { display: none !important; }
   input, select, textarea { font-size: 16px !important; }
+  /* тап-таргеты: ссылки футера, крошек и текстовые CTA */
+  .foot-link { display: inline-block; padding: 7px 0; }
+  .text-cta { padding: 8px 0; }
+  div[style*="margin: 22px auto 0"] a { display: inline-block; padding: 8px 2px; }
+  div[style*="background: #14161b"] a { display: inline-block; padding: 6px 0; }
   div[style*="grid-template-columns"] > div:has(h2) { order: -1; }
   div[style*="grid-template-columns"] > div:has(h1) { order: -1; }
   table, table.compare { display: block !important; max-width: 100% !important; width: 100%; overflow-x: auto; }
@@ -424,7 +429,7 @@ body.mm-lock { overflow: hidden; }
     <span class="hero-chip" style="position: absolute; top: 360px; right: max(-40px, calc(50% - 630px)); align-items: center; gap: 7px; background: rgba(255,255,255,.85); border: 1px solid #eef0f2; border-radius: 10px; padding: 7px 12px; font-size: 11px; font-weight: 600; color: #5c626b; box-shadow: 0 10px 26px -18px rgba(16,24,40,.3); animation: heroChip 11s ease-in-out 8.2s infinite; white-space: nowrap;"><span style="width: 13px; height: 13px; border-radius: 50%; background: #1f9d63; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 7.5px;">✓</span>Delivery logged · 2.8°C</span>
   </div>
   <h1 class="hero-h1" style="font-size: 74px; line-height: 1.01; font-weight: 800; letter-spacing: -0.045em; margin: 0 auto; max-width: 940px; text-wrap: balance; animation: pageIn .7s cubic-bezier(.2,.8,.2,1) .05s both; position: relative; z-index: 1;">You run the business.<br>We handle compliance.</h1>
-  <p class="hero-sub" style="font-size: 19px; line-height: 1.55; color: #5c626b; max-width: 620px; margin: 24px auto 0; text-wrap: pretty; animation: pageIn .7s cubic-bezier(.2,.8,.2,1) .15s both; position: relative; z-index: 1;">Blueroll does the food safety paperwork for you — daily checklists on your team's phones, an allergen matrix built from your recipes, an inspection file that's always ready. No binders, no stress, no surprises.</p>
+  <p class="hero-sub" style="font-size: 19px; line-height: 1.55; color: #5c626b; max-width: 620px; margin: 24px auto 0; text-wrap: pretty; animation: pageIn .7s cubic-bezier(.2,.8,.2,1) .15s both; position: relative; z-index: 1;">Blueroll is a restaurant food safety app that replaces paper HACCP records with daily checks on your team's phones, a recipe-based allergen matrix and an EHO-ready inspection file.</p>
   <div style="display: flex; justify-content: center; align-items: center; gap: 12px; margin-top: 32px; flex-wrap: wrap; animation: pageIn .7s cubic-bezier(.2,.8,.2,1) .25s both; position: relative; z-index: 1;">
     <a href="https://app.blueroll.app/" class="btn-green" style="font-size: 15px; padding: 13px 26px; box-shadow: 0 1px 2px rgba(16,24,40,.1), 0 10px 28px -18px rgba(31,157,99,.7);">Start for free</a>
     <span style="width: 1px; height: 28px; background: #e2e4e8;"></span>

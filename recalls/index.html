@@ -5,8 +5,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>UK Food Recalls — Last 30 Days | Blueroll</title>
-<meta name="description" content="Latest FSA food recalls and allergy alerts for UK restaurants, with a server-rendered daily fallback and live updates from the Food Standards Agency.">
+<title>UK Food Recalls This Week: Live FSA Alerts | Blueroll</title>
+<meta name="description" content="Check UK food recalls and allergy alerts from the official FSA feed. See recalled products from the last 30 days, with automatic daily updates.">
 <link rel="canonical" href="https://blueroll.app/recalls/">
 <link rel="alternate" hreflang="en-gb" href="https://blueroll.app/recalls/">
 
@@ -17,12 +17,12 @@
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://blueroll.app/recalls/">
-<meta property="og:title" content="UK Food Recalls — Last 30 Days | Blueroll">
-<meta property="og:description" content="Latest FSA food recalls and allergy alerts for UK restaurants. Updated from the official feed.">
+<meta property="og:title" content="UK Food Recalls This Week: Live FSA Alerts | Blueroll">
+<meta property="og:description" content="Check current UK food recalls and allergy alerts from the official FSA feed, updated automatically every day.">
 <meta property="og:image" content="https://blueroll.app/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="UK Food Recalls — Last 30 Days | Blueroll">
-<meta name="twitter:description" content="Latest FSA food recalls and allergy alerts for UK restaurants.">
+<meta name="twitter:title" content="UK Food Recalls This Week: Live FSA Alerts | Blueroll">
+<meta name="twitter:description" content="Check current UK food recalls and allergy alerts from the official FSA feed.">
 <meta name="twitter:image" content="https://blueroll.app/og-image.png">
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
@@ -32,9 +32,10 @@
 {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  "name": "UK Food Recalls — Last 30 Days",
+  "name": "UK Food Recalls This Week: Live FSA Alerts",
   "url": "https://blueroll.app/recalls/",
-  "description": "Latest UK Food Standards Agency recalls and allergy alerts for restaurant operators, with a static daily fallback and live client-side updates.",
+  "description": "Current UK Food Standards Agency recalls and allergy alerts from the last 30 days, with a static daily fallback and live updates.",
+  "dateModified": "2026-08-13",
   "publisher": {"@type": "Organization", "name": "Blueroll", "url": "https://blueroll.app", "logo": "https://blueroll.app/app_icon.png"}
 }
 </script>
@@ -504,6 +505,11 @@ nav {
   html, body { overflow-x: clip; }
   a[href="#hero-demo"], a[href="/#hero-demo"] { display: none !important; }
   input, select, textarea { font-size: 16px !important; }
+  /* тап-таргеты: ссылки футера, крошек и текстовые CTA */
+  .foot-link { display: inline-block; padding: 7px 0; }
+  .text-cta { padding: 8px 0; }
+  div[style*="margin: 22px auto 0"] a { display: inline-block; padding: 8px 2px; }
+  div[style*="background: #14161b"] a { display: inline-block; padding: 6px 0; }
   div[style*="grid-template-columns"] > div:has(h2) { order: -1; }
   div[style*="grid-template-columns"] > div:has(h1) { order: -1; }
   table, table.compare { display: block !important; max-width: 100% !important; width: 100%; overflow-x: auto; }
@@ -681,7 +687,7 @@ nav {
       <span>Live · From the FSA</span>
     </div>
     <h1>UK Food Recalls,<br><span class="accent">last 30 days.</span></h1>
-    <p class="hero-sub">A running digest of every Food Standards Agency recall and allergy alert affecting UK kitchens. Pulled live from the FSA. So you can check, document, and move on.</p>
+    <p class="hero-sub">Check UK food recalls and allergy alerts published in the last 30 days. Every notice is pulled from the official FSA feed and refreshed daily, so kitchens can identify affected stock and document their action.</p>
     <div class="hero-meta">
       <span id="weekRange">Loading…</span>
       <span class="sep"></span>
@@ -790,8 +796,8 @@ This product contains barley (gluten) and mustard making it a possible health ri
   <aside class="insight">
     <span class="insight-eyebrow">For your records</span>
     <h3>What this means for your kitchen</h3>
-    <p>If any recalled product has passed through your kitchen, you need to document it. A dated note in your HACCP records — <strong>"checked stock, product not held / product removed on [date]"</strong> — is what your EHO expects to see.</p>
-    <p>No note = a gap in your records. A gap in your records is what costs you the rating.</p>
+    <p>If any recalled product has passed through your kitchen, document it. A dated note in your HACCP records — <strong>"checked stock, product not held / product removed on [date]"</strong> — creates an audit trail. The <a href="/free-haccp-template.html">free HACCP plan template UK</a> includes a corrective-action log for this purpose.</p>
+    <p>No note means a gap in your records. See <a href="/food-hygiene-ratings-explained.html">food hygiene ratings explained</a> for how management evidence contributes to an inspection result.</p>
   </aside>
 
   <section>
