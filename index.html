@@ -228,7 +228,14 @@ body.mm-lock { overflow: hidden; }
   .cta-timeline-labels { font-size: 10.5px !important; }
   .cta-timeline .cta-tl-label { font-size: 10.5px !important; white-space: normal !important; }
   .phone-float { display: none !important; }
-  .hero-chips { display: none; }
+  /* мобильный hero: пятна и стикеры, аккуратно по зонам */
+  .hero-chips > span:nth-child(1) { width: 250px !important; height: 250px !important; left: -70px !important; top: -30px !important; }
+  .hero-chips > span:nth-child(2) { width: 300px !important; height: 300px !important; right: -90px !important; top: 300px !important; }
+  .hero-chip { font-size: 10.5px !important; padding: 6px 10px !important; animation-duration: 14s !important; }
+  .hero-chips > .hero-chip:nth-child(3) { left: 12px !important; top: 74px !important; transform: rotate(-3deg); }
+  .hero-chips > .hero-chip:nth-child(4) { display: none !important; }
+  .hero-chips > .hero-chip:nth-child(5) { right: 12px !important; left: auto !important; top: 88px !important; transform: rotate(2.5deg); }
+  .hero-chips > .hero-chip:nth-child(6) { left: 50% !important; right: auto !important; top: calc(100% + 4px) !important; transform: translateX(-50%) rotate(-1.5deg); }
 }
 </style>
 <link rel="stylesheet" href="/site-footer.css?v=20260813">
