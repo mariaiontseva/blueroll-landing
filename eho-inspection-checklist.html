@@ -301,6 +301,13 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0 48px;
   table, table.compare { display: block !important; max-width: 100% !important; width: 100%; overflow-x: auto; }
   h1 { font-size: 38px !important; }
   h2 { font-size: 28px !important; }
+  /* кейс-стади: низ */
+  .case-grid > div:last-child { padding: 26px 20px 30px !important; }
+  .case-photo { min-height: 260px !important; }
+  .case-grid div[style*="font-size: 23px"] { font-size: 19px !important; }
+  div[style*="grid-template-columns: 1fr 1fr 1fr"][style*="border-top"] { grid-template-columns: repeat(3, 1fr) !important; gap: 0 !important; }
+  div[style*="grid-template-columns: 1fr 1fr 1fr"][style*="border-top"] > div { padding: 16px 4px 0 !important; border-left: none !important; text-align: center; }
+  div[style*="grid-template-columns: 1fr 1fr 1fr"][style*="border-top"] > div > div { white-space: normal !important; }
 }
 </style>
 </head>
