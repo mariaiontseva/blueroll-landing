@@ -528,6 +528,12 @@ a:hover { color: #1f9d63; }
     if (!email) return;
     var btn = form.querySelector('button');
     btn.textContent = 'Sending…'; btn.disabled = true;
+    // Primary capture: our own database (formsubmit below is the email notification only).
+    fetch('https://rszrggreuarvodcqeqrj.supabase.co/rest/v1/template_leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzenJnZ3JldWFydm9kY3FlcXJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1NzY2NzYsImV4cCI6MjA4OTE1MjY3Nn0.dwD1MJcMOc9w1IP4T15ep1mYHVARW6eJPNArn4oGmH0', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzenJnZ3JldWFydm9kY3FlcXJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1NzY2NzYsImV4cCI6MjA4OTE1MjY3Nn0.dwD1MJcMOc9w1IP4T15ep1mYHVARW6eJPNArn4oGmH0', 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ email: email, source: 'haccp-template', page: window.location.pathname, user_agent: navigator.userAgent.slice(0, 250) })
+    }).catch(function () {});
     fetch('https://formsubmit.co/ajax/hello@blueroll.app', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
