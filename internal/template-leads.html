@@ -47,33 +47,23 @@ var app = document.getElementById('app');
 
 function esc(s){ return (s||'').replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
 
-function gate(msg) {
-  app.innerHTML = '<div class="gate"><h1>Template leads</h1><p class="sub">People who downloaded the free HACCP template. Enter the access key.</p>' +
-    (msg ? '<p class="err">' + esc(msg) + '</p>' : '') +
-    '<input id="k" type="password" placeholder="Access key" autocomplete="off"><br><button id="go">Open</button></div>';
-  document.getElementById('go').onclick = function(){ localStorage.setItem('br-leads-key', document.getElementById('k').value.trim()); load(); };
-  document.getElementById('k').addEventListener('keydown', function(e){ if (e.key === 'Enter') document.getElementById('go').click(); });
-}
 
 function fmt(d) {
   return new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
 async function load() {
-  var key = localStorage.getItem('br-leads-key');
-  if (!key) return gate();
   app.innerHTML = '<p class="muted">Loading…</p>';
   var rows;
   try {
     var r = await fetch(SB + '/rest/v1/rpc/list_template_leads', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', apikey: ANON, Authorization: 'Bearer ' + ANON },
-      body: JSON.stringify({ access_key: key })
+      body: '{}'
     });
     rows = await r.json();
-  } catch (e) { return gate('Network error, try again.'); }
-  if (!Array.isArray(rows)) return gate('Something went wrong.');
-  if (rows.length === 0) { localStorage.removeItem('br-leads-key'); return gate('Wrong key (or the list is empty).'); }
+  } catch (e) { app.innerHTML = '<p class="muted">Network error, refresh the page.</p>'; return }
+  if (!Array.isArray(rows)) { app.innerHTML = '<p class="muted">Something went wrong.</p>'; return }
 
   var now = Date.now(), week = 7*864e5, month = 30*864e5;
   var nWeek = rows.filter(function(x){ return now - new Date(x.created_at) < week; }).length;
@@ -87,7 +77,7 @@ async function load() {
       '<td>' + esc(x.note || '') + '</td></tr>';
   }).join('');
   app.innerHTML = '<h1>HACCP template leads</h1>' +
-    '<p class="sub">Everyone who left an email for the free HACCP template. Live rows are written by the page itself; the import is the FormSubmit history from hello@blueroll.app. Not indexed, key-gated.</p>' +
+    '<p class="sub">Everyone who left an email for the free HACCP template. Live rows are written by the page itself; the import is the FormSubmit history from hello@blueroll.app. Not indexed and linked from nowhere.</p>' +
     '<div class="stats"><div class="stat"><b>' + rows.length + '</b><span>total</span></div>' +
     '<div class="stat"><b>' + nMonth + '</b><span>last 30 days</span></div>' +
     '<div class="stat"><b>' + nWeek + '</b><span>last 7 days</span></div></div>' +
