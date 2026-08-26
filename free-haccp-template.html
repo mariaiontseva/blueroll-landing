@@ -701,6 +701,14 @@ a:hover { color: #1f9d63; }
   });
 
 
+  // Email links land here with ?dl=1: start the download and log the click.
+  if (/[?&]dl=1/.test(location.search)) {
+    track('haccp_email_pdf_click', {});
+    var a0 = document.createElement('a');
+    a0.href = '/blueroll-haccp-template.pdf'; a0.download = 'blueroll-haccp-template.pdf';
+    document.body.appendChild(a0); a0.click(); a0.remove();
+  }
+
   // Exit intent — desktop, once per session, never after a download.
   var modal = document.getElementById('tpl-exit');
   if (modal) {
