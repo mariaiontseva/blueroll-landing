@@ -27,6 +27,10 @@
   .badge.live { background:var(--mint); color:var(--accent-ink); }
   .badge.hist { background:#EEF0F2; color:#5C626B; }
   .badge.new { background:var(--amber-bg); color:var(--amber); }
+  .badge.l-sent { background:#EEF0F2; color:#5C626B; }
+  .badge.l-opened { background:var(--amber-bg); color:var(--amber); }
+  .badge.l-clicked { background:var(--mint); color:var(--accent-ink); }
+  .badge.unsub { background:#FDECEA; color:#B42318; }
   a { color:var(--accent-ink); text-decoration:none; }
   a:hover { text-decoration:underline; }
   .gate { max-width:420px; margin:14vh auto 0; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:24px; }
@@ -68,21 +72,37 @@ async function load() {
   var now = Date.now(), week = 7*864e5, month = 30*864e5;
   var nWeek = rows.filter(function(x){ return now - new Date(x.created_at) < week; }).length;
   var nMonth = rows.filter(function(x){ return now - new Date(x.created_at) < month; }).length;
+  var allLetters = [].concat.apply([], rows.map(function(x){ return x.letters || []; }));
+  var nSent = allLetters.length;
+  var nOpened = allLetters.filter(function(g){ return g.opened_at; }).length;
+  var nClicked = allLetters.filter(function(g){ return g.clicked_at; }).length;
   var body = rows.map(function(x){
     var isHist = (x.source || '').indexOf('historical') >= 0;
     var isNew = now - new Date(x.created_at) < 2*864e5;
+    var chips = (x.letters || []).map(function(g){
+      var st = g.clicked_at ? 'clicked' : (g.opened_at ? 'opened' : 'sent');
+      var tip = 'Letter ' + g.letter + ' sent ' + fmt(g.sent_at) +
+        (g.opened_at ? ', opened ' + fmt(g.opened_at) : '') +
+        (g.clicked_at ? ', clicked ' + fmt(g.clicked_at) : '');
+      return '<span class="badge l-' + st + '" title="' + esc(tip) + '">' + g.letter + ' · ' + st + '</span>';
+    }).join(' ');
+    if (x.unsubscribed_at) chips += (chips ? ' ' : '') + '<span class="badge unsub" title="Unsubscribed ' + fmt(x.unsubscribed_at) + '">unsubscribed</span>';
     return '<tr><td class="dt">' + fmt(x.created_at) + '</td>' +
       '<td class="em"><a href="mailto:' + esc(x.email) + '">' + esc(x.email) + '</a>' + (isNew ? ' <span class="badge new">NEW</span>' : '') + '</td>' +
       '<td><span class="badge ' + (isHist ? 'hist' : 'live') + '">' + (isHist ? 'pre-Aug import' : 'live capture') + '</span></td>' +
+      '<td style="white-space:nowrap">' + (chips || '<span class="muted">·</span>') + '</td>' +
       '<td>' + esc(x.note || '') + '</td></tr>';
   }).join('');
   app.innerHTML = '<h1>HACCP template leads</h1>' +
     '<p class="sub">Everyone who left an email for the free HACCP template. Live rows are written by the page itself; the import is the FormSubmit history from hello@blueroll.app. Not indexed and linked from nowhere.</p>' +
     '<div class="stats"><div class="stat"><b>' + rows.length + '</b><span>total</span></div>' +
     '<div class="stat"><b>' + nMonth + '</b><span>last 30 days</span></div>' +
-    '<div class="stat"><b>' + nWeek + '</b><span>last 7 days</span></div></div>' +
+    '<div class="stat"><b>' + nWeek + '</b><span>last 7 days</span></div>' +
+    '<div class="stat"><b>' + nSent + '</b><span>letters sent</span></div>' +
+    '<div class="stat"><b>' + nOpened + '</b><span>opened</span></div>' +
+    '<div class="stat"><b>' + nClicked + '</b><span>clicked</span></div></div>' +
     '<div class="bar"><button onclick="load()">Refresh</button><span class="muted" style="font-size:12.5px">Newest first</span></div>' +
-    '<div class="tbl"><table><thead><tr><th>Date</th><th>Email</th><th>Source</th><th>Who is this</th></tr></thead><tbody>' + body + '</tbody></table></div>';
+    '<div class="tbl"><table><thead><tr><th>Date</th><th>Email</th><th>Source</th><th>Emails</th><th>Who is this</th></tr></thead><tbody>' + body + '</tbody></table></div>';
 }
 load();
 </script>
