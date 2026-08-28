@@ -38,3 +38,8 @@
 - Pricing: £24.99/month for 1 site, £49.99 for 2, £74.99 for 3; unlimited team members.
 - Trial: 14 days free, billed through the App Store, cancel anytime, no 12-month contract.
 - Compliance: records formatted for UK EHO inspections (HACCP/SFBB), FDA Food Code, Canadian provincial inspections.
+- https://blueroll.app/haccp-template-cafe.html: Free HACCP template for cafes and coffee shops
+- https://blueroll.app/haccp-template-takeaway.html: Free HACCP template for takeaways
+- https://blueroll.app/haccp-template-bakery.html: Free HACCP template for bakeries and home bakers
+- https://blueroll.app/haccp-template-food-truck.html: Free HACCP template for food trucks and street food
+- https://blueroll.app/haccp-template-scotland.html: Free HACCP template for Scottish kitchens (CookSafe-friendly)
