@@ -72,6 +72,15 @@ async function load() {
   var now = Date.now(), week = 7*864e5, month = 30*864e5;
   var nWeek = rows.filter(function(x){ return now - new Date(x.created_at) < week; }).length;
   var nMonth = rows.filter(function(x){ return now - new Date(x.created_at) < month; }).length;
+  var bySeg = {};
+  rows.forEach(function(x){
+    var m = (x.source || '').match(/^haccp-template:([a-z-]+):/);
+    var seg = m ? m[1] : ((x.source || '').indexOf('historical') >= 0 ? 'main' : 'main');
+    bySeg[seg] = (bySeg[seg] || 0) + 1;
+  });
+  var segHtml = Object.keys(bySeg).sort().map(function(k){
+    return '<span class="badge hist" style="margin-right:6px">' + k + ' &middot; ' + bySeg[k] + '</span>';
+  }).join('');
   var allLetters = [].concat.apply([], rows.map(function(x){ return x.letters || []; }));
   var nSent = allLetters.length;
   var nOpened = allLetters.filter(function(g){ return g.opened_at; }).length;
@@ -101,7 +110,7 @@ async function load() {
     '<div class="stat"><b>' + nSent + '</b><span>letters sent</span></div>' +
     '<div class="stat"><b>' + nOpened + '</b><span>opened</span></div>' +
     '<div class="stat"><b>' + nClicked + '</b><span>clicked</span></div></div>' +
-    '<div class="bar"><button onclick="load()">Refresh</button><span class="muted" style="font-size:12.5px">Newest first</span></div>' +
+    '<div class="bar"><button onclick="load()">Refresh</button><span class="muted" style="font-size:12.5px">By page:</span>' + segHtml + '</div>' +
     '<div class="tbl"><table><thead><tr><th>Date</th><th>Email</th><th>Source</th><th>Emails</th><th>Who is this</th></tr></thead><tbody>' + body + '</tbody></table></div>';
 }
 load();
