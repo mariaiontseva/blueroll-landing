@@ -1,6 +1,6 @@
 # Segment config for the HACCP template satellite pages.
 # The pack's page count lives HERE and nowhere else.
-PAGES_COUNT = 8
+PAGES_COUNT = 16
 
 FREE_FAQ = (
     "Is this template really free?",
@@ -11,10 +11,10 @@ SEGMENTS = {
     "cafe": {
         "file": "haccp-template-cafe.html",
         "title": "HACCP Template for Cafes &amp; Coffee Shops: Free UK PDF | Blueroll",
-        "desc": "Free HACCP plan template for UK cafes and coffee shops. Fridge and milk temperature logs, cleaning schedule, allergen reference. Free 8-page PDF.",
+        "desc": "Free HACCP plan template for UK cafes and coffee shops. Fridge and milk temperature logs, cleaning schedule, allergen reference. Free 16-page PDF.",
         "h1": "Free HACCP template for cafes &amp; coffee shops",
         "breadcrumb": "HACCP template for cafes",
-        "sub": "This free HACCP plan template fits a UK cafe or coffee shop out of the box: fridge and milk temperature logs, a cleaning schedule that covers the espresso machine, delivery checks and corrective actions. Enter your work email for instant access to the 8-page pack.",
+        "sub": "This free HACCP plan template fits a UK cafe or coffee shop out of the box: fridge and milk temperature logs, a cleaning schedule that covers the espresso machine, delivery checks and corrective actions. Enter your work email for instant access to the 16-page pack.",
         "who_rows": [
             ("GELATERIA<br>LONDON", "Downloaded this pack in spring, ran it on paper, now runs the same checks digitally."),
             ("COFFEE VAN<br>DEVON", "Prints the daily sheet, clips it by the grinder, files it weekly."),
@@ -31,10 +31,10 @@ SEGMENTS = {
     "takeaway": {
         "file": "haccp-template-takeaway.html",
         "title": "HACCP Template for Takeaways: Free UK PDF | Blueroll",
-        "desc": "Free HACCP plan template for UK takeaways. Hot-holding and reheating logs, opening checks, cleaning schedule, delivery checks. Free 8-page PDF.",
+        "desc": "Free HACCP plan template for UK takeaways. Hot-holding and reheating logs, opening checks, cleaning schedule, delivery checks. Free 16-page PDF.",
         "h1": "Free HACCP template for takeaways",
         "breadcrumb": "HACCP template for takeaways",
-        "sub": "This free HACCP plan template is built for takeaway reality: opening checks before the rush, hot-holding and reheating temperatures, cleaning, delivery checks and corrective actions. Enter your work email for instant access to the 8-page pack.",
+        "sub": "This free HACCP plan template is built for takeaway reality: opening checks before the rush, hot-holding and reheating temperatures, cleaning, delivery checks and corrective actions. Enter your work email for instant access to the 16-page pack.",
         "who_rows": [
             ("GRILL TAKEAWAY<br>LONDON", "Downloaded the pack in August; opening checks done before the doors open."),
             ("MOMO'S CAFE", "Runs the daily sheet through service, files it by week."),
@@ -51,10 +51,10 @@ SEGMENTS = {
     "bakery": {
         "file": "haccp-template-bakery.html",
         "title": "HACCP Template for Bakeries &amp; Home Bakers: Free UK PDF | Blueroll",
-        "desc": "Free HACCP plan template for UK bakeries and registered home bakers. Cooling logs, cleaning schedule, PPDS allergen reference. Free 8-page PDF.",
+        "desc": "Free HACCP plan template for UK bakeries and registered home bakers. Cooling logs, cleaning schedule, PPDS allergen reference. Free 16-page PDF.",
         "h1": "Free HACCP template for bakeries &amp; home bakers",
         "breadcrumb": "HACCP template for bakeries",
-        "sub": "This free HACCP plan template works for a high-street bakery and a registered home baker alike: fridge and cooling temperature logs, a cleaning schedule, delivery checks for ingredient drops and corrective actions. Enter your work email for instant access to the 8-page pack.",
+        "sub": "This free HACCP plan template works for a high-street bakery and a registered home baker alike: fridge and cooling temperature logs, a cleaning schedule, delivery checks for ingredient drops and corrective actions. Enter your work email for instant access to the 16-page pack.",
         "who_rows": [
             ("BAKE-BOX CLUB<br>YORKSHIRE", "Uses the delivery check form for ingredient drops and the cleaning schedule weekly."),
             ("GELATERIA<br>LONDON", "Started on this paper pack, now runs the same checks digitally."),
@@ -71,10 +71,10 @@ SEGMENTS = {
     "food-truck": {
         "file": "haccp-template-food-truck.html",
         "title": "HACCP Template for Food Trucks &amp; Street Food: Free UK PDF | Blueroll",
-        "desc": "Free HACCP plan template for UK food trucks, trailers and street food traders. Event-day opening checks, temperature logs, cleaning. Free 8-page PDF.",
+        "desc": "Free HACCP plan template for UK food trucks, trailers and street food traders. Event-day opening checks, temperature logs, cleaning. Free 16-page PDF.",
         "h1": "Free HACCP template for food trucks &amp; street food",
         "breadcrumb": "HACCP template for food trucks",
-        "sub": "This free HACCP plan template suits a truck, trailer or market stall: opening checks for the unit (water, gas, power), fridge and hot-hold temperature logs, cleaning, stock deliveries and corrective actions. Enter your work email for instant access to the 8-page pack.",
+        "sub": "This free HACCP plan template suits a truck, trailer or market stall: opening checks for the unit (water, gas, power), fridge and hot-hold temperature logs, cleaning, stock deliveries and corrective actions. Enter your work email for instant access to the 16-page pack.",
         "who_rows": [
             ("COFFEE VAN<br>DEVON", "Runs the daily sheet on the hatch shelf, files it after each pitch."),
             ("TAPROOM<br>CORNWALL", "Downloaded the day after opening. Rated 5 a week later."),
@@ -91,10 +91,10 @@ SEGMENTS = {
     "scotland": {
         "file": "haccp-template-scotland.html",
         "title": "HACCP Template for Scottish Kitchens (CookSafe-friendly): Free PDF | Blueroll",
-        "desc": "Free HACCP plan template for kitchens in Scotland. Daily records that sit alongside CookSafe: temperature logs, cleaning, deliveries. Free 8-page PDF.",
+        "desc": "Free HACCP plan template for kitchens in Scotland. Daily records that sit alongside CookSafe: temperature logs, cleaning, deliveries. Free 16-page PDF.",
         "h1": "Free HACCP template for Scottish kitchens",
         "breadcrumb": "HACCP template for Scotland",
-        "sub": "This free HACCP plan template fits Scottish kitchens: the daily records Food Standards Scotland inspections look at, filed alongside your CookSafe house rules. Fridge and hot-hold temperature logs, cleaning schedule, delivery checks and corrective actions. Enter your work email for the 8-page pack.",
+        "sub": "This free HACCP plan template fits Scottish kitchens: the daily records Food Standards Scotland inspections look at, filed alongside your CookSafe house rules. Fridge and hot-hold temperature logs, cleaning schedule, delivery checks and corrective actions. Enter your work email for the 16-page pack.",
         "who_rows": [
             ("EH OFFICER<br>SCOTTISH COUNCIL", "An environmental health officer downloaded this pack. The same records inspectors ask to see."),
             ("TAPROOM<br>CORNWALL", "Downloaded the day after opening. Rated 5 a week later."),
