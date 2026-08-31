@@ -104,7 +104,7 @@ SEGMENTS = {
             ("Does this work with CookSafe?",
              "Yes. CookSafe is the house-rules manual; these sheets are the daily evidence that you follow it: temperatures, cleaning, deliveries, corrective actions. Keep your CookSafe folder as is and file these records with it."),
             ("What does a Pass depend on under the Food Hygiene Information Scheme?",
-             'Scotland rates premises Pass or Improvement Required rather than 0 to 5. Complete, signed day-by-day records are the strongest evidence of control an officer sees. When paper gets tedious, <a href="haccp-checklists.html">digital checklists</a> keep the same records on your team\'s phones.'),
+             'Scotland rates premises Pass or Improvement Required rather than 0 to 5. Complete, signed day-by-day records are the strongest evidence of control an officer sees. When paper gets tedious, <a href="haccp-checklists.html">digital checklists</a> keep the same records on your team\'s phones. Sorting out training too? See our <a href="food-hygiene-certificate-scotland-a-2026-guide-to-business-compliance.html">guide to food hygiene certificates in Scotland</a>.'),
             FREE_FAQ,
         ],
     },
