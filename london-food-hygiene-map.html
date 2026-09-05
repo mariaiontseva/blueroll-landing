@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
+<script src="https://t.contentsquare.net/uxa/f84aff336d942.js" defer></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>London Food Hygiene Rating Map — Check Any Restaurant | Blueroll</title>
-<meta name="description" content="Interactive map of every London restaurant, cafe and takeaway with live food hygiene ratings from the Food Standards Agency. Search by postcode, filter by 0–5 star rating, and check any venue before you eat.">
+<title>Check Food Hygiene Ratings: Live London Map &amp; FSA Search | Blueroll</title>
+<meta name="description" content="Type a name or postcode and see the live FSA hygiene rating for any London restaurant, cafe or takeaway. Free map, always current, no signup.">
 <meta name="keywords" content="food hygiene ratings near me, london food hygiene map, restaurant ratings london, check food hygiene rating, food hygiene rating map UK, FSA ratings london, food hygiene score london">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <meta name="author" content="Blueroll">
@@ -20,15 +21,15 @@
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://blueroll.app/london-food-hygiene-map.html">
-<meta property="og:title" content="London Food Hygiene Rating Map — Check Any Restaurant">
-<meta property="og:description" content="Interactive map of every London restaurant with their live food hygiene rating from the FSA. Search by postcode, filter 0–5 stars.">
+<meta property="og:title" content="Check Food Hygiene Ratings: Live London Map &amp; FSA Search">
+<meta property="og:description" content="Type a name or postcode and see the live FSA hygiene rating for any London restaurant, cafe or takeaway.">
 <meta property="og:image" content="https://blueroll.app/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:site_name" content="Blueroll">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="London Food Hygiene Rating Map — Check Any Restaurant">
-<meta name="twitter:description" content="Interactive map of every London restaurant with their live food hygiene rating from the FSA.">
+<meta name="twitter:title" content="Check Food Hygiene Ratings: Live London Map &amp; FSA Search">
+<meta name="twitter:description" content="Type a name or postcode and see the live FSA hygiene rating for any London food business.">
 <meta name="twitter:image" content="https://blueroll.app/og-image.png">
 
 <!-- Structured data: WebApplication + Dataset + FAQPage + BreadcrumbList -->
@@ -42,10 +43,25 @@
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Any",
     "browserRequirements": "Modern browser with JavaScript",
-    "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"},
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "GBP"
+    },
     "description": "Free interactive map of every London restaurant, cafe, takeaway and food business with its current food hygiene rating from the UK Food Standards Agency.",
-    "provider": {"@type": "Organization", "name": "Blueroll", "url": "https://blueroll.app"},
-    "areaServed": {"@type": "City", "name": "London", "containedInPlace": {"@type": "Country", "name": "United Kingdom"}}
+    "provider": {
+      "@type": "Organization",
+      "name": "Blueroll",
+      "url": "https://blueroll.app"
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": "London",
+      "containedInPlace": {
+        "@type": "Country",
+        "name": "United Kingdom"
+      }
+    }
   },
   {
     "@context": "https://schema.org",
@@ -53,38 +69,107 @@
     "name": "London Food Hygiene Ratings",
     "description": "Live food hygiene ratings for every registered food business in Greater London, sourced directly from the UK Food Standards Agency (FSA) ratings API. Covers restaurants, cafes, pubs, takeaways, schools, hospitals and care homes.",
     "url": "https://blueroll.app/london-food-hygiene-map.html",
-    "keywords": ["food hygiene", "FSA", "London", "restaurants", "food safety"],
-    "creator": {"@type": "Organization", "name": "UK Food Standards Agency", "url": "https://www.food.gov.uk/"},
-    "publisher": {"@type": "Organization", "name": "Blueroll", "url": "https://blueroll.app"},
+    "keywords": [
+      "food hygiene",
+      "FSA",
+      "London",
+      "restaurants",
+      "food safety"
+    ],
+    "creator": {
+      "@type": "Organization",
+      "name": "UK Food Standards Agency",
+      "url": "https://www.food.gov.uk/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Blueroll",
+      "url": "https://blueroll.app"
+    },
+    "dateModified": "2026-08-13",
     "license": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
     "isAccessibleForFree": true,
-    "spatialCoverage": {"@type": "Place", "name": "Greater London, United Kingdom"}
+    "spatialCoverage": {
+      "@type": "Place",
+      "name": "Greater London, United Kingdom"
+    }
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      {"@type": "Question", "name": "Where does the data on this map come from?",
-        "acceptedAnswer": {"@type": "Answer", "text": "Every rating on this map is pulled live from the UK Food Standards Agency (FSA) ratings API, which is the official source for all food hygiene ratings in England, Wales and Northern Ireland. Data is refreshed on each map load."}},
-      {"@type": "Question", "name": "What do the 0–5 food hygiene ratings mean?",
-        "acceptedAnswer": {"@type": "Answer", "text": "5 = Very good, 4 = Good, 3 = Generally satisfactory, 2 = Improvement necessary, 1 = Major improvement necessary, 0 = Urgent improvement necessary. Ratings are given by Environmental Health Officers (EHOs) after on-site inspections."}},
-      {"@type": "Question", "name": "How often are ratings updated?",
-        "acceptedAnswer": {"@type": "Answer", "text": "Ratings only change when an EHO re-inspects a business. The FSA publishes the new rating within a few days of the inspection. Our map reflects whatever is currently live in the FSA database."}},
-      {"@type": "Question", "name": "Can a restaurant appeal a low rating?",
-        "acceptedAnswer": {"@type": "Answer", "text": "Yes. A business can request a re-rating visit after making improvements, appeal against the rating, or post a 'right to reply' statement that appears alongside the rating. All of this is handled through the local council's food safety team."}},
-      {"@type": "Question", "name": "Is it illegal to eat at a restaurant with a 0 or 1 rating?",
-        "acceptedAnswer": {"@type": "Answer", "text": "No, it is not illegal. A low rating indicates serious hygiene issues that need urgent improvement, but the business is still permitted to trade unless the council issues a Hygiene Emergency Prohibition Notice. We would simply advise caution."}},
-      {"@type": "Question", "name": "Do I need to display my rating on the window?",
-        "acceptedAnswer": {"@type": "Answer", "text": "In Wales and Northern Ireland, yes — display is mandatory. In England, display is voluntary (though strongly encouraged). On blueroll.app we also offer a free auto-updating rating badge you can embed on your restaurant's own website."}}
+      {
+        "@type": "Question",
+        "name": "Where does the data on this map come from?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Every rating on this map is pulled live from the UK Food Standards Agency (FSA) ratings API, which is the official source for all food hygiene ratings in England, Wales and Northern Ireland. Data is refreshed on each map load."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What do the 0–5 food hygiene ratings mean?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "5 = Very good, 4 = Good, 3 = Generally satisfactory, 2 = Improvement necessary, 1 = Major improvement necessary, 0 = Urgent improvement necessary. Ratings are given by Environmental Health Officers (EHOs) after on-site inspections."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How often are ratings updated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ratings only change when an EHO re-inspects a business. The FSA publishes the new rating within a few days of the inspection. Our map reflects whatever is currently live in the FSA database."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can a restaurant appeal a low rating?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. A business can request a re-rating visit after making improvements, appeal against the rating, or post a 'right to reply' statement that appears alongside the rating. All of this is handled through the local council's food safety team."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is it illegal to eat at a restaurant with a 0 or 1 rating?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No, it is not illegal. A low rating indicates serious hygiene issues that need urgent improvement, but the business is still permitted to trade unless the council issues a Hygiene Emergency Prohibition Notice. We would simply advise caution."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need to display my rating on the window?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "In Wales and Northern Ireland, yes — display is mandatory. In England, display is voluntary (though strongly encouraged). On blueroll.app we also offer a free auto-updating rating badge you can embed on your restaurant's own website."
+        }
+      }
     ]
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Blueroll", "item": "https://blueroll.app/"},
-      {"@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://blueroll.app/tools.html"},
-      {"@type": "ListItem", "position": 3, "name": "London Food Hygiene Map", "item": "https://blueroll.app/london-food-hygiene-map.html"}
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Blueroll",
+        "item": "https://blueroll.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Free Tools",
+        "item": "https://blueroll.app/tools.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "London Hygiene Map",
+        "item": "https://blueroll.app/london-food-hygiene-map.html"
+      }
     ]
   }
 ]
@@ -115,7 +200,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 24px
 .nav-right a { text-decoration: none; color: var(--mid); font-size: 13px; font-weight: 600; }
 .nav-btn { background: var(--green) !important; color: white !important; padding: 8px 18px !important; border-radius: 8px !important; font-weight: 700 !important; }
 
-#map { position: relative; margin-top: 56px; width: 100%; height: calc(100vh - 56px); z-index: 1; }
+#map { position: relative; margin-top: 80px; width: 100%; height: calc(100vh - 80px); z-index: 1; }
 
 /* SEO content below the map — crawlable + readable */
 .seo-content {
@@ -197,7 +282,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 24px
 }
 
 .map-wrap { position: relative; }
-.controls { position: absolute; top: 12px; left: 12px; z-index: 900; display: flex; flex-direction: column; gap: 8px; }
+.controls { position: fixed; top: 92px; left: 12px; z-index: 900; display: flex; flex-direction: column; gap: 8px; }
 .search-box { background: white; border-radius: 12px; padding: 10px 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.12); width: 320px; border: 1px solid rgba(0,0,0,0.06); }
 .search-box input { width: 100%; border: none; outline: none; font-size: 15px; font-family: inherit; color: var(--ink); background: transparent; }
 .search-box input::placeholder { color: var(--light); }
@@ -239,19 +324,215 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 24px
   .stats-bar .blueroll-link { display: none; }
 }
 </style>
+<link rel="stylesheet" href="site-chrome.css?v=20260720-solutions-v1">
+<script src="/geo-analytics.js" defer></script>
+<link rel="stylesheet" href="/site-chrome-v2.css?v=20260812">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site-footer.css?v=20260813">
+<style id="br-mobile-fix">
+@media (max-width: 960px) {
+  div[style*="grid-template-columns:"] { grid-template-columns: 1fr !important; }
+  div[style*="grid-template-columns: repeat(4, 1fr)"] { grid-template-columns: repeat(2, 1fr) !important; }
+  div[style*="grid-template-columns: 2fr 1fr 1fr 1fr"] { grid-template-columns: 1fr 1fr !important; }
+  div[style*="grid-template-columns: repeat(4, 1fr)"][style*="font-size"] { grid-template-columns: repeat(2, 1fr) !important; }
+  div[style*="grid-template-columns: 1fr 1.05fr"], div[style*="grid-template-columns: 1.05fr 1fr"],
+  div[style*="grid-template-columns: 1fr 1.1fr"], div[style*="grid-template-columns: 1.1fr 1fr"],
+  div[style*="grid-template-columns: 1fr 1.2fr"], div[style*="grid-template-columns: 1.35fr 1fr"],
+  div[style*="grid-template-columns: 1fr 1fr;"] { grid-template-columns: 1fr !important; gap: 28px !important; }
+  div[style*="grid-template-columns: repeat(4, 1fr)"] { grid-template-columns: repeat(2, 1fr) !important; row-gap: 24px; }
+  div[style*="grid-template-columns: repeat(3"] { grid-template-columns: 1fr !important; }
+  div[style*="grid-template-columns: 1fr 1fr 1fr"] { grid-template-columns: 1fr !important; gap: 24px !important; }
+  div[style*="grid-template-columns: 2fr 1fr 1fr 1fr"] { grid-template-columns: 1fr 1fr !important; }
+  div[style*="max-width: 780px"] > span[style*="position: absolute"] { display: none !important; }
+  span[style*="white-space: nowrap"], div[style*="white-space: nowrap"] { white-space: normal !important; }
+  div[style*="justify-content: center"][style*="gap: 12px"] > a.btn-green { flex-basis: 100%; justify-content: center; text-align: center; }
+  div[style*="justify-content: center"][style*="gap: 12px"] > span[style*="width: 1px"] { display: none; }
+  div[style*="padding: 64px 56px"] { padding: 44px 22px !important; }
+  div[style*="padding: 56px;"] { padding: 40px 22px !important; }
+  div[style*="padding: 48px 52px"] { padding: 28px 20px !important; }
+  div[style*="border-radius: 20px; padding: 40px"] { padding: 22px !important; }
+  div[style*="border-radius: 20px; padding: 44px"] { padding: 22px !important; }
+  div[style*="max-width: 250px"][style*="margin-left: auto"] { margin: 0 auto !important; }
+  html, body { overflow-x: clip; }
+  a[href="#hero-demo"], a[href="/#hero-demo"] { display: none !important; }
+  input, select, textarea { font-size: 16px !important; }
+  /* тап-таргеты: ссылки футера, крошек и текстовые CTA */
+  .foot-link { display: inline-block; padding: 8px 0; }
+  a[href$="trail-alternative.html"], a[href$="tools.html"], a[href="/audit/"] { display: inline-block; padding: 8px 2px; }
+  .text-cta { padding: 8px 0; }
+  div[style*="margin: 22px auto 0"] a { display: inline-block; padding: 8px 2px; }
+  div[style*="background: #14161b"] a { display: inline-block; padding: 6px 0; }
+  div[style*="grid-template-columns"] > div:has(h2) { order: -1; }
+  div[style*="grid-template-columns"] > div:has(h1) { order: -1; }
+  table, table.compare { display: block !important; max-width: 100% !important; width: 100%; overflow-x: auto; }
+  h1 { font-size: 38px !important; }
+  h2 { font-size: 28px !important; }
+  /* кейс-стади: низ */
+  .case-grid > div:last-child { padding: 26px 20px 30px !important; }
+  .case-photo { min-height: 260px !important; }
+  .case-grid div[style*="font-size: 23px"] { font-size: 19px !important; }
+  div[style*="grid-template-columns: 1fr 1fr 1fr"][style*="border-top"] { grid-template-columns: repeat(3, 1fr) !important; gap: 0 !important; }
+  div[style*="grid-template-columns: 1fr 1fr 1fr"][style*="border-top"] > div { padding: 16px 4px 0 !important; border-left: none !important; text-align: center; }
+  div[style*="grid-template-columns: 1fr 1fr 1fr"][style*="border-top"] > div > div { white-space: normal !important; }
+}
+</style>
+<style id="br-map-fix">
+/* полноэкранные карты: наша шапка фиксированная, карта под ней, футер и крошки скрыты */
+div[style*="position: sticky"][style*="z-index: 50"] { position: fixed !important; left: 0; right: 0; top: 0; z-index: 1200; }
+#map { top: 64px !important; }
+.mobile-menu { z-index: 1250 !important; }
+div[style*="margin: 22px auto 0"] { display: none !important; }
+div[style*="background: #14161b"] { display: none !important; }
+</style>
 </head>
 <body>
-
-<nav>
-  <a href="index.html" class="nav-left">
-    <img src="blueroll-logo.svg" alt="Blueroll">
-    <span>Blueroll</span>
-  </a>
-  <div class="nav-right">
-    <a href="how-to-improve-food-hygiene-rating.html">UK Guide</a>
-    <a href="index.html" class="nav-btn">Try Blueroll</a>
+<!-- ============ NAV ============ -->
+<div style="position: sticky; top: 0; z-index: 50; background: rgba(246,247,248,.9); backdrop-filter: blur(12px); border-bottom: 1px solid #e7e9ec;">
+  <div style="max-width: 1160px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; gap: 26px;">
+    <a href="/" style="display: flex; align-items: center; gap: 9px; color: #16181d; font-weight: 700; font-size: 17px; white-space: nowrap;">
+      <img src="/assets/blueroll-logo-v2.svg" alt="Blueroll" style="height: 26px; display: block;">
+      <span>Blueroll</span>
+    </a>
+    <div class="nav-links" style="display: flex; align-items: center; gap: 22px; font-size: 13.5px; font-weight: 500; color: #41464d; flex: 1; height: 100%;">
+      <span class="dd">
+        <a href="#audiences" class="navlink">Who it's for <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
+        <div class="dd-menu" style="width: 312px;">
+          <a href="/independent-restaurant-food-safety.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a7 7 0 0 0-7 7c0 4.5 4.5 8.5 6.4 10.1a1 1 0 0 0 1.2 0C14.5 18.5 19 14.5 19 10a7 7 0 0 0-7-7z"></path><circle cx="12" cy="10" r="2.5"></circle></svg></span>
+            <span><span class="dd-title">Independents</span><span class="dd-sub">One kitchen, one folder — fully digital</span></span>
+          </a>
+          <a href="/multi-site-food-safety.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M3.5 12h17"></path><path d="M12 3.5c-2.5 2.3-3.8 5.2-3.8 8.5s1.3 6.2 3.8 8.5c2.5-2.3 3.8-5.2 3.8-8.5S14.5 5.8 12 3.5z"></path></svg></span>
+            <span><span style="display: flex; align-items: center; gap: 7px;" class="dd-title">Groups &amp; estates <span class="tag-new">NEW</span></span><span class="dd-sub">Every site on one dashboard</span></span>
+          </a>
+          <a href="/franchise-food-safety.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"></circle><path d="M9 6H4M20 6h-5"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="18" r="3"></circle><path d="M9 18h6"></path><path d="M12 9v3M7.5 15.5L10 12M16.5 15.5L14 12"></path></svg></span>
+            <span><span class="dd-title">Franchises</span><span class="dd-sub">Central standards, local execution</span></span>
+          </a>
+        </div>
+      </span>
+      <span class="dd">
+        <a href="#features" class="navlink">Features <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
+        <div class="dd-menu dd-grid">
+          <a href="/multi-site-food-safety.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.2"></circle><circle cx="5" cy="5" r="2.2"></circle><circle cx="19" cy="5" r="2.2"></circle><circle cx="5" cy="19" r="2.2"></circle><circle cx="19" cy="19" r="2.2"></circle><path d="M6.6 6.6l3.8 3.8M17.4 6.6l-3.8 3.8M6.6 17.4l3.8-3.8M17.4 17.4l-3.8-3.8"></path></svg></span>
+            <span><span style="display: flex; align-items: center; gap: 7px;" class="dd-title">Multisite <span class="tag-new">NEW</span></span><span class="dd-sub">Run every site from one dashboard</span></span>
+          </a>
+          <a href="/haccp-checklists.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 8h8M8 12h8M8 16h5"></path></svg></span>
+            <span><span class="dd-title">HACCP Checklists</span><span class="dd-sub">Daily tasks, temps and sign-offs</span></span>
+          </a>
+          <a href="/allergen-matrix.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L4 19h16z"></path><path d="M12 10v4M12 16.5v.5"></path></svg></span>
+            <span><span class="dd-title">Allergen Matrix</span><span class="dd-sub">Auto-built from your recipes</span></span>
+          </a>
+          <a href="/ai-recipe-import.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4c0-.6 3-1.5 5-1.5S21 3.1 21 3.7V19c0 .6-2-1-4-1s-5 .9-5 1.5c0-.6-3-1.5-5-1.5s-4 1.6-4 1V3.7C3 3.1 5 2.5 7 2.5s5 .9 5 1.5z"></path><path d="M12 4v15.5"></path></svg></span>
+            <span><span class="dd-title">AI Recipe Import</span><span class="dd-sub">Photograph a recipe, get it typed up</span></span>
+          </a>
+          <a href="/compliance-reports.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M8.5 12.3l2.3 2.3 4.7-5"></path></svg></span>
+            <span><span class="dd-title">Compliance Reports</span><span class="dd-sub">One-tap packs for EHO visits</span></span>
+          </a>
+          <a href="/team-management.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20a7 7 0 0 1 14 0"></path></svg></span>
+            <span><span class="dd-title">Team Management</span><span class="dd-sub">Roles, training and accountability</span></span>
+          </a>
+          <a href="/deliveries.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5v8l9 5 9-5z"></path><path d="M3.3 8.2L12 13l8.7-4.8M12 13v8.5"></path></svg></span>
+            <span><span class="dd-title">Deliveries</span><span class="dd-sub">Log suppliers and check-ins fast</span></span>
+          </a>
+          <a href="/document-management.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></span>
+            <span><span class="dd-title">Documents</span><span class="dd-sub">Certificates and policies in one place</span></span>
+          </a>
+          <a href="/haccp-pack.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5h11.5a2 2 0 0 1 2 2V21H7a2 2 0 0 1-2-2z"></path><path d="M5 4.5A1.75 1.75 0 0 1 6.75 3H16v3.5"></path><path d="M9 10.5h6M9 14h6"></path></svg></span>
+            <span><span class="dd-title">HACCP Pack</span><span class="dd-sub">Your SFBB file, writing itself</span></span>
+          </a>
+          <a href="/incidents.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21.5 20h-19z"></path><line x1="12" y1="10" x2="12" y2="14"></line><circle cx="12" cy="17" r="0.5" fill="currentColor"></circle></svg></span>
+            <span><span class="dd-title">Incidents</span><span class="dd-sub">Complaints logged, owned, resolved</span></span>
+          </a>
+        </div>
+      </span>
+      <span class="dd">
+        <a href="/tools.html" class="navlink">Free tools <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
+        <div class="dd-menu" style="width: 312px;">
+          <a href="/free-haccp-template.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7.5 11l4.5 4.5L16.5 11"></path><path d="M4.5 16v3a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5v-3"></path></svg></span>
+            <span><span class="dd-title">Free HACCP template</span><span class="dd-sub">Printable pack — logs, schedules, checks</span></span>
+          </a>
+          <a href="/audit/" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"></path><path d="M9 11.8l2.2 2.2 3.8-4"></path></svg></span>
+            <span><span class="dd-title">Free self-audit</span><span class="dd-sub">Score your kitchen like an EHO would</span></span>
+          </a>
+          <a href="/check-food-hygiene-rating.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg></span>
+            <span><span class="dd-title">Check a hygiene rating</span><span class="dd-sub">Live FSA rating of any UK venue</span></span>
+          </a>
+          <a href="https://chatgpt.com/g/g-6a0c75c897108191956d8c9f3223abb4-blueroll-uk-food-safety-coach" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5c-4.7 0-8.5 3-8.5 6.8 0 2.2 1.3 4.2 3.3 5.4L6 20.5l4-2.1c.6.1 1.3.2 2 .2 4.7 0 8.5-3 8.5-6.8S16.7 3.5 12 3.5z"></path></svg></span>
+            <span><span class="dd-title">GPT food safety coach</span><span class="dd-sub">Ask anything about HACCP or allergens</span></span>
+          </a>
+          <a href="/london-food-hygiene-map.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20l-5.5-2V4L9 6M9 20l6-2M9 20V6M15 18l5.5 2V6L15 4M15 18V4M9 6l6-2"></path></svg></span>
+            <span><span class="dd-title">Hygiene rating maps</span><span class="dd-sub">London, NYC &amp; SF — live inspection data</span></span>
+          </a>
+          <div style="border-top: 1px solid #f2f3f5; margin-top: 6px; padding: 9px 10px;"><a href="/tools.html" style="font-size: 13px; font-weight: 700; color: #1f7a52;">See all free tools →</a></div>
+        </div>
+      </span>
+      <a href="#pricing" class="navlink">Pricing</a>
+      <a href="#faq" class="navlink">FAQ</a>
+    </div>
+    <a href="https://app.blueroll.app/" class="nav-signin" style="font-size: 13.5px; font-weight: 600; color: #41464d; white-space: nowrap; margin-left: auto;">Sign in</a>
+    <a href="https://app.blueroll.app/" class="btn-green" style="font-size: 13.5px; padding: 9px 18px; box-shadow: 0 1px 2px rgba(16,24,40,.1);">Start for free</a>
+    <button class="nav-burger" id="nav-burger" aria-label="Menu" aria-expanded="false">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
   </div>
-</nav>
+</div>
+
+<div class="mobile-menu" id="mobile-menu">
+  <div class="mm-group">
+    <div class="mm-label">Who it's for</div>
+    <a class="mm-link" href="/independent-restaurant-food-safety.html">Independents</a>
+    <a class="mm-link" href="/multi-site-food-safety.html">Groups &amp; estates <span class="tag-new">NEW</span></a>
+    <a class="mm-link" href="/franchise-food-safety.html">Franchises</a>
+  </div>
+  <div class="mm-group">
+    <div class="mm-label">Features</div>
+    <a class="mm-link" href="/multi-site-food-safety.html">Multisite <span class="tag-new">NEW</span></a>
+    <a class="mm-link" href="/haccp-checklists.html">HACCP Checklists</a>
+    <a class="mm-link" href="/allergen-matrix.html">Allergen Matrix</a>
+    <a class="mm-link" href="/ai-recipe-import.html">AI Recipe Import</a>
+    <a class="mm-link" href="/compliance-reports.html">Compliance Reports</a>
+    <a class="mm-link" href="/team-management.html">Team Management</a>
+    <a class="mm-link" href="/deliveries.html">Deliveries</a>
+    <a class="mm-link" href="/document-management.html">Documents</a>
+    <a class="mm-link" href="/haccp-pack.html">HACCP Pack</a>
+    <a class="mm-link" href="/incidents.html">Incidents</a>
+  </div>
+  <div class="mm-group">
+    <div class="mm-label">Free tools</div>
+    <a class="mm-link" href="/free-haccp-template.html">Free HACCP template</a>
+    <a class="mm-link" href="/audit/">Free self-audit</a>
+    <a class="mm-link" href="/check-food-hygiene-rating.html">Check a hygiene rating</a>
+    <a class="mm-link" href="/london-food-hygiene-map.html">Hygiene rating maps</a>
+    <a class="mm-link" href="/tools.html">See all free tools →</a>
+  </div>
+  <div class="mm-group" style="border-bottom: none;">
+    <a class="mm-link" href="#pricing">Pricing</a>
+    <a class="mm-link" href="#faq">FAQ</a>
+    <a class="mm-link" href="https://app.blueroll.app/">Sign in</a>
+  </div>
+  <a href="https://app.blueroll.app/" class="btn-green mm-cta">Start for free</a>
+</div>
+
+<div style="max-width: 1160px; margin: 22px auto 0; padding: 0 24px; font-size: 12.5px; color: #8a9099;"><a href="/">Blueroll</a> <span style="color: #c6cad0;">›</span> <a href="/tools.html">Free Tools</a> <span style="color: #c6cad0;">›</span> <span style="color: #5c626b; font-weight: 600;">London Food Hygiene Ratings Map</span></div>
+
+
+
 
 <div class="map-wrap">
   <div id="map"></div>
@@ -282,7 +563,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 24px
 
   <!-- Search this area button -->
   <button id="searchAreaBtn" onclick="searchArea()" style="
-    display:none; position:absolute; top:12px; left:50%; transform:translateX(-50%);
+    display:none; position:absolute; top:92px; left:50%; transform:translateX(-50%);
     z-index:950; padding:10px 24px; background:white; color:var(--ink);
     border:1px solid rgba(0,0,0,0.1); border-radius:24px; font-size:14px;
     font-weight:700; font-family:inherit; cursor:pointer;
@@ -296,21 +577,21 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 24px
 </div>
 
 <article class="seo-content">
-  <nav class="seo-breadcrumb" aria-label="Breadcrumb">
+  <div class="seo-breadcrumb" aria-label="Breadcrumb">
     <a href="/">Blueroll</a><span class="sep">›</span>
     <a href="tools.html">Free Tools</a><span class="sep">›</span>
     <span>London Food Hygiene Map</span>
-  </nav>
+  </div>
 
   <h1>London Food Hygiene Rating Map</h1>
-  <p class="lede">An interactive map of every London restaurant, cafe, pub and takeaway with its current food hygiene rating from the UK Food Standards Agency. Search by postcode or venue name, filter by rating, and check any place before you eat — all data is live from the official FSA ratings API.</p>
+  <p class="lede">The London food hygiene ratings map lets you search any restaurant, cafe, pub or takeaway by name or postcode and see its current 0–5 rating. Results come live from the official UK Food Standards Agency ratings API.</p>
 
   <h2>How the map works</h2>
   <p>Each coloured dot on the map above represents a food business registered with the FSA. The colour tells you the hygiene rating it received on its most recent inspection by an Environmental Health Officer (EHO). Click a dot to see the venue name, address and rating date. Use the filter pills in the top-left to hide or show specific rating levels — for example, turn off 5 and 4 to reveal only problem venues.</p>
   <p>The map loads restaurants within a five-mile radius of whatever part of London is on screen. Pan or zoom to a new area and click <strong>"Search this area"</strong> to refresh with the venues in that viewport. You can also type a postcode (e.g. <em>SW1A</em>) or a restaurant name into the search box to jump straight to it.</p>
 
   <h2>What the 0–5 food hygiene ratings mean</h2>
-  <p>Ratings are awarded after an on-site inspection covering three areas: how hygienically food is handled and prepared, the physical condition of the premises, and how the business manages food safety going forward. The lowest of the three scores generally sets the overall rating.</p>
+  <p>Ratings are awarded after an on-site inspection covering three areas: how hygienically food is handled and prepared, the physical condition of the premises, and how the business manages food safety going forward. Read <a href="food-hygiene-ratings-explained.html">food hygiene ratings explained</a> for the meaning of every score and the official scoring limits.</p>
 
   <div class="rating-legend">
     <div class="rl-row">
@@ -359,11 +640,78 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 24px
 
   <h2>Where the data comes from</h2>
   <p>All ratings on this map are pulled directly from the <a href="https://www.food.gov.uk/" target="_blank" rel="noopener">Food Standards Agency</a> open data API. The FSA publishes ratings under the Open Government Licence, so anyone can build tools on top of it. The database covers every registered food premises in England, Wales and Northern Ireland — not just restaurants, but also schools, hospitals, care homes, manufacturers and distributors. (Scotland operates a different pass/fail system which is not shown on this map.)</p>
+  <p><strong>London snapshot, 13 August 2026:</strong> across the 33 London local-authority areas, the FSA API returned 81,156 registered establishments. Of the 70,964 with a numerical 0–5 rating, 68.4% held a 5 and 5.6% held a rating from 0 to 2. Newham had the largest share rated 0–2 (14.1%), followed by Ealing (12.6%) and Waltham Forest (11.8%). Percentages include every rated establishment type in the FSA data, not only restaurants.</p>
   <p>Because we query the FSA live every time someone uses the map, you always see the most current rating. If a restaurant was re-inspected yesterday and its rating changed, it will show the new rating as soon as the FSA updates its database — usually within a few days of the visit.</p>
 
   <h2>For restaurants: how to check and improve your own rating</h2>
   <p>If you own or manage a restaurant and want to check your current rating, search your postcode above or look up your venue on the <a href="check-food-hygiene-rating.html">FSA rating lookup</a>. A low rating has three main causes in practice: sloppy paperwork (no HACCP plan, missing temperature logs), physical issues (poor pest control, structural damage), or food handling mistakes observed during the inspection.</p>
-  <p>The fastest way to raise your score on the "Confidence in Management" component — which often caps the overall rating — is to move from paper records to a digital food safety system. Read our guide on <a href="how-to-improve-food-hygiene-rating.html">how to improve your food hygiene rating</a>, or download our <a href="free-haccp-template.html">free HACCP template</a> to get started.</p>
+  <p>The fastest way to raise your score on the "Confidence in Management" component — which often caps the overall rating — is to make daily evidence consistent. Read <a href="how-to-improve-food-hygiene-rating.html">how to improve your food hygiene rating</a>, download the <a href="free-haccp-template.html">free HACCP plan template UK</a>, or use <a href="haccp-checklists.html">digital HACCP checklists</a> to keep temperatures, cleaning and corrective actions together.</p>
+  <p>Managing more than one venue? Blueroll's <a href="multi-site-food-safety.html">multi-site food safety dashboard</a> shows which locations are inspection-ready and where checks are being missed.</p>
+
+
+<!-- Free HACCP pack capture (drip source: haccp-template:london-map:inline) -->
+<div data-gate="inline" style="max-width:820px;margin:44px auto;padding:26px 28px;background:#f0f7f3;border:1px solid #cfe3d6;border-radius:14px;">
+  <div style="font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#047857;">Free download</div>
+  <h3 style="font-size:20px;font-weight:800;letter-spacing:-.02em;margin:8px 0 6px;color:#1a1d21;">Get the free 16-page HACCP pack</h3>
+  <p style="font-size:14.5px;color:#5c626b;line-height:1.65;margin:0 0 16px;">Run one of these kitchens? Daily temperature logs with filled-in examples, a cleaning schedule, the allergen matrix and the EHO question sheet, ready to print.</p>
+  <div class="g-idle">
+    <button class="g-open" style="background:#047857;color:#fff;font-family:inherit;font-size:15px;font-weight:700;padding:13px 26px;border:none;border-radius:8px;cursor:pointer;">Get the free pack</button>
+  </div>
+  <div class="g-form" style="display:none;">
+    <div style="display:flex;flex-wrap:wrap;gap:8px;background:#fff;border:1px solid #dbe3dd;border-radius:12px;padding:8px;">
+      <input class="g-email" type="email" placeholder="Your work email" autocomplete="email" style="flex:1 1 180px;min-width:0;font-family:inherit;font-size:16px;padding:10px 12px;border:none;border-radius:8px;background:transparent;color:#1a1d21;outline:none;box-shadow:inset 0 0 0 1.5px #e2e4e8;">
+      <button class="g-send" style="flex:1 1 auto;background:#047857;color:#fff;font-family:inherit;font-size:14.5px;font-weight:700;padding:12px 20px;border:none;border-radius:8px;cursor:pointer;white-space:nowrap;">Send me the PDF</button>
+    </div>
+    <div style="font-size:12px;color:#8a9099;line-height:1.5;margin-top:10px;">One email with the PDF. No newsletter unless you ask. Unsubscribe anytime.</div>
+  </div>
+  <div class="g-sent" style="display:none;">
+    <div style="display:flex;align-items:center;gap:11px;background:#eaf4ee;border:1px solid #cfe6d9;border-radius:12px;padding:15px 18px;">
+      <span style="width:24px;height:24px;border-radius:50%;background:#047857;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;">&#10003;</span>
+      <span style="font-size:14.5px;font-weight:600;color:#14532d;">Downloading. Check your Downloads folder</span>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var SB = 'https://rszrggreuarvodcqeqrj.supabase.co';
+  var ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzenJnZ3JldWFydm9kY3FlcXJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1NzY2NzYsImV4cCI6MjA4OTE1MjY3Nn0.dwD1MJcMOc9w1IP4T15ep1mYHVARW6eJPNArn4oGmH0';
+  function track(n, p) { if (typeof gtag === 'function') gtag('event', n, p || {}); }
+  var g = document.querySelector('[data-gate="inline"]');
+  if (!g) return;
+  var idle = g.querySelector('.g-idle'), form = g.querySelector('.g-form'), sent = g.querySelector('.g-sent');
+  var input = g.querySelector('.g-email'), send = g.querySelector('.g-send'), open = g.querySelector('.g-open');
+  open.addEventListener('click', function () {
+    idle.style.display = 'none'; form.style.display = 'block';
+    track('haccp_form_open', { placement: 'london-map:inline' });
+    setTimeout(function () { input.focus(); }, 30);
+  });
+  function submit() {
+    var email = (input.value || '').trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      input.style.boxShadow = 'inset 0 0 0 1.5px #d64545'; input.focus(); return;
+    }
+    form.style.display = 'none'; sent.style.display = 'block';
+    try { localStorage.setItem('br-tpl-downloaded', '1'); } catch (e) {}
+    fetch(SB + '/rest/v1/template_leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': ANON, 'Authorization': 'Bearer ' + ANON, 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ email: email, source: 'haccp-template:london-map:inline', page: window.location.pathname, user_agent: navigator.userAgent.slice(0, 250) })
+    }).catch(function () {});
+    fetch('https://formsubmit.co/ajax/hello@blueroll.app', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ email: email, _subject: 'New HACCP template download: ' + email, source: 'haccp-template:london-map', placement: 'inline', page: window.location.href })
+    }).catch(function () {});
+    track('haccp_template_download', { placement: 'london-map:inline', email_domain: email.split('@')[1] });
+    var a = document.createElement('a');
+    a.href = '/blueroll-haccp-template.pdf'; a.download = 'blueroll-haccp-template.pdf';
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+  send.addEventListener('click', submit);
+  input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); submit(); } });
+  input.addEventListener('input', function () { input.style.boxShadow = 'inset 0 0 0 1.5px #e2e4e8'; });
+})();
+</script>
 
   <h2>Frequently asked questions</h2>
 
@@ -385,21 +733,11 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 24px
   <div class="seo-cta">
     <h2>Run a London restaurant?</h2>
     <p>Replace your paper food safety folder with Blueroll. Digital HACCP, allergen matrix, temperature logs, and one-tap EHO-ready reports.</p>
-    <a href="index.html">Try Blueroll free for 14 days →</a>
+    <a href="https://app.blueroll.app/?utm_source=blueroll.app&amp;utm_medium=referral&amp;utm_campaign=london_map&amp;utm_content=final_cta">Try Blueroll free for 14 days →</a>
   </div>
 </article>
 
-<footer class="seo-footer">
-  <a href="/">Home</a>
-  <a href="tools.html">Free Tools</a>
-  <a href="free-haccp-template.html">HACCP Template</a>
-  <a href="how-to-improve-food-hygiene-rating.html">Improve Your Rating</a>
-  <a href="food-hygiene-ratings-explained.html">Ratings Explained</a>
-  <a href="nyc-restaurant-map.html">NYC Map</a>
-  <a href="sf-restaurant-map.html">SF Map</a>
-  <br><br>
-  <span>&copy; 2026 Blueroll. Data sourced from the UK Food Standards Agency under the Open Government Licence.</span>
-</footer>
+
 
 <script>
 const map = L.map('map', { center: [51.512, -0.14], zoom: 14, zoomControl: false });
@@ -431,6 +769,7 @@ const CanvasOverlay = L.Layer.extend({
     canvas.height = size.y * (window.devicePixelRatio || 1);
     canvas.style.width = size.x + 'px';
     canvas.style.height = size.y + 'px';
+    canvas.style.pointerEvents = 'none';
     this._canvas = canvas;
     this._ctx = canvas.getContext('2d');
     map.getPanes().overlayPane.appendChild(canvas);
@@ -440,19 +779,14 @@ const CanvasOverlay = L.Layer.extend({
     };
     map.on('moveend zoomend resize', this._redraw, this);
     map.on('move zoom', this._throttledRedraw, this);
-    canvas.addEventListener('click', (e) => this._onTap(e));
-    canvas.addEventListener('touchend', (e) => {
-      if (e.changedTouches.length === 1) {
-        const t = e.changedTouches[0];
-        this._onTap({ clientX: t.clientX, clientY: t.clientY });
-      }
-    });
+    map.on('click', this._onMapClick, this);
     this._redraw();
   },
   onRemove(map) {
     L.DomUtil.remove(this._canvas);
     map.off('moveend zoomend resize', this._redraw, this);
     map.off('move zoom', this._throttledRedraw, this);
+    map.off('click', this._onMapClick, this);
   },
   _redraw() {
     const map = this._map;
@@ -508,13 +842,12 @@ const CanvasOverlay = L.Layer.extend({
       }
     }
   },
-  _onTap(e) {
+  _onMapClick(e) {
     const map = this._map;
-    const rect = this._canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const x = e.containerPoint.x;
+    const y = e.containerPoint.y;
     const zoom = map.getZoom();
-    const hitR = 'ontouchstart' in window ? 18 : (zoom >= 15 ? 10 : 8);
+    const hitR = 'ontouchstart' in window ? 22 : (zoom >= 15 ? 14 : 12);
 
     let best = null, bestDist = Infinity;
     for (const d of filtered) {
@@ -643,5 +976,23 @@ document.getElementById('searchInput').addEventListener('input', () => {
 searchArea();
 </script>
 
+
+<!-- ============ FOOTER ============ -->
+
+
+
+<script>
+(function () {
+  var btn = document.getElementById('nav-burger'), menu = document.getElementById('mobile-menu');
+  if (!btn || !menu) return;
+  var set = function (open) {
+    menu.classList.toggle('open', open);
+    document.body.classList.toggle('mm-lock', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  };
+  btn.addEventListener('click', function () { set(!menu.classList.contains('open')); });
+  menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { set(false); }); });
+})();
+</script>
 </body>
 </html>
