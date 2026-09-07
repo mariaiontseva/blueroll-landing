@@ -27,6 +27,14 @@ m = re.search(r"var ANON = '(eyJ[^']+)'", (ROOT / "free-haccp-template.html").re
 assert m, "anon key not found on the template page"
 ANON = m.group(1)
 
+# Real site chrome, lifted from a live article page at build time so the
+# borough pages can never drift from the rest of the site again.
+_SRC = (ROOT / "food-hygiene-ratings-explained.html").read_text()
+CHROME_NAV = _SRC[_SRC.index("<!-- ============ NAV ============ -->"):_SRC.index('<section class="hero">')].rstrip()
+CHROME_FOOTER = _SRC[_SRC.rindex("<!-- ============ FOOTER ============ -->"):_SRC.rindex("</body>")].rstrip()
+assert "nav-burger" in CHROME_NAV and "mobile-menu" in CHROME_NAV, "nav extraction broke"
+assert "footer-grid" in CHROME_FOOTER and "getElementById('nav-burger')" in CHROME_FOOTER, "footer extraction broke"
+
 UPDATED = date.today().strftime("%-d %B %Y")
 
 
@@ -135,7 +143,8 @@ def build_page(slug: str) -> str:
     s = TEMPLATE
     subs = {
         "{{TITLE}}": title, "{{OG_TITLE}}": og_title, "{{DESC}}": esc(desc).replace("&amp;", "&"),
-        "{{SLUG}}": slug, "{{SLUG_U}}": slug.replace("-", "_"), "{{NAME}}": name, "{{COUNCIL}}": council,
+        "{{SLUG}}": slug, "{{NAME}}": name, "{{COUNCIL}}": council,
+        "{{CHROME_NAV}}": CHROME_NAV, "{{CHROME_FOOTER}}": CHROME_FOOTER,
         "{{UPDATED}}": UPDATED, "{{TOTAL}}": fmt_n(b["total"]), "{{RATED}}": fmt_n(rated),
         "{{PCT5}}": str(b["pct5"]), "{{LOW}}": fmt_n(b["low"]),
         "{{EXEMPT_NOTE}}": exempt_note, "{{MOVERS_HTML}}": movers_html(b, name, DATA.get("prev_date")),
@@ -156,8 +165,9 @@ def build_page(slug: str) -> str:
 
 def build_hub() -> str:
     head, rest = TEMPLATE.split('<div class="wrap">', 1)
-    _, footer_on = rest.split("<!-- FOOTER -->", 1)
-    footer = "<!-- FOOTER -->" + footer_on.split("<script", 1)[0]
+    head = head.replace("{{CHROME_NAV}}", CHROME_NAV)
+    tail = rest.split("{{CHROME_FOOTER}}", 1)[1]
+    footer = CHROME_FOOTER + "\n" + tail.split("<script", 1)[0]
 
     tot = sum(b["total"] for b in DATA["boroughs"].values())
     rated = sum(b["rated"] for b in DATA["boroughs"].values())
@@ -185,7 +195,7 @@ def build_hub() -> str:
     head = head.replace('<script type="application/ld+json">{{FAQ_LD}}</script>\n', "")
     head = head.replace('<script type="application/ld+json">{{DATASET_LD}}</script>\n', "")
     head = head.replace('<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">\n', "")
-    head = head.replace('{{SLUG_U}}', 'hub')
+
     assert "{{" not in head, "hub head has unfilled placeholders"
 
     body = f'''<div class="wrap">

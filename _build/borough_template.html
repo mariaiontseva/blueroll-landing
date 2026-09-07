@@ -14,6 +14,9 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="{{OG_TITLE}}">
 <meta name="twitter:description" content="{{DESC}}">
+<link rel="stylesheet" href="/site-chrome.css?v=20260720-solutions-v1">
+<link rel="stylesheet" href="/site-chrome-v2.css?v=20260812">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
 <script>
@@ -28,15 +31,8 @@
 <style>
   :root { --green:#047857; --green-deep:#0a5c44; --ink:#1a1d21; --muted:#5c626b; --paper:#fafbf8; --card:#fff; --line:#e5e7e4; --mint:#eef6f1; --red:#b42318; }
   * { box-sizing:border-box; }
-  body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.6 -apple-system,'Segoe UI',Arial,sans-serif; }
-  a { color:var(--green); }
-  .nav { display:flex; align-items:center; justify-content:space-between; max-width:1100px; margin:0 auto; padding:16px 24px; }
-  .nav .logo { font-weight:800; font-size:18px; color:var(--ink); text-decoration:none; display:flex; gap:9px; align-items:center; }
-  .nav .logo img { height:24px; }
-  .nav .links { display:flex; gap:18px; align-items:center; font-size:14px; }
-  .nav .links a { color:var(--ink); text-decoration:none; font-weight:600; }
-  .nav .cta { background:var(--green); color:#fff !important; font-weight:700; padding:9px 16px; border-radius:8px; }
-  @media (max-width:640px){ .nav .links a:not(.cta){ display:none; } }
+  body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.6 "Geist",-apple-system,'Segoe UI',Arial,sans-serif; }
+  .wrap a { color:var(--green); }
   .wrap { max-width:860px; margin:0 auto; padding:0 24px 72px; }
   .crumbs { font-size:13px; color:#999; padding:16px 0 6px; }
   .crumbs a { color:var(--green); text-decoration:none; }
@@ -109,20 +105,11 @@
   .rel { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px 24px; margin-top:44px; }
   .rel ul { margin:8px 0 0; padding-left:20px; font-size:14.5px; }
   .rel li { margin:6px 0; }
-  .footer-grid { max-width:1160px; margin:0 auto; padding:48px 24px 36px; display:grid; grid-template-columns:2fr 1fr 1fr; gap:32px; font-size:12.5px; }
-  @media (max-width:700px){ .footer-grid { grid-template-columns:1fr 1fr; } }
   button:focus-visible, input:focus-visible, a:focus-visible { outline:2px solid #1f9d63; outline-offset:2px; }
 </style>
 </head>
 <body>
-<div class="nav">
-  <a class="logo" href="/"><img src="/assets/blueroll-logo-v2.svg" alt=""> Blueroll</a>
-  <span class="links">
-    <a href="/tools.html">Free tools</a>
-    <a href="/free-haccp-template.html">HACCP template</a>
-    <a class="cta" href="https://app.blueroll.app/?utm_source=blueroll.app&utm_medium=referral&utm_campaign=borough_{{SLUG_U}}&utm_content=nav">Start for free</a>
-  </span>
-</div>
+{{CHROME_NAV}}
 <div class="wrap">
   <div class="crumbs"><a href="/">Blueroll</a> › <a href="/food-hygiene-ratings/">Food hygiene ratings</a> › {{NAME}}</div>
   <div class="label">London · FHRS data</div>
@@ -212,29 +199,8 @@
   </div>
 </div>
 
-<!-- FOOTER -->
-<div style="background:#14161b; color:#9aa0a8;">
-  <div class="footer-grid">
-    <div>
-      <div style="display:flex; align-items:center; gap:9px; color:#fff; font-weight:700; font-size:16px;"><img src="/assets/blueroll-logo-v2.svg" alt="" style="height:24px; filter:brightness(0) invert(1);"> Blueroll</div>
-      <p style="line-height:1.6; margin:12px 0 0; max-width:260px;">Food safety management for restaurants in the UK, US &amp; Europe. One kitchen or an estate.</p>
-    </div>
-    <div>
-      <div style="color:#fff; font-weight:700; margin-bottom:10px;">Free tools</div>
-      <a href="/free-haccp-template.html" style="color:#9aa0a8; text-decoration:none; display:block; margin:6px 0;">HACCP template</a>
-      <a href="/check-food-hygiene-rating.html" style="color:#9aa0a8; text-decoration:none; display:block; margin:6px 0;">Rating checker</a>
-      <a href="/london-food-hygiene-map.html" style="color:#9aa0a8; text-decoration:none; display:block; margin:6px 0;">London map</a>
-      <a href="/food-hygiene-ratings/" style="color:#9aa0a8; text-decoration:none; display:block; margin:6px 0;">Borough ratings</a>
-    </div>
-    <div>
-      <div style="color:#fff; font-weight:700; margin-bottom:10px;">Product</div>
-      <a href="https://app.blueroll.app/" style="color:#9aa0a8; text-decoration:none; display:block; margin:6px 0;">Sign in</a>
-      <a href="/#pricing" style="color:#9aa0a8; text-decoration:none; display:block; margin:6px 0;">Pricing</a>
-      <a href="/privacy.html" style="color:#9aa0a8; text-decoration:none; display:block; margin:6px 0;">Privacy</a>
-    </div>
-  </div>
-  <div style="max-width:1160px; margin:0 auto; padding:0 24px 28px; font-size:12px; color:#6b7076;">Ratings data: Food Standards Agency, Open Government Licence. &copy; Blueroll.</div>
-</div>
+{{CHROME_FOOTER}}
+<div style="text-align:center; font-size:12px; color:#9aa0a8; padding:14px 24px 26px; background:#14161b; margin-top:-1px;">Ratings data: Food Standards Agency, Open Government Licence.</div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
 <script>
