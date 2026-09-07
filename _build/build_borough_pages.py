@@ -30,7 +30,11 @@ ANON = m.group(1)
 # Real site chrome, lifted from a live article page at build time so the
 # borough pages can never drift from the rest of the site again.
 _SRC = (ROOT / "food-hygiene-ratings-explained.html").read_text()
-CHROME_NAV = _SRC[_SRC.index("<!-- ============ NAV ============ -->"):_SRC.index('<section class="hero">')].rstrip()
+# End the slice BEFORE the article's own breadcrumb strip that sits between
+# the mobile menu and the hero (it leaked onto every borough page once).
+_NAV_END = _SRC.index('<div style="max-width: 1160px; margin: 22px auto 0;')
+CHROME_NAV = _SRC[_SRC.index("<!-- ============ NAV ============ -->"):_NAV_END].rstrip()
+assert "UK Food Hygiene Rating" not in CHROME_NAV, "foreign breadcrumb leaked into nav"
 CHROME_FOOTER = _SRC[_SRC.rindex("<!-- ============ FOOTER ============ -->"):_SRC.rindex("</body>")].rstrip()
 assert "nav-burger" in CHROME_NAV and "mobile-menu" in CHROME_NAV, "nav extraction broke"
 assert "footer-grid" in CHROME_FOOTER and "getElementById('nav-burger')" in CHROME_FOOTER, "footer extraction broke"
