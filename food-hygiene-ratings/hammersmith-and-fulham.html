@@ -263,9 +263,10 @@
     }).addTo(map);
     var BBOX = [51.4688, -0.2459, 51.5245, -0.1866]; // [s, w, n, e], baked from this borough's geocodes
     var bounds = L.latLngBounds([BBOX[0], BBOX[1]], [BBOX[2], BBOX[3]]);
-    // Cover-fit: the borough fills the frame (edges may crop) instead of
-    // floating small inside a wide London view.
-    map.setView(bounds.getCenter(), map.getBoundsZoom(bounds, true));
+    // One step tighter than "contain": the borough fills the frame without
+    // dropping to street level (full cover-zoom goes too deep on wide maps).
+    var z = Math.min(map.getBoundsZoom(bounds, true), map.getBoundsZoom(bounds, false) + 1);
+    map.setView(bounds.getCenter(), z);
     setTimeout(function () { map.invalidateSize(); }, 400);
     fetch(FSA + '/Establishments?localAuthorityId=' + LAID + '&pageSize=5000', { headers: HDR })
       .then(function (r) { return r.json(); })
