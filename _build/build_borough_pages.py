@@ -141,6 +141,7 @@ def build_page(slug: str) -> str:
         "{{EXEMPT_NOTE}}": exempt_note, "{{MOVERS_HTML}}": movers_html(b, name, DATA.get("prev_date")),
         "{{WORST_ROWS}}": worst_rows, "{{WORST_NOTE}}": worst_note,
         "{{NEARBY_LINKS}}": nearby, "{{LAID}}": str(cfg["id"]), "{{ANON}}": ANON,
+        "{{BBOX}}": json.dumps(b["bbox"]),
         "{{BREADCRUMB_LD}}": breadcrumb_ld, "{{FAQ_LD}}": faq_ld, "{{DATASET_LD}}": dataset_ld,
     }
     for r in "012345":

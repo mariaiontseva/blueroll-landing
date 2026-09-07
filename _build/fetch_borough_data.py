@@ -73,6 +73,11 @@ def main() -> None:
     for slug, cfg in BOROUGHS.items():
         es = [slim(e) for e in fetch(cfg["id"])]
         rated = [e for e in es if e["r"] in RATED]
+        lats = sorted(float(e["lat"]) for e in es if e["lat"] and 51.2 < float(e["lat"]) < 51.8)
+        lngs = sorted(float(e["lng"]) for e in es if e["lng"] and -0.65 < float(e["lng"]) < 0.45)
+        k = max(1, len(lats) // 50)  # trim ~2% geocode outliers each side
+        bbox = ([round(lats[k], 4), round(lngs[k], 4), round(lats[-k - 1], 4), round(lngs[-k - 1], 4)]
+                if len(lats) > 2 * k and len(lngs) > 2 * k else [51.3, -0.5, 51.7, 0.3])
         counts = {r: sum(1 for e in rated if e["r"] == r) for r in RATED}
         worst = sorted([e for e in rated if e["r"] in ("0", "1")], key=lambda e: (e["r"], e["d"]))
         recent = [e for e in rated if e["d"] >= cutoff]
@@ -84,6 +89,7 @@ def main() -> None:
         movers["up"].sort(key=lambda e: e["d"], reverse=True)
         movers["down"].sort(key=lambda e: e["d"], reverse=True)
         data["boroughs"][slug] = {
+            "bbox": bbox,
             "total": len(es), "rated": len(rated), "counts": counts,
             "pct5": round(100 * counts["5"] / len(rated), 1) if rated else 0,
             "low": counts["0"] + counts["1"] + counts["2"],
