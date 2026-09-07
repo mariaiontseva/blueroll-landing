@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Food Hygiene Ratings in Croydon: 2,835 Kitchens Rated 0&ndash;5 | Blueroll</title>
+<meta name="description" content="Every rated food business in Croydon: 64.3% hold a 5 and 132 need improvement. Live map, this month's changes and the full 0-1 list. Updated weekly.">
+<link rel="canonical" href="https://blueroll.app/food-hygiene-ratings/croydon.html">
+<link rel="icon" href="/assets/blueroll-logo-v2.svg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://blueroll.app/food-hygiene-ratings/croydon.html">
+<meta property="og:title" content="Food Hygiene Ratings in Croydon">
+<meta property="og:description" content="Every rated food business in Croydon: 64.3% hold a 5 and 132 need improvement. Live map, this month's changes and the full 0-1 list. Updated weekly.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Food Hygiene Ratings in Croydon">
+<meta name="twitter:description" content="Every rated food business in Croydon: 64.3% hold a 5 and 132 need improvement. Live map, this month's changes and the full 0-1 list. Updated weekly.">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZFY0GPZYYQ');
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Blueroll", "item": "https://blueroll.app/"}, {"@type": "ListItem", "position": 2, "name": "Food hygiene ratings", "item": "https://blueroll.app/food-hygiene-ratings/"}, {"@type": "ListItem", "position": 3, "name": "Food hygiene ratings in Croydon"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Who inspects food businesses in Croydon?", "acceptedAnswer": {"@type": "Answer", "text": "Environmental health officers from Croydon Council. Visits are unannounced, and the new rating is published on the FSA register within a few weeks of the inspection."}}, {"@type": "Question", "name": "My kitchen in Croydon got a low rating. How do I get re-inspected?", "acceptedAnswer": {"@type": "Answer", "text": "Fix the issues, then request a re-rating visit through Croydon Council. Officers look hardest at your daily records; our guide to improving your food hygiene rating covers the fastest route back to a 5."}}, {"@type": "Question", "name": "Is a 0 rating illegal?", "acceptedAnswer": {"@type": "Answer", "text": "No. It means urgent improvement is necessary, but the business may keep trading unless the council issues a hygiene emergency prohibition notice."}}, {"@type": "Question", "name": "How current is this page?", "acceptedAnswer": {"@type": "Answer", "text": "The numbers are rebuilt every week from the FSA's open register, and the map and search query it live. A rating changes only when Croydon Council re-inspects."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Dataset", "name": "Food hygiene ratings in Croydon", "description": "Weekly aggregate of FHRS food hygiene ratings for Croydon, London.", "license": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/", "creator": {"@type": "Organization", "name": "Food Standards Agency"}, "dateModified": "2026-09-05"}</script>
+<style>
+  :root { --green:#047857; --green-deep:#0a5c44; --ink:#1a1d21; --muted:#5c626b; --paper:#fafbf8; --card:#fff; --line:#e5e7e4; --mint:#eef6f1; --red:#b42318; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.6 -apple-system,'Segoe UI',Arial,sans-serif; }
+  a { color:var(--green); }
+  .nav { display:flex; align-items:center; justify-content:space-between; max-width:1100px; margin:0 auto; padding:16px 24px; }
+  .nav .logo { font-weight:800; font-size:18px; color:var(--ink); text-decoration:none; display:flex; gap:9px; align-items:center; }
+  .nav .logo img { height:24px; }
+  .nav .links { display:flex; gap:18px; align-items:center; font-size:14px; }
+  .nav .links a { color:var(--ink); text-decoration:none; font-weight:600; }
+  .nav .cta { background:var(--green); color:#fff !important; font-weight:700; padding:9px 16px; border-radius:8px; }
+  @media (max-width:640px){ .nav .links a:not(.cta){ display:none; } }
+  .wrap { max-width:860px; margin:0 auto; padding:0 24px 72px; }
+  .crumbs { font-size:13px; color:#999; padding:16px 0 6px; }
+  .crumbs a { color:var(--green); text-decoration:none; }
+  .label { font-size:12px; font-weight:700; letter-spacing:.08em; color:var(--green); text-transform:uppercase; margin-top:16px; }
+  h1 { font-size:37px; letter-spacing:-.02em; line-height:1.12; margin:10px 0 12px; }
+  h1 em { font-style:normal; color:var(--green); }
+  .sub { font-size:17px; color:var(--muted); max-width:640px; margin:0; }
+  .updated { font-size:13px; color:#999; margin-top:10px; }
+  .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:28px 0 0; }
+  .stat { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:17px 20px; }
+  .stat b { display:block; font-size:29px; letter-spacing:-.02em; color:var(--green-deep); font-variant-numeric:tabular-nums; }
+  .stat span { font-size:13px; color:var(--muted); }
+  h2 { font-size:24px; letter-spacing:-.01em; margin:42px 0 14px; }
+  .dist { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px 24px; }
+  .dr { display:grid; grid-template-columns:42px 1fr 72px; align-items:center; gap:12px; margin:9px 0; font-size:14px; }
+  .dr .badge { font-weight:800; text-align:center; border-radius:7px; padding:4px 0; color:#fff; font-size:13px; }
+  .bar { background:#f0f2ef; border-radius:6px; height:21px; overflow:hidden; }
+  .bar i { display:block; height:100%; border-radius:6px; }
+  .dr .n { text-align:right; font-variant-numeric:tabular-nums; color:var(--muted); }
+  .b5{background:#1a7f4f;} .b4{background:#59a06b;} .b3{background:#d0a02b;} .b2{background:#d97a2b;} .b1{background:#c65530;} .b0{background:#9c2b23;}
+  .mv { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .mvcard { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px 20px; }
+  .mvcard h3 { font-size:14px; margin:0 0 8px; }
+  .mvcard ul { list-style:none; margin:0; padding:0; font-size:13.5px; }
+  .mvcard li { padding:6px 0; border-top:1px solid #f0f2ef; display:flex; justify-content:space-between; gap:10px; }
+  .mvcard li:first-child { border-top:none; }
+  .mvcard .who { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .mvcard .chg { font-weight:800; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .up .chg { color:var(--green-deep); } .down .chg { color:var(--red); }
+  @media (max-width:640px){ .mv { grid-template-columns:1fr; } .stats { grid-template-columns:1fr 1fr; } h1 { font-size:29px; } }
+  table.wt { border-collapse:separate; border-spacing:0; width:100%; font-size:14px; background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+  .wt th { text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:var(--green-deep); background:var(--mint); padding:10px 14px; }
+  .wt td { padding:10px 14px; border-top:1px solid var(--line); vertical-align:top; }
+  .wt td.r { font-weight:800; }
+  .r0 { color:var(--red); } .r1 { color:#c65530; } .r2 { color:#d97a2b; }
+  .tscroll { overflow-x:auto; }
+  .note { font-size:13px; color:#999; margin-top:10px; }
+  #map { height:420px; border-radius:16px; border:1px solid var(--line); background:#eef1ee; }
+  .maplegend { display:flex; gap:14px; flex-wrap:wrap; font-size:12.5px; color:var(--muted); margin-top:10px; }
+  .maplegend span { display:inline-flex; align-items:center; gap:6px; }
+  .maplegend i { width:11px; height:11px; border-radius:50%; display:inline-block; }
+  .finder { background:#123227; border-radius:16px; padding:26px 28px; color:#dfeee6; }
+  .finder h2 { margin:0 0 6px; color:#fff; font-size:21px; }
+  .finder p { margin:0 0 14px; font-size:14px; color:#9fd4bb; }
+  .srow { display:flex; gap:8px; flex-wrap:wrap; }
+  .srow input { flex:1 1 220px; min-width:0; font:inherit; font-size:16px; padding:12px 14px; border:none; border-radius:9px; }
+  .srow button { font:inherit; font-weight:700; font-size:15px; background:#1f9d63; color:#fff; border:none; border-radius:9px; padding:12px 22px; cursor:pointer; }
+  #fres { margin-top:12px; }
+  .fcard { background:#fbfbfa; color:var(--ink); border-radius:12px; padding:14px 16px; margin-top:8px; display:flex; gap:14px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+  .fcard .fr { font-size:26px; font-weight:800; font-variant-numeric:tabular-nums; }
+  .fcard .fn { font-weight:700; }
+  .fcard .fa { font-size:12.5px; color:var(--muted); }
+  .fcta { background:var(--mint); border-radius:10px; padding:10px 14px; font-size:13.5px; color:#14532d; flex-basis:100%; }
+  .fcta a { font-weight:700; }
+  .fstatus { font-size:13px; color:#9fd4bb; margin-top:10px; }
+  .band { padding:26px 28px; background:#f0f7f3; border:1px solid #cfe3d6; border-radius:14px; }
+  .band .k { font-size:11.5px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--green); }
+  .band h3 { font-size:20px; letter-spacing:-.02em; margin:8px 0 6px; }
+  .band p { font-size:14.5px; color:var(--muted); line-height:1.65; margin:0 0 16px; }
+  .gbtn { background:var(--green); color:#fff; font:inherit; font-size:15px; font-weight:700; padding:13px 26px; border:none; border-radius:8px; cursor:pointer; }
+  .grow { display:flex; flex-wrap:wrap; gap:8px; background:#fff; border:1px solid #dbe3dd; border-radius:12px; padding:8px; }
+  .grow input { flex:1 1 180px; min-width:0; font:inherit; font-size:16px; padding:10px 12px; border:none; border-radius:8px; background:transparent; color:var(--ink); outline:none; box-shadow:inset 0 0 0 1.5px #e2e4e8; }
+  .grow button { flex:1 1 auto; background:var(--green); color:#fff; font:inherit; font-size:14.5px; font-weight:700; padding:12px 20px; border:none; border-radius:8px; cursor:pointer; white-space:nowrap; }
+  .gnote { font-size:12px; color:#8a9099; line-height:1.5; margin-top:10px; }
+  .gsent { display:flex; align-items:center; gap:11px; background:#eaf4ee; border:1px solid #cfe6d9; border-radius:12px; padding:15px 18px; }
+  .gsent b { font-size:14.5px; color:#14532d; }
+  .faq h3 { font-size:16px; margin:22px 0 4px; }
+  .faq p { font-size:14.5px; color:var(--muted); margin:0; }
+  .rel { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px 24px; margin-top:44px; }
+  .rel ul { margin:8px 0 0; padding-left:20px; font-size:14.5px; }
+  .rel li { margin:6px 0; }
+  .footer-grid { max-width:1160px; margin:0 auto; padding:48px 24px 36px; display:grid; grid-template-columns:2fr 1fr 1fr; gap:32px; font-size:12.5px; }
+  @media (max-width:700px){ .footer-grid { grid-template-columns:1fr 1fr; } }
+  button:focus-visible, input:focus-visible, a:focus-visible { outline:2px solid #1f9d63; outline-offset:2px; }
+</style>
+</head>
+<body>
+<div class="nav">
+  <a class="logo" href="/"><img src="/assets/blueroll-logo-v2.svg" alt=""> Blueroll</a>
+  <span class="links">
+    <a href="/tools.html">Free tools</a>
+    <a href="/free-haccp-template.html">HACCP template</a>
+    <a class="cta" href="https://app.blueroll.app/?utm_source=blueroll.app&utm_medium=referral&utm_campaign=borough_croydon&utm_content=nav">Start for free</a>
+  </span>
+</div>
+<div class="wrap">
+  <div class="crumbs"><a href="/">Blueroll</a> › <a href="/food-hygiene-ratings/">Food hygiene ratings</a> › Croydon</div>
+  <div class="label">London · FHRS data</div>
+  <h1>Food hygiene ratings in <em>Croydon</em></h1>
+  <p class="sub">Every food business in Croydon, rated 0 to 5 by Croydon Council's environmental health officers. Live from the Food Standards Agency register.</p>
+  <div class="updated">Updated 7 September 2026 · 3,151 registered establishments · refreshed weekly</div>
+
+  <div class="stats">
+    <div class="stat"><b>3,151</b><span>registered food businesses</span></div>
+    <div class="stat"><b>64.3%</b><span>of rated kitchens hold a 5</span></div>
+    <div class="stat"><b>132</b><span>rated 0&ndash;2: improvement needed</span></div>
+  </div>
+
+  <h2>How Croydon's 2,835 rated kitchens score</h2>
+  <div class="dist">
+    <div class="dr"><span class="badge b5">5</span><div class="bar"><i class="b5" style="width:64.3%"></i></div><span class="n">1,824</span></div>
+    <div class="dr"><span class="badge b4">4</span><div class="bar"><i class="b4" style="width:24.8%"></i></div><span class="n">702</span></div>
+    <div class="dr"><span class="badge b3">3</span><div class="bar"><i class="b3" style="width:6.2%"></i></div><span class="n">177</span></div>
+    <div class="dr"><span class="badge b2">2</span><div class="bar"><i class="b2" style="width:3.0%"></i></div><span class="n">84</span></div>
+    <div class="dr"><span class="badge b1">1</span><div class="bar"><i class="b1" style="width:1.6%"></i></div><span class="n">46</span></div>
+    <div class="dr"><span class="badge b0">0</span><div class="bar"><i class="b0" style="width:0.5%"></i></div><span class="n">2</span></div>
+  </div>
+  <p class="note">316 further establishments are exempt or awaiting their first inspection.</p>
+
+  <h2>This month in Croydon</h2>
+  <div class="mv"><div class="mvcard up"><h3>Inspections in the last month</h3><ul><li><span class="who">Kitchens inspected and rated</span><span class="chg">56</span></li><li><span class="who">Walked away with a 5</span><span class="chg">44</span></li></ul></div><div class="mvcard down"><h3>Recent ratings of 2 or below</h3><ul><li><span class="who">Waddon Leisure Centre</span><span class="chg">&rarr; 2 &middot; Aug 2026</span></li><li><span class="who">Palm Cuisine</span><span class="chg">&rarr; 1 &middot; Aug 2026</span></li></ul></div></div>
+
+  <h2>Needs improvement: rated 0&ndash;1 in Croydon</h2>
+  <div class="tscroll">
+  <table class="wt">
+    <tr><th>Business</th><th>Type</th><th>Address</th><th>Rating</th><th>Rated</th></tr>
+    <tr><td>Phoenix City Chinese Takeaway</td><td>Takeaway</td><td>222 Mitcham Road, Croydon, CR0 3JJ</td><td class="r r0">0</td><td>Jun 2026</td></tr><tr><td>Rio Lounge</td><td>Restaurant/Cafe/Canteen</td><td>162 - 164 Cherry Orchard Road, Croydon, CR0 6BB</td><td class="r r0">0</td><td>Jul 2026</td></tr><tr><td>St Matthews Church</td><td>Other catering premises</td><td>Chichester Road, Croydon, CR0 5NQ</td><td class="r r1">1</td><td>Aug 2012</td></tr><tr><td>Home Sweet Home</td><td>Other catering premises</td><td>5A Woodville Road, Thornton Heath, CR7 8LH</td><td class="r r1">1</td><td>May 2023</td></tr><tr><td>Lobo Seafood Superstores</td><td>Retailers - other</td><td>186 London Road, Croydon, CR0 2TE</td><td class="r r1">1</td><td>Dec 2024</td></tr><tr><td>Rich Wellness</td><td>Distributors/Transporters</td><td>CR0 </td><td class="r r1">1</td><td>Dec 2024</td></tr><tr><td>Lifegrace Bookshop &amp; Groceries / Talis Food Take Away</td><td>Takeaway</td><td>80 Parchmore Road, Thornton Heath, CR7 8LW</td><td class="r r1">1</td><td>Mar 2025</td></tr><tr><td>Green Lane Food Store</td><td>Retailers - other</td><td>2 Green Lane, Thornton Heath, CR7 8BA</td><td class="r r1">1</td><td>Apr 2025</td></tr><tr><td>QV Mini Mart</td><td>Retailers - other</td><td>11 Station Road, Croydon, CR0 2RD</td><td class="r r1">1</td><td>Apr 2025</td></tr><tr><td>AXIVM</td><td>Other catering premises</td><td>CR8 </td><td class="r r1">1</td><td>May 2025</td></tr><tr><td>Peking Inn</td><td>Takeaway</td><td>122 Headley Drive, Croydon, CR0 0QF</td><td class="r r1">1</td><td>May 2025</td></tr><tr><td>Frank Drummond Newsagents</td><td>Retailers - other</td><td>160 Gloucester Road, Croydon, CR0 2DG</td><td class="r r1">1</td><td>Jun 2025</td></tr><tr><td>Portland Mini Market</td><td>Retailers - other</td><td>11 Market Parade, Portland Road, SE25 4PP</td><td class="r r1">1</td><td>Jul 2025</td></tr><tr><td>Thaprobane Ltd</td><td>Other catering premises</td><td>CR0 </td><td class="r r1">1</td><td>Sep 2025</td></tr><tr><td>Memories Restaurant</td><td>Takeaway</td><td>117 Beulah Road, Thornton Heath, CR7 8JJ</td><td class="r r1">1</td><td>Dec 2025</td></tr>
+  </table>
+  </div>
+  <p class="note">The 15 longest-standing of 48 businesses rated 0 or 1, from the FSA register. A low rating means urgent or major improvement was necessary on inspection day; many kitchens re-rate higher after fixing the issues.</p>
+
+  <h2>Map: every rated kitchen in Croydon</h2>
+  <div id="map" role="img" aria-label="Map of food hygiene ratings in Croydon"></div>
+  <div class="maplegend">
+    <span><i style="background:#1a7f4f"></i>5</span><span><i style="background:#59a06b"></i>4</span><span><i style="background:#d0a02b"></i>3</span><span><i style="background:#d97a2b"></i>2</span><span><i style="background:#c65530"></i>1</span><span><i style="background:#9c2b23"></i>0</span>
+    <span style="margin-left:auto">Data: FSA, Open Government Licence</span>
+  </div>
+
+  <div class="finder" id="finder" style="margin-top:44px;">
+    <h2>Find your kitchen</h2>
+    <p>Run a food business in Croydon? Type its name or postcode and see where you stand.</p>
+    <div class="srow"><input id="fq" placeholder="Business name or postcode" autocomplete="off"><button id="fgo">Check rating</button></div>
+    <div class="fstatus" id="fstatus" hidden></div>
+    <div id="fres"></div>
+  </div>
+
+  <div class="band" data-gate="inline" style="margin-top:44px;">
+    <div class="k">Free download</div>
+    <h3>Get the free 16-page HACCP pack</h3>
+    <p>The rating is won in your paperwork. Daily temperature logs with filled-in examples, a cleaning schedule, the allergen matrix and the EHO question sheet, ready to print.</p>
+    <div class="g-idle"><button class="g-open gbtn">Get the free pack</button></div>
+    <div class="g-form" style="display:none;">
+      <div class="grow">
+        <input class="g-email" type="email" placeholder="Your work email" autocomplete="email">
+        <button class="g-send">Send me the PDF</button>
+      </div>
+      <div class="gnote">One email with the PDF. No newsletter unless you ask. Unsubscribe anytime.</div>
+    </div>
+    <div class="g-sent" style="display:none;"><div class="gsent"><span style="width:24px;height:24px;border-radius:50%;background:var(--green);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;">&#10003;</span><b>Downloading. Check your Downloads folder</b></div></div>
+  </div>
+
+  <h2>Frequently asked questions</h2>
+  <div class="faq">
+    <h3>Who inspects food businesses in Croydon?</h3>
+    <p>Environmental health officers from Croydon Council. Visits are unannounced, and the new rating is published on the FSA register within a few weeks of the inspection.</p>
+    <h3>My kitchen in Croydon got a low rating. How do I get re-inspected?</h3>
+    <p>Fix the issues, then request a re-rating visit through Croydon Council. Officers look hardest at your daily records; our guide to <a href="/how-to-improve-food-hygiene-rating.html">improving your food hygiene rating</a> covers the fastest route back to a 5.</p>
+    <h3>Is a 0 rating illegal?</h3>
+    <p>No. It means urgent improvement is necessary, but the business may keep trading unless the council issues a hygiene emergency prohibition notice.</p>
+    <h3>How current is this page?</h3>
+    <p>The numbers are rebuilt every week from the FSA's open register, and the map and search query it live. A rating changes only when Croydon Council re-inspects.</p>
+  </div>
+
+  <div class="rel">
+    <strong style="font-size:15px;">More on food hygiene ratings</strong>
+    <ul>
+      <li><a href="/london-food-hygiene-map.html">Live London food hygiene map: search all 33 boroughs</a></li>
+      <li><a href="/food-hygiene-ratings-explained.html">Food hygiene ratings explained: EHO scoring and how to get a 5</a></li>
+      <li><a href="/free-food-hygiene-rating-badge.html">Free auto-updating rating badge for your website</a></li>
+      <li>Nearby: <a href="/food-hygiene-ratings/bromley.html">Bromley</a> &middot; <a href="/food-hygiene-ratings/sutton.html">Sutton</a> &middot; <a href="/food-hygiene-ratings/merton.html">Merton</a> &middot; <a href="/food-hygiene-ratings/lambeth.html">Lambeth</a> · <a href="/food-hygiene-ratings/">all London boroughs</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div style="background:#14161b; color:#9aa0a8;">
+  <div class="footer-grid">
+    <div>
+      <div style="display:flex; align-items:center; gap:9px; color:#fff; font-weight:700; font-size:16px;"><img src="/assets/blueroll-logo-v2.svg" alt="" style="height:24px; filter:brightness(0) invert(1);"> Blueroll</div>
+      <p style="line-height:1.6; margin:12px 0 0; max-width:260px;">Food safety management for restaurants in the UK, US &amp; Europe. One kitchen or an estate.</p>
+    </div>
+    <div>
+      <div style="color:#fff; font-weight:700; margin-bottom:10px;">Free tools</div>
+      <a href="/free-haccp-template.html" style="color:#9aa0a8; text-decoration:none; display:block; margin:6px 0;">HACCP template</a>
+      <a href="/check-food-hygiene-rating.html" style="color:#9aa0a8; text-decoration:none; display:block; margin:6px 0;">Rating checker</a>
+      <a href="/london-food-hygiene-map.html" style="color:#9aa0a8; text-decoration:none; display:block; margin:6px 0;">London map</a>
+      <a href="/food-hygiene-ratings/" style="color:#9aa0a8; text-decoration:none; display:block; margin:6px 0;">Borough ratings</a>
+    </div>
+    <div>
+      <div style="color:#fff; font-weight:700; margin-bottom:10px;">Product</div>
+      <a href="https://app.blueroll.app/" style="color:#9aa0a8; text-decoration:none; display:block; margin:6px 0;">Sign in</a>
+      <a href="/#pricing" style="color:#9aa0a8; text-decoration:none; display:block; margin:6px 0;">Pricing</a>
+      <a href="/privacy.html" style="color:#9aa0a8; text-decoration:none; display:block; margin:6px 0;">Privacy</a>
+    </div>
+  </div>
+  <div style="max-width:1160px; margin:0 auto; padding:0 24px 28px; font-size:12px; color:#6b7076;">Ratings data: Food Standards Agency, Open Government Licence. &copy; Blueroll.</div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+<script>
+(function () {
+  var LAID = 94;
+  var SLUG = 'croydon';
+  var FSA = 'https://api.ratings.food.gov.uk';
+  var HDR = { 'x-api-version': '2', 'Accept': 'application/json' };
+  var COLORS = { 5:'#1a7f4f', 4:'#59a06b', 3:'#d0a02b', 2:'#d97a2b', 1:'#c65530', 0:'#9c2b23' };
+  function track(n, p) { if (typeof gtag === 'function') gtag('event', n, p || {}); }
+
+  // ---- Lazy borough map -------------------------------------------------
+  var mapEl = document.getElementById('map');
+  var mapStarted = false;
+  var mapTries = 0;
+  function initMap() {
+    if (mapStarted) return;
+    if (typeof L === 'undefined') { // leaflet still downloading: retry until it lands
+      if (mapTries++ < 50) setTimeout(initMap, 400);
+      return;
+    }
+    mapStarted = true;
+    var map = L.map('map', { preferCanvas: true, scrollWheelZoom: false });
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', maxZoom: 19
+    }).addTo(map);
+    map.setView([51.51, -0.09], 12);
+    fetch(FSA + '/Establishments?localAuthorityId=' + LAID + '&pageSize=5000', { headers: HDR })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var pts = [];
+        (d.establishments || []).forEach(function (e) {
+          var g = e.geocode || {};
+          var r = parseInt(e.RatingValue);
+          if (isNaN(r) || !g.latitude) return;
+          var lat = parseFloat(g.latitude), lng = parseFloat(g.longitude);
+          pts.push([lat, lng]);
+          L.circleMarker([lat, lng], { radius: 4, weight: 0, fillColor: COLORS[r], fillOpacity: 0.75 })
+            .bindPopup('<b>' + String(e.BusinessName || '').replace(/[<>&]/g, ' ') + '</b><br>Rating ' + r +
+              (e.RatingDate ? ' &middot; ' + new Date(e.RatingDate).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' }) : ''))
+            .addTo(map);
+        });
+        if (pts.length) map.fitBounds(pts, { padding: [16, 16] });
+        track('borough_map_loaded', { borough: SLUG, points: pts.length });
+      }).catch(function () {});
+  }
+  if ('IntersectionObserver' in window && mapEl) {
+    new IntersectionObserver(function (en, obs) {
+      if (en[0].isIntersecting) { obs.disconnect(); initMap(); }
+    }, { rootMargin: '300px' }).observe(mapEl);
+    // Belt and braces: any first interaction also arms the map.
+    ['scroll', 'touchstart', 'mousemove'].forEach(function (ev) {
+      window.addEventListener(ev, initMap, { once: true, passive: true });
+    });
+  } else { setTimeout(initMap, 1500); }
+
+  // ---- Find your kitchen ------------------------------------------------
+  var fq = document.getElementById('fq'), fgo = document.getElementById('fgo');
+  var fres = document.getElementById('fres'), fstatus = document.getElementById('fstatus');
+  function esc(s) { return String(s || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function ctaFor(r) {
+    if (r >= 5) return 'Holding a 5. Nice. <a href="/free-food-hygiene-rating-badge.html">Put the free auto-updating badge on your website</a> and let it sell for you.';
+    if (r >= 3) return 'A ' + r + ' is usually capped by paperwork, what EHOs call confidence in management. <a href="/how-to-improve-food-hygiene-rating.html">How to get to a 5</a>, and grab the free pack below.';
+    return 'Urgent but fixable. Fix the issues, request a re-rating visit from the council, and keep signed daily records from today. <a href="/how-to-improve-food-hygiene-rating.html">The route back</a>, and start with the free pack below.';
+  }
+  function fsearch() {
+    var q = (fq.value || '').trim();
+    if (!q) return;
+    fstatus.hidden = false; fstatus.textContent = 'Searching the FSA register…'; fres.innerHTML = '';
+    var isPostcode = /\d/.test(q) && q.length <= 8;
+    var url = FSA + '/Establishments?localAuthorityId=' + LAID + '&' + (isPostcode ? 'address=' : 'name=') + encodeURIComponent(q) + '&pageSize=10';
+    fetch(url, { headers: HDR }).then(function (r) { return r.json(); }).then(function (d) {
+      var list = (d.establishments || []).filter(function (e) { return e.RatingValue && !isNaN(parseInt(e.RatingValue)); });
+      if (!list.length) { fstatus.textContent = 'Nothing rated under that name here. Try a postcode, or the full London search on our map.'; return; }
+      fstatus.hidden = true;
+      track('borough_finder_search', { borough: SLUG });
+      fres.innerHTML = list.slice(0, 5).map(function (e) {
+        var r = parseInt(e.RatingValue);
+        return '<div class="fcard"><div><div class="fn">' + esc(e.BusinessName) + '</div><div class="fa">' +
+          esc([e.AddressLine1, e.PostCode].filter(Boolean).join(', ')) +
+          (e.RatingDate ? ' &middot; rated ' + new Date(e.RatingDate).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' }) : '') +
+          '</div></div><div class="fr" style="color:' + (COLORS[r] || '#333') + '">' + r + '</div>' +
+          '<div class="fcta">' + ctaFor(r) + '</div></div>';
+      }).join('');
+    }).catch(function () { fstatus.textContent = 'The FSA register is not answering right now. Try again in a minute.'; });
+  }
+  fgo.addEventListener('click', fsearch);
+  fq.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); fsearch(); } });
+
+  // ---- Pack capture band (same pipeline as the template pages) ----------
+  var SB = 'https://rszrggreuarvodcqeqrj.supabase.co';
+  var ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzenJnZ3JldWFydm9kY3FlcXJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1NzY2NzYsImV4cCI6MjA4OTE1MjY3Nn0.dwD1MJcMOc9w1IP4T15ep1mYHVARW6eJPNArn4oGmH0';
+  var g = document.querySelector('[data-gate="inline"]');
+  if (!g) return;
+  var idle = g.querySelector('.g-idle'), form = g.querySelector('.g-form'), sent = g.querySelector('.g-sent');
+  var input = g.querySelector('.g-email'), send = g.querySelector('.g-send'), open = g.querySelector('.g-open');
+  open.addEventListener('click', function () {
+    idle.style.display = 'none'; form.style.display = 'block';
+    track('haccp_form_open', { placement: 'local:' + SLUG });
+    setTimeout(function () { input.focus(); }, 30);
+  });
+  function submit() {
+    var email = (input.value || '').trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { input.style.boxShadow = 'inset 0 0 0 1.5px #d64545'; input.focus(); return; }
+    form.style.display = 'none'; sent.style.display = 'block';
+    try { localStorage.setItem('br-tpl-downloaded', '1'); } catch (e) {}
+    fetch(SB + '/rest/v1/template_leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': ANON, 'Authorization': 'Bearer ' + ANON, 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ email: email, source: 'haccp-template:local:' + SLUG + '-inline', page: window.location.pathname, user_agent: navigator.userAgent.slice(0, 250) })
+    }).catch(function () {});
+    fetch('https://formsubmit.co/ajax/hello@blueroll.app', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ email: email, _subject: 'New HACCP template download: ' + email, source: 'haccp-template:local', placement: SLUG, page: window.location.href })
+    }).catch(function () {});
+    track('haccp_template_download', { placement: 'local:' + SLUG, email_domain: email.split('@')[1] });
+    var a = document.createElement('a');
+    a.href = '/blueroll-haccp-template.pdf'; a.download = 'blueroll-haccp-template.pdf';
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+  send.addEventListener('click', submit);
+  input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); submit(); } });
+  input.addEventListener('input', function () { input.style.boxShadow = 'inset 0 0 0 1.5px #e2e4e8'; });
+})();
+</script>
+</body>
+</html>

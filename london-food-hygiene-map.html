@@ -713,6 +713,11 @@ div[style*="background: #14161b"] { display: none !important; }
 })();
 </script>
 
+
+  <h2>Ratings by borough</h2>
+  <p>Prefer the full picture for one borough? Each page has the numbers, this month's changes, every kitchen rated 0 or 1, and its own map: <a href="/food-hygiene-ratings/">all 33 London boroughs</a>.</p>
+  <p style="font-size:14px; line-height:2;"><a href="/food-hygiene-ratings/barking-and-dagenham.html">Barking and Dagenham</a> &middot; <a href="/food-hygiene-ratings/barnet.html">Barnet</a> &middot; <a href="/food-hygiene-ratings/bexley.html">Bexley</a> &middot; <a href="/food-hygiene-ratings/brent.html">Brent</a> &middot; <a href="/food-hygiene-ratings/bromley.html">Bromley</a> &middot; <a href="/food-hygiene-ratings/camden.html">Camden</a> &middot; <a href="/food-hygiene-ratings/city-of-london.html">City of London</a> &middot; <a href="/food-hygiene-ratings/croydon.html">Croydon</a> &middot; <a href="/food-hygiene-ratings/ealing.html">Ealing</a> &middot; <a href="/food-hygiene-ratings/enfield.html">Enfield</a> &middot; <a href="/food-hygiene-ratings/greenwich.html">Greenwich</a> &middot; <a href="/food-hygiene-ratings/hackney.html">Hackney</a> &middot; <a href="/food-hygiene-ratings/hammersmith-and-fulham.html">Hammersmith and Fulham</a> &middot; <a href="/food-hygiene-ratings/haringey.html">Haringey</a> &middot; <a href="/food-hygiene-ratings/harrow.html">Harrow</a> &middot; <a href="/food-hygiene-ratings/havering.html">Havering</a> &middot; <a href="/food-hygiene-ratings/hillingdon.html">Hillingdon</a> &middot; <a href="/food-hygiene-ratings/hounslow.html">Hounslow</a> &middot; <a href="/food-hygiene-ratings/islington.html">Islington</a> &middot; <a href="/food-hygiene-ratings/kensington-and-chelsea.html">Kensington and Chelsea</a> &middot; <a href="/food-hygiene-ratings/kingston-upon-thames.html">Kingston upon Thames</a> &middot; <a href="/food-hygiene-ratings/lambeth.html">Lambeth</a> &middot; <a href="/food-hygiene-ratings/lewisham.html">Lewisham</a> &middot; <a href="/food-hygiene-ratings/merton.html">Merton</a> &middot; <a href="/food-hygiene-ratings/newham.html">Newham</a> &middot; <a href="/food-hygiene-ratings/redbridge.html">Redbridge</a> &middot; <a href="/food-hygiene-ratings/richmond-upon-thames.html">Richmond upon Thames</a> &middot; <a href="/food-hygiene-ratings/southwark.html">Southwark</a> &middot; <a href="/food-hygiene-ratings/sutton.html">Sutton</a> &middot; <a href="/food-hygiene-ratings/tower-hamlets.html">Tower Hamlets</a> &middot; <a href="/food-hygiene-ratings/waltham-forest.html">Waltham Forest</a> &middot; <a href="/food-hygiene-ratings/wandsworth.html">Wandsworth</a> &middot; <a href="/food-hygiene-ratings/westminster.html">Westminster</a></p>
+
   <h2>Frequently asked questions</h2>
 
   <h3>Where does the data on this map come from?</h3>
@@ -742,8 +747,8 @@ div[style*="background: #14161b"] { display: none !important; }
 <script>
 const map = L.map('map', { center: [51.512, -0.14], zoom: 14, zoomControl: false });
 L.control.zoom({ position: 'bottomright' }).addTo(map);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-  attribution: '&copy; <a href="https://www.openstreetmap.org/">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   maxZoom: 19
 }).addTo(map);
 
