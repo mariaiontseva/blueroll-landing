@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Template leads · internal</title>
+<style>
+  :root { --paper:#FAFBF8; --card:#fff; --ink:#16211B; --muted:#5F6B65; --line:#DDE5DF; --accent:#1E8A5A; --accent-ink:#0F5E3B; --mint:#E7F3EC; --amber:#9A6B12; --amber-bg:#FBF3E1; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font:15px/1.5 "Geist", system-ui, -apple-system, sans-serif; }
+  .wrap { max-width:980px; margin:0 auto; padding:24px 16px 60px; }
+  h1 { font-size:22px; margin:0 0 4px; letter-spacing:-.01em; }
+  .sub { color:var(--muted); font-size:13.5px; margin:0 0 18px; }
+  .stats { display:flex; gap:12px; flex-wrap:wrap; margin:0 0 16px; }
+  .stat { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px 16px; min-width:120px; }
+  .stat b { display:block; font-size:24px; font-weight:700; letter-spacing:-.02em; color:var(--accent-ink); font-variant-numeric:tabular-nums; }
+  .stat span { font-size:12px; color:var(--muted); }
+  .tbl { border:1px solid var(--line); border-radius:12px; background:var(--card); overflow-x:auto; }
+  table { border-collapse:collapse; width:100%; min-width:640px; font-size:13.5px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { position:sticky; top:0; background:var(--mint); color:var(--accent-ink); font-size:11.5px; text-transform:uppercase; letter-spacing:.05em; white-space:nowrap; }
+  tr:last-child td { border-bottom:0; }
+  td.em { font-weight:600; white-space:nowrap; }
+  td.dt { white-space:nowrap; color:var(--muted); font-variant-numeric:tabular-nums; }
+  .badge { display:inline-block; font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:999px; letter-spacing:.03em; }
+  .badge.live { background:var(--mint); color:var(--accent-ink); }
+  .badge.hist { background:#EEF0F2; color:#5C626B; }
+  .badge.new { background:var(--amber-bg); color:var(--amber); }
+  .badge.l-sent { background:#EEF0F2; color:#5C626B; }
+  .badge.l-opened { background:var(--amber-bg); color:var(--amber); }
+  .badge.l-clicked { background:var(--mint); color:var(--accent-ink); }
+  .badge.unsub { background:#FDECEA; color:#B42318; }
+  a { color:var(--accent-ink); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  .gate { max-width:420px; margin:14vh auto 0; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:24px; }
+  .gate input { width:100%; font:inherit; font-size:15px; padding:10px 12px; border:1px solid var(--line); border-radius:9px; margin:10px 0 12px; }
+  .gate button { font:inherit; font-weight:600; font-size:14px; background:var(--accent); color:#fff; border:none; border-radius:9px; padding:10px 16px; cursor:pointer; }
+  .err { color:#B42318; font-size:13px; }
+  .muted { color:var(--muted); }
+  .bar { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+  .bar button { font:inherit; font-size:13px; border:1px solid var(--line); background:var(--card); border-radius:8px; padding:6px 12px; cursor:pointer; }
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+var SB = 'https://rszrggreuarvodcqeqrj.supabase.co';
+var ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzenJnZ3JldWFydm9kY3FlcXJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1NzY2NzYsImV4cCI6MjA4OTE1MjY3Nn0.dwD1MJcMOc9w1IP4T15ep1mYHVARW6eJPNArn4oGmH0';
+var app = document.getElementById('app');
+
+function esc(s){ return (s||'').replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+
+function fmt(d) {
+  return new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+async function load() {
+  app.innerHTML = '<p class="muted">Loading…</p>';
+  var rows;
+  try {
+    var r = await fetch(SB + '/rest/v1/rpc/list_template_leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', apikey: ANON, Authorization: 'Bearer ' + ANON },
+      body: '{}'
+    });
+    rows = await r.json();
+  } catch (e) { app.innerHTML = '<p class="muted">Network error, refresh the page.</p>'; return }
+  if (!Array.isArray(rows)) { app.innerHTML = '<p class="muted">Something went wrong.</p>'; return }
+
+  var now = Date.now(), week = 7*864e5, month = 30*864e5;
+  var nWeek = rows.filter(function(x){ return now - new Date(x.created_at) < week; }).length;
+  var nMonth = rows.filter(function(x){ return now - new Date(x.created_at) < month; }).length;
+  var bySeg = {};
+  rows.forEach(function(x){
+    var m = (x.source || '').match(/^haccp-template:([a-z-]+):/);
+    var seg = m ? m[1] : ((x.source || '').indexOf('historical') >= 0 ? 'main' : 'main');
+    bySeg[seg] = (bySeg[seg] || 0) + 1;
+  });
+  var segHtml = Object.keys(bySeg).sort().map(function(k){
+    return '<span class="badge hist" style="margin-right:6px">' + k + ' &middot; ' + bySeg[k] + '</span>';
+  }).join('');
+  var allLetters = [].concat.apply([], rows.map(function(x){ return x.letters || []; }));
+  var nSent = allLetters.length;
+  var nOpened = allLetters.filter(function(g){ return g.opened_at; }).length;
+  var nClicked = allLetters.filter(function(g){ return g.clicked_at; }).length;
+  var body = rows.map(function(x){
+    var isHist = (x.source || '').indexOf('historical') >= 0;
+    var isNew = now - new Date(x.created_at) < 2*864e5;
+    var chips = (x.letters || []).map(function(g){
+      var st = g.clicked_at ? 'clicked' : (g.opened_at ? 'opened' : 'sent');
+      var tip = 'Letter ' + g.letter + ' sent ' + fmt(g.sent_at) +
+        (g.opened_at ? ', opened ' + fmt(g.opened_at) : '') +
+        (g.clicked_at ? ', clicked ' + fmt(g.clicked_at) : '');
+      return '<span class="badge l-' + st + '" title="' + esc(tip) + '">' + g.letter + ' · ' + st + '</span>';
+    }).join(' ');
+    if (x.unsubscribed_at) chips += (chips ? ' ' : '') + '<span class="badge unsub" title="Unsubscribed ' + fmt(x.unsubscribed_at) + '">unsubscribed</span>';
+    return '<tr><td class="dt">' + fmt(x.created_at) + '</td>' +
+      '<td class="em"><a href="mailto:' + esc(x.email) + '">' + esc(x.email) + '</a>' + (isNew ? ' <span class="badge new">NEW</span>' : '') + '</td>' +
+      '<td><span class="badge ' + (isHist ? 'hist' : 'live') + '">' + (isHist ? 'pre-Aug import' : 'live capture') + '</span></td>' +
+      '<td style="white-space:nowrap">' + (chips || '<span class="muted">·</span>') + '</td>' +
+      '<td>' + esc(x.note || '') + '</td></tr>';
+  }).join('');
+  app.innerHTML = '<h1>HACCP template leads</h1>' +
+    '<p class="sub">Everyone who left an email for the free HACCP template. Live rows are written by the page itself; the import is the FormSubmit history from hello@blueroll.app. Not indexed and linked from nowhere.</p>' +
+    '<div class="stats"><div class="stat"><b>' + rows.length + '</b><span>total</span></div>' +
+    '<div class="stat"><b>' + nMonth + '</b><span>last 30 days</span></div>' +
+    '<div class="stat"><b>' + nWeek + '</b><span>last 7 days</span></div>' +
+    '<div class="stat"><b>' + nSent + '</b><span>letters sent</span></div>' +
+    '<div class="stat"><b>' + nOpened + '</b><span>opened</span></div>' +
+    '<div class="stat"><b>' + nClicked + '</b><span>clicked</span></div></div>' +
+    '<div class="bar"><button onclick="load()">Refresh</button><span class="muted" style="font-size:12.5px">By page:</span>' + segHtml + '</div>' +
+    '<div class="tbl"><table><thead><tr><th>Date</th><th>Email</th><th>Source</th><th>Emails</th><th>Who is this</th></tr></thead><tbody>' + body + '</tbody></table></div>';
+}
+load();
+</script>
+</body>
+</html>

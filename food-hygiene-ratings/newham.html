@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Food Hygiene Ratings in Newham: 2,432 Kitchens Rated 0&ndash;5 | Blueroll</title>
+<meta name="description" content="Every rated food business in Newham: 49.0% hold a 5 and 343 need improvement. Live map, this month's changes and the full 0-1 list. Updated weekly.">
+<link rel="canonical" href="https://blueroll.app/food-hygiene-ratings/newham.html">
+<link rel="icon" href="/assets/blueroll-logo-v2.svg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://blueroll.app/food-hygiene-ratings/newham.html">
+<meta property="og:title" content="Food Hygiene Ratings in Newham">
+<meta property="og:description" content="Every rated food business in Newham: 49.0% hold a 5 and 343 need improvement. Live map, this month's changes and the full 0-1 list. Updated weekly.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Food Hygiene Ratings in Newham">
+<meta name="twitter:description" content="Every rated food business in Newham: 49.0% hold a 5 and 343 need improvement. Live map, this month's changes and the full 0-1 list. Updated weekly.">
+<link rel="stylesheet" href="/site-chrome.css?v=20260720-solutions-v1">
+<link rel="stylesheet" href="/site-chrome-v2.css?v=20260812">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZFY0GPZYYQ');
+</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Blueroll", "item": "https://blueroll.app/"}, {"@type": "ListItem", "position": 2, "name": "Food hygiene ratings", "item": "https://blueroll.app/food-hygiene-ratings/"}, {"@type": "ListItem", "position": 3, "name": "Food hygiene ratings in Newham"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Who inspects food businesses in Newham?", "acceptedAnswer": {"@type": "Answer", "text": "Environmental health officers from Newham Council. Visits are unannounced, and the new rating is published on the FSA register within a few weeks of the inspection."}}, {"@type": "Question", "name": "My kitchen in Newham got a low rating. How do I get re-inspected?", "acceptedAnswer": {"@type": "Answer", "text": "Fix the issues, then request a re-rating visit through Newham Council. Officers look hardest at your daily records; our guide to improving your food hygiene rating covers the fastest route back to a 5."}}, {"@type": "Question", "name": "Is a 0 rating illegal?", "acceptedAnswer": {"@type": "Answer", "text": "No. It means urgent improvement is necessary, but the business may keep trading unless the council issues a hygiene emergency prohibition notice."}}, {"@type": "Question", "name": "How current is this page?", "acceptedAnswer": {"@type": "Answer", "text": "The numbers are rebuilt every week from the FSA's open register, and the map and search query it live. A rating changes only when Newham Council re-inspects."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Dataset", "name": "Food hygiene ratings in Newham", "description": "Weekly aggregate of FHRS food hygiene ratings for Newham, London.", "license": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/", "creator": {"@type": "Organization", "name": "Food Standards Agency"}, "dateModified": "2026-09-09"}</script>
+<style>
+  :root { --green:#047857; --green-deep:#0a5c44; --ink:#1a1d21; --muted:#5c626b; --paper:#fafbf8; --card:#fff; --line:#e5e7e4; --mint:#eef6f1; --red:#b42318; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.6 "Geist",-apple-system,'Segoe UI',Arial,sans-serif; }
+  .wrap a { color:var(--green); }
+  .wrap { max-width:860px; margin:0 auto; padding:0 24px 72px; }
+  .crumbs { font-size:13px; color:#999; padding:16px 0 6px; }
+  .crumbs a { color:var(--green); text-decoration:none; }
+  .label { font-size:12px; font-weight:700; letter-spacing:.08em; color:var(--green); text-transform:uppercase; margin-top:16px; }
+  h1 { font-size:37px; letter-spacing:-.02em; line-height:1.12; margin:10px 0 12px; }
+  h1 em { font-style:normal; color:var(--green); }
+  .sub { font-size:17px; color:var(--muted); max-width:640px; margin:0; }
+  .updated { font-size:13px; color:#999; margin-top:10px; }
+  .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:28px 0 0; }
+  .stat { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:17px 20px; }
+  .stat b { display:block; font-size:29px; letter-spacing:-.02em; color:var(--green-deep); font-variant-numeric:tabular-nums; }
+  .stat span { font-size:13px; color:var(--muted); }
+  h2 { font-size:24px; letter-spacing:-.01em; margin:42px 0 14px; }
+  .dist { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px 24px; }
+  .dr { display:grid; grid-template-columns:42px 1fr 72px; align-items:center; gap:12px; margin:9px 0; font-size:14px; }
+  .dr .badge { font-weight:800; text-align:center; border-radius:7px; padding:4px 0; color:#fff; font-size:13px; }
+  .bar { background:#f0f2ef; border-radius:6px; height:21px; overflow:hidden; }
+  .bar i { display:block; height:100%; border-radius:6px; }
+  .dr .n { text-align:right; font-variant-numeric:tabular-nums; color:var(--muted); }
+  .b5{background:#1a7f4f;} .b4{background:#59a06b;} .b3{background:#d0a02b;} .b2{background:#d97a2b;} .b1{background:#c65530;} .b0{background:#9c2b23;}
+  .mv { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .mvcard { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px 20px; }
+  .mvcard h3 { font-size:14px; margin:0 0 8px; }
+  .mvcard ul { list-style:none; margin:0; padding:0; font-size:13.5px; }
+  .mvcard li { padding:6px 0; border-top:1px solid #f0f2ef; display:flex; justify-content:space-between; gap:10px; }
+  .mvcard li:first-child { border-top:none; }
+  .mvcard .who { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .mvcard .chg { font-weight:800; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .up .chg { color:var(--green-deep); } .down .chg { color:var(--red); }
+  @media (max-width:640px){ .mv { grid-template-columns:1fr; } .stats { grid-template-columns:1fr 1fr; } h1 { font-size:29px; } }
+  table.wt { border-collapse:separate; border-spacing:0; width:100%; font-size:14px; background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+  .wt th { text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:var(--green-deep); background:var(--mint); padding:10px 14px; }
+  .wt td { padding:10px 14px; border-top:1px solid var(--line); vertical-align:top; }
+  .wt td.r { font-weight:800; }
+  .r0 { color:var(--red); } .r1 { color:#c65530; } .r2 { color:#d97a2b; }
+  .tscroll { overflow-x:auto; }
+  .note { font-size:13px; color:#999; margin-top:10px; }
+  #map { height:420px; border-radius:16px; border:1px solid var(--line); background:#eef1ee; }
+  #map .leaflet-tile-pane { filter:grayscale(1) saturate(.35) brightness(1.04) contrast(.94); }
+  .maplegend { display:flex; gap:14px; flex-wrap:wrap; font-size:12.5px; color:var(--muted); margin-top:10px; }
+  .maplegend span { display:inline-flex; align-items:center; gap:6px; }
+  .maplegend i { width:11px; height:11px; border-radius:50%; display:inline-block; }
+  .finder { background:#123227; border-radius:16px; padding:26px 28px; color:#dfeee6; }
+  .finder h2 { margin:0 0 6px; color:#fff; font-size:21px; }
+  .finder p { margin:0 0 14px; font-size:14px; color:#9fd4bb; }
+  .srow { display:flex; gap:8px; flex-wrap:wrap; }
+  .srow input { flex:1 1 220px; min-width:0; font:inherit; font-size:16px; padding:12px 14px; border:none; border-radius:9px; }
+  .srow button { font:inherit; font-weight:700; font-size:15px; background:#1f9d63; color:#fff; border:none; border-radius:9px; padding:12px 22px; cursor:pointer; }
+  #fres { margin-top:12px; }
+  .fcard { background:#fbfbfa; color:var(--ink); border-radius:12px; padding:14px 16px; margin-top:8px; display:flex; gap:14px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+  .fcard .fr { font-size:26px; font-weight:800; font-variant-numeric:tabular-nums; }
+  .fcard .fn { font-weight:700; }
+  .fcard .fa { font-size:12.5px; color:var(--muted); }
+  .fcta { background:var(--mint); border-radius:10px; padding:10px 14px; font-size:13.5px; color:#14532d; flex-basis:100%; }
+  .fcta a { font-weight:700; }
+  .fstatus { font-size:13px; color:#9fd4bb; margin-top:10px; }
+  .band { padding:26px 28px; background:#f0f7f3; border:1px solid #cfe3d6; border-radius:14px; }
+  .band .k { font-size:11.5px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--green); }
+  .band h3 { font-size:20px; letter-spacing:-.02em; margin:8px 0 6px; }
+  .band p { font-size:14.5px; color:var(--muted); line-height:1.65; margin:0 0 16px; }
+  .gbtn { background:var(--green); color:#fff; font:inherit; font-size:15px; font-weight:700; padding:13px 26px; border:none; border-radius:8px; cursor:pointer; }
+  .grow { display:flex; flex-wrap:wrap; gap:8px; background:#fff; border:1px solid #dbe3dd; border-radius:12px; padding:8px; }
+  .grow input { flex:1 1 180px; min-width:0; font:inherit; font-size:16px; padding:10px 12px; border:none; border-radius:8px; background:transparent; color:var(--ink); outline:none; box-shadow:inset 0 0 0 1.5px #e2e4e8; }
+  .grow button { flex:1 1 auto; background:var(--green); color:#fff; font:inherit; font-size:14.5px; font-weight:700; padding:12px 20px; border:none; border-radius:8px; cursor:pointer; white-space:nowrap; }
+  .gnote { font-size:12px; color:#8a9099; line-height:1.5; margin-top:10px; }
+  .gsent { display:flex; align-items:center; gap:11px; background:#eaf4ee; border:1px solid #cfe6d9; border-radius:12px; padding:15px 18px; }
+  .gsent b { font-size:14.5px; color:#14532d; }
+  .faq h3 { font-size:16px; margin:22px 0 4px; }
+  .faq p { font-size:14.5px; color:var(--muted); margin:0; }
+  .rel { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px 24px; margin-top:44px; }
+  .rel ul { margin:8px 0 0; padding-left:20px; font-size:14.5px; }
+  .rel li { margin:6px 0; }
+  button:focus-visible, input:focus-visible, a:focus-visible { outline:2px solid #1f9d63; outline-offset:2px; }
+</style>
+</head>
+<body>
+<!-- ============ NAV ============ -->
+<div style="position: sticky; top: 0; z-index: 50; background: rgba(246,247,248,.9); backdrop-filter: blur(12px); border-bottom: 1px solid #e7e9ec;">
+  <div style="max-width: 1160px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; gap: 26px;">
+    <a href="/" style="display: flex; align-items: center; gap: 9px; color: #16181d; font-weight: 700; font-size: 17px; white-space: nowrap;">
+      <img src="/assets/blueroll-logo-v2.svg" alt="Blueroll" style="height: 26px; display: block;">
+      <span>Blueroll</span>
+    </a>
+    <div class="nav-links" style="display: flex; align-items: center; gap: 22px; font-size: 13.5px; font-weight: 500; color: #41464d; flex: 1; height: 100%;">
+      <span class="dd">
+        <a href="#audiences" class="navlink">Who it's for <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
+        <div class="dd-menu" style="width: 312px;">
+          <a href="/independent-restaurant-food-safety.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a7 7 0 0 0-7 7c0 4.5 4.5 8.5 6.4 10.1a1 1 0 0 0 1.2 0C14.5 18.5 19 14.5 19 10a7 7 0 0 0-7-7z"></path><circle cx="12" cy="10" r="2.5"></circle></svg></span>
+            <span><span class="dd-title">Independents</span><span class="dd-sub">One kitchen, one folder — fully digital</span></span>
+          </a>
+          <a href="/multi-site-food-safety.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M3.5 12h17"></path><path d="M12 3.5c-2.5 2.3-3.8 5.2-3.8 8.5s1.3 6.2 3.8 8.5c2.5-2.3 3.8-5.2 3.8-8.5S14.5 5.8 12 3.5z"></path></svg></span>
+            <span><span style="display: flex; align-items: center; gap: 7px;" class="dd-title">Groups &amp; estates <span class="tag-new">NEW</span></span><span class="dd-sub">Every site on one dashboard</span></span>
+          </a>
+          <a href="/franchise-food-safety.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"></circle><path d="M9 6H4M20 6h-5"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="18" r="3"></circle><path d="M9 18h6"></path><path d="M12 9v3M7.5 15.5L10 12M16.5 15.5L14 12"></path></svg></span>
+            <span><span class="dd-title">Franchises</span><span class="dd-sub">Central standards, local execution</span></span>
+          </a>
+        </div>
+      </span>
+      <span class="dd">
+        <a href="#features" class="navlink">Features <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
+        <div class="dd-menu dd-grid">
+          <a href="/multi-site-food-safety.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.2"></circle><circle cx="5" cy="5" r="2.2"></circle><circle cx="19" cy="5" r="2.2"></circle><circle cx="5" cy="19" r="2.2"></circle><circle cx="19" cy="19" r="2.2"></circle><path d="M6.6 6.6l3.8 3.8M17.4 6.6l-3.8 3.8M6.6 17.4l3.8-3.8M17.4 17.4l-3.8-3.8"></path></svg></span>
+            <span><span style="display: flex; align-items: center; gap: 7px;" class="dd-title">Multisite <span class="tag-new">NEW</span></span><span class="dd-sub">Run every site from one dashboard</span></span>
+          </a>
+          <a href="/haccp-checklists.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 8h8M8 12h8M8 16h5"></path></svg></span>
+            <span><span class="dd-title">HACCP Checklists</span><span class="dd-sub">Daily tasks, temps and sign-offs</span></span>
+          </a>
+          <a href="/allergen-matrix.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L4 19h16z"></path><path d="M12 10v4M12 16.5v.5"></path></svg></span>
+            <span><span class="dd-title">Allergen Matrix</span><span class="dd-sub">Auto-built from your recipes</span></span>
+          </a>
+          <a href="/ai-recipe-import.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4c0-.6 3-1.5 5-1.5S21 3.1 21 3.7V19c0 .6-2-1-4-1s-5 .9-5 1.5c0-.6-3-1.5-5-1.5s-4 1.6-4 1V3.7C3 3.1 5 2.5 7 2.5s5 .9 5 1.5z"></path><path d="M12 4v15.5"></path></svg></span>
+            <span><span class="dd-title">AI Recipe Import</span><span class="dd-sub">Photograph a recipe, get it typed up</span></span>
+          </a>
+          <a href="/compliance-reports.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M8.5 12.3l2.3 2.3 4.7-5"></path></svg></span>
+            <span><span class="dd-title">Compliance Reports</span><span class="dd-sub">One-tap packs for EHO visits</span></span>
+          </a>
+          <a href="/team-management.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20a7 7 0 0 1 14 0"></path></svg></span>
+            <span><span class="dd-title">Team Management</span><span class="dd-sub">Roles, training and accountability</span></span>
+          </a>
+          <a href="/deliveries.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5v8l9 5 9-5z"></path><path d="M3.3 8.2L12 13l8.7-4.8M12 13v8.5"></path></svg></span>
+            <span><span class="dd-title">Deliveries</span><span class="dd-sub">Log suppliers and check-ins fast</span></span>
+          </a>
+          <a href="/document-management.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></span>
+            <span><span class="dd-title">Documents</span><span class="dd-sub">Certificates and policies in one place</span></span>
+          </a>
+          <a href="/haccp-pack.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5h11.5a2 2 0 0 1 2 2V21H7a2 2 0 0 1-2-2z"></path><path d="M5 4.5A1.75 1.75 0 0 1 6.75 3H16v3.5"></path><path d="M9 10.5h6M9 14h6"></path></svg></span>
+            <span><span class="dd-title">HACCP Pack</span><span class="dd-sub">Your SFBB file, writing itself</span></span>
+          </a>
+          <a href="/incidents.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21.5 20h-19z"></path><line x1="12" y1="10" x2="12" y2="14"></line><circle cx="12" cy="17" r="0.5" fill="currentColor"></circle></svg></span>
+            <span><span class="dd-title">Incidents</span><span class="dd-sub">Complaints logged, owned, resolved</span></span>
+          </a>
+        </div>
+      </span>
+      <span class="dd">
+        <a href="/tools.html" class="navlink">Free tools <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
+        <div class="dd-menu" style="width: 312px;">
+          <a href="/free-haccp-template.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7.5 11l4.5 4.5L16.5 11"></path><path d="M4.5 16v3a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5v-3"></path></svg></span>
+            <span><span class="dd-title">Free HACCP template</span><span class="dd-sub">Printable pack — logs, schedules, checks</span></span>
+          </a>
+          <a href="/audit/" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"></path><path d="M9 11.8l2.2 2.2 3.8-4"></path></svg></span>
+            <span><span class="dd-title">Free self-audit</span><span class="dd-sub">Score your kitchen like an EHO would</span></span>
+          </a>
+          <a href="/check-food-hygiene-rating.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg></span>
+            <span><span class="dd-title">Check a hygiene rating</span><span class="dd-sub">Live FSA rating of any UK venue</span></span>
+          </a>
+          <a href="https://chatgpt.com/g/g-6a0c75c897108191956d8c9f3223abb4-blueroll-uk-food-safety-coach" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5c-4.7 0-8.5 3-8.5 6.8 0 2.2 1.3 4.2 3.3 5.4L6 20.5l4-2.1c.6.1 1.3.2 2 .2 4.7 0 8.5-3 8.5-6.8S16.7 3.5 12 3.5z"></path></svg></span>
+            <span><span class="dd-title">GPT food safety coach</span><span class="dd-sub">Ask anything about HACCP or allergens</span></span>
+          </a>
+          <a href="/london-food-hygiene-map.html" class="dd-item">
+            <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20l-5.5-2V4L9 6M9 20l6-2M9 20V6M15 18l5.5 2V6L15 4M15 18V4M9 6l6-2"></path></svg></span>
+            <span><span class="dd-title">Hygiene rating maps</span><span class="dd-sub">London, NYC &amp; SF — live inspection data</span></span>
+          </a>
+          <div style="border-top: 1px solid #f2f3f5; margin-top: 6px; padding: 9px 10px;"><a href="/tools.html" style="font-size: 13px; font-weight: 700; color: #1f7a52;">See all free tools →</a></div>
+        </div>
+      </span>
+      <a href="#pricing" class="navlink">Pricing</a>
+      <a href="#faq" class="navlink">FAQ</a>
+    </div>
+    <a href="https://app.blueroll.app/" class="nav-signin" style="font-size: 13.5px; font-weight: 600; color: #41464d; white-space: nowrap; margin-left: auto;">Sign in</a>
+    <a href="https://app.blueroll.app/" class="btn-green" style="font-size: 13.5px; padding: 9px 18px; box-shadow: 0 1px 2px rgba(16,24,40,.1);">Start for free</a>
+    <button class="nav-burger" id="nav-burger" aria-label="Menu" aria-expanded="false">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="mobile-menu" id="mobile-menu">
+  <div class="mm-group">
+    <div class="mm-label">Who it's for</div>
+    <a class="mm-link" href="/independent-restaurant-food-safety.html">Independents</a>
+    <a class="mm-link" href="/multi-site-food-safety.html">Groups &amp; estates <span class="tag-new">NEW</span></a>
+    <a class="mm-link" href="/franchise-food-safety.html">Franchises</a>
+  </div>
+  <div class="mm-group">
+    <div class="mm-label">Features</div>
+    <a class="mm-link" href="/multi-site-food-safety.html">Multisite <span class="tag-new">NEW</span></a>
+    <a class="mm-link" href="/haccp-checklists.html">HACCP Checklists</a>
+    <a class="mm-link" href="/allergen-matrix.html">Allergen Matrix</a>
+    <a class="mm-link" href="/ai-recipe-import.html">AI Recipe Import</a>
+    <a class="mm-link" href="/compliance-reports.html">Compliance Reports</a>
+    <a class="mm-link" href="/team-management.html">Team Management</a>
+    <a class="mm-link" href="/deliveries.html">Deliveries</a>
+    <a class="mm-link" href="/document-management.html">Documents</a>
+    <a class="mm-link" href="/haccp-pack.html">HACCP Pack</a>
+    <a class="mm-link" href="/incidents.html">Incidents</a>
+  </div>
+  <div class="mm-group">
+    <div class="mm-label">Free tools</div>
+    <a class="mm-link" href="/free-haccp-template.html">Free HACCP template</a>
+    <a class="mm-link" href="/audit/">Free self-audit</a>
+    <a class="mm-link" href="/check-food-hygiene-rating.html">Check a hygiene rating</a>
+    <a class="mm-link" href="/london-food-hygiene-map.html">Hygiene rating maps</a>
+    <a class="mm-link" href="/tools.html">See all free tools →</a>
+  </div>
+  <div class="mm-group" style="border-bottom: none;">
+    <a class="mm-link" href="#pricing">Pricing</a>
+    <a class="mm-link" href="#faq">FAQ</a>
+    <a class="mm-link" href="https://app.blueroll.app/">Sign in</a>
+  </div>
+  <a href="https://app.blueroll.app/" class="btn-green mm-cta">Start for free</a>
+</div>
+<div class="wrap">
+  <div class="crumbs"><a href="/">Blueroll</a> › <a href="/food-hygiene-ratings/">Food hygiene ratings</a> › Newham</div>
+  <div class="label">London · FHRS data</div>
+  <h1>Food hygiene ratings in <em>Newham</em></h1>
+  <p class="sub">Every food business in Newham, rated 0 to 5 by Newham Council's environmental health officers. Live from the Food Standards Agency register.</p>
+  <div class="updated">Updated 9 September 2026 · 2,668 registered establishments · refreshed weekly</div>
+
+  <div class="stats">
+    <div class="stat"><b>2,668</b><span>registered food businesses</span></div>
+    <div class="stat"><b>49.0%</b><span>of rated kitchens hold a 5</span></div>
+    <div class="stat"><b>343</b><span>rated 0&ndash;2: improvement needed</span></div>
+  </div>
+
+  <h2>How Newham's 2,432 rated kitchens score</h2>
+  <div class="dist">
+    <div class="dr"><span class="badge b5">5</span><div class="bar"><i class="b5" style="width:49.0%"></i></div><span class="n">1,192</span></div>
+    <div class="dr"><span class="badge b4">4</span><div class="bar"><i class="b4" style="width:21.7%"></i></div><span class="n">528</span></div>
+    <div class="dr"><span class="badge b3">3</span><div class="bar"><i class="b3" style="width:15.2%"></i></div><span class="n">369</span></div>
+    <div class="dr"><span class="badge b2">2</span><div class="bar"><i class="b2" style="width:4.2%"></i></div><span class="n">103</span></div>
+    <div class="dr"><span class="badge b1">1</span><div class="bar"><i class="b1" style="width:8.7%"></i></div><span class="n">211</span></div>
+    <div class="dr"><span class="badge b0">0</span><div class="bar"><i class="b0" style="width:1.2%"></i></div><span class="n">29</span></div>
+  </div>
+  <p class="note">236 further establishments are exempt or awaiting their first inspection.</p>
+
+  <h2>This month in Newham</h2>
+  <div class="mv"><div class="mvcard up"><h3>Climbed since last week</h3><ul><li><span class="who">Tuk Tuk Silvertown Ltd</span><span class="chg">0 &rarr; 5</span></li><li><span class="who">Peri Peri Chicken</span><span class="chg">1 &rarr; 4</span></li><li><span class="who">Wingway</span><span class="chg">1 &rarr; 3</span></li></ul></div><div class="mvcard down"><h3>Dropped since last week</h3><ul><li><span class="who">Prosecco Caffe</span><span class="chg">5 &rarr; 4</span></li></ul></div></div>
+
+  <h2>Needs improvement: rated 0&ndash;1 in Newham</h2>
+  <div class="tscroll">
+  <table class="wt">
+    <tr><th>Business</th><th>Type</th><th>Address</th><th>Rating</th><th>Rated</th></tr>
+    <tr><td>Green Street Mas Bazar</td><td>Retailers - other</td><td>56A Green Street, Forest Gate, E7 8BZ</td><td class="r r0">0</td><td>Jul 2025</td></tr><tr><td>SH Coffee And Sweet</td><td>Restaurant/Cafe/Canteen</td><td>42 Church Road, Manor Park, E12 6AQ</td><td class="r r0">0</td><td>Aug 2025</td></tr><tr><td>Charminar Halal Butchers</td><td>Retailers - other</td><td>445 High Street North, Manor Park, E12 6TJ</td><td class="r r0">0</td><td>Aug 2025</td></tr><tr><td>Dewan Fruit &amp; Veg</td><td>Retailers - other</td><td>713 Romford Road, Manor Park, E12 5AW</td><td class="r r0">0</td><td>Aug 2025</td></tr><tr><td>Beyond Cash And Carry</td><td>Retailers - other</td><td>157 Green Street, Forest Gate, E7 8JE</td><td class="r r0">0</td><td>Aug 2025</td></tr><tr><td>Novelty Bakery</td><td>Retailers - other</td><td>393 High Street North, Manor Park, E12 6PG</td><td class="r r0">0</td><td>Sep 2025</td></tr><tr><td>Nishas Cafe</td><td>Restaurant/Cafe/Canteen</td><td>Unit 1, 349 Green Street, E13 9AR</td><td class="r r0">0</td><td>Nov 2025</td></tr><tr><td>NST Fuchka &amp; Biryani House</td><td>Takeaway</td><td>Unit EU3 To EU4, 277A Green Street, E7 8LJ</td><td class="r r0">0</td><td>Nov 2025</td></tr><tr><td>Sky Local</td><td>Retailers - other</td><td>8 High Street, Stratford, E15 2GR</td><td class="r r0">0</td><td>Dec 2025</td></tr><tr><td>Akshar Mini Market Ltd</td><td>Retailers - other</td><td>235 Plashet Road, Plaistow, E13 0QU</td><td class="r r0">0</td><td>Dec 2025</td></tr><tr><td>Magazin Romanesc</td><td>Retailers - other</td><td>165 High Street North, East Ham, E6 1JB</td><td class="r r0">0</td><td>Jan 2026</td></tr><tr><td>OHO</td><td>Retailers - other</td><td>576 Barking Road, Plaistow, E13 9JU</td><td class="r r0">0</td><td>Jan 2026</td></tr><tr><td>A &amp; A Halal Meat And Groceries</td><td>Retailers - other</td><td>Unit 55 To 56, Market Village, E15 1XQ</td><td class="r r0">0</td><td>Jan 2026</td></tr><tr><td>Halal Meat Market</td><td>Retailers - other</td><td>397 Green Street, Upton Park, E13 9AU</td><td class="r r0">0</td><td>Jan 2026</td></tr><tr><td>International Food Shop</td><td>Retailers - other</td><td>92 - 94 High Street South, East Ham, E6 3RL</td><td class="r r0">0</td><td>Feb 2026</td></tr>
+  </table>
+  </div>
+  <p class="note">The 15 longest-standing of 240 businesses rated 0 or 1, from the FSA register. A low rating means urgent or major improvement was necessary on inspection day; many kitchens re-rate higher after fixing the issues.</p>
+
+  <h2>Map: every rated kitchen in Newham</h2>
+  <div id="map" role="img" aria-label="Map of food hygiene ratings in Newham"></div>
+  <div class="maplegend">
+    <span><i style="background:#1a7f4f"></i>5</span><span><i style="background:#59a06b"></i>4</span><span><i style="background:#d0a02b"></i>3</span><span><i style="background:#d97a2b"></i>2</span><span><i style="background:#c65530"></i>1</span><span><i style="background:#9c2b23"></i>0</span>
+    <span style="margin-left:auto">Data: FSA, Open Government Licence</span>
+  </div>
+
+  <div class="finder" id="finder" style="margin-top:44px;">
+    <h2>Find your kitchen</h2>
+    <p>Run a food business in Newham? Type its name or postcode and see where you stand.</p>
+    <div class="srow"><input id="fq" placeholder="Business name or postcode" autocomplete="off"><button id="fgo">Check rating</button></div>
+    <div class="fstatus" id="fstatus" hidden></div>
+    <div id="fres"></div>
+  </div>
+
+  <div class="band" data-gate="inline" style="margin-top:44px;">
+    <div class="k">Free download</div>
+    <h3>Get the free 16-page HACCP pack</h3>
+    <p>The rating is won in your paperwork. Daily temperature logs with filled-in examples, a cleaning schedule, the allergen matrix and the EHO question sheet, ready to print.</p>
+    <div class="g-idle"><button class="g-open gbtn">Get the free pack</button></div>
+    <div class="g-form" style="display:none;">
+      <div class="grow">
+        <input class="g-email" type="email" placeholder="Your work email" autocomplete="email">
+        <button class="g-send">Send me the PDF</button>
+      </div>
+      <div class="gnote">One email with the PDF. No newsletter unless you ask. Unsubscribe anytime.</div>
+    </div>
+    <div class="g-sent" style="display:none;"><div class="gsent"><span style="width:24px;height:24px;border-radius:50%;background:var(--green);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;">&#10003;</span><b>Downloading. Check your Downloads folder</b></div></div>
+  </div>
+
+  <h2>Frequently asked questions</h2>
+  <div class="faq">
+    <h3>Who inspects food businesses in Newham?</h3>
+    <p>Environmental health officers from Newham Council. Visits are unannounced, and the new rating is published on the FSA register within a few weeks of the inspection.</p>
+    <h3>My kitchen in Newham got a low rating. How do I get re-inspected?</h3>
+    <p>Fix the issues, then request a re-rating visit through Newham Council. Officers look hardest at your daily records; our guide to <a href="/how-to-improve-food-hygiene-rating.html">improving your food hygiene rating</a> covers the fastest route back to a 5.</p>
+    <h3>Is a 0 rating illegal?</h3>
+    <p>No. It means urgent improvement is necessary, but the business may keep trading unless the council issues a hygiene emergency prohibition notice.</p>
+    <h3>How current is this page?</h3>
+    <p>The numbers are rebuilt every week from the FSA's open register, and the map and search query it live. A rating changes only when Newham Council re-inspects.</p>
+  </div>
+
+  <div class="rel">
+    <strong style="font-size:15px;">More on food hygiene ratings</strong>
+    <ul>
+      <li><a href="/london-food-hygiene-map.html">Live London food hygiene map: search all 33 boroughs</a></li>
+      <li><a href="/food-hygiene-ratings-explained.html">Food hygiene ratings explained: EHO scoring and how to get a 5</a></li>
+      <li><a href="/free-food-hygiene-rating-badge.html">Free auto-updating rating badge for your website</a></li>
+      <li>Nearby: <a href="/food-hygiene-ratings/tower-hamlets.html">Tower Hamlets</a> &middot; <a href="/food-hygiene-ratings/waltham-forest.html">Waltham Forest</a> &middot; <a href="/food-hygiene-ratings/redbridge.html">Redbridge</a> &middot; <a href="/food-hygiene-ratings/barking-and-dagenham.html">Barking and Dagenham</a> · <a href="/food-hygiene-ratings/">all London boroughs</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<div style="background: #14161b; color: #9aa0a8;">
+  <div class="footer-grid" style="max-width: 1160px; margin: 0 auto; padding: 56px 24px 40px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; font-size: 12.5px;">
+    <div>
+      <div style="display: flex; align-items: center; gap: 9px; color: #fff; font-weight: 700; font-size: 16px;"><img src="/assets/blueroll-logo-v2.svg" alt="" style="height: 24px; filter: brightness(0) invert(1);"> Blueroll</div>
+      <p style="line-height: 1.6; margin: 12px 0 0; max-width: 260px;">Food safety management for restaurants in the UK, US &amp; Europe. One kitchen or an estate.</p>
+      <div style="display: flex; gap: 10px; margin-top: 16px;">
+        <a href="https://apps.apple.com/app/id6760937451" style="display: inline-flex;"><img src="/assets/badge-app-store.svg" alt="App Store" style="height: 32px; display: block;"></a>
+        <a href="https://play.google.com/store/apps/details?id=app.blueroll.mobile" style="display: inline-flex;"><img src="/assets/badge-google-play.svg" alt="Google Play" style="height: 32px; display: block;"></a>
+      </div>
+      <div style="margin-top: 16px; font-family: 'Geist Mono', monospace; font-size: 11px;">© 2026 Blueroll · London &amp; New York</div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 9px;">
+      <div style="color: #fff; font-weight: 700; font-size: 12px; margin-bottom: 4px;">Product</div>
+      <a href="/multi-site-food-safety.html" class="foot-link">Multisite</a>
+      <a href="/haccp-checklists.html" class="foot-link">HACCP Checklists</a>
+      <a href="/allergen-matrix.html" class="foot-link">Allergen Matrix</a>
+      <a href="/ai-recipe-import.html" class="foot-link">AI Recipe Import</a>
+      <a href="/compliance-reports.html" class="foot-link">Compliance Reports</a>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 9px;">
+      <div style="color: #fff; font-weight: 700; font-size: 12px; margin-bottom: 4px;">Free tools</div>
+      <a href="/audit/" class="foot-link">Self-audit</a>
+      <a href="/check-food-hygiene-rating.html" class="foot-link">Check a rating</a>
+      <a href="/free-food-hygiene-rating-badge.html" class="foot-link">Rating badge</a>
+      <a href="https://chatgpt.com/g/g-6a0c75c897108191956d8c9f3223abb4-blueroll-uk-food-safety-coach" class="foot-link">GPT Safety Coach</a>
+      <a href="/london-food-hygiene-map.html" class="foot-link">London hygiene map</a>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 9px;">
+      <div style="color: #fff; font-weight: 700; font-size: 12px; margin-bottom: 4px;">Company</div>
+      <a href="#pricing" class="foot-link">Pricing</a>
+      <a href="/trail-alternative.html" class="foot-link">Trail alternative</a>
+      <a href="/about.html" class="foot-link">About</a>
+      <a href="/privacy.html" class="foot-link">Privacy</a>
+      <a href="/terms.html" class="foot-link">Terms</a>
+    </div>
+  </div>
+</div>
+
+
+<script>
+(function () {
+  var btn = document.getElementById('nav-burger'), menu = document.getElementById('mobile-menu');
+  if (!btn || !menu) return;
+  var set = function (open) {
+    menu.classList.toggle('open', open);
+    document.body.classList.toggle('mm-lock', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  };
+  btn.addEventListener('click', function () { set(!menu.classList.contains('open')); });
+  menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { set(false); }); });
+})();
+</script>
+<div style="text-align:center; font-size:12px; color:#9aa0a8; padding:14px 24px 26px; background:#14161b; margin-top:-1px;">Ratings data: Food Standards Agency, Open Government Licence.</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+<script>
+(function () {
+  var LAID = 112;
+  var SLUG = 'newham';
+  var FSA = 'https://api.ratings.food.gov.uk';
+  var HDR = { 'x-api-version': '2', 'Accept': 'application/json' };
+  var COLORS = { 5:'#1a7f4f', 4:'#59a06b', 3:'#d0a02b', 2:'#d97a2b', 1:'#c65530', 0:'#9c2b23' };
+  function track(n, p) { if (typeof gtag === 'function') gtag('event', n, p || {}); }
+
+  // ---- Lazy borough map -------------------------------------------------
+  var mapEl = document.getElementById('map');
+  var mapStarted = false;
+  var mapTries = 0;
+  function initMap() {
+    if (mapStarted) return;
+    if (typeof L === 'undefined') { // leaflet still downloading: retry until it lands
+      if (mapTries++ < 50) setTimeout(initMap, 400);
+      return;
+    }
+    mapStarted = true;
+    var map = L.map('map', { preferCanvas: true, scrollWheelZoom: false, fadeAnimation: false });
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', maxZoom: 19, detectRetina: true
+    }).addTo(map);
+    var BBOX = [51.5019, -0.0107, 51.5527, 0.0707]; // [s, w, n, e], baked from this borough's geocodes
+    var bounds = L.latLngBounds([BBOX[0], BBOX[1]], [BBOX[2], BBOX[3]]);
+    // One step tighter than "contain": the borough fills the frame without
+    // dropping to street level (full cover-zoom goes too deep on wide maps).
+    var z = Math.min(map.getBoundsZoom(bounds, true), map.getBoundsZoom(bounds, false) + 1);
+    map.setView(bounds.getCenter(), z);
+    setTimeout(function () { map.invalidateSize(); }, 400);
+    fetch(FSA + '/Establishments?localAuthorityId=' + LAID + '&pageSize=5000', { headers: HDR })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var pts = [];
+        (d.establishments || []).forEach(function (e) {
+          var g = e.geocode || {};
+          var r = parseInt(e.RatingValue);
+          if (isNaN(r) || !g.latitude) return;
+          var lat = parseFloat(g.latitude), lng = parseFloat(g.longitude);
+          pts.push([lat, lng]);
+          L.circleMarker([lat, lng], { radius: 4, weight: 0, fillColor: COLORS[r], fillOpacity: 0.75 })
+            .bindPopup('<b>' + String(e.BusinessName || '').replace(/[<>&]/g, ' ') + '</b><br>Rating ' + r +
+              (e.RatingDate ? ' &middot; ' + new Date(e.RatingDate).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' }) : ''))
+            .addTo(map);
+        });
+        map.invalidateSize();
+        track('borough_map_loaded', { borough: SLUG, points: pts.length });
+      }).catch(function () {});
+  }
+  if ('IntersectionObserver' in window && mapEl) {
+    new IntersectionObserver(function (en, obs) {
+      if (en[0].isIntersecting) { obs.disconnect(); initMap(); }
+    }, { rootMargin: '300px' }).observe(mapEl);
+    // Belt and braces: any first interaction also arms the map.
+    ['scroll', 'touchstart', 'mousemove'].forEach(function (ev) {
+      window.addEventListener(ev, initMap, { once: true, passive: true });
+    });
+  } else { setTimeout(initMap, 1500); }
+
+  // ---- Find your kitchen ------------------------------------------------
+  var fq = document.getElementById('fq'), fgo = document.getElementById('fgo');
+  var fres = document.getElementById('fres'), fstatus = document.getElementById('fstatus');
+  function esc(s) { return String(s || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function ctaFor(r) {
+    if (r >= 5) return 'Holding a 5. Nice. <a href="/free-food-hygiene-rating-badge.html">Put the free auto-updating badge on your website</a> and let it sell for you.';
+    if (r >= 3) return 'A ' + r + ' is usually capped by paperwork, what EHOs call confidence in management. <a href="/how-to-improve-food-hygiene-rating.html">How to get to a 5</a>, and grab the free pack below.';
+    return 'Urgent but fixable. Fix the issues, request a re-rating visit from the council, and keep signed daily records from today. <a href="/how-to-improve-food-hygiene-rating.html">The route back</a>, and start with the free pack below.';
+  }
+  function fsearch() {
+    var q = (fq.value || '').trim();
+    if (!q) return;
+    fstatus.hidden = false; fstatus.textContent = 'Searching the FSA register…'; fres.innerHTML = '';
+    var isPostcode = /\d/.test(q) && q.length <= 8;
+    var url = FSA + '/Establishments?localAuthorityId=' + LAID + '&' + (isPostcode ? 'address=' : 'name=') + encodeURIComponent(q) + '&pageSize=10';
+    fetch(url, { headers: HDR }).then(function (r) { return r.json(); }).then(function (d) {
+      var list = (d.establishments || []).filter(function (e) { return e.RatingValue && !isNaN(parseInt(e.RatingValue)); });
+      if (!list.length) { fstatus.textContent = 'Nothing rated under that name here. Try a postcode, or the full London search on our map.'; return; }
+      fstatus.hidden = true;
+      track('borough_finder_search', { borough: SLUG });
+      fres.innerHTML = list.slice(0, 5).map(function (e) {
+        var r = parseInt(e.RatingValue);
+        return '<div class="fcard"><div><div class="fn">' + esc(e.BusinessName) + '</div><div class="fa">' +
+          esc([e.AddressLine1, e.PostCode].filter(Boolean).join(', ')) +
+          (e.RatingDate ? ' &middot; rated ' + new Date(e.RatingDate).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' }) : '') +
+          '</div></div><div class="fr" style="color:' + (COLORS[r] || '#333') + '">' + r + '</div>' +
+          '<div class="fcta">' + ctaFor(r) + '</div></div>';
+      }).join('');
+    }).catch(function () { fstatus.textContent = 'The FSA register is not answering right now. Try again in a minute.'; });
+  }
+  fgo.addEventListener('click', fsearch);
+  fq.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); fsearch(); } });
+
+  // ---- Pack capture band (same pipeline as the template pages) ----------
+  var SB = 'https://rszrggreuarvodcqeqrj.supabase.co';
+  var ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzenJnZ3JldWFydm9kY3FlcXJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1NzY2NzYsImV4cCI6MjA4OTE1MjY3Nn0.dwD1MJcMOc9w1IP4T15ep1mYHVARW6eJPNArn4oGmH0';
+  var g = document.querySelector('[data-gate="inline"]');
+  if (!g) return;
+  var idle = g.querySelector('.g-idle'), form = g.querySelector('.g-form'), sent = g.querySelector('.g-sent');
+  var input = g.querySelector('.g-email'), send = g.querySelector('.g-send'), open = g.querySelector('.g-open');
+  open.addEventListener('click', function () {
+    idle.style.display = 'none'; form.style.display = 'block';
+    track('haccp_form_open', { placement: 'local:' + SLUG });
+    setTimeout(function () { input.focus(); }, 30);
+  });
+  function submit() {
+    var email = (input.value || '').trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { input.style.boxShadow = 'inset 0 0 0 1.5px #d64545'; input.focus(); return; }
+    form.style.display = 'none'; sent.style.display = 'block';
+    try { localStorage.setItem('br-tpl-downloaded', '1'); } catch (e) {}
+    fetch(SB + '/rest/v1/template_leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': ANON, 'Authorization': 'Bearer ' + ANON, 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ email: email, source: 'haccp-template:local:' + SLUG + '-inline', page: window.location.pathname, user_agent: navigator.userAgent.slice(0, 250) })
+    }).catch(function () {});
+    fetch('https://formsubmit.co/ajax/hello@blueroll.app', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ email: email, _subject: 'New HACCP template download: ' + email, source: 'haccp-template:local', placement: SLUG, page: window.location.href })
+    }).catch(function () {});
+    track('haccp_template_download', { placement: 'local:' + SLUG, email_domain: email.split('@')[1] });
+    var a = document.createElement('a');
+    a.href = '/blueroll-haccp-template.pdf'; a.download = 'blueroll-haccp-template.pdf';
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+  send.addEventListener('click', submit);
+  input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); submit(); } });
+  input.addEventListener('input', function () { input.style.boxShadow = 'inset 0 0 0 1.5px #e2e4e8'; });
+})();
+</script>
+</body>
+</html>

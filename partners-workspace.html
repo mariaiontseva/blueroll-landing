@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="app_icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Blueroll — Agent Workspace (preview)</title>
+
+<style>
+:root{
+  --bg:#FAFAF7;
+  --card:#FFFFFF;
+  --border:#E8E5DF;
+  --border-2:#F1EEE9;
+  --ink:#111111;
+  --mid:#555555;
+  --light:#999999;
+  --green:#047857;
+  --green-dark:#065F46;
+  --green-deep:#022c22;
+  --green-tint:#ECF6F1;
+  --amber:#B45309;
+  --amber-tint:#FDF6EA;
+  --red:#B91C1C;
+  --red-tint:#FBEDED;
+  --rail:#04231b;
+  --rail-2:#0a3327;
+  --rail-line:#0d3b2e;
+  --rail-ink:#EAF3EF;
+  --rail-mid:#8FB3A5;
+  --mint:#34D399;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E0F0E;
+    --card:#181A18;
+    --border:#292B28;
+    --border-2:#222420;
+    --ink:#F2F1ED;
+    --mid:#ADAEA9;
+    --light:#7F817B;
+    --green:#34D399;
+    --green-dark:#6EE7B7;
+    --green-deep:#04231b;
+    --green-tint:#12241D;
+    --amber:#E0A33F;
+    --amber-tint:#241D11;
+    --red:#F87171;
+    --red-tint:#2A1616;
+    --rail:#050807;
+    --rail-2:#0b1310;
+    --rail-line:#182420;
+    --rail-ink:#E7EFEB;
+    --rail-mid:#7E9A8E;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E0F0E;
+  --card:#181A18;
+  --border:#292B28;
+  --border-2:#222420;
+  --ink:#F2F1ED;
+  --mid:#ADAEA9;
+  --light:#7F817B;
+  --green:#34D399;
+  --green-dark:#6EE7B7;
+  --green-deep:#04231b;
+  --green-tint:#12241D;
+  --amber:#E0A33F;
+  --amber-tint:#241D11;
+  --red:#F87171;
+  --red-tint:#2A1616;
+  --rail:#050807;
+  --rail-2:#0b1310;
+  --rail-line:#182420;
+  --rail-ink:#E7EFEB;
+  --rail-mid:#7E9A8E;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;
+}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* frame */
+.app{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+
+/* ── Rail ──────────────────────────────────────────────────────────────── */
+.rail{background:var(--rail);color:var(--rail-mid);display:flex;flex-direction:column;padding:16px 12px}
+.rail-brand{display:flex;align-items:center;gap:9px;padding:6px 8px 18px;color:var(--rail-ink);font-weight:800;font-size:15px;letter-spacing:-0.4px}
+.rail-brand .sq{width:24px;height:24px;border-radius:7px;background:var(--green);color:#fff;display:grid;place-items:center;font-size:14px}
+.rail-brand em{font-style:normal;font-weight:600;font-size:10.5px;letter-spacing:1.3px;text-transform:uppercase;color:var(--mint);display:block;margin-top:1px}
+.navgroup{display:flex;flex-direction:column;gap:1px}
+.navlabel{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--rail-mid);opacity:.65;padding:14px 8px 6px}
+.navitem{
+  display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;
+  font-size:13px;font-weight:500;color:var(--rail-mid);text-decoration:none;
+}
+.navitem .ic{width:15px;height:15px;flex:0 0 auto;opacity:.85}
+.navitem:hover{background:var(--rail-2);color:var(--rail-ink)}
+.navitem.on{background:var(--green);color:#fff;font-weight:600}
+.navitem.on .ic{opacity:1}
+.navitem .badge{
+  margin-left:auto;font-size:10.5px;font-weight:700;padding:1px 6px;border-radius:99px;
+  background:var(--amber);color:#fff
+}
+.rail-foot{margin-top:auto;padding-top:14px;border-top:1px solid var(--rail-line)}
+
+/* ── Topbar ────────────────────────────────────────────────────────────── */
+.main{display:flex;flex-direction:column;min-width:0}
+.top{
+  height:56px;border-bottom:1px solid var(--border);background:var(--card);
+  display:flex;align-items:center;gap:14px;padding:0 22px;position:sticky;top:0;z-index:5
+}
+.crumb{font-size:13px;font-weight:700;letter-spacing:-0.2px}
+.terr{
+  display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;
+  background:var(--green-tint);color:var(--green-dark);padding:4px 10px;border-radius:99px
+}
+.search{
+  margin-left:auto;width:230px;height:32px;border:1px solid var(--border);border-radius:8px;
+  background:var(--bg);display:flex;align-items:center;padding:0 10px;gap:8px;color:var(--light);font-size:12.5px
+}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--green-tint);color:var(--green-dark);display:grid;place-items:center;font-weight:800;font-size:12px}
+
+/* ── Content ───────────────────────────────────────────────────────────── */
+.content{padding:24px 22px 60px;max-width:1180px;width:100%}
+.pagehead{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:20px}
+.pagehead h1{margin:0;font-size:22px;font-weight:800;letter-spacing:-0.7px}
+.pagehead p{margin:5px 0 0;font-size:13px;color:var(--mid)}
+.btn{
+  display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 15px;border-radius:8px;
+  font-size:13px;font-weight:600;text-decoration:none;border:1px solid transparent;letter-spacing:-0.1px
+}
+.btn-green{background:var(--green);color:#fff}
+.btn-ghost{background:var(--card);border-color:var(--border);color:var(--ink)}
+
+/* metrics */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.metric{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px}
+.metric .k{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--light)}
+.metric .v{font-size:26px;font-weight:800;letter-spacing:-1px;margin-top:7px}
+.metric .d{font-size:12px;color:var(--mid);margin-top:3px}
+.metric .v.green{color:var(--green)}
+.metric .v.amber{color:var(--amber)}
+
+/* layout */
+.cols{display:grid;grid-template-columns:1.55fr 1fr;gap:14px;align-items:start}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.card + .card{margin-top:14px}
+.cardhead{
+  padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;
+  justify-content:space-between;gap:12px
+}
+.cardhead h2{margin:0;font-size:14px;font-weight:700;letter-spacing:-0.3px}
+.cardhead .meta{font-size:12px;color:var(--light)}
+.link{font-size:12.5px;font-weight:600;color:var(--green);text-decoration:none}
+
+/* signals */
+.sig{display:flex;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border-2);align-items:flex-start}
+.sig:last-child{border-bottom:0}
+.sev{width:8px;height:8px;border-radius:50%;margin-top:6px;flex:0 0 auto}
+.sev.red{background:var(--red)} .sev.amber{background:var(--amber)} .sev.green{background:var(--green)}
+.sig-main{min-width:0;flex:1}
+.sig-main .t{font-size:13px;font-weight:700;letter-spacing:-0.2px}
+.sig-main .s{font-size:12.5px;color:var(--mid);margin-top:2px}
+.sig-age{font-size:11.5px;color:var(--light);white-space:nowrap;margin-top:2px}
+.sig .act{
+  font-size:12px;font-weight:600;color:var(--green);border:1px solid var(--border);
+  border-radius:7px;padding:5px 10px;white-space:nowrap;background:var(--bg)
+}
+
+/* table */
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:620px}
+th{
+  text-align:left;padding:10px 18px;font-size:10.5px;font-weight:700;letter-spacing:1.2px;
+  text-transform:uppercase;color:var(--light);border-bottom:1px solid var(--border);white-space:nowrap
+}
+th.r,td.r{text-align:right}
+td{padding:13px 18px;border-bottom:1px solid var(--border-2);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+.gname{font-size:13px;font-weight:700;letter-spacing:-0.2px}
+.gsub{font-size:11.5px;color:var(--light);margin-top:1px}
+.money{font-weight:700;letter-spacing:-0.2px}
+.money.share{color:var(--green)}
+.pill{
+  display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;
+  font-size:11px;font-weight:700;letter-spacing:.2px;white-space:nowrap
+}
+.pill.ok{background:var(--green-tint);color:var(--green-dark)}
+.pill.watch{background:var(--amber-tint);color:var(--amber)}
+.pill.risk{background:var(--red-tint);color:var(--red)}
+.pill.setup{background:var(--border-2);color:var(--mid)}
+
+/* territory */
+.terrstat{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+.terrstat > div{background:var(--card);padding:14px 18px}
+.terrstat .k{font-size:11px;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--light)}
+.terrstat .v{font-size:20px;font-weight:800;letter-spacing:-0.7px;margin-top:5px}
+.target{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--border-2)}
+.target:last-child{border-bottom:0}
+.rate{
+  width:26px;height:26px;border-radius:7px;display:grid;place-items:center;
+  font-size:12.5px;font-weight:800;flex:0 0 auto
+}
+.rate.r0{background:var(--red-tint);color:var(--red)}
+.rate.r3{background:var(--amber-tint);color:var(--amber)}
+.target .tt{font-size:12.5px;font-weight:700;flex:1;min-width:0}
+.target .tt small{display:block;font-weight:500;color:var(--light);font-size:11.5px}
+.target .ts{font-size:12px;color:var(--mid);white-space:nowrap}
+
+/* allowance */
+.allow{padding:16px 18px}
+.bar{height:7px;border-radius:99px;background:var(--border);overflow:hidden;margin:11px 0 9px}
+.bar i{display:block;height:100%;width:38%;background:var(--green);border-radius:99px}
+.allow .row{display:flex;justify-content:space-between;font-size:12px;color:var(--mid)}
+.allow .row b{color:var(--ink);font-weight:700}
+
+/* payout strip */
+.payout{
+  background:var(--green-deep);color:var(--rail-ink);border-radius:12px;padding:18px;
+  display:flex;flex-direction:column;gap:3px
+}
+.payout .k{font-size:10.5px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;color:var(--rail-mid)}
+.payout .v{font-size:28px;font-weight:800;letter-spacing:-1.2px;color:#fff}
+.payout .d{font-size:12.5px;color:var(--rail-mid)}
+.payout .split{display:flex;justify-content:space-between;border-top:1px solid var(--rail-line);margin-top:12px;padding-top:11px;font-size:12px;color:var(--rail-mid)}
+.payout .split b{color:#fff;font-weight:700}
+
+.note{
+  margin-top:22px;font-size:12px;color:var(--light);border-top:1px solid var(--border);
+  padding-top:14px;max-width:80ch
+}
+
+@media (max-width:1080px){
+  .app{grid-template-columns:1fr}
+  .rail{flex-direction:row;align-items:center;overflow-x:auto;padding:10px 12px;gap:6px}
+  .rail-brand{padding:0 10px 0 4px}
+  .navlabel,.rail-foot{display:none}
+  .navgroup{flex-direction:row;gap:4px}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .cols{grid-template-columns:1fr}
+}
+</style>
+
+<div class="app">
+
+  <!-- ── Rail ─────────────────────────────────────────────────────────── -->
+  <aside class="rail">
+    <div class="rail-brand">
+      <span class="sq">B</span>
+      <span>Blueroll<em>Partner</em></span>
+    </div>
+
+    <div class="navgroup">
+      <a class="navitem on" href="#"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1.8" y="1.8" width="5" height="5" rx="1"/><rect x="9.2" y="1.8" width="5" height="5" rx="1"/><rect x="1.8" y="9.2" width="5" height="5" rx="1"/><rect x="9.2" y="9.2" width="5" height="5" rx="1"/></svg>Overview</a>
+      <a class="navitem" href="#"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 1.6c2.4 2.3 3.6 4.4 3.6 6.4A3.6 3.6 0 0 1 8 11.6 3.6 3.6 0 0 1 4.4 8c0-2 1.2-4.1 3.6-6.4Z"/><path d="M3 14h10"/></svg>Territory</a>
+      <a class="navitem" href="#"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 13.5v-1a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3v1"/><circle cx="6" cy="5" r="2.4"/><path d="M11 9.8a3 3 0 0 1 3 3v.7"/><circle cx="11.6" cy="5.4" r="1.9"/></svg>Clients</a>
+      <a class="navitem" href="#"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 1.9a4.4 4.4 0 0 0-4.4 4.4c0 3.2-1.2 4.3-1.2 4.3h11.2s-1.2-1.1-1.2-4.3A4.4 4.4 0 0 0 8 1.9Z"/><path d="M6.7 13.1a1.5 1.5 0 0 0 2.6 0"/></svg>Signals<span class="badge">3</span></a>
+      <a class="navitem" href="#"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3.2 2.6h9.6v10.8H3.2z"/><path d="M5.6 6h4.8M5.6 8.6h4.8M5.6 11.2h2.6"/></svg>Onboarding</a>
+      <a class="navitem" href="#"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12 12 4"/><circle cx="5" cy="5" r="1.6"/><circle cx="11" cy="11" r="1.6"/></svg>Discounts</a>
+      <a class="navitem" href="#"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1.8 5.4 8 2.4l6.2 3-6.2 3z"/><path d="M4.4 7.2v3.4c0 .9 1.6 1.8 3.6 1.8s3.6-.9 3.6-1.8V7.2"/></svg>Training</a>
+    </div>
+
+    <div class="rail-foot navgroup">
+      <a class="navitem" href="#"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1.8" y="3.6" width="12.4" height="8.8" rx="1.6"/><path d="M1.8 6.6h12.4"/></svg>Earnings</a>
+      <a class="navitem" href="#"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="2.2"/><path d="M8 1.7v1.6M8 12.7v1.6M14.3 8h-1.6M3.3 8H1.7M12.5 3.5l-1.1 1.1M4.6 11.4l-1.1 1.1M12.5 12.5l-1.1-1.1M4.6 4.6 3.5 3.5"/></svg>Settings</a>
+    </div>
+  </aside>
+
+  <!-- ── Main ─────────────────────────────────────────────────────────── -->
+  <div class="main">
+    <div class="top">
+      <a href="partners.html" style="text-decoration:none;color:var(--mid);font-size:12.5px;font-weight:600;white-space:nowrap">&larr; Programme</a>
+      <span class="crumb">Overview</span>
+      <span class="terr">
+        <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 1.6c2.4 2.3 3.6 4.4 3.6 6.4A3.6 3.6 0 0 1 8 11.6 3.6 3.6 0 0 1 4.4 8c0-2 1.2-4.1 3.6-6.4Z"/></svg>
+        Greater Manchester
+      </span>
+      <div class="search">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="7" cy="7" r="4.6"/><path d="m10.5 10.5 3 3"/></svg>
+        Search clients, sites, postcodes
+      </div>
+      <div class="avatar">A</div>
+    </div>
+
+    <div class="content">
+      <div class="pagehead">
+        <div>
+          <h1>Good morning</h1>
+          <p>Three signals need a call today. Your March statement clears on the 15th.</p>
+        </div>
+        <div style="display:flex;gap:9px">
+          <a class="btn btn-ghost" href="#">Find leads</a>
+          <a class="btn btn-green" href="#">Onboard a client</a>
+        </div>
+      </div>
+
+      <!-- metrics -->
+      <div class="metrics">
+        <div class="metric">
+          <div class="k">Sites in book</div>
+          <div class="v tnum">36</div>
+          <div class="d">across 3 groups</div>
+        </div>
+        <div class="metric">
+          <div class="k">Commission, March</div>
+          <div class="v tnum green">£449.82</div>
+          <div class="d">50% of £899.64 ex VAT</div>
+        </div>
+        <div class="metric">
+          <div class="k">Next payout</div>
+          <div class="v tnum">15 Apr</div>
+          <div class="d">Stripe Connect · verified</div>
+        </div>
+        <div class="metric">
+          <div class="k">Needs attention</div>
+          <div class="v tnum amber">2</div>
+          <div class="d">groups drifting, 1 card failed</div>
+        </div>
+      </div>
+
+      <div class="cols">
+
+        <!-- LEFT -->
+        <div>
+          <!-- signals -->
+          <div class="card">
+            <div class="cardhead">
+              <h2>Signals</h2>
+              <a class="link" href="#">View all</a>
+            </div>
+
+            <div class="sig">
+              <span class="sev red"></span>
+              <div class="sig-main">
+                <div class="t">Opening checks stopped — Coffee group, Deansgate</div>
+                <div class="s">Completed daily for 11 weeks. Nothing since Thursday. Manager changed on the 2nd.</div>
+              </div>
+              <div style="text-align:right"><span class="act">Call site</span><div class="sig-age">4 days</div></div>
+            </div>
+
+            <div class="sig">
+              <span class="sev red"></span>
+              <div class="sig-main">
+                <div class="t">Card declined — Dessert group</div>
+                <div class="s">£174.93 failed on the 1st. Retry scheduled for the 8th. Commission held until it clears.</div>
+              </div>
+              <div style="text-align:right"><span class="act">Send link</span><div class="sig-age">6 days</div></div>
+            </div>
+
+            <div class="sig">
+              <span class="sev amber"></span>
+              <div class="sig-main">
+                <div class="t">FSA rating moved — Pub group, Stockport</div>
+                <div class="s">Reinspected 4 March, dropped 5 → 3. Structural score is the one that fell.</div>
+              </div>
+              <div style="text-align:right"><span class="act">Open site</span><div class="sig-age">2 days</div></div>
+            </div>
+
+            <div class="sig">
+              <span class="sev green"></span>
+              <div class="sig-main">
+                <div class="t">New premises registered — Pub group</div>
+                <div class="s">A 17th site appeared in the FSA register at M4 1HN. Add it and your share grows.</div>
+              </div>
+              <div style="text-align:right"><span class="act">Add site</span><div class="sig-age">Today</div></div>
+            </div>
+          </div>
+
+          <!-- client book -->
+          <div class="card">
+            <div class="cardhead">
+              <h2>Your book</h2>
+              <span class="meta">3 live · 1 onboarding</span>
+            </div>
+            <div class="tablewrap">
+              <table class="tnum">
+                <thead>
+                  <tr>
+                    <th>Group</th><th class="r">Sites</th><th class="r">Monthly</th>
+                    <th class="r">Your share</th><th>Health</th><th>Last activity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><div class="gname">Pub group</div><div class="gsub">Stockport · Salford · Bury</div></td>
+                    <td class="r">16</td>
+                    <td class="r money">£399.84</td>
+                    <td class="r money share">£199.92</td>
+                    <td><span class="pill watch">Watch</span></td>
+                    <td class="gsub" style="margin:0">Checks logged today</td>
+                  </tr>
+                  <tr>
+                    <td><div class="gname">Coffee group</div><div class="gsub">Manchester city centre</div></td>
+                    <td class="r">13</td>
+                    <td class="r money">£324.87</td>
+                    <td class="r money share">£162.44</td>
+                    <td><span class="pill risk">At risk</span></td>
+                    <td class="gsub" style="margin:0">4 days quiet</td>
+                  </tr>
+                  <tr>
+                    <td><div class="gname">Dessert group</div><div class="gsub">Oldham · Rochdale</div></td>
+                    <td class="r">7</td>
+                    <td class="r money">£174.93</td>
+                    <td class="r money share">£87.46</td>
+                    <td><span class="pill ok">Healthy</span></td>
+                    <td class="gsub" style="margin:0">Checks logged today</td>
+                  </tr>
+                  <tr>
+                    <td><div class="gname">Bakery group</div><div class="gsub">Bolton · Wigan</div></td>
+                    <td class="r">5</td>
+                    <td class="r" style="color:var(--light)">—</td>
+                    <td class="r" style="color:var(--light)">—</td>
+                    <td><span class="pill setup">Onboarding</span></td>
+                    <td class="gsub" style="margin:0">Pack deployed, 2 sites left</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div>
+          <div class="payout">
+            <div class="k">Clearing 15 April</div>
+            <div class="v tnum">£449.82</div>
+            <div class="d">March commission, verified</div>
+            <div class="split">
+              <span>Held pending payment</span><b class="tnum">£87.46</b>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="cardhead">
+              <h2>Territory</h2>
+              <a class="link" href="#">Open map</a>
+            </div>
+            <div class="terrstat">
+              <div><div class="k">Establishments</div><div class="v tnum">26,703</div></div>
+              <div><div class="k">Rated 0–3</div><div class="v tnum">3,182</div></div>
+              <div><div class="k">Multi-site groups</div><div class="v tnum">63</div></div>
+              <div><div class="k">Never contacted</div><div class="v tnum">35</div></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="cardhead">
+              <h2>Best targets this week</h2>
+              <span class="meta">Groups of 7+</span>
+            </div>
+            <div class="target">
+              <span class="rate r0">0</span>
+              <span class="tt">Takeaway group<small>9 sites · Wigan &amp; Bolton</small></span>
+              <span class="ts">Never contacted</span>
+            </div>
+            <div class="target">
+              <span class="rate r3">3</span>
+              <span class="tt">Care catering group<small>12 sites · Trafford</small></span>
+              <span class="ts">Never contacted</span>
+            </div>
+            <div class="target">
+              <span class="rate r3">3</span>
+              <span class="tt">Dessert group<small>8 sites · Manchester</small></span>
+              <span class="ts">Emailed, no reply</span>
+            </div>
+            <div class="target">
+              <span class="rate r0">2</span>
+              <span class="tt">Bar group<small>7 sites · Salford</small></span>
+              <span class="ts">Never contacted</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="cardhead"><h2>Discount allowance</h2></div>
+            <div class="allow">
+              <div class="row"><span>Used this quarter</span><b class="tnum">7.6% of 20%</b></div>
+              <div class="bar"><i></i></div>
+              <div class="row"><span>Costs you</span><b class="tnum">£34.19 / month</b></div>
+              <div class="row" style="margin-top:5px"><span>Client price stays</span><b>£24.99 list</b></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <p class="note">
+        Preview. Territory figures are live counts from the FSA register for the ten Greater
+        Manchester authorities. Client groups are shown by trade and area rather than by name —
+        no real operator is depicted.
+      </p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

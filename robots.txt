@@ -2,6 +2,8 @@ User-agent: *
 Allow: /
 Disallow: /fsa.html
 Disallow: /r.html
+Disallow: /partners.html
+Disallow: /partners-workspace.html
 Sitemap: https://blueroll.app/sitemap.xml
 
 # Explicitly allow AI crawlers
