@@ -256,10 +256,10 @@
   <div class="label">London · FHRS data</div>
   <h1>Food hygiene ratings in <em>Tower Hamlets</em></h1>
   <p class="sub">Every food business in Tower Hamlets, rated 0 to 5 by Tower Hamlets Council's environmental health officers. Live from the Food Standards Agency register.</p>
-  <div class="updated">Updated 14 September 2026 · 3,185 registered establishments · refreshed weekly</div>
+  <div class="updated">Updated 14 September 2026 · 3,184 registered establishments · refreshed weekly</div>
 
   <div class="stats">
-    <div class="stat"><b>3,185</b><span>registered food businesses</span></div>
+    <div class="stat"><b>3,184</b><span>registered food businesses</span></div>
     <div class="stat"><b>72.1%</b><span>of rated kitchens hold a 5</span></div>
     <div class="stat"><b>159</b><span>rated 0&ndash;2: improvement needed</span></div>
   </div>
@@ -273,7 +273,7 @@
     <div class="dr"><span class="badge b1">1</span><div class="bar"><i class="b1" style="width:2.1%"></i></div><span class="n">61</span></div>
     <div class="dr"><span class="badge b0">0</span><div class="bar"><i class="b0" style="width:0.5%"></i></div><span class="n">7</span></div>
   </div>
-  <p class="note">306 further establishments are exempt or awaiting their first inspection.</p>
+  <p class="note">305 further establishments are exempt or awaiting their first inspection.</p>
 
   <h2>This month in Tower Hamlets</h2>
   <div class="mv"><div class="mvcard up"><h3>Climbed since last week</h3><ul><li><span class="who">No changes this week</span></li></ul></div><div class="mvcard down"><h3>Dropped since last week</h3><ul><li><span class="who">Coffee Ldn</span><span class="chg">3 &rarr; 1</span></li><li><span class="who">Yunn</span><span class="chg">4 &rarr; 0</span></li></ul></div></div>
@@ -420,7 +420,7 @@
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', maxZoom: 19, detectRetina: true
     }).addTo(map);
-    var BBOX = [51.4962, -0.0767, 51.5369, -0.007]; // [s, w, n, e], baked from this borough's geocodes
+    var BBOX = [51.4962, -0.0767, 51.5381, -0.0068]; // [s, w, n, e], baked from this borough's geocodes
     var bounds = L.latLngBounds([BBOX[0], BBOX[1]], [BBOX[2], BBOX[3]]);
     // One step tighter than "contain": the borough fills the frame without
     // dropping to street level (full cover-zoom goes too deep on wide maps).
