@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="https://t.contentsquare.net/uxa/f84aff336d942.js" defer></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Improve Your Rating — Blueroll</title>
@@ -165,7 +166,7 @@ body {
     </a>
   </div>
 
-  <div class="trial-note">14 days free · then £14.99/mo · cancel anytime</div>
+  <div class="trial-note">14 days free · then £24.99/site/mo · cancel anytime</div>
   <div class="footer"><a href="https://blueroll.app">blueroll.app</a></div>
 </div>
 
@@ -216,28 +217,25 @@ if (h !== null && s !== null && m !== null) {
   renderScore('scoreM', 'verdictM', m, 30);
 }
 
-const utm = `?utm_source=fsa_letter&utm_medium=qr&utm_campaign=${encodeURIComponent(name)}`;
+// ─── Click/scan tracking ───
+const src = p.get('src');
+const fhrsid = p.get('fhrsid');
+if (src === 'email' && fhrsid) {
+  fetch('https://web-production-54cc.up.railway.app/api/contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ fhrs_ids: [parseInt(fhrsid)], channel: 'email_click', template: 'rating_page' })
+  }).catch(() => {});
+}
+// Track all page views (QR scans from paper letters + any visit with fhrsid)
+if (fhrsid) {
+  fetch('https://web-production-54cc.up.railway.app/api/business/' + fhrsid + '/public').catch(() => {});
+}
+
+const utm = `?utm_source=${src === 'email' ? 'email_outreach' : 'fsa_letter'}&utm_medium=${src === 'email' ? 'email' : 'qr'}&utm_campaign=${encodeURIComponent(name)}`;
 document.getElementById('appleBtn').href = 'https://apps.apple.com/app/blueroll/id6760937451' + utm;
 document.getElementById('googleBtn').href = 'https://blueroll.app' + utm;
 </script>
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-Tawk_API.onLoad = function(){
-  // Hide eye catcher by cycling widget
-  Tawk_API.hideWidget();
-  setTimeout(function(){ Tawk_API.showWidget(); }, 500);
-};
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/69cba0ffccae3e1c351e960f/1jl1mppsi';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
 
 </body>
 </html>
