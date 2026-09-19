@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="https://t.contentsquare.net/uxa/f84aff336d942.js" defer></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Blueroll — FSA Outreach Tool</title>
@@ -71,6 +72,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 .btn-primary { background: var(--accent); color: #0a0f0d; }
 .btn-primary:hover { background: #34D399; }
 .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-email { background: #3B82F6; color: white; }
+.btn-email:hover { background: #60A5FA; }
+.btn-email:disabled { opacity: 0.4; cursor: not-allowed; }
 .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); margin-top: 8px; }
 .btn-secondary:hover { border-color: var(--accent); }
 
@@ -617,6 +621,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
     <button class="btn btn-primary" id="searchBtn" onclick="searchFSA()">Search Database</button>
     <button class="btn btn-secondary" onclick="resetAllFilters()" style="margin-top:4px;">Reset All Filters</button>
     <button class="btn btn-secondary" id="generateBtn" onclick="generateLetters()" disabled>Generate Letters for Selected</button>
+    <button class="btn btn-email" id="generateEmailBtn" onclick="generateEmails()" disabled style="margin-top:4px;">📧 Generate Emails for Selected</button>
 
     <div class="stats-row" id="stats" style="display:none;">
       <div class="stat-box">
@@ -717,6 +722,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
         <button class="btn-sm" onclick="selectAll()">Select All</button>
         <button class="btn-sm" onclick="deselectAll()">Deselect All</button>
         <button class="btn-sm btn-sm-primary" onclick="generateLetters()">Generate Letters</button>
+        <button class="btn-sm" onclick="generateEmails()" style="background:rgba(59,130,246,0.1);color:#3B82F6;border-color:rgba(59,130,246,0.3);">📧 Emails</button>
         <button class="btn-sm" onclick="pushToClickDrop()" id="cdPushBtn" style="background:rgba(220,38,38,0.1);color:#DC2626;border-color:rgba(220,38,38,0.3);">Push to Click & Drop</button>
       </div>
     </div>
@@ -1409,6 +1415,7 @@ function updateSelectCount() {
   document.getElementById('selectCount').textContent = selected.size;
   document.getElementById('selectBar').classList.toggle('active', selected.size > 0);
   document.getElementById('generateBtn').disabled = selected.size === 0;
+  document.getElementById('generateEmailBtn').disabled = selected.size === 0;
 }
 
 function buildLetterPage(idx) {
@@ -1909,28 +1916,258 @@ function printCombined() {
   });
 }
 
+// ─── Email Generation ──────────────────────────────────
+
+function buildEmailHTML(idx) {
+  const e = allResults[idx];
+  const rating = e.RatingValue || '?';
+  const ratingNum = parseInt(rating) || 0;
+  const addr = [e.AddressLine1, e.AddressLine2, e.AddressLine3, e.PostCode].filter(Boolean).join(', ');
+  const ratedDate = e.RatingDate ? new Date(e.RatingDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }) : 'recently';
+
+  const ratingText = {
+    '0': 'Urgent Improvement Necessary',
+    '1': 'Major Improvement Necessary',
+    '2': 'Improvement Necessary',
+    '3': 'Generally Satisfactory',
+    '4': 'Good',
+    '5': 'Very Good'
+  }[rating] || rating;
+
+  const scores = e.scores || {};
+  const rPage = `https://blueroll.app/r.html?name=${encodeURIComponent(e.BusinessName)}&addr=${encodeURIComponent(addr)}&rating=${encodeURIComponent(rating)}&date=${encodeURIComponent(ratedDate)}&fhrsid=${e.FHRSID || ''}&h=${scores.Hygiene||''}&s=${scores.Structural||''}&m=${scores.ConfidenceInManagement||''}&src=email`;
+
+  const overdue = isOverdue(e);
+  const monthsAgo = getMonthsAgo(e.RatingDate);
+
+  const _p = `margin:0 0 18px;font-size:15px;line-height:1.7;color:#2D3748;`;
+
+  let intro = '';
+  if (overdue) {
+    intro = `<p style="${_p}">Dear ${e.BusinessName} team,</p>
+<p style="${_p}">Your last food hygiene inspection was <strong style="background:#FEF3C7;padding:2px 6px;border-radius:4px;color:#92400E;">${monthsAgo} months ago</strong>. Your next EHO visit could be any day now — are your HACCP records up to date?</p>
+<p style="${_p}">If you're still using paper records, an unannounced inspection can catch gaps you didn't know existed. <strong style="color:#1A202C;">Blueroll</strong> replaces paper with a simple app that keeps everything digital, current, and inspection-ready.</p>`;
+  } else if (ratingNum === 4) {
+    intro = `<p style="${_p}">Dear ${e.BusinessName} team,</p>
+<p style="${_p}">Your recent food hygiene inspection scored <strong style="background:#FEF3C7;padding:2px 6px;border-radius:4px;color:#92400E;">4 out of 5</strong> — so close to perfect! The most common reasons for missing a 5 are paperwork gaps and inconsistent records.</p>
+<p style="${_p}"><strong style="color:#1A202C;">Blueroll</strong> is a simple app that replaces paper HACCP records with digital checklists. It takes 2 minutes to set up and helps you close that gap to a perfect score.</p>`;
+  } else {
+    intro = `<p style="${_p}">Dear ${e.BusinessName} team,</p>
+<p style="${_p}">We noticed your recent food hygiene inspection resulted in a rating of <strong style="background:#FEF3C7;padding:2px 6px;border-radius:4px;color:#92400E;">${rating} — ${ratingText}</strong>.</p>
+<p style="${_p}">We know how frustrating that can be, especially when you're working hard to keep standards up. <strong style="color:#1A202C;">Blueroll</strong> is a simple app that replaces paper HACCP records with digital checklists your team can complete in seconds.</p>`;
+  }
+
+  let closingLine = '';
+  if (overdue) {
+    closingLine = `Restaurants using Blueroll report feeling significantly more confident before inspections. We'd love to help ${e.BusinessName} be fully prepared.`;
+  } else if (ratingNum === 4) {
+    closingLine = `Many restaurants have gone from 4 to 5 after switching to digital records. We'd love to help ${e.BusinessName} get there.`;
+  } else {
+    closingLine = `Restaurants using Blueroll typically improve their rating by 1–2 points at their next inspection. We'd love to help ${e.BusinessName} get back to 5 stars.`;
+  }
+
+  // Build the rating badge card (dark card with gold rating — same as badge page)
+  const starsSpan = Array.from({length:5}, (_,i) => i < ratingNum
+    ? `<span style="color:#E2B55A;font-size:15px;padding:0 1px;">&#9733;</span>`
+    : `<span style="color:#E2B55A;font-size:15px;opacity:0.25;padding:0 1px;">&#9734;</span>`
+  ).join('');
+
+  const badgeCard = `<div style="width:240px;margin:0 auto;border-radius:22px;background:linear-gradient(145deg,#0D1B2A,#1B2D45);padding:32px 28px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,0.25);font-family:-apple-system,system-ui,sans-serif;">
+  <div style="width:80px;height:80px;border-radius:20px;background:linear-gradient(145deg,#ECC55B,#D4A843);margin:0 auto 14px;line-height:80px;font-size:40px;font-weight:800;color:#0D1B2A;box-shadow:0 4px 16px rgba(0,0,0,0.3);">${rating}</div>
+  <div style="margin-bottom:12px;">${starsSpan}</div>
+  <div style="margin-bottom:8px;font-size:9px;color:#E2B55A;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;">Food Hygiene Rating</div>
+  <div style="margin-bottom:4px;font-size:16px;font-weight:700;color:#F0ECE3;letter-spacing:-0.2px;">${e.BusinessName}</div>
+  <div style="font-size:11px;color:rgba(255,255,255,0.45);line-height:1.3;">${addr}</div>
+  <div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.08);font-size:9px;color:#E2B55A;opacity:0.5;letter-spacing:.6px;">Powered by Blueroll</div>
+</div>`;
+
+  const font = `-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif`;
+  const pStyle = `margin:0 0 18px;font-size:15px;line-height:1.7;color:#2D3748;font-family:${font};`;
+
+  // Full email HTML with inline styles (email-client compatible)
+  return `<div style="max-width:560px;margin:0 auto;padding:0 8px;font-family:${font};-webkit-font-smoothing:antialiased;">
+${intro}
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 8px;">
+  <tr><td style="text-align:center;padding:20px 0 24px;">
+    <a ="${rPage}" target="_blank" style="text-decoration:none;display:inline-block;">
+      ${badgeCard}
+    </a>
+  </td></tr>
+</table>
+
+<p style="margin:0 0 20px;font-size:13px;color:#A0AEC0;text-align:center;line-height:1.6;font-family:${font};letter-spacing:0.01em;">This is your current rating. Tap the badge or the button below<br>to see a full breakdown and how to improve.</p>
+
+<table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 0 28px;">
+  <tr><td style="text-align:center;">
+    <a ="${rPage}" target="_blank" style="display:inline-block;background:#047857;color:#ffffff;text-decoration:none;padding:15px 36px;border-radius:12px;font-size:15px;font-weight:600;font-family:${font};letter-spacing:-0.01em;mso-padding-alt:0;background-color:#047857;">See Your Full Rating Breakdown &nbsp;&rarr;</a>
+  </td></tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px;border-top:1px solid #EDF2F7;padding-top:24px;">
+  <tr><td style="${pStyle}font-weight:600;font-size:14px;color:#1A202C;letter-spacing:-0.01em;margin:0 0 12px;">What Blueroll does</td></tr>
+  <tr><td style="font-size:14px;line-height:2;color:#4A5568;padding:4px 0 0;font-family:${font};">
+    <span style="color:#047857;">&#10003;</span>&ensp;Ready-made HACCP checklists — complete in seconds<br>
+    <span style="color:#047857;">&#10003;</span>&ensp;AI recipe import — snap a photo, get allergens instantly<br>
+    <span style="color:#047857;">&#10003;</span>&ensp;One-tap PDF compliance report for your EHO<br>
+    <span style="color:#047857;">&#10003;</span>&ensp;Temperature logs with out-of-range alerts<br>
+    <span style="color:#047857;">&#10003;</span>&ensp;Team tasks — see who completed what
+  </td></tr>
+</table>
+
+<p style="${pStyle}">${closingLine}</p>
+<p style="${pStyle}font-weight:600;">Try free for 14 days<span style="font-weight:400;"> — no credit card needed.</span></p>
+
+<p style="${pStyle}margin:24px 0 0;">Best regards,<br><span style="color:#4A5568;">The Blueroll Team</span></p>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:28px 0 0;padding-top:20px;border-top:1px solid #EDF2F7;">
+  <tr>
+    <td style="vertical-align:middle;padding:0 14px 0 0;width:40px;">
+      <img src="https://blueroll.app/app_icon.png" alt="Blueroll" width="36" height="36" style="border-radius:8px;display:block;border:0;" />
+    </td>
+    <td style="vertical-align:middle;">
+      <span style="font-size:14px;font-weight:700;color:#1A202C;font-family:${font};">Blueroll</span><br>
+      <span style="font-size:12px;color:#A0AEC0;font-family:${font};">Food Safety Made Simple</span><br>
+      <a href="https://blueroll.app" style="font-size:12px;color:#047857;text-decoration:none;font-family:${font};">blueroll.app</a><span style="color:#CBD5E0;"> &nbsp;&middot;&nbsp; </span><a href="mailto:hello@blueroll.app" style="font-size:12px;color:#047857;text-decoration:none;font-family:${font};">hello@blueroll.app</a>
+    </td>
+  </tr>
+</table>
+</div>`;
+}
+
+function buildEmailPreview(idx) {
+  const e = allResults[idx];
+  const addr = [e.AddressLine1, e.AddressLine2, e.AddressLine3, e.PostCode].filter(Boolean).join(', ');
+  const emailAddr = e.Email || 'no email';
+  return `<div class="letter-page" style="background:white;border-radius:8px;padding:32px;">
+  <div style="margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #eee;">
+    <div style="font-size:11px;color:#888;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.05em;">To</div>
+    <div style="font-size:14px;font-weight:600;color:#111;">${e.BusinessName} <span style="font-weight:400;color:#888;">&lt;${emailAddr}&gt;</span></div>
+    <div style="font-size:11px;color:#999;margin-top:2px;">${addr}</div>
+  </div>
+  ${buildEmailHTML(idx)}
+</div>`;
+}
+
+async function generateEmails() {
+  if (selected.size === 0) return;
+  const indices = [...selected];
+
+  const modal = document.getElementById('modal');
+  const container = document.getElementById('lettersContainer');
+  container.innerHTML = indices.map(i => buildEmailPreview(i)).join('');
+  document.getElementById('letterCount').textContent = indices.length + (indices.length === 1 ? ' email' : ' emails');
+
+  // Swap toolbar buttons for email mode
+  const actions = document.querySelector('.modal-actions');
+  actions.innerHTML = `
+    <button class="btn-print" onclick="copyEmailForGmail()" title="Copies as rich text — paste directly into Gmail compose">📋 Copy for Gmail</button>
+    <button class="btn-print" onclick="copyEmailRawHTML()" title="Copies raw HTML — paste into Instantly HTML editor">📄 Copy HTML (Instantly)</button>
+    <button class="btn-print" onclick="copyEmailSubjects()" title="Copy subject lines">📝 Subject Lines</button>
+  `;
+
+  modal.classList.add('active');
+}
+
+function copyEmailForGmail() {
+  // Copy first email as rich HTML (for single paste into Gmail compose)
+  const indices = [...selected];
+  if (indices.length === 0) return;
+  const html = buildEmailHTML(indices[0]);
+
+  const blob = new Blob([html], { type: 'text/html' });
+  const plainText = document.querySelector('#lettersContainer .letter-page')?.innerText || '';
+  const textBlob = new Blob([plainText], { type: 'text/plain' });
+
+  navigator.clipboard.write([
+    new ClipboardItem({
+      'text/html': blob,
+      'text/plain': textBlob
+    })
+  ]).then(() => {
+    showCopyFeedback('📋 Copy for Gmail', 'Copied! Paste into Gmail ✓');
+  }).catch(() => {
+    // Fallback: copy plain text
+    navigator.clipboard.writeText(plainText);
+    showCopyFeedback('📋 Copy for Gmail', 'Copied (plain text) ✓');
+  });
+}
+
+function copyEmailRawHTML() {
+  // Copy raw HTML source for Instantly / any email tool with HTML editor
+  const indices = [...selected];
+  if (indices.length === 0) return;
+
+  // For Instantly: one email template with {{variables}} note at top
+  const html = indices.length === 1
+    ? buildEmailHTML(indices[0])
+    : indices.map((idx, i) => `<!-- Email ${i+1}: ${allResults[idx].BusinessName} -->\n` + buildEmailHTML(idx)).join('\n\n<!-- ─────────────────── -->\n\n');
+
+  navigator.clipboard.writeText(html).then(() => {
+    showCopyFeedback('📄 Copy HTML (Instantly)', 'HTML copied! ✓');
+  });
+}
+
+function copyEmailSubjects() {
+  const indices = [...selected];
+  if (indices.length === 0) return;
+
+  const subjects = indices.map(idx => {
+    const e = allResults[idx];
+    const rating = e.RatingValue || '?';
+    const ratingNum = parseInt(rating) || 0;
+    const overdue = isOverdue(e);
+    if (overdue) return `${e.BusinessName} — is your kitchen ready for the next EHO visit?`;
+    if (ratingNum === 4) return `${e.BusinessName} — one step away from a perfect 5`;
+    return `${e.BusinessName} — a quick way to improve your food hygiene rating`;
+  });
+
+  navigator.clipboard.writeText(subjects.join('\n')).then(() => {
+    showCopyFeedback('📝 Subject Lines', 'Copied! ✓');
+  });
+}
+
+function showCopyFeedback(originalText, feedbackText) {
+  const btns = document.querySelectorAll('.modal-actions .btn-print');
+  btns.forEach(btn => {
+    if (btn.textContent.trim() === originalText.trim() || btn.textContent.includes(originalText.replace(/^[^\s]+\s/, ''))) {
+      const orig = btn.textContent;
+      btn.textContent = feedbackText;
+      btn.style.color = '#047857';
+      setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 2000);
+    }
+  });
+}
+
+// Restore letter toolbar when opening letters (in case email mode changed it)
+const _origGenerateLetters = generateLetters;
+generateLetters = async function() {
+  await _origGenerateLetters();
+  const actions = document.querySelector('.modal-actions');
+  actions.innerHTML = `
+    <button class="btn-print" onclick="window.print()">🖨 Print Letters</button>
+    <button class="btn-print" onclick="printCombined()" id="btnPrintCombined" style="display:none;">🖨 Print with Labels</button>
+    <button class="btn-copy" onclick="copyLetter()">Copy Text</button>
+  `;
+  // Re-check labels visibility
+  const indices = [...selected];
+  const hasLabels = indices.some(i => businessLabels[parseInt(allResults[i].FHRSID)]);
+  document.getElementById('btnPrintCombined').style.display = hasLabels ? '' : 'none';
+};
+
+const _origShowLetter = showLetter;
+showLetter = function(idx) {
+  _origShowLetter(idx);
+  const actions = document.querySelector('.modal-actions');
+  actions.innerHTML = `
+    <button class="btn-print" onclick="window.print()">🖨 Print Letters</button>
+    <button class="btn-print" onclick="printCombined()" id="btnPrintCombined" style="display:none;">🖨 Print with Labels</button>
+    <button class="btn-copy" onclick="copyLetter()">Copy Text</button>
+  `;
+};
+
 // Close modal on Escape
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeModal(); });
-</script>
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-Tawk_API.onLoad = function(){
-  // Hide eye catcher by cycling widget
-  Tawk_API.hideWidget();
-  setTimeout(function(){ Tawk_API.showWidget(); }, 500);
-};
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/69cba0ffccae3e1c351e960f/1jl1mppsi';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
-
-</body>
+</script></body>
 </html>
