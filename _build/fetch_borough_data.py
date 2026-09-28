@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Pull FSA data for the 33 London boroughs.
+"""Pull FSA data for the 33 London boroughs and the major-city pack.
 
 Writes _build/data/borough_data.json with everything the page builder needs,
 and rotates a slim snapshot (id -> rating) so next week's run can compute
-risers and fallers. One API request per borough (pageSize=5000 covers the
-largest, Westminster at ~5.7k -- paged just in case). Run from repo root:
+risers and fallers. Requests are paged (Birmingham is ~10k establishments).
+Run from repo root:
 
     python3 _build/fetch_borough_data.py
 """
@@ -17,7 +17,7 @@ from datetime import date, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from borough_config import BOROUGHS  # noqa: E402
+from borough_config import AREAS, BOROUGHS  # noqa: E402
 
 DATA = Path(__file__).parent / "data"
 DATA.mkdir(exist_ok=True)
@@ -70,11 +70,15 @@ def main() -> None:
         prev_meta = None
 
     data, snapshot = {"fetched": today, "prev_date": prev_meta, "boroughs": {}}, {}
-    for slug, cfg in BOROUGHS.items():
+    for slug, cfg in AREAS.items():
         es = [slim(e) for e in fetch(cfg["id"])]
         rated = [e for e in es if e["r"] in RATED]
-        lats = sorted(float(e["lat"]) for e in es if e["lat"] and 51.2 < float(e["lat"]) < 51.8)
-        lngs = sorted(float(e["lng"]) for e in es if e["lng"] and -0.65 < float(e["lng"]) < 0.45)
+        # London pages keep the tight sanity window; cities accept anywhere in
+        # Great Britain and rely on the 2% trim to drop bad geocodes.
+        la_lo, la_hi, ln_lo, ln_hi = ((51.2, 51.8, -0.65, 0.45) if slug in BOROUGHS
+                                      else (49.8, 56.0, -8.2, 2.0))
+        lats = sorted(float(e["lat"]) for e in es if e["lat"] and la_lo < float(e["lat"]) < la_hi)
+        lngs = sorted(float(e["lng"]) for e in es if e["lng"] and ln_lo < float(e["lng"]) < ln_hi)
         k = max(1, len(lats) // 50)  # trim ~2% geocode outliers each side
         bbox = ([round(lats[k], 4), round(lngs[k], 4), round(lats[-k - 1], 4), round(lngs[-k - 1], 4)]
                 if len(lats) > 2 * k and len(lngs) > 2 * k else [51.3, -0.5, 51.7, 0.3])

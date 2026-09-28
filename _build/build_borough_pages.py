@@ -15,7 +15,7 @@ from datetime import date, datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from borough_config import BOROUGHS  # noqa: E402
+from borough_config import AREAS, BOROUGHS, CITIES  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "food-hygiene-ratings"
@@ -53,7 +53,7 @@ def fmt_d(iso: str) -> str:
 
 
 def link_name(slug: str) -> str:
-    n = BOROUGHS[slug]["name"]
+    n = AREAS[slug]["name"]
     return n[4:].strip() if n.startswith("the ") else n
 
 
@@ -88,8 +88,10 @@ def movers_html(b: dict, name: str, prev_date) -> str:
 
 
 def build_page(slug: str) -> str:
-    cfg, b = BOROUGHS[slug], DATA["boroughs"][slug]
+    cfg, b = AREAS[slug], DATA["boroughs"][slug]
     name, council = cfg["name"], cfg["council"]
+    is_city = slug in CITIES
+    region_label = cfg["region"] if is_city else "London"
     rated = b["rated"]
     counts = b["counts"]
     widths = {r: (round(100 * counts[r] / rated, 1) if rated else 0) for r in counts}
@@ -139,7 +141,7 @@ def build_page(slug: str) -> str:
         {"@type": "ListItem", "position": 3, "name": f"Food hygiene ratings in {name}"}]}, ensure_ascii=False)
     dataset_ld = json.dumps({"@context": "https://schema.org", "@type": "Dataset",
         "name": f"Food hygiene ratings in {name}",
-        "description": f"Weekly aggregate of FHRS food hygiene ratings for {name}, London.",
+        "description": f"Weekly aggregate of FHRS food hygiene ratings for {name}, {region_label}.",
         "license": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
         "creator": {"@type": "Organization", "name": "Food Standards Agency"},
         "dateModified": DATA["fetched"]}, ensure_ascii=False)
@@ -154,6 +156,11 @@ def build_page(slug: str) -> str:
         "{{EXEMPT_NOTE}}": exempt_note, "{{MOVERS_HTML}}": movers_html(b, name, DATA.get("prev_date")),
         "{{WORST_ROWS}}": worst_rows, "{{WORST_NOTE}}": worst_note,
         "{{NEARBY_LINKS}}": nearby, "{{LAID}}": str(cfg["id"]), "{{ANON}}": ANON,
+        "{{REGION_LABEL}}": region_label,
+        "{{MAP_LINK_LI}}": ("" if is_city else
+                            '<li><a href="/london-food-hygiene-map.html">Live London food hygiene map: search all 33 boroughs</a></li>'),
+        "{{HUB_LINK_TEXT}}": "all rated areas" if is_city else "all London boroughs",
+        "{{FINDER_EMPTY_TAIL}}": "" if is_city else ", or the full London search on our map",
         "{{BBOX}}": json.dumps(b["bbox"]),
         "{{BREADCRUMB_LD}}": breadcrumb_ld, "{{FAQ_LD}}": faq_ld, "{{DATASET_LD}}": dataset_ld,
     }
@@ -177,17 +184,22 @@ def build_hub() -> str:
     rated = sum(b["rated"] for b in DATA["boroughs"].values())
     fives = sum(b["counts"]["5"] for b in DATA["boroughs"].values())
     low = sum(b["low"] for b in DATA["boroughs"].values())
-    rows = "".join(
-        f'<tr><td><a href="/food-hygiene-ratings/{slug}.html">{esc(link_name(slug))}</a></td>'
-        f'<td style="text-align:right">{fmt_n(b["total"])}</td>'
-        f'<td style="text-align:right">{b["pct5"]}%</td>'
-        f'<td style="text-align:right">{fmt_n(b["low"])}</td></tr>'
-        for slug, b in sorted(DATA["boroughs"].items(), key=lambda kv: link_name(kv[0])))
+    lon_tot = sum(DATA["boroughs"][s]["total"] for s in BOROUGHS if s in DATA["boroughs"])
 
-    title = "Food Hygiene Ratings by London Borough: All 33 Compared | Blueroll"
-    desc = (f"Food hygiene ratings for all {fmt_n(tot)} registered London food businesses, borough by borough: "
-            f"share of 5s, kitchens needing improvement, live maps and weekly updates.")
-    head = head.replace("{{TITLE}}", title).replace("{{OG_TITLE}}", "Food Hygiene Ratings by London Borough")
+    def table_rows(slugs):
+        return "".join(
+            f'<tr><td><a href="/food-hygiene-ratings/{slug}.html">{esc(link_name(slug))}</a></td>'
+            f'<td style="text-align:right">{fmt_n(DATA["boroughs"][slug]["total"])}</td>'
+            f'<td style="text-align:right">{DATA["boroughs"][slug]["pct5"]}%</td>'
+            f'<td style="text-align:right">{fmt_n(DATA["boroughs"][slug]["low"])}</td></tr>'
+            for slug in sorted(slugs, key=link_name))
+    rows = table_rows(s for s in BOROUGHS if s in DATA["boroughs"])
+    city_rows = table_rows(s for s in CITIES if s in DATA["boroughs"])
+
+    title = "Food Hygiene Ratings: London Boroughs and Major UK Cities | Blueroll"
+    desc = (f"Food hygiene ratings for all {fmt_n(tot)} registered food businesses across London's 33 boroughs "
+            f"and {len(CITIES)} major UK cities: share of 5s, kitchens needing improvement, weekly updates.")
+    head = head.replace("{{TITLE}}", title).replace("{{OG_TITLE}}", "Food Hygiene Ratings: London and Major UK Cities")
     head = head.replace("{{DESC}}", desc)
     head = head.replace('<link rel="canonical" href="https://blueroll.app/food-hygiene-ratings/{{SLUG}}.html">',
                         '<link rel="canonical" href="https://blueroll.app/food-hygiene-ratings/">')
@@ -195,7 +207,7 @@ def build_hub() -> str:
                         '<meta property="og:url" content="https://blueroll.app/food-hygiene-ratings/">')
     head = head.replace("{{BREADCRUMB_LD}}", json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Blueroll", "item": "https://blueroll.app/"},
-        {"@type": "ListItem", "position": 2, "name": "Food hygiene ratings by London borough"}]}, ensure_ascii=False))
+        {"@type": "ListItem", "position": 2, "name": "Food hygiene ratings: London and major UK cities"}]}, ensure_ascii=False))
     head = head.replace('<script type="application/ld+json">{{FAQ_LD}}</script>\n', "")
     head = head.replace('<script type="application/ld+json">{{DATASET_LD}}</script>\n', "")
     head = head.replace('<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">\n', "")
@@ -204,23 +216,31 @@ def build_hub() -> str:
 
     body = f'''<div class="wrap">
   <div class="crumbs"><a href="/">Blueroll</a> › Food hygiene ratings</div>
-  <div class="label">London · FHRS data</div>
-  <h1>Food hygiene ratings by <em>London borough</em></h1>
-  <p class="sub">All {fmt_n(tot)} registered food businesses across the 33 boroughs, scored 0 to 5 by council environmental health officers. Pick your borough for the full picture: the numbers, the map, this month's changes and every kitchen rated 0 or 1.</p>
+  <div class="label">UK · FHRS data</div>
+  <h1>Food hygiene ratings: <em>London and the UK's biggest cities</em></h1>
+  <p class="sub">All {fmt_n(tot)} registered food businesses across London's 33 boroughs and {len(CITIES)} major cities, scored 0 to 5 by council environmental health officers. Pick your area for the full picture: the numbers, the map, this month's changes and every kitchen rated 0 or 1.</p>
   <div class="updated">Updated {UPDATED} · rebuilt weekly from the FSA register</div>
   <div class="stats">
     <div class="stat"><b>{fmt_n(rated)}</b><span>rated food businesses</span></div>
     <div class="stat"><b>{round(100*fives/rated, 1)}%</b><span>hold the top rating of 5</span></div>
     <div class="stat"><b>{fmt_n(low)}</b><span>rated 0&ndash;2: improvement needed</span></div>
   </div>
-  <h2>Pick your borough</h2>
+  <h2>Pick your London borough</h2>
+  <p class="note">{fmt_n(lon_tot)} registered establishments across the capital.</p>
   <div class="tscroll">
   <table class="wt">
     <tr><th>Borough</th><th style="text-align:right">Registered</th><th style="text-align:right">Rated 5</th><th style="text-align:right">Rated 0&ndash;2</th></tr>
     {rows}
   </table>
   </div>
-  <p class="note">Share of 5s is calculated over rated establishments only. Exempt and awaiting-inspection businesses are counted in the register totals.</p>
+  <h2>Major UK cities</h2>
+  <div class="tscroll">
+  <table class="wt">
+    <tr><th>City</th><th style="text-align:right">Registered</th><th style="text-align:right">Rated 5</th><th style="text-align:right">Rated 0&ndash;2</th></tr>
+    {city_rows}
+  </table>
+  </div>
+  <p class="note">Share of 5s is calculated over rated establishments only. Exempt and awaiting-inspection businesses are counted in the register totals. Scottish cities use the separate FHIS scheme and are not listed here.</p>
   <div class="rel">
     <strong style="font-size:15px;">More on food hygiene ratings</strong>
     <ul>
@@ -245,7 +265,7 @@ def update_sitemap() -> None:
     today = date.today().isoformat()
     urls = [f'  <url><loc>https://blueroll.app/food-hygiene-ratings/</loc><lastmod>{today}</lastmod></url>'] + [
         f'  <url><loc>https://blueroll.app/food-hygiene-ratings/{slug}.html</loc><lastmod>{today}</lastmod></url>'
-        for slug in sorted(BOROUGHS)]
+        for slug in sorted(AREAS)]
     block = f"  {SM_START}\n" + "\n".join(urls) + f"\n  {SM_END}"
     if SM_START in s:
         s = re.sub(re.escape("  " + SM_START) + r"[\s\S]*?" + re.escape(SM_END), block, s)
@@ -262,10 +282,10 @@ def update_llms() -> None:
     if not p.exists():
         return
     s = p.read_text()
-    lines = [f"- [Food hygiene ratings in {BOROUGHS[slug]['name']}](https://blueroll.app/food-hygiene-ratings/{slug}.html)"
-             for slug in sorted(BOROUGHS)]
+    lines = [f"- [Food hygiene ratings in {AREAS[slug]['name']}](https://blueroll.app/food-hygiene-ratings/{slug}.html)"
+             for slug in sorted(AREAS)]
     block = (LLMS_HEADER + "\n"
-             + "- [Food hygiene ratings by London borough](https://blueroll.app/food-hygiene-ratings/)\n"
+             + "- [Food hygiene ratings: London and major UK cities](https://blueroll.app/food-hygiene-ratings/)\n"
              + "\n".join(lines) + "\n")
     if LLMS_HEADER in s:
         s = re.sub(re.escape(LLMS_HEADER) + r"[\s\S]*?(?=\n## |\Z)", block, s)
@@ -275,12 +295,12 @@ def update_llms() -> None:
 
 
 def main() -> None:
-    for slug in BOROUGHS:
+    for slug in AREAS:
         (OUT / f"{slug}.html").write_text(build_page(slug))
     (OUT / "index.html").write_text(build_hub())
     update_sitemap()
     update_llms()
-    print(f"built {len(BOROUGHS)} borough pages + hub, sitemap and llms.txt updated")
+    print(f"built {len(AREAS)} area pages ({len(BOROUGHS)} boroughs, {len(CITIES)} cities) + hub, sitemap and llms.txt updated")
 
 
 if __name__ == "__main__":

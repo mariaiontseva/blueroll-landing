@@ -39,3 +39,26 @@ BOROUGHS = {
 
 # H1/title use the display name without "the" prefix tricks: "Food hygiene
 # ratings in the City of London" reads correctly because the name embeds it.
+
+# Major UK cities, same page machinery (city pack 2, 28.09.2026). Each city is
+# one FSA local authority; region feeds the page label and Dataset copy.
+# Scotland is excluded on purpose: FHIS (Pass / Improvement Required) needs a
+# different template, not a 0-5 distribution.
+CITIES = {
+    "birmingham": {"id": 374, "name": "Birmingham", "council": "Birmingham City Council", "region": "England", "neighbours": ["leicester", "nottingham", "bristol"]},
+    "brighton-and-hove": {"id": 286, "name": "Brighton and Hove", "council": "Brighton and Hove City Council", "region": "England", "neighbours": ["bristol", "birmingham"]},
+    "bristol": {"id": 324, "name": "Bristol", "council": "Bristol City Council", "region": "England", "neighbours": ["cardiff", "birmingham", "brighton-and-hove"]},
+    "cardiff": {"id": 339, "name": "Cardiff", "council": "Cardiff Council", "region": "Wales", "neighbours": ["bristol", "birmingham"]},
+    "leeds": {"id": 397, "name": "Leeds", "council": "Leeds City Council", "region": "England", "neighbours": ["york", "sheffield", "manchester"]},
+    "leicester": {"id": 85, "name": "Leicester", "council": "Leicester City Council", "region": "England", "neighbours": ["nottingham", "birmingham"]},
+    "liverpool": {"id": 179, "name": "Liverpool", "council": "Liverpool City Council", "region": "England", "neighbours": ["manchester", "leeds"]},
+    "manchester": {"id": 180, "name": "Manchester", "council": "Manchester City Council", "region": "England", "neighbours": ["liverpool", "leeds", "sheffield"]},
+    "newcastle-upon-tyne": {"id": 122, "name": "Newcastle upon Tyne", "council": "Newcastle City Council", "region": "England", "neighbours": ["york", "leeds"]},
+    "nottingham": {"id": 87, "name": "Nottingham", "council": "Nottingham City Council", "region": "England", "neighbours": ["leicester", "sheffield", "birmingham"]},
+    "sheffield": {"id": 399, "name": "Sheffield", "council": "Sheffield City Council", "region": "England", "neighbours": ["leeds", "nottingham", "manchester"]},
+    "york": {"id": 406, "name": "York", "council": "City of York Council", "region": "England", "neighbours": ["leeds", "newcastle-upon-tyne", "sheffield"]},
+}
+
+# Everything the fetcher and builder iterate over. London boroughs carry no
+# "region" key; the builder treats that as "London".
+AREAS = {**BOROUGHS, **CITIES}
