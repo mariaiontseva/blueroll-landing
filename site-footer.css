@@ -1,0 +1,105 @@
+/* Shared public-site footer. Keep this visually aligned with the homepage. */
+.blueroll-footer,
+.blueroll-footer * {
+  box-sizing: border-box;
+}
+
+.blueroll-footer {
+  background: #14161b;
+  color: #9aa0a8;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.blueroll-footer__grid {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 56px 24px 40px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 32px;
+  font-size: 12.5px;
+}
+
+.blueroll-footer__brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.blueroll-footer__brand img {
+  display: block;
+  height: 24px;
+  width: auto;
+  filter: brightness(0) invert(1);
+}
+
+.blueroll-footer__intro {
+  max-width: 260px;
+  margin: 12px 0 0;
+  color: #9aa0a8;
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+.blueroll-footer__badges {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.blueroll-footer__badges a {
+  display: inline-flex;
+}
+
+.blueroll-footer__badges img {
+  display: block;
+  width: auto;
+  height: 32px;
+}
+
+.blueroll-footer__copyright {
+  margin-top: 16px;
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+}
+
+.blueroll-footer__column {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.blueroll-footer__heading {
+  margin-bottom: 4px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.blueroll-footer__link {
+  color: #9aa0a8;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.blueroll-footer__link:hover,
+.blueroll-footer__link:focus-visible {
+  color: #fff;
+}
+
+@media (max-width: 720px) {
+  .blueroll-footer__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 24px;
+    padding-top: 44px;
+  }
+}
+
+@media (max-width: 420px) {
+  .blueroll-footer__badges {
+    flex-wrap: wrap;
+  }
+}
