@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://t.contentsquare.net/uxa/f84aff336d942.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Blueroll — NY Email Tracker 🗽</title>
+<style>
+:root {
+  --bg: #0a0f0d;
+  --surface: #111916;
+  --border: rgba(16,185,129,0.12);
+  --text: #e2e8e4;
+  --muted: #7a8a80;
+  --accent: #10B981;
+  --accent-dim: rgba(16,185,129,0.15);
+  --red: #ef4444;
+  --amber: #f59e0b;
+  --green: #22c55e;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+header h1 { font-size: 20px; font-weight: 600; color: var(--accent); }
+header .sub { color: var(--muted); font-size: 13px; }
+header .nav { margin-left: auto; display: flex; gap: 12px; }
+header .nav a { color: var(--muted); font-size: 13px; text-decoration: none; padding: 6px 10px; border-radius: 6px; }
+header .nav a:hover { background: var(--accent-dim); color: var(--accent); }
+.container { max-width: 1280px; margin: 0 auto; padding: 20px 24px; }
+.section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-size: 13px; font-weight: 600; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;
+}
+.section-title .right { float: right; font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 12px; color: var(--muted); }
+.controls {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.btn-group { display: flex; gap: 0; }
+.btn-group button {
+  border-radius: 0; border-right: none;
+}
+.btn-group button:first-child { border-radius: 6px 0 0 6px; }
+.btn-group button:last-child { border-radius: 0 6px 6px 0; border-right: 1px solid var(--border); }
+button {
+  background: var(--accent-dim);
+  color: var(--accent);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .15s;
+  white-space: nowrap;
+}
+button:hover { background: rgba(16,185,129,0.25); }
+button.active { background: var(--accent); color: #000; font-weight: 600; }
+.auto-toggle { display: flex; align-items: center; gap: 6px; margin-left: auto; font-size: 13px; color: var(--muted); }
+.auto-toggle .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); display: inline-block; }
+.auto-toggle .dot.on { background: var(--green); box-shadow: 0 0 6px var(--green); }
+.status-line { font-size: 12px; color: var(--muted); margin-left: 8px; }
+/* Summary cards */
+.cards { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 16px; }
+.card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+  padding: 16px; text-align: center;
+}
+.card .icon { font-size: 22px; margin-bottom: 4px; }
+.card .value { font-size: 28px; font-weight: 700; font-family: 'SF Mono', 'Fira Code', monospace; color: var(--accent); }
+.card .value.warn { color: var(--amber); }
+.card .value.bad  { color: var(--red); }
+.card .value.good { color: var(--green); }
+.card .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+.card .sub   { font-size: 11px; color: var(--muted); margin-top: 4px; }
+/* Table */
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th {
+  text-align: left; padding: 8px 10px; color: var(--muted); font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border);
+  cursor: pointer; user-select: none; white-space: nowrap;
+}
+th:hover { color: var(--accent); }
+th .arrow { font-size: 10px; margin-left: 3px; }
+td { padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: top; }
+tr.bounced { background: rgba(239,68,68,0.06); }
+tr.opened  { background: rgba(34,197,94,0.04); }
+tr.clicked { background: rgba(34,197,94,0.10); }
+tr.clickable { cursor: pointer; }
+tr.clickable:hover { background: rgba(16,185,129,0.08); }
+tr:hover { background: rgba(255,255,255,0.05); }
+.badge {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-size: 12px; font-weight: 600; font-family: 'SF Mono', monospace;
+}
+.badge-red   { background: rgba(239,68,68,0.15); color: var(--red); }
+.badge-amber { background: rgba(245,158,11,0.15); color: var(--amber); }
+.badge-green { background: rgba(34,197,94,0.15); color: var(--green); }
+.badge-muted { background: rgba(122,138,128,0.15); color: var(--muted); }
+.status-delivered { color: var(--green); font-weight: 500; font-size: 12px; }
+.status-bounced   { color: var(--red); font-weight: 600; font-size: 12px; }
+.status-opened    { color: var(--green); font-weight: 600; font-size: 12px; }
+.mono { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; }
+/* Feed */
+.feed { max-height: 360px; overflow-y: auto; }
+.feed-item {
+  padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 13px; display: flex; gap: 10px; align-items: baseline;
+}
+.feed-item .date { color: var(--muted); font-family: 'SF Mono', monospace; font-size: 12px; white-space: nowrap; }
+.feed-item .recip { color: var(--accent); font-family: 'SF Mono', monospace; font-size: 12px; }
+.feed-item .reason { color: var(--muted); font-size: 12px; }
+.feed-item .tag { font-size: 10px; padding: 1px 6px; border-radius: 3px; font-weight: 600; }
+.feed-item .tag.hard { background: rgba(239,68,68,0.2); color: var(--red); }
+.feed-item .tag.soft { background: rgba(245,158,11,0.2); color: var(--amber); }
+.feed-item .tag.unknown { background: rgba(122,138,128,0.2); color: var(--muted); }
+/* Loading / empty */
+.loading { text-align: center; padding: 40px; color: var(--muted); }
+.error { color: var(--red); text-align: center; padding: 20px; }
+.subject-cell { max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.recipient-cell { max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.biz-cell { max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Responsive */
+@media (max-width: 900px) {
+  .cards { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .cards { grid-template-columns: repeat(2, 1fr); }
+  table { font-size: 12px; }
+  td, th { padding: 6px; }
+  header .nav { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🗽 NY Email Tracker <span style="font-size:12px;color:#7A8A80;font-weight:400;">team@getblueroll.com</span></h1>
+  <span class="sub">Real outgoing from hello@getblueroll.com — warmup excluded</span>
+</header>
+
+<div class="container">
+  <!-- Controls -->
+  <div class="section">
+    <div class="controls">
+      <div class="btn-group" id="periodBtns">
+        <button data-days="7">7d</button>
+        <button data-days="14">14d</button>
+        <button data-days="30" class="active">30d</button>
+        <button data-days="90">90d</button>
+      </div>
+      <button id="refreshBtn" onclick="fetchData(true)">↻ Refresh</button>
+      <span class="status-line" id="statusLine"></span>
+      <label class="auto-toggle">
+        <span class="dot" id="autoDot"></span>
+        <input type="checkbox" id="autoRefresh" onchange="toggleAutoRefresh()"> Auto-refresh
+      </label>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="cards">
+    <div class="card"><div class="icon">📤</div><div class="value mono" id="cSent">-</div><div class="label">Sent</div><div class="sub" id="cSentSub"></div></div>
+    <div class="card"><div class="icon">📭</div><div class="value mono bad" id="cBounced">-</div><div class="label">Bounced</div><div class="sub" id="cBouncedSub"></div></div>
+    <div class="card"><div class="icon">✅</div><div class="value mono good" id="cDelivered">-</div><div class="label">Delivered</div></div>
+    <div class="card"><div class="icon">📊</div><div class="value mono" id="cDeliverability">-</div><div class="label">Deliverability</div></div>
+    <div class="card"><div class="icon">📬</div><div class="value mono" id="cOpenRate">-</div><div class="label">Opened</div><div class="sub" id="cOpenSub"></div></div>
+    <div class="card"><div class="icon">👁</div><div class="value mono" id="cClickRate">-</div><div class="label">Clicked</div><div class="sub" id="cClickSub"></div></div>
+  </div>
+
+  <!-- Table -->
+  <div class="section">
+    <div class="section-title">
+      Sent Emails
+      <span class="right" id="tableHint"></span>
+    </div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th data-col="sent_at">Sent <span class="arrow"></span></th>
+            <th data-col="recipient_email">Recipient <span class="arrow"></span></th>
+            <th data-col="business_name">Business <span class="arrow"></span></th>
+            <th data-col="rating">Rating <span class="arrow"></span></th>
+            <th>Subject</th>
+            <th data-col="status">Status <span class="arrow"></span></th>
+            <th data-col="views">Clicks <span class="arrow"></span></th>
+            <th data-col="last_viewed">Last viewed <span class="arrow"></span></th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"><tr><td colspan="8" class="loading">Loading...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Recent bounces -->
+  <div class="section">
+    <div class="section-title">Recent Bounces</div>
+    <div class="feed" id="bounceList"><div class="loading">Loading...</div></div>
+  </div>
+</div>
+
+<script>
+const API = 'https://web-production-54cc.up.railway.app';
+let currentDays = 30;
+let sortCol = 'sent_at';
+let sortAsc = false;
+let autoTimer = null;
+let data = null;
+
+document.querySelectorAll('#periodBtns button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#periodBtns button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentDays = parseInt(btn.dataset.days);
+    fetchData();
+  });
+});
+
+document.querySelectorAll('th[data-col]').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.col;
+    if (sortCol === col) sortAsc = !sortAsc;
+    else { sortCol = col; sortAsc = false; }
+    if (data) renderTable(data.emails);
+  });
+});
+
+function toggleAutoRefresh() {
+  const on = document.getElementById('autoRefresh').checked;
+  document.getElementById('autoDot').classList.toggle('on', on);
+  clearInterval(autoTimer);
+  autoTimer = on ? setInterval(() => fetchData(true), 5 * 60 * 1000) : null;
+}
+
+async function fetchData(bypassCache) {
+  const status = document.getElementById('statusLine');
+  status.textContent = 'Fetching (this can take 10–15s)…';
+  try {
+    const url = `${API}/api/outreach/email-tracker?days=${currentDays}&account=team` + (bypassCache ? '&nocache=1' : '');
+    const res = await fetch(url);
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({error: `HTTP ${res.status}`}));
+      throw new Error(err.error || `HTTP ${res.status}`);
+    }
+    data = await res.json();
+    render(data);
+    status.textContent = `Updated ${new Date().toLocaleTimeString()}`;
+  } catch (e) {
+    status.textContent = `Error: ${e.message}`;
+    document.getElementById('tableBody').innerHTML = `<tr><td colspan="8" class="error">${e.message}</td></tr>`;
+  }
+}
+
+function render(d) {
+  const s = d.summary || {};
+  document.getElementById('cSent').textContent = s.sent || 0;
+  document.getElementById('cSentSub').textContent = `${s.warmup_excluded || 0} warmup excluded`;
+  document.getElementById('cBounced').textContent = s.bounced || 0;
+  document.getElementById('cBouncedSub').textContent = `${s.unique_recipients || 0} unique recipients`;
+  document.getElementById('cDelivered').textContent = s.delivered || 0;
+
+  const dPct = s.deliverability_pct;
+  const dEl = document.getElementById('cDeliverability');
+  dEl.textContent = dPct != null ? dPct.toFixed(1) + '%' : '—';
+  dEl.classList.toggle('good', dPct >= 95);
+  dEl.classList.toggle('warn', dPct < 95 && dPct >= 85);
+  dEl.classList.toggle('bad',  dPct < 85);
+
+  // Opened = pixel opens (summary.opened, unique recipients) / delivered
+  const uniqueOpeners = s.opened || 0;  // undefined on old cached responses (pre-deploy)
+  const openRate = (s.delivered > 0) ? (uniqueOpeners / s.delivered * 100) : 0;
+  const oEl = document.getElementById('cOpenRate');
+  oEl.textContent = openRate.toFixed(1) + '%';
+  document.getElementById('cOpenSub').textContent = `${uniqueOpeners} opened`;
+  oEl.classList.toggle('good', openRate >= 30);
+  oEl.classList.toggle('warn', openRate < 30 && openRate >= 10);
+  oEl.classList.toggle('bad',  openRate < 10);
+
+  // Clicked = unique recipients who clicked through to the grade page (page_views)
+  const uniqueClickers = new Set((d.emails || [])
+    .filter(e => e.page_views && e.page_views.total_views > 0)
+    .map(e => e.recipient_email)
+  ).size;
+  const clickRate = (s.delivered > 0) ? (uniqueClickers / s.delivered * 100) : 0;
+  const cEl = document.getElementById('cClickRate');
+  cEl.textContent = clickRate.toFixed(1) + '%';
+  document.getElementById('cClickSub').textContent = `${uniqueClickers} clicked`;
+  cEl.classList.toggle('good', clickRate >= 10);
+  cEl.classList.toggle('warn', clickRate < 10 && clickRate >= 2);
+  cEl.classList.toggle('bad',  clickRate < 2);
+
+  document.getElementById('tableHint').textContent =
+    `${(d.emails || []).length} emails • ${s.businesses_matched || 0} matched to business in DB • cached 5min`;
+
+  renderTable(d.emails || []);
+  renderBounces(d.emails || []);
+}
+
+function renderTable(emails) {
+  const sorted = [...emails].sort((a, b) => {
+    let va, vb;
+    if (sortCol === 'sent_at' || sortCol === 'last_viewed') {
+      va = sortCol === 'sent_at' ? a.sent_at : (a.page_views && a.page_views.last_viewed);
+      vb = sortCol === 'sent_at' ? b.sent_at : (b.page_views && b.page_views.last_viewed);
+      va = va ? new Date(va).getTime() : 0;
+      vb = vb ? new Date(vb).getTime() : 0;
+    } else if (sortCol === 'rating') {
+      va = (a.business && a.business.rating) ?? -1;
+      vb = (b.business && b.business.rating) ?? -1;
+    } else if (sortCol === 'business_name') {
+      va = (a.business && a.business.name || '').toLowerCase();
+      vb = (b.business && b.business.name || '').toLowerCase();
+      return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+    } else if (sortCol === 'recipient_email') {
+      va = (a.recipient_email || '').toLowerCase();
+      vb = (b.recipient_email || '').toLowerCase();
+      return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+    } else if (sortCol === 'views') {
+      va = (a.page_views && a.page_views.total_views) || 0;
+      vb = (b.page_views && b.page_views.total_views) || 0;
+    } else if (sortCol === 'status') {
+      const score = e => e.bounced ? 3 : (e.page_views && e.page_views.total_views > 0 ? 2 : (e.opens && e.opens.total_opens > 0 ? 1 : 0));
+      va = score(a); vb = score(b);
+    } else {
+      va = 0; vb = 0;
+    }
+    return sortAsc ? va - vb : vb - va;
+  });
+
+  document.querySelectorAll('th[data-col]').forEach(th => {
+    th.querySelector('.arrow').textContent = th.dataset.col === sortCol ? (sortAsc ? '▲' : '▼') : '';
+  });
+
+  const tbody = document.getElementById('tableBody');
+  if (!sorted.length) {
+    tbody.innerHTML = '<tr><td colspan="8" class="loading">No emails in this period</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = sorted.map(e => {
+    const biz = e.business;
+    const views = e.page_views;
+    const clicked = views && views.total_views > 0;
+    const openedPixel = e.opens && e.opens.total_opens > 0;
+    const rowClass = e.bounced ? 'bounced' : (clicked ? 'clicked' : (openedPixel ? 'opened' : ''));
+    let statusHtml;
+    if (e.bounced) {
+      const t = (e.bounce_info && e.bounce_info.bounce_type) || 'unknown';
+      const tag = t === 'hard' ? 'hard' : (t === 'soft' ? 'soft' : 'unknown');
+      statusHtml = `<span class="status-bounced">📭 ${tag}</span>`;
+    } else if (clicked) {
+      statusHtml = '<span class="status-opened">👁 clicked</span>';
+    } else if (e.opens && e.opens.total_opens > 0) {
+      statusHtml = '<span class="status-opened">📬 opened</span>';
+    } else {
+      statusHtml = '<span class="status-delivered">✓ delivered</span>';
+    }
+    // NYC letter grade (us_grade: A | B | C | N | P | Z)
+    const gradeCls = {A:'badge-green', B:'badge-amber', C:'badge-red'};
+    const ratingHtml = biz && biz.us_grade
+      ? `<span class="badge ${gradeCls[biz.us_grade] || 'badge-muted'}" title="Grade ${biz.us_grade}">${biz.us_grade}</span>`
+      : '<span class="badge badge-muted">—</span>';
+    // Row is clickable when we have a fhrs_id (so we can fetch detailed views)
+    const fhrsId = biz && biz.fhrs_id;
+    const clickable = fhrsId ? 'clickable' : '';
+    const onclick = fhrsId
+      ? `onclick="showDetail(${fhrsId}, '${esc(biz.name).replace(/'/g, "\\'")}', '${esc(e.recipient_email || '').replace(/'/g, "\\'")}')"`
+      : '';
+    return `<tr class="${rowClass} ${clickable}" ${onclick}>
+      <td class="mono">${fmtDate(e.sent_at)}</td>
+      <td class="recipient-cell mono" title="${esc(e.recipient_email || '')}">${esc(e.recipient_email || '—')}</td>
+      <td class="biz-cell" title="${esc(biz ? biz.name : '')}">${biz ? esc(biz.name) : '<span style="color:var(--muted)">(no match)</span>'}</td>
+      <td>${ratingHtml}</td>
+      <td class="subject-cell" title="${esc(e.subject || '')}">${esc(e.subject || '—')}</td>
+      <td>${statusHtml}</td>
+      <td class="mono">${views ? views.total_views : 0}${views && views.total_views > 0 ? ' 👁' : ''}</td>
+      <td class="mono">${views && views.last_viewed ? fmtDate(views.last_viewed) : '—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderBounces(emails) {
+  const bounces = emails.filter(e => e.bounced && e.bounce_info)
+    .sort((a, b) => new Date(b.bounce_info.bounce_received_at) - new Date(a.bounce_info.bounce_received_at));
+  const el = document.getElementById('bounceList');
+  if (!bounces.length) { el.innerHTML = '<div class="loading">No bounces in this period 🎉</div>'; return; }
+  el.innerHTML = bounces.slice(0, 50).map(e => {
+    const b = e.bounce_info;
+    const t = b.bounce_type || 'unknown';
+    return `<div class="feed-item">
+      <span class="date">${fmtDate(b.bounce_received_at)}</span>
+      <span class="tag ${t}">${t}</span>
+      <span class="recip">${esc(e.recipient_email)}</span>
+      <span class="reason">${esc((b.bounce_reason || '').slice(0, 120))}</span>
+    </div>`;
+  }).join('');
+}
+
+function ratingClass(r) {
+  if (r == null) return 'badge-muted';
+  if (r <= 1) return 'badge-red';
+  if (r <= 3) return 'badge-amber';
+  return 'badge-green';
+}
+
+function fmtDate(d) {
+  if (!d) return '—';
+  const dt = new Date(d);
+  return dt.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) + ' ' +
+         dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s == null ? '' : String(s);
+  return d.innerHTML;
+}
+
+fetchData();
+</script>
+
+<!-- Detail Modal — click-throughs (page views) for a business -->
+<div id="detailModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;justify-content:center;align-items:flex-start;padding-top:5vh;overflow-y:auto;" onclick="if(event.target===this)closeDetail()">
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:24px;max-width:760px;width:95%;margin:0 auto;max-height:85vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <h2 id="detailTitle" style="font-size:17px;color:var(--accent);"></h2>
+      <button onclick="closeDetail()" style="padding:4px 10px;">✕</button>
+    </div>
+    <div id="detailRecipient" style="font-size:12px;color:var(--muted);margin-bottom:14px;font-family:'SF Mono',monospace;"></div>
+    <div id="detailContent" style="font-size:13px;"><div class="loading">Loading…</div></div>
+  </div>
+</div>
+
+<script>
+async function showDetail(fhrsId, name, recipient) {
+  document.getElementById('detailTitle').textContent = name;
+  document.getElementById('detailRecipient').textContent = recipient ? `→ ${recipient}` : '';
+  document.getElementById('detailContent').innerHTML = '<div class="loading">Loading…</div>';
+  document.getElementById('detailModal').style.display = 'flex';
+  try {
+    const res = await fetch(`${API}/api/page-views/${fhrsId}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const views = await res.json();
+    if (!views.length) {
+      document.getElementById('detailContent').innerHTML =
+        '<p style="color:var(--muted);text-align:center;padding:30px;">Письмо не открыли — кликов по ссылке ещё нет</p>';
+      return;
+    }
+    let html = `<p style="color:var(--muted);margin-bottom:12px;font-size:13px;">
+      <strong style="color:var(--green);">${views.length}</strong> click${views.length !== 1 ? 's' : ''} on rating page
+      · <strong style="color:var(--text);">${new Set(views.map(v => v.ip)).size}</strong> unique IP${new Set(views.map(v => v.ip)).size !== 1 ? 's' : ''}
+    </p>`;
+    html += '<div style="overflow-x:auto"><table style="width:100%;font-size:12px;"><thead><tr>';
+    html += '<th>When</th><th>Location</th><th>Device</th><th>OS</th><th>Browser</th><th>Language</th><th>IP</th>';
+    html += '</tr></thead><tbody>';
+    views.forEach(v => {
+      const when = v.viewed_at
+        ? new Date(v.viewed_at).toLocaleString('en-GB', {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})
+        : '—';
+      const loc = [v.city, v.country].filter(Boolean).join(', ') || '—';
+      const icon = v.device_type === 'mobile' ? '📱' : '🖥';
+      html += `<tr>
+        <td class="mono">${when}</td>
+        <td>${esc(loc)}</td>
+        <td>${icon} ${esc(v.device_type || '—')}</td>
+        <td>${esc(v.os || '—')}</td>
+        <td>${esc(v.browser || '—')}</td>
+        <td>${esc(v.language || '—')}</td>
+        <td class="mono" style="font-size:11px;color:var(--muted);">${esc(v.ip || '—')}</td>
+      </tr>`;
+    });
+    html += '</tbody></table></div>';
+    document.getElementById('detailContent').innerHTML = html;
+  } catch (e) {
+    document.getElementById('detailContent').innerHTML = `<p style="color:var(--red);">Error: ${e.message}</p>`;
+  }
+}
+function closeDetail() { document.getElementById('detailModal').style.display = 'none'; }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
+</script>
+
+</body>
+</html>

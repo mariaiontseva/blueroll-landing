@@ -1,0 +1,269 @@
+- generic [active] [ref=f2e1]:
+  - banner [ref=f2e2]:
+    - link "Blueroll Blueroll" [ref=f2e3] [cursor=pointer]:
+      - /url: /
+      - img "Blueroll" [ref=f2e4]
+      - generic [ref=f2e5]: Blueroll
+    - generic "Menu" [ref=f2e6] [cursor=pointer]
+  - banner [ref=f2e10]:
+    - generic [ref=f2e11]:
+      - navigation "Breadcrumb" [ref=f2e12]:
+        - list [ref=f2e13]:
+          - listitem [ref=f2e14]:
+            - link "Blueroll" [ref=f2e15] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=f2e16]: ›
+          - listitem [ref=f2e17]: Compare food safety apps
+      - generic [ref=f2e18]: UK buyer's guide · 2026
+      - heading [level=1] [ref=f2e19]:
+        - text: The best food safety app is the one that fits
+        - emphasis [ref=f2e20]: your operation.
+      - paragraph [ref=f2e21]: "Seven credible options, compared using public facts rather than a made-up score. Start with the job you need done: a simple digital SFBB record, a food-safety-first system, broader restaurant operations, or an enterprise inspection platform."
+      - generic [ref=f2e22]:
+        - generic [ref=f2e23]: 7 products
+        - generic [ref=f2e24]: Official vendor sources
+        - generic [ref=f2e25]: Prices checked 20 July 2026
+        - generic [ref=f2e26]: "Commercial disclosure: published by Blueroll"
+  - main [ref=f2e27]:
+    - generic [ref=f2e28]:
+      - generic [ref=f2e29]:
+        - generic [ref=f2e30]: Short answer
+        - heading "Pick by use case, not by feature count." [level=2] [ref=f2e31]
+        - paragraph [ref=f2e32]: Our view based on the publicly documented offer. A live trial with the people who actually complete checks is more useful than any comparison table.
+      - generic [ref=f2e33]:
+        - article [ref=f2e34]:
+          - generic [ref=f2e35]: Food safety first
+          - heading "Blueroll or FoodDocs" [level=3] [ref=f2e36]
+          - paragraph [ref=f2e37]: Blueroll is the lean UK-priced option for HACCP records, recipes, allergens and site reporting. FoodDocs is a more expensive specialist with AI-led food safety plan tooling.
+        - article [ref=f2e38]:
+          - generic [ref=f2e39]: Simple SFBB
+          - heading "SFBB+" [level=3] [ref=f2e40]
+          - paragraph [ref=f2e41]: The lowest published subscription here and closely framed around the FSA's SFBB model. Best when the core need is a straightforward digital diary rather than a broader operations suite.
+        - article [ref=f2e42]:
+          - generic [ref=f2e43]: Broader operations
+          - heading "Trail or Leafe" [level=3] [ref=f2e44]
+          - paragraph [ref=f2e45]: Consider these when food safety is one part of a wider daily-operations requirement such as tasks, rotas, inventory or deeper group workflows.
+        - article [ref=f2e46]:
+          - generic [ref=f2e47]: Cross-industry
+          - heading "SafetyCulture" [level=3] [ref=f2e48]
+          - paragraph [ref=f2e49]: A broad inspection platform suited to organisations that need configurable audits across food safety, facilities, health and safety, and other functions.
+        - article [ref=f2e50]:
+          - generic [ref=f2e51]: Expert support
+          - heading "Food Safety Guru" [level=3] [ref=f2e52]
+          - paragraph [ref=f2e53]: Worth evaluating when direct specialist food-safety support matters more than a self-serve public price.
+        - article [ref=f2e54]:
+          - generic [ref=f2e55]: Start here
+          - heading "Run a shift trial" [level=3] [ref=f2e56]
+          - paragraph [ref=f2e57]: Test offline and mobile behaviour, corrective actions, report retrieval, recipe updates, access control and the time it takes a new team member to complete a check.
+    - generic [ref=f2e58]:
+      - generic [ref=f2e59]:
+        - generic [ref=f2e60]: Comparison
+        - heading "Public offer at a glance." [level=2] [ref=f2e61]
+        - paragraph [ref=f2e62]: Prices below are list prices displayed by each vendor on the date checked. VAT, currency conversion, annual commitments, onboarding and enterprise terms can change the final cost.
+      - table [ref=f2e64]:
+        - rowgroup [ref=f2e65]:
+          - row [ref=f2e66]:
+            - columnheader "Product" [ref=f2e67]
+            - columnheader "Published starting price" [ref=f2e68]
+            - columnheader "Users / sites" [ref=f2e69]
+            - columnheader "Publicly stated focus" [ref=f2e70]
+            - columnheader "Trial / free tier" [ref=f2e71]
+        - rowgroup [ref=f2e72]:
+          - row [ref=f2e73]:
+            - cell "Blueroll" [ref=f2e74]
+            - cell [ref=f2e75]:
+              - strong [ref=f2e76]: £24.99/site/month
+            - cell "Unlimited team; per-site price" [ref=f2e77]
+            - cell "Digital HACCP and SFBB checks, recipes, 14-allergen matrix, deliveries, documents, multi-site reporting" [ref=f2e78]
+            - cell [ref=f2e79]:
+              - text: 14-day free trial ·
+              - link "source" [ref=f2e80] [cursor=pointer]:
+                - /url: /#pricing
+          - row [ref=f2e81]:
+            - cell "SFBB+" [ref=f2e82]
+            - cell [ref=f2e83]:
+              - strong [ref=f2e84]: £4.99/premises/month
+            - cell "Per premises; check live terms" [ref=f2e85]
+            - cell "A digital food-safety diary based on the FSA Safer Food, Better Business model" [ref=f2e86]
+            - cell [ref=f2e87]:
+              - text: 90-day trial ·
+              - link "source ↗" [ref=f2e88] [cursor=pointer]:
+                - /url: https://www.sfbbplus.co.uk/
+          - row [ref=f2e89]:
+            - cell "Trail" [ref=f2e90]
+            - cell [ref=f2e91]:
+              - strong [ref=f2e92]: £38/site/month
+              - text: for Team; £32 equivalent when billed annually
+            - cell "Unlimited users; per-site price" [ref=f2e93]
+            - cell "Hospitality operations, tasks and compliance; higher tiers add wider controls and reporting" [ref=f2e94]
+            - cell [ref=f2e95]:
+              - text: Demo / terms on vendor site ·
+              - link "source ↗" [ref=f2e96] [cursor=pointer]:
+                - /url: https://trailapp.com/pricing
+          - row [ref=f2e97]:
+            - cell "Leafe" [ref=f2e98]
+            - cell [ref=f2e99]:
+              - strong [ref=f2e100]: £28/venue/month + VAT
+              - text: for Basic
+            - cell "Basic is solo; Standard £68 includes up to 5 team members; Pro £119 lists unlimited team" [ref=f2e101]
+            - cell "Restaurant management spanning compliance, allergens and broader operations by tier" [ref=f2e102]
+            - cell [ref=f2e103]:
+              - text: 7-day trial ·
+              - link "source ↗" [ref=f2e104] [cursor=pointer]:
+                - /url: https://www.leafeapp.com/pricing-lp1125
+          - row [ref=f2e105]:
+            - cell "FoodDocs" [ref=f2e106]
+            - cell [ref=f2e107]:
+              - strong [ref=f2e108]: $99/site/month
+              - text: for Lite; $79 equivalent annually
+            - cell "Unlimited users; per-site price" [ref=f2e109]
+            - cell "AI-assisted food safety plans, monitoring and compliance; Standard is listed at $199 monthly" [ref=f2e110]
+            - cell [ref=f2e111]:
+              - text: 14-day trial ·
+              - link "source ↗" [ref=f2e112] [cursor=pointer]:
+                - /url: https://www.fooddocs.com/pricing
+          - row [ref=f2e113]:
+            - cell "SafetyCulture" [ref=f2e114]
+            - cell [ref=f2e115]:
+              - strong [ref=f2e116]: $29/seat/month
+              - text: for Premium; $24 when billed annually
+            - cell "Per seat; Free plan has stated user/template limits" [ref=f2e117]
+            - cell "General inspection, operations and workplace platform across industries" [ref=f2e118]
+            - cell [ref=f2e119]:
+              - text: Free plan available ·
+              - link "source ↗" [ref=f2e120] [cursor=pointer]:
+                - /url: https://safetyculture.com/pricing/
+          - row [ref=f2e121]:
+            - cell "Food Safety Guru" [ref=f2e122]
+            - cell [ref=f2e123]:
+              - strong [ref=f2e124]: Price not published
+            - cell "Custom / contact vendor" [ref=f2e125]
+            - cell "Food-safety software with checklists, allergen and HACCP tools plus specialist support" [ref=f2e126]
+            - cell [ref=f2e127]:
+              - text: Contact vendor ·
+              - link "source ↗" [ref=f2e128] [cursor=pointer]:
+                - /url: https://foodsafetyguru.co.uk/pricing-plans/
+      - paragraph [ref=f2e129]: Currency symbols and plan names are reproduced as displayed on vendors' public pricing pages. “Starting price” is not a total-cost estimate. We did not infer unlisted contract terms or convert currencies. Always verify the linked source before buying.
+    - generic [ref=f2e130]:
+      - generic [ref=f2e131]:
+        - generic [ref=f2e132]: Transparent verdicts
+        - heading "Where each product may fit best." [level=2] [ref=f2e133]
+      - generic [ref=f2e134]:
+        - article [ref=f2e135]:
+          - heading "Blueroll" [level=3] [ref=f2e136]
+          - paragraph [ref=f2e137]:
+            - strong [ref=f2e138]: "Consider it if:"
+            - text: you run an independent UK restaurant or a growing group and want food safety, allergens and records in one focused product with unlimited team members.
+            - strong [ref=f2e139]: "Look elsewhere if:"
+            - text: you need enterprise SSO, a large integration catalogue or an all-industry audit platform.
+        - article [ref=f2e140]:
+          - heading "SFBB+" [level=3] [ref=f2e141]
+          - paragraph [ref=f2e142]:
+            - strong [ref=f2e143]: "Consider it if:"
+            - text: price and a simple digital SFBB diary are the priority.
+            - strong [ref=f2e144]: "Look more widely if:"
+            - text: recipes, automated allergen workflows, documents or multi-site management are central to the buying decision.
+        - article [ref=f2e145]:
+          - heading "Trail" [level=3] [ref=f2e146]
+          - paragraph [ref=f2e147]:
+            - strong [ref=f2e148]: "Consider it if:"
+            - text: a hospitality operations platform and mature group workflows justify the higher published site price.
+            - strong [ref=f2e149]: "Compare carefully if:"
+            - text: the main need is a lean food-safety system for a small number of sites.
+        - article [ref=f2e150]:
+          - heading "Leafe" [level=3] [ref=f2e151]
+          - paragraph [ref=f2e152]:
+            - strong [ref=f2e153]: "Consider it if:"
+            - text: you want restaurant operations, compliance and workforce functions under tiered plans.
+            - strong [ref=f2e154]: "Check the maths:"
+            - text: team limits and VAT materially affect the entry price.
+        - article [ref=f2e155]:
+          - heading "FoodDocs" [level=3] [ref=f2e156]
+          - paragraph [ref=f2e157]:
+            - strong [ref=f2e158]: "Consider it if:"
+            - text: specialist AI-assisted HACCP planning is worth a materially higher published site price.
+            - strong [ref=f2e159]: "Check:"
+            - text: currency, local regulatory fit and which features sit in Lite versus Standard.
+        - article [ref=f2e160]:
+          - heading "SafetyCulture" [level=3] [ref=f2e161]
+          - paragraph [ref=f2e162]:
+            - strong [ref=f2e163]: "Consider it if:"
+            - text: your organisation needs one configurable inspection system across departments or industries.
+            - strong [ref=f2e164]: "Check:"
+            - text: per-seat costs and the work required to create restaurant-specific processes.
+        - article [ref=f2e165]:
+          - heading "Food Safety Guru" [level=3] [ref=f2e166]
+          - paragraph [ref=f2e167]:
+            - strong [ref=f2e168]: "Consider it if:"
+            - text: access to food-safety specialists and a tailored package matter.
+            - strong [ref=f2e169]: "Check:"
+            - text: total cost and exact included services directly, because no numeric list price was visible.
+        - article [ref=f2e170]:
+          - heading "No universal winner" [level=3] [ref=f2e171]
+          - paragraph [ref=f2e172]: A small café, a 12-site group and a multinational facilities team do not have the same “best” product. Document must-have workflows and compare like-for-like annual cost.
+    - generic [ref=f2e173]:
+      - generic [ref=f2e174]:
+        - generic [ref=f2e175]: Method
+        - heading "How this comparison was built." [level=2] [ref=f2e176]
+      - generic [ref=f2e177]:
+        - article [ref=f2e178]:
+          - generic [ref=f2e179]:
+            - heading "Inclusion" [level=3] [ref=f2e180]
+            - paragraph [ref=f2e181]: We included products with a public UK-relevant food-safety, hospitality-operations or inspection offer and enough first-party information to make a useful comparison.
+        - article [ref=f2e182]:
+          - generic [ref=f2e183]:
+            - heading "Source hierarchy" [level=3] [ref=f2e184]
+            - paragraph [ref=f2e185]: Prices, limits and features come from official vendor pages. We did not copy affiliate round-ups or vendor claims about their competitors.
+        - article [ref=f2e186]:
+          - generic [ref=f2e187]:
+            - heading "No hidden weighted score" [level=3] [ref=f2e188]
+            - paragraph [ref=f2e189]: We did not assign points to arbitrary features. The table exposes decision variables so the reader can apply their own priorities.
+        - article [ref=f2e190]:
+          - generic [ref=f2e191]:
+            - heading "Commercial disclosure" [level=3] [ref=f2e192]
+            - paragraph [ref=f2e193]: Blueroll publishes this page and sells one of the products compared. That conflict is why competitors receive direct links and Blueroll's limitations are stated plainly.
+        - article [ref=f2e194]:
+          - generic [ref=f2e195]:
+            - heading "What we did not verify" [level=3] [ref=f2e196]
+            - paragraph [ref=f2e197]: We did not independently audit private security controls, support response times, uptime, implementation quality or every feature behind a login. Absence from the table does not mean a feature is absent.
+        - article [ref=f2e198]:
+          - generic [ref=f2e199]:
+            - heading "Maintenance" [level=3] [ref=f2e200]
+            - paragraph [ref=f2e201]:
+              - text: Public facts were checked on 20 July 2026. Send corrections to
+              - link "hello@blueroll.app" [ref=f2e202] [cursor=pointer]:
+                - /url: mailto:hello@blueroll.app?subject=Comparison%20correction
+              - text: . The check date changes only after the sources are reviewed again.
+    - generic [ref=f2e204]:
+      - heading "A practical five-step trial" [level=3] [ref=f2e205]
+      - list [ref=f2e206]:
+        - listitem [ref=f2e207]: Ask a new team member to complete opening and temperature checks on their phone.
+        - listitem [ref=f2e208]: Record a failed temperature and follow the corrective-action path.
+        - listitem [ref=f2e209]: Change one ingredient and inspect how the allergen record updates.
+        - listitem [ref=f2e210]: Retrieve a full date-range report as if an inspector were waiting.
+        - listitem [ref=f2e211]: Price the actual number of sites and users for a full year, including VAT and onboarding.
+      - paragraph [ref=f2e212]:
+        - link "Try Blueroll free for 14 days" [ref=f2e213] [cursor=pointer]:
+          - /url: https://app.blueroll.app/
+        - text: or return to the
+        - link "product and pricing page" [ref=f2e214] [cursor=pointer]:
+          - /url: /#pricing
+        - text: .
+  - contentinfo [ref=f2e215]:
+    - generic [ref=f2e216]:
+      - generic [ref=f2e217]:
+        - strong [ref=f2e218]: Blueroll
+        - paragraph [ref=f2e219]: Published by a participant in the market. Official sources, limitations and the date checked are shown so you can verify the comparison.
+      - navigation "Footer" [ref=f2e220]:
+        - link "Home" [ref=f2e221] [cursor=pointer]:
+          - /url: /
+        - link "About" [ref=f2e222] [cursor=pointer]:
+          - /url: about.html
+        - link "Evidence" [ref=f2e223] [cursor=pointer]:
+          - /url: evidence.html
+        - link "Security" [ref=f2e224] [cursor=pointer]:
+          - /url: security.html
+        - link "Privacy" [ref=f2e225] [cursor=pointer]:
+          - /url: privacy.html
+        - link "Terms" [ref=f2e226] [cursor=pointer]:
+          - /url: terms.html
