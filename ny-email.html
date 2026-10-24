@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://t.contentsquare.net/uxa/f84aff336d942.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blueroll — NY Email Outreach 🗽</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #FAFBFC;
+  --surface: #FFFFFF;
+  --border: #E8ECF0;
+  --border-light: #F0F2F5;
+  --text: #1A1D21;
+  --text-secondary: #5E6670;
+  --muted: #8B939F;
+  --accent: #10B981;
+  --blue: #2563EB;
+  --blue-soft: #EFF4FF;
+  --blue-mid: #3B82F6;
+  --red-soft: #FEF2F2;
+  --red: #DC2626;
+  --green-soft: #ECFDF5;
+  --font: 'DM Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --mono: 'JetBrains Mono', 'SF Mono', monospace;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 15px; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+
+.header {
+  padding: 20px 32px; background: var(--surface); border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.header-left { display: flex; align-items: center; gap: 14px; }
+.header-left h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; color: var(--text); }
+.header-left .tag {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; font-weight: 500;
+  text-transform: uppercase; color: var(--blue); background: var(--blue-soft);
+  padding: 4px 10px; border-radius: 6px;
+}
+.header-right { display: flex; gap: 16px; align-items: center; }
+.nav-link { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.15s; }
+.nav-link:hover { color: var(--blue); }
+
+/* Toolbar */
+.toolbar {
+  padding: 16px 32px; background: var(--surface); border-bottom: 1px solid var(--border);
+  display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+.toolbar-input {
+  background: var(--bg); border: 1px solid var(--border); color: var(--text);
+  padding: 10px 16px; border-radius: 10px; font-size: 14px; font-family: inherit;
+  outline: none; min-width: 240px; transition: border-color 0.15s;
+}
+.toolbar-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-soft); }
+.toolbar-input::placeholder { color: var(--muted); }
+.toolbar-select {
+  background: var(--bg); border: 1px solid var(--border); color: var(--text);
+  padding: 10px 14px; border-radius: 10px; font-size: 14px; font-family: inherit; cursor: pointer;
+  -webkit-appearance: none; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%238B939F'%3E%3Cpath d='M5 7L0 2h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px;
+}
+.toolbar-btn {
+  padding: 10px 22px; border-radius: 10px; font-size: 14px; font-weight: 600;
+  cursor: pointer; font-family: inherit; border: none; transition: all 0.15s;
+}
+.btn-search { background: var(--blue); color: white; }
+.btn-search:hover { background: #1D4ED8; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
+
+/* Stats */
+.stats-bar {
+  padding: 14px 32px; border-bottom: 1px solid var(--border-light); background: var(--surface);
+  display: flex; gap: 28px; align-items: center; font-size: 14px;
+}
+.stat { color: var(--text-secondary); }
+.stat-val { color: var(--blue); font-weight: 700; font-family: var(--mono); font-size: 15px; }
+
+/* Action bar */
+.action-bar {
+  display: none; padding: 14px 32px; background: var(--blue-soft);
+  border-bottom: 1px solid #D6E4FF;
+  align-items: center; gap: 12px; font-size: 14px; color: var(--blue);
+}
+.action-bar.active { display: flex; }
+.action-bar strong { font-weight: 700; font-family: var(--mono); font-size: 16px; }
+.action-spacer { flex: 1; }
+.action-btn {
+  padding: 9px 20px; font-size: 13px; border-radius: 8px; cursor: pointer;
+  font-family: inherit; font-weight: 600; border: none; transition: all 0.15s;
+}
+.btn-export { background: var(--accent); color: white; }
+.btn-export:hover { background: #059669; }
+.btn-preview { background: white; color: var(--blue); border: 1px solid #C7D7FE; }
+.btn-preview:hover { border-color: var(--blue); background: #F8FAFF; }
+.btn-mark { background: var(--blue); color: white; }
+.btn-mark:hover { background: #1D4ED8; }
+.btn-deselect {
+  padding: 6px 14px; font-size: 12px; border-radius: 6px;
+  border: 1px solid #C7D7FE; background: white; color: var(--blue);
+  cursor: pointer; font-weight: 500;
+}
+
+/* Filter bar */
+.filter-bar {
+  padding: 14px 32px; background: var(--surface); border-bottom: 1px solid var(--border);
+}
+.filter-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.filter-label {
+  font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase;
+  letter-spacing: 0.06em; font-family: var(--mono); min-width: 50px;
+}
+.filter-sep { width: 1px; height: 20px; background: var(--border); margin: 0 4px; }
+.fbtn, .sbtn, .tbtn {
+  padding: 6px 14px; font-size: 13px; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--border); background: var(--surface); color: var(--text-secondary);
+  font-family: inherit; font-weight: 500; transition: all 0.12s;
+}
+.fbtn:hover, .sbtn:hover, .tbtn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+.fbtn.active { background: var(--blue); color: white; border-color: var(--blue); }
+.fbtn-red.active { background: #DC2626; border-color: #DC2626; }
+.fbtn-orange.active { background: #EA580C; border-color: #EA580C; }
+.fbtn-yellow.active { background: #D97706; border-color: #D97706; }
+.fbtn-green.active { background: #059669; border-color: #059669; }
+.sbtn.active { background: var(--text); color: white; border-color: var(--text); }
+.tbtn.active { background: var(--text); color: white; border-color: var(--text); }
+
+/* Table */
+.table-wrap { overflow-x: auto; background: var(--surface); }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th {
+  text-align: left; padding: 14px 16px; font-size: 11px; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.06em; font-family: var(--mono); font-weight: 500;
+  border-bottom: 2px solid var(--border); white-space: nowrap; user-select: none;
+  cursor: pointer; background: var(--surface);
+}
+th:hover { color: var(--blue); }
+th .sort-arrow { font-size: 9px; margin-left: 4px; }
+td {
+  padding: 14px 16px; border-bottom: 1px solid var(--border-light);
+  white-space: nowrap; max-width: 260px; overflow: hidden; text-overflow: ellipsis;
+  color: var(--text);
+}
+tr { transition: background 0.1s; }
+tr:hover { background: var(--blue-soft); }
+.rating-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 28px; border-radius: 6px;
+  font-family: var(--mono); font-weight: 700; font-size: 13px;
+}
+/* NYC letter grades */
+.g-A { background: var(--green-soft); color: #047857; }
+.g-B { background: #FFFBEB; color: #D97706; }
+.g-C { background: #FEF2F2; color: #DC2626; }
+.g-P { background: #F1F5F9; color: #94A3B8; }
+.sent-tag { font-size: 11px; color: var(--accent); font-family: var(--mono); font-weight: 500; }
+.email-cell { color: var(--blue-mid); font-size: 13px; max-width: 220px; overflow: hidden; text-overflow: ellipsis; }
+
+/* Pagination */
+.pagination {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 32px; font-size: 13px; background: var(--surface); border-top: 1px solid var(--border-light);
+}
+.pagination .info { font-family: var(--mono); color: var(--muted); font-size: 12px; }
+.pagination .pages { display: flex; gap: 6px; }
+.page-btn {
+  padding: 7px 13px; font-size: 13px; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--border); background: var(--surface); color: var(--text);
+  font-family: var(--mono); font-weight: 500; transition: all 0.1s;
+}
+.page-btn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+.page-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
+.page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* Empty */
+.empty { text-align: center; padding: 100px 32px; color: var(--muted); background: var(--surface); }
+.empty-text { font-size: 16px; }
+
+/* Email preview modal */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+  z-index: 200; justify-content: center; align-items: flex-start; padding: 48px 20px;
+  overflow-y: auto; backdrop-filter: blur(8px);
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: white; color: #111; border-radius: 16px; width: 680px; max-height: 90vh;
+  overflow-y: auto; position: relative; box-shadow: 0 24px 80px rgba(0,0,0,0.15);
+}
+.modal-toolbar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 28px; border-bottom: 1px solid #F0F0F0; position: sticky; top: 0;
+  background: white; z-index: 10; border-radius: 16px 16px 0 0;
+}
+.modal-toolbar .title { font-size: 16px; font-weight: 700; color: #1A202C; letter-spacing: -0.3px; }
+.modal-toolbar .actions { display: flex; gap: 8px; }
+.modal-toolbar .mbtn {
+  padding: 8px 16px; border: 1px solid #E5E7EB; background: white; border-radius: 8px;
+  font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; transition: all 0.15s;
+}
+.modal-toolbar .mbtn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+.modal-close {
+  position: absolute; top: 16px; right: 20px; background: none; border: none;
+  font-size: 24px; cursor: pointer; color: #CBD5E1; z-index: 11; transition: color 0.15s;
+}
+.modal-close:hover { color: #64748B; }
+.modal-body { padding: 28px; }
+.email-page {
+  background: #F8FAFC; border-radius: 12px; padding: 32px; margin-bottom: 20px; border: 1px solid #E8ECF0;
+}
+.email-page:last-child { margin-bottom: 0; }
+.email-page-to { font-size: 11px; color: #94A3B8; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
+.email-page-name { font-size: 16px; font-weight: 600; color: #0F172A; margin-bottom: 4px; }
+.email-page-email { font-size: 14px; color: #64748B; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #E8ECF0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>🗽 NY Email Outreach</h1>
+    <span class="tag">Blueroll · NYC</span>
+  </div>
+  <div class="header-right">
+    <a href="ny-db.html" class="nav-link">NY Database</a>
+    <a href="ny-email-tracker.html" class="nav-link">NY Tracker</a>
+    <a href="email.html" class="nav-link">UK Outreach</a>
+  </div>
+</div>
+
+<div class="toolbar">
+  <input class="toolbar-input" id="searchQ" type="text" placeholder="Search name, ZIP, borough, email..." onkeydown="if(event.key==='Enter') loadData(1)">
+  <select class="toolbar-select" id="filterHas" onchange="loadData()">
+    <option value="email" selected>Has email</option>
+    <option value="instagram">Has Instagram</option>
+    <option value="both">Has both</option>
+  </select>
+  <select class="toolbar-select" id="filterSent" onchange="applyClientFilters()">
+    <option value="not_sent">Not emailed yet</option>
+    <option value="">All</option>
+    <option value="sent">Already sent</option>
+  </select>
+  <select class="toolbar-select" id="filterClicked" onchange="applyClientFilters()">
+    <option value="">Any clicks</option>
+    <option value="clicked">Clicked</option>
+    <option value="not_clicked">Sent, no clicks</option>
+  </select>
+  <select class="toolbar-select" id="perPage" onchange="curPage=1;applyClientFilters()">
+    <option value="50">50/page</option>
+    <option value="100" selected>100/page</option>
+    <option value="200">200/page</option>
+    <option value="500">500/page</option>
+    <option value="5000">All</option>
+  </select>
+  <button class="toolbar-btn btn-search" onclick="loadData(1)">Search</button>
+</div>
+
+<div class="filter-bar">
+  <div class="filter-row">
+    <span class="filter-label">Grade</span>
+    <button class="fbtn active" data-rating="" onclick="setRating(this,'')">All</button>
+    <button class="fbtn fbtn-red" data-rating="C" onclick="setRating(this,'C')">C</button>
+    <button class="fbtn fbtn-orange" data-rating="B" onclick="setRating(this,'B')">B</button>
+    <button class="fbtn fbtn-green" data-rating="A" onclick="setRating(this,'A')">A</button>
+    <span class="filter-sep"></span>
+    <button class="fbtn" data-rating="B,C" onclick="setRating(this,'B,C')">B+C</button>
+    <button class="fbtn" data-rating="N,P,Z" onclick="setRating(this,'N,P,Z')">Pending</button>
+  </div>
+  <div class="filter-row" style="margin-top:8px;">
+    <span class="filter-label">Type</span>
+    <button class="tbtn active" data-type="" onclick="setType(this,'')">All</button>
+    <button class="tbtn" data-type="Restaurant/Cafe/Canteen" onclick="setType(this,'Restaurant/Cafe/Canteen')">Restaurants</button>
+    <button class="tbtn" data-type="Takeaway/sandwich shop" onclick="setType(this,'Takeaway/sandwich shop')">Takeaway</button>
+    <button class="tbtn" data-type="Pub/bar/nightclub" onclick="setType(this,'Pub/bar/nightclub')">Pub/Bar</button>
+    <button class="tbtn" data-type="Other catering premises,Mobile caterer" onclick="setType(this,'Other catering premises,Mobile caterer')">Catering</button>
+    <button class="tbtn" data-type="Hotel/bed &amp; breakfast/guest house" onclick="setType(this,'Hotel/bed &amp; breakfast/guest house')">Hotel/B&amp;B</button>
+    <span class="filter-sep"></span>
+    <button class="tbtn" data-type="Restaurant/Cafe/Canteen,Takeaway/sandwich shop,Pub/bar/nightclub,Other catering premises,Mobile caterer,Hotel/bed &amp; breakfast/guest house" onclick="setType(this,'Restaurant/Cafe/Canteen,Takeaway/sandwich shop,Pub/bar/nightclub,Other catering premises,Mobile caterer,Hotel/bed &amp; breakfast/guest house')">All foodservice</button>
+  </div>
+  <div class="filter-row" style="margin-top:8px;">
+    <span class="filter-label">Sort</span>
+    <button class="sbtn active" data-sort="rating_date" onclick="setSortBtn(this,'rating_date','desc')">Newest rated</button>
+    <button class="sbtn" data-sort="rating" onclick="setSortBtn(this,'rating','asc')">Worst grade</button>
+    <button class="sbtn" data-sort="name" onclick="setSortBtn(this,'name','asc')">A-Z</button>
+  </div>
+</div>
+
+<div class="stats-bar" id="statsBar">
+  <span class="stat"><span class="stat-val" id="statTotal">—</span> total</span>
+  <span class="stat"><span class="stat-val" id="statEmail">—</span> with email</span>
+  <span class="stat"><span class="stat-val" id="statIG">—</span> with Instagram</span>
+</div>
+
+<div class="action-bar" id="actionBar">
+  <strong id="selectedCount">0</strong> selected
+  <button class="btn-deselect" onclick="deselectAll()">Deselect</button>
+  <span class="action-spacer"></span>
+  <button class="action-btn btn-preview" onclick="openPreview()">Preview</button>
+  <button class="action-btn btn-export" onclick="exportCSV()">Export CSV</button>
+  <button class="action-btn btn-mark" onclick="sendAllViaGmail()" style="background:#EA4335;">Send via Gmail</button>
+  <button class="action-btn btn-mark" onclick="generateGmailDrafts()" style="background:#1A73E8;" title="Create personalised drafts in Gmail's Drafts folder. You then send each one manually.">Generate drafts</button>
+  <button class="action-btn btn-mark" onclick="markAsSent()">Mark as Sent</button>
+</div>
+<div id="gmailStatusBar" style="display:none;font-size:12px;color:var(--text-secondary);padding:6px 16px;border-top:1px solid var(--border);"></div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th style="width:36px;"><input type="checkbox" id="checkAll" onchange="toggleAll(this.checked)" style="accent-color:#2563EB;width:16px;height:16px;cursor:pointer;"></th>
+        <th onclick="setSort('name')">Name <span class="sort-arrow" id="sort_name"></span></th>
+        <th style="width:90px;">Clicked</th>
+        <th style="width:70px;"></th>
+        <th onclick="setSort('rating')">Rtg <span class="sort-arrow" id="sort_rating"></span></th>
+        <th>Email</th>
+        <th>Instagram</th>
+        <th onclick="setSort('postcode')">ZIP</th>
+        <th onclick="setSort('business_type')">Type</th>
+        <th onclick="setSort('local_authority')">Borough</th>
+        <th onclick="setSort('rating_date')">Rated</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<div id="emptyState" class="empty" style="display:none;">
+  <div class="empty-text">No restaurants with emails found</div>
+</div>
+
+<div class="pagination">
+  <div class="info" id="pageInfo">—</div>
+  <div class="pages" id="pageButtons"></div>
+</div>
+
+<!-- Preview modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="modal-toolbar">
+      <span class="title" id="modalTitle">Email Preview</span>
+      <div class="actions">
+        <button class="mbtn" onclick="sendAllViaGmail()" style="background:#EA4335;color:white;border-color:#EA4335;">Send via Gmail</button>
+        <button class="mbtn" onclick="copyForGmail()">Copy Body</button>
+        <button class="mbtn" onclick="copyRawHTML()">Copy HTML</button>
+        <button class="mbtn" onclick="copySubjects()">Subjects</button>
+      </div>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+const CRM = 'https://web-production-54cc.up.railway.app';
+let rawData = []; // full server response
+let allData = []; // filtered + sorted for display
+let selected = new Set();
+let sortCol = 'rating_date', sortOrd = 'desc', curPage = 1;
+let activeRating = '';
+let activeType = ''; // CSV of business_type values; '' = no filter
+
+// ─── Data loading ───
+
+async function loadData() {
+  selected.clear();
+  updateActionBar();
+  document.getElementById('checkAll').checked = false;
+
+  const q = document.getElementById('searchQ').value.trim();
+  const has = document.getElementById('filterHas').value;
+
+  // Server caps per_page at 200 — fetch page 1 to learn total, then fan out the rest in parallel.
+  // sent/clicked filters are applied client-side (server-side contacted=email filter is broken).
+  const serverHas = has === 'both' ? 'email' : has;
+  const baseParams = new URLSearchParams({
+    per_page: 200, sort: 'rating_date', order: 'desc', has: serverHas, country: 'US'
+  });
+  if (q) baseParams.set('q', q);
+
+  const fetchPage = async (p) => {
+    const params = new URLSearchParams(baseParams);
+    params.set('page', p);
+    const r = await fetch(`${CRM}/api/browse?${params}`);
+    return r.json();
+  };
+
+  try {
+    document.getElementById('tbody').innerHTML = `<tr><td colspan="12" style="padding:20px;color:var(--muted);">Loading…</td></tr>`;
+    const first = await fetchPage(1);
+    let results = first.results || [];
+    const totalPages = first.pages || 1;
+    if (totalPages > 1) {
+      const rest = await Promise.all(
+        Array.from({length: totalPages - 1}, (_, i) => fetchPage(i + 2))
+      );
+      for (const d of rest) results = results.concat(d.results || []);
+    }
+    if (has === 'both') results = results.filter(x => x.instagram);
+    rawData = results;
+    curPage = 1;
+    applyClientFilters();
+    prefetchAllClicks();
+  } catch (err) {
+    document.getElementById('tbody').innerHTML = `<tr><td colspan="12" style="color:var(--red);padding:20px;">Error: ${err.message}</td></tr>`;
+  }
+}
+
+function applyClientFilters() {
+  let filtered = rawData;
+
+  // Filter by sent status
+  const sent = document.getElementById('filterSent').value;
+  if (sent === 'sent') filtered = filtered.filter(r => r.email_sent_at);
+  else if (sent === 'not_sent') filtered = filtered.filter(r => !r.email_sent_at);
+
+  // Filter by click status (requires prefetchAllClicks to have populated r._clicks)
+  const clicked = document.getElementById('filterClicked').value;
+  if (clicked === 'clicked') filtered = filtered.filter(r => (r._clicks || 0) > 0);
+  else if (clicked === 'not_clicked') filtered = filtered.filter(r => r.email_sent_at && !(r._clicks > 0));
+
+  // Filter by NYC letter grade (us_grade: A | B | C | N | P | Z)
+  if (activeRating) {
+    const allowed = activeRating.split(',');
+    filtered = filtered.filter(r => r.us_grade != null && allowed.includes(r.us_grade));
+  }
+
+  // Filter by business type
+  if (activeType) {
+    const allowedTypes = new Set(activeType.split(','));
+    filtered = filtered.filter(r => r.business_type && allowedTypes.has(r.business_type));
+  }
+
+  // Sort
+  filtered.sort((a, b) => {
+    let va, vb;
+    if (sortCol === 'rating_date') { va = a.rating_date || ''; vb = b.rating_date || ''; }
+    else if (sortCol === 'rating') { const ord = {C:0, B:1, A:2, Z:3, P:4, N:5}; va = ord[a.us_grade] ?? 99; vb = ord[b.us_grade] ?? 99; }
+    else if (sortCol === 'name') { va = (a.name || '').toLowerCase(); vb = (b.name || '').toLowerCase(); }
+    else { va = a[sortCol] || ''; vb = b[sortCol] || ''; }
+    if (va < vb) return sortOrd === 'asc' ? -1 : 1;
+    if (va > vb) return sortOrd === 'asc' ? 1 : -1;
+    return 0;
+  });
+
+  // Client-side pagination
+  const perPage = parseInt(document.getElementById('perPage').value) || 100;
+  const totalPages = Math.ceil(filtered.length / perPage);
+  if (curPage > totalPages) curPage = 1;
+  const start = (curPage - 1) * perPage;
+  const pageSlice = filtered.slice(start, start + perPage);
+
+  allData = pageSlice;
+
+  renderTable({
+    results: pageSlice,
+    total: filtered.length,
+    page: curPage,
+    per_page: perPage,
+    pages: totalPages
+  });
+}
+
+function setSort(col) {
+  if (sortCol === col) sortOrd = sortOrd === 'asc' ? 'desc' : 'asc';
+  else { sortCol = col; sortOrd = col === 'rating_date' ? 'desc' : 'asc'; }
+  document.querySelectorAll('.sort-arrow').forEach(s => s.textContent = '');
+  document.querySelectorAll('.sbtn').forEach(b => b.classList.remove('active'));
+  const el = document.getElementById('sort_' + col);
+  if (el) el.textContent = sortOrd === 'asc' ? '\u25B2' : '\u25BC';
+  applyClientFilters();
+}
+
+function renderTable(data) {
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+  document.getElementById('emptyState').style.display = data.results.length === 0 ? '' : 'none';
+  document.getElementById('statTotal').textContent = data.total.toLocaleString();
+  const emailCount = rawData.filter(x => x.email).length;
+  const igCount = rawData.filter(x => x.instagram).length;
+  document.getElementById('statEmail').textContent = emailCount.toLocaleString();
+  document.getElementById('statIG').textContent = igCount.toLocaleString();
+
+  data.results.forEach((r, idx) => {
+    const tr = document.createElement('tr');
+    const gb = gradeBadge(r);
+    const rDate = r.rating_date ? new Date(r.rating_date).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'2-digit'}) : '—';
+    const sent = r.email_sent_at ? `<span class="sent-tag">\u2713 ${new Date(r.email_sent_at).toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}</span>` : '';
+
+    const sentBadge = r.email_sent_at
+      ? `<span style="font-size:11px;color:#059669;font-weight:500;margin-left:8px;background:#ECFDF5;padding:2px 8px;border-radius:4px;">Sent ${new Date(r.email_sent_at).toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}</span>`
+      : '';
+
+    tr.innerHTML = `
+      <td><input type="checkbox" data-idx="${idx}" onchange="toggleSel(${idx},this.checked)" style="accent-color:#2563EB;width:16px;height:16px;cursor:pointer;"></td>
+      <td title="${esc(r.name)}">${esc(r.name)}${sentBadge}</td>
+      <td id="click-${r.fhrs_id}" class="click-cell">${r.email_sent_at ? '<span style="color:#CBD5E0;font-size:11px;">checking…</span>' : '<span style="color:#CBD5E0;">—</span>'}</td>
+      <td style="white-space:nowrap;">
+        <button onclick="event.stopPropagation();sendViaGmail(${idx})" style="padding:5px 12px;font-size:12px;border-radius:6px;border:1px solid #E5E7EB;background:white;color:var(--blue);cursor:pointer;font-family:inherit;font-weight:600;transition:all 0.15s;" onmouseover="this.style.borderColor='#2563EB';this.style.background='#EFF4FF'" onmouseout="this.style.borderColor='#E5E7EB';this.style.background='white'">Gmail</button>
+        <button onclick="event.stopPropagation();generateStoryPNG(${idx})" style="padding:5px 10px;font-size:11px;border-radius:6px;border:1px solid #E5E7EB;background:white;color:#7C3AED;cursor:pointer;font-family:inherit;font-weight:600;margin-left:4px;transition:all 0.15s;" onmouseover="this.style.borderColor='#7C3AED';this.style.background='#F5F3FF'" onmouseout="this.style.borderColor='#E5E7EB';this.style.background='white'">📸 Story</button>
+        <button onclick="event.stopPropagation();markOneSent(${idx},this)" style="padding:5px 10px;font-size:11px;border-radius:6px;border:1px solid #E5E7EB;background:white;color:var(--text-secondary);cursor:pointer;font-family:inherit;font-weight:500;margin-left:4px;transition:all 0.15s;" onmouseover="this.style.borderColor='#059669';this.style.color='#059669'" onmouseout="this.style.borderColor='#E5E7EB';this.style.color=''">Sent</button>
+      </td>
+      <td><span class="rating-badge ${gb.cls}" title="${gb.full}">${gb.short}</span></td>
+      <td class="email-cell" title="${esc(r.email || '')}">${r.email ? esc(r.email) : '<span style="color:#CBD5E0;">—</span>'}</td>
+      <td>${r.instagram ? `<a href="https://instagram.com/${esc(r.instagram.replace('@',''))}" target="_blank" onclick="event.stopPropagation()" style="color:#E4405F;text-decoration:none;font-weight:500;font-size:13px;">@${esc(r.instagram.replace('@',''))}</a>` : '<span style="color:#CBD5E0;">—</span>'}</td>
+      <td>${esc(r.postcode || '')}</td>
+      <td title="${esc(r.business_type || '')}">${esc((r.business_type||'').substring(0,25))}</td>
+      <td>${esc((r.local_authority||'').substring(0,20))}</td>
+      <td>${rDate}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  // Pagination
+  const start = (data.page - 1) * data.per_page + 1;
+  const end = Math.min(data.page * data.per_page, data.total);
+  document.getElementById('pageInfo').textContent = `${start.toLocaleString()}\u2013${end.toLocaleString()} of ${data.total.toLocaleString()}`;
+  const btns = document.getElementById('pageButtons');
+  btns.innerHTML = '';
+  const addBtn = (label, pg, disabled, active) => {
+    const b = document.createElement('button');
+    b.className = 'page-btn' + (active ? ' active' : '');
+    b.textContent = label; b.disabled = disabled;
+    b.onclick = () => { curPage = pg; applyClientFilters(); };
+    btns.appendChild(b);
+  };
+  addBtn('\u25C0', data.page - 1, data.page <= 1, false);
+  let sp = Math.max(1, data.page - 3), ep = Math.min(data.pages, sp + 6);
+  if (ep - sp < 6) sp = Math.max(1, ep - 6);
+  for (let i = sp; i <= ep; i++) addBtn(i, i, false, i === data.page);
+  addBtn('\u25B6', data.page + 1, data.page >= data.pages, false);
+
+  // After rendering, fetch click data for all sent restaurants in background
+  fetchClicksForSentRestaurants();
+}
+
+// ─── Bulk click pre-fetch (for filterClicked) ───
+// Populates r._clicks for every sent restaurant in rawData, then re-applies filters.
+async function prefetchAllClicks() {
+  const sent = rawData.filter(r => r.email_sent_at && r.fhrs_id && r._clicks === undefined);
+  if (sent.length === 0) return;
+  const BATCH = 10;
+  for (let i = 0; i < sent.length; i += BATCH) {
+    const batch = sent.slice(i, i + BATCH);
+    await Promise.all(batch.map(async r => {
+      if (_clickCache[r.fhrs_id] !== undefined) {
+        r._clicks = _clickCache[r.fhrs_id].length;
+        return;
+      }
+      try {
+        const resp = await fetch(`${CRM}/api/business/${r.fhrs_id}`);
+        const data = await resp.json();
+        const clicks = (data.outreach || []).filter(o => o.channel === 'email_click');
+        _clickCache[r.fhrs_id] = clicks;
+        r._clicks = clicks.length;
+      } catch (e) {
+        r._clicks = 0;
+      }
+    }));
+  }
+  // Refresh view in case filterClicked is active
+  applyClientFilters();
+}
+
+// ─── Click-tracking check ───
+// Fetches outreach history for all restaurants with email_sent_at and shows email_click count
+const _clickCache = {};
+async function fetchClicksForSentRestaurants() {
+  const sent = allData.filter(r => r.email_sent_at && r.fhrs_id);
+  if (sent.length === 0) return;
+
+  // Parallel, up to 10 at a time
+  const BATCH = 10;
+  for (let i = 0; i < sent.length; i += BATCH) {
+    const batch = sent.slice(i, i + BATCH);
+    await Promise.all(batch.map(async r => {
+      const cell = document.getElementById('click-' + r.fhrs_id);
+      if (!cell) return;
+      // Use cache
+      if (_clickCache[r.fhrs_id] !== undefined) {
+        renderClickCell(cell, _clickCache[r.fhrs_id]);
+        return;
+      }
+      try {
+        const resp = await fetch(`${CRM}/api/business/${r.fhrs_id}`);
+        const data = await resp.json();
+        const clicks = (data.outreach || []).filter(o => o.channel === 'email_click');
+        _clickCache[r.fhrs_id] = clicks;
+        renderClickCell(cell, clicks);
+      } catch (e) {
+        cell.innerHTML = '<span style="color:#CBD5E0;">—</span>';
+      }
+    }));
+  }
+}
+
+function renderClickCell(cell, clicks) {
+  if (!clicks || clicks.length === 0) {
+    cell.innerHTML = '<span style="color:#CBD5E0;font-size:11px;">not yet</span>';
+    return;
+  }
+  const n = clicks.length;
+  const lastDate = new Date(clicks[0].sent_at).toLocaleDateString('en-GB', {day:'2-digit',month:'short'});
+  const tip = clicks.slice(0, 5).map(c => new Date(c.sent_at).toLocaleString('en-GB')).join('\n');
+  cell.innerHTML = `<span title="${tip}" style="color:#059669;font-size:12px;font-weight:700;background:#D1FAE5;padding:3px 8px;border-radius:6px;cursor:help;">\u2713 ${n}\u00D7 · ${lastDate}</span>`;
+}
+
+// ─── Selection ───
+
+function toggleSel(idx, checked) {
+  if (checked) selected.add(idx); else selected.delete(idx);
+  updateActionBar();
+}
+function toggleAll(checked) {
+  document.querySelectorAll('#tbody input[type="checkbox"]').forEach(cb => {
+    cb.checked = checked;
+    toggleSel(parseInt(cb.dataset.idx), checked);
+  });
+}
+function deselectAll() {
+  document.getElementById('checkAll').checked = false;
+  toggleAll(false);
+}
+function updateActionBar() {
+  document.getElementById('selectedCount').textContent = selected.size;
+  document.getElementById('actionBar').classList.toggle('active', selected.size > 0);
+}
+
+// ─── CSV Export (for Instantly) ───
+
+function exportCSV() {
+  if (selected.size === 0) return;
+  const rows = [['email','first_name','company_name','grade','grade_text','address','postcode','subject','grade_page_url']];
+
+  [...selected].forEach(idx => {
+    const r = allData[idx];
+    const rating = r.us_grade || '?';
+    const addr = [r.address_1, r.local_authority].filter(Boolean).join(', ');
+    const ratingText = {A:'Grade A',B:'Grade B',C:'Grade C',N:'Not Yet Graded',P:'Grade Pending',Z:'Grade Pending'}[rating] || '';
+    const subject = getSubject(r);
+
+    const rPage = `https://blueroll.app/nyc-restaurant-grade.html?fhrsid=${r.fhrs_id||''}&src=email`;
+
+    rows.push([
+      r.email, r.name.split(/\s/)[0], r.name, rating, ratingText,
+      addr, r.postcode || '', subject, rPage
+    ]);
+  });
+
+  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `blueroll-email-outreach-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ─── Mark as Sent ───
+
+async function markAsSent() {
+  if (selected.size === 0) return;
+  const fhrsIds = [...selected].map(idx => allData[idx].fhrs_id).filter(Boolean);
+  if (fhrsIds.length === 0) return;
+
+  const btn = document.querySelector('.btn-mark');
+  btn.textContent = 'Saving...'; btn.disabled = true;
+
+  try {
+    await fetch(`${CRM}/api/contact`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fhrs_ids: fhrsIds, channel: 'email', template: 'rating_badge' })
+    });
+    btn.textContent = '\u2713 Done!';
+    setTimeout(() => {
+      btn.textContent = 'Mark as Sent'; btn.disabled = false;
+      deselectAll();
+      loadData(curPage);
+    }, 1200);
+  } catch (err) {
+    alert('Error: ' + err.message);
+    btn.textContent = 'Mark as Sent'; btn.disabled = false;
+  }
+}
+
+// ─── Email Preview ───
+
+function openPreview() {
+  if (selected.size === 0) return;
+  const indices = [...selected];
+  const body = document.getElementById('modalBody');
+
+  body.innerHTML = indices.map(idx => {
+    const r = allData[idx];
+    return `<div class="email-page">
+      <div class="email-page-to">To</div>
+      <div class="email-page-name">${esc(r.name)}</div>
+      <div class="email-page-email">${esc(r.email)}</div>
+      ${buildEmailHTML(r)}
+    </div>`;
+  }).join('');
+
+  document.getElementById('modalTitle').textContent = `Email Preview \u00b7 ${indices.length} recipient${indices.length > 1 ? 's' : ''}`;
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+document.getElementById('modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ─── Copy functions ───
+
+function copyForGmail() {
+  const indices = [...selected];
+  if (indices.length === 0) return;
+  const html = buildEmailHTML(allData[indices[0]]);
+  const blob = new Blob([html], {type:'text/html'});
+  const page = document.querySelector('#modalBody .email-page');
+  const text = page ? page.innerText : '';
+  navigator.clipboard.write([new ClipboardItem({'text/html':blob,'text/plain':new Blob([text],{type:'text/plain'})})]).then(() => {
+    btnFeedback('Copy for Gmail', '\u2713 Copied!');
+  }).catch(() => {
+    navigator.clipboard.writeText(text);
+    btnFeedback('Copy for Gmail', '\u2713 Text copied');
+  });
+}
+
+function copyRawHTML() {
+  const indices = [...selected];
+  if (indices.length === 0) return;
+  const html = buildEmailHTML(allData[indices[0]]);
+  navigator.clipboard.writeText(html).then(() => btnFeedback('Copy HTML', '\u2713 Copied!'));
+}
+
+function copySubjects() {
+  const indices = [...selected];
+  if (indices.length === 0) return;
+  const lines = indices.map(idx => {
+    const r = allData[idx];
+    const rn = parseInt(r.rating) || 0;
+    return getSubject(r);
+  });
+  navigator.clipboard.writeText(lines.join('\n')).then(() => btnFeedback('Subjects', '\u2713 Copied!'));
+}
+
+function btnFeedback(label, fb) {
+  document.querySelectorAll('.mbtn').forEach(b => {
+    if (b.textContent.trim() === label) {
+      const orig = b.textContent; b.textContent = fb; b.style.color = '#047857';
+      setTimeout(() => { b.textContent = orig; b.style.color = ''; }, 1500);
+    }
+  });
+}
+
+// ─── Email HTML builder ───
+
+function getMonthsAgo(d) { return d ? Math.round((new Date() - new Date(d)) / (1000*60*60*24*30)) : 0; }
+function isOverdue(r) { return r.rating_date && getMonthsAgo(r.rating_date) >= 12; }
+
+// NYC letter grade badge (us_grade: A | B | C | N | P | Z)
+function gradeBadge(r) {
+  return {
+    'A': {cls:'g-A', short:'A', full:'Grade A'},
+    'B': {cls:'g-B', short:'B', full:'Grade B'},
+    'C': {cls:'g-C', short:'C', full:'Grade C'},
+    'N': {cls:'g-P', short:'N', full:'Not Yet Graded'},
+    'P': {cls:'g-P', short:'P', full:'Grade Pending'},
+    'Z': {cls:'g-P', short:'Z', full:'Grade Pending'},
+  }[r.us_grade] || {cls:'g-P', short:'?', full:'No grade on file'};
+}
+
+function getSubject(r) {
+  const g = r.us_grade;
+  if (isOverdue(r)) return `${r.name} \u2014 ready for your next DOHMH inspection?`;
+  if (g === 'C') return `${r.name} \u2014 getting back to an A on your next inspection`;
+  if (g === 'B') return `${r.name} \u2014 one step away from an A`;
+  if (g === 'A') return `${r.name} \u2014 keep your A with less paperwork`;
+  return `${r.name} \u2014 be ready before your grade is posted`;
+}
+
+function buildEmailHTML(r) {
+  const g = r.us_grade || '';
+  const addr = [r.address_1, r.local_authority, 'New York', r.postcode].filter(Boolean).join(', ');
+  const name = r.name || '';
+  const score = r.us_score != null ? r.us_score : null;
+  const gradeText = {A:'Grade A',B:'Grade B',C:'Grade C',N:'Not Yet Graded',P:'Grade Pending',Z:'Grade Pending'}[g] || 'No grade on file';
+  const rPage = `https://blueroll.app/nyc-restaurant-grade.html?fhrsid=${r.fhrs_id||''}&src=email`;
+
+  const overdue = isOverdue(r);
+  const monthsAgo = getMonthsAgo(r.rating_date);
+  const _p = `margin:0 0 18px;font-size:15px;line-height:1.7;color:#2D3748;`;
+  const font = `-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif`;
+
+  const scoreLine = score != null ? ` (${score} violation points)` : '';
+
+  let intro;
+  if (g === 'C') {
+    intro = `<p style="${_p}">Dear ${name} team,</p>
+<p style="${_p}">We noticed your latest DOHMH inspection resulted in a <strong style="background:#FEF2F2;padding:2px 6px;border-radius:4px;color:#DC2626;">Grade C</strong>${scoreLine}. We know how much a letter grade in the window matters in New York — and how stressful re-inspections can be.</p>
+<p style="${_p}"><strong style="color:#1A202C;">Blueroll</strong> is a simple app that replaces paper food-safety records with digital checklists your team can complete in seconds. It helps you fix the violations inspectors cite most — temperature logs, food protection, and documentation gaps.</p>`;
+  } else if (g === 'B') {
+    intro = `<p style="${_p}">Dear ${name} team,</p>
+<p style="${_p}">Your latest DOHMH inspection came back as a <strong style="background:#FFFBEB;padding:2px 6px;border-radius:4px;color:#D97706;">Grade B</strong>${scoreLine} — so close to the A your window deserves. The gap between B and A is usually 14 points or less, and the most common culprits are paperwork and temperature-log gaps.</p>
+<p style="${_p}"><strong style="color:#1A202C;">Blueroll</strong> is a simple app that replaces paper records with digital checklists. It takes 2 minutes to set up and helps you walk into your re-inspection ready for an A.</p>`;
+  } else if (g === 'A') {
+    intro = `<p style="${_p}">Dear ${name} team,</p>
+<p style="${_p}">Congratulations on your <strong style="background:#ECFDF5;padding:2px 6px;border-radius:4px;color:#047857;">Grade A</strong> — your customers can see it in the window, and it shows you take food safety seriously.</p>
+<p style="${_p}">Keeping that A means staying on top of temperature logs, food protection, and daily checks — every single day. <strong style="color:#1A202C;">Blueroll</strong> makes that effortless: digital checklists your team completes in seconds, so the next surprise inspection doesn’t cost you your grade.</p>`;
+  } else if (overdue) {
+    intro = `<p style="${_p}">Dear ${name} team,</p>
+<p style="${_p}">Your last DOHMH inspection was <strong style="background:#FEF3C7;padding:2px 6px;border-radius:4px;color:#92400E;">${monthsAgo} months ago</strong>. Your next visit could be any day — unannounced. Are your food-safety records ready?</p>
+<p style="${_p}"><strong style="color:#1A202C;">Blueroll</strong> replaces paper with a simple app that keeps everything digital, current, and inspection-ready.</p>`;
+  } else {
+    intro = `<p style="${_p}">Dear ${name} team,</p>
+<p style="${_p}">Your DOHMH letter grade is <strong style="background:#F1F5F9;padding:2px 6px;border-radius:4px;color:#64748B;">still pending</strong> — which means the inspection that decides what hangs in your window is coming up.</p>
+<p style="${_p}"><strong style="color:#1A202C;">Blueroll</strong> is a simple app that replaces paper food-safety records with digital checklists, so you walk into that inspection ready for an A.</p>`;
+  }
+
+  let closing;
+  if (g === 'C') closing = `Restaurants using Blueroll walk into their re-inspection with complete, up-to-date records — the fastest route from C back to A. We’d love to help ${name} get there.`;
+  else if (g === 'B') closing = `Many restaurants have gone from B to A after switching to digital records. We’d love to help ${name} get there.`;
+  else if (g === 'A') closing = `Blueroll helps top-graded restaurants like ${name} keep their A with less paperwork. We’d love to show you how.`;
+  else closing = `Restaurants using Blueroll report feeling significantly more confident before inspections. We’d love to help ${name} be fully prepared.`;
+
+  // Letter-grade card (dark card with gold letter)
+  const gradeBox = g && ['A','B','C'].includes(g) ? g : '—';
+  const badge = `<div style="width:240px;margin:0 auto;border-radius:22px;background:linear-gradient(145deg,#0D1B2A,#1B2D45);padding:32px 28px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,0.25);font-family:${font};">
+  <div style="width:80px;height:80px;border-radius:20px;background:linear-gradient(145deg,#ECC55B,#D4A843);margin:0 auto 14px;line-height:80px;font-size:44px;font-weight:800;color:#0D1B2A;box-shadow:0 4px 16px rgba(0,0,0,0.3);">${gradeBox}</div>
+  <div style="margin-bottom:8px;font-size:9px;color:#E2B55A;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;">NYC Restaurant Letter Grade</div>
+  <div style="margin-bottom:4px;font-size:16px;font-weight:700;color:#F0ECE3;letter-spacing:-0.2px;">${name}</div>
+  <div style="font-size:11px;color:rgba(255,255,255,0.45);line-height:1.3;">${addr}</div>
+  <div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.08);font-size:9px;color:#E2B55A;opacity:0.5;letter-spacing:.6px;">Powered by Blueroll</div>
+</div>`;
+
+  return `<div style="max-width:560px;margin:0 auto;padding:0 8px;font-family:${font};-webkit-font-smoothing:antialiased;">
+${intro}
+<div style="text-align:center;padding:20px 0 24px;">
+  <a ="${rPage}" target="_blank" style="text-decoration:none;display:inline-block;">${badge}</a>
+</div>
+<p style="margin:0 0 20px;font-size:13px;color:#A0AEC0;text-align:center;line-height:1.6;font-family:${font};">This is your current grade. Tap the badge or the button below<br>to see how NYC grading works and how to reach an A.</p>
+<div style="text-align:center;margin:0 0 28px;">
+  <a ="${rPage}" target="_blank" style="display:inline-block;background:#047857;color:#ffffff;text-decoration:none;padding:15px 36px;border-radius:12px;font-size:15px;font-weight:600;font-family:${font};">How to Get (and Keep) an A →</a>
+</div>
+<div style="border-top:1px solid #EDF2F7;padding-top:24px;margin-bottom:24px;">
+  <div style="${_p}font-weight:600;font-size:14px;color:#1A202C;">What Blueroll does</div>
+  <div style="font-size:14px;line-height:2;color:#4A5568;padding:4px 0 0;font-family:${font};">
+    <span style="color:#047857;">&#10003;</span> Ready-made food safety checklists — complete in seconds<br>
+    <span style="color:#047857;">&#10003;</span> AI recipe import — snap a photo, get allergens instantly<br>
+    <span style="color:#047857;">&#10003;</span> One-tap PDF report for the health inspector<br>
+    <span style="color:#047857;">&#10003;</span> Temperature logs with out-of-range alerts<br>
+    <span style="color:#047857;">&#10003;</span> Team tasks — see who completed what
+  </div>
+</div>
+<p style="${_p}">${closing}</p>
+<p style="${_p}font-weight:600;">Try free for 14 days<span style="font-weight:400;"> — no credit card needed.</span></p>
+<p style="${_p}margin:24px 0 0;">Best regards,<br><span style="color:#4A5568;">The Blueroll Team</span></p>
+<div style="margin:28px 0 0;padding-top:20px;border-top:1px solid #EDF2F7;display:flex;align-items:center;gap:14px;">
+  <img src="https://blueroll.app/app_icon.png" alt="Blueroll" width="36" height="36" style="border-radius:8px;border:0;" />
+  <div>
+    <span style="font-size:14px;font-weight:700;color:#1A202C;">Blueroll</span><br>
+    <span style="font-size:12px;color:#A0AEC0;">Food Safety Made Simple</span><br>
+    <a href="https://blueroll.app" style="font-size:12px;color:#047857;text-decoration:none;">blueroll.app</a><span style="color:#CBD5E0;"> &middot; </span><a href="mailto:team@getblueroll.com" style="font-size:12px;color:#047857;text-decoration:none;">team@getblueroll.com</a>
+  </div>
+</div>
+<img src="https://web-production-54cc.up.railway.app/api/open?fhrsid=${r.fhrs_id||''}&src=email" width="1" height="1" alt="" style="display:block;width:1px;height:1px;border:0;overflow:hidden;line-height:1px;" />
+</div>`;
+}
+
+// ─── Generate Story PNG (1080x1920) for Instagram ───
+
+function generateStoryPNG(idx) {
+  const r = allData[idx];
+  const rating = r.us_grade || '?';                       // NYC letter grade in the gold box
+  const ratingNum = {A:5, B:3, C:1}[r.us_grade] || 0;     // stars approximation for the letter
+  const addr = [r.address_1, r.local_authority].filter(Boolean).join(', ');
+  const postcode = r.postcode || '';
+  const name = r.name || '';
+  const handle = r.instagram ? '@' + r.instagram.replace('@','') : '';
+
+  // Copy IG handle to clipboard immediately (must happen in user gesture for iOS)
+  if (handle) {
+    try {
+      navigator.clipboard.writeText(handle);
+      showToast(`${handle} copied \u2014 paste when tagging in Story`);
+    } catch (e) {
+      // Fallback: old execCommand method
+      const ta = document.createElement('textarea');
+      ta.value = handle;
+      ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); showToast(`${handle} copied`); } catch(e2){}
+      document.body.removeChild(ta);
+    }
+  } else {
+    showToast('Image downloading... (no IG handle for this restaurant)');
+  }
+
+  const W = 1080, H = 1920;
+  const canvas = document.createElement('canvas');
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  // Background: vertical gradient dark navy
+  const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+  bgGrad.addColorStop(0, '#0B1521');
+  bgGrad.addColorStop(0.45, '#1B2D45');
+  bgGrad.addColorStop(1, '#0B1521');
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, W, H);
+
+  // Gold radial glow
+  const glow = ctx.createRadialGradient(W/2, 760, 0, W/2, 760, 1200);
+  glow.addColorStop(0, 'rgba(226,181,90,0.18)');
+  glow.addColorStop(1, 'rgba(226,181,90,0)');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, W, H);
+
+  // Grain
+  for (let i = 0; i < 2000; i++) {
+    const x = Math.random() * W, y = Math.random() * H;
+    const o = Math.random() * 0.05;
+    ctx.fillStyle = `rgba(255,255,255,${o})`;
+    ctx.fillRect(x, y, 1, 1);
+  }
+
+  // Top tiny kicker
+  setLetterSpacing(ctx, 6);
+  ctx.font = '600 28px "DM Sans", -apple-system, sans-serif';
+  ctx.fillStyle = '#E2B55A';
+  ctx.textAlign = 'center';
+  ctx.fillText('NYC RESTAURANT GRADE', W/2, 180);
+  setLetterSpacing(ctx, 0);
+
+  // ─── Badge card ───
+  const badgeW = 900, badgeH = 1120;
+  const badgeX = (W - badgeW) / 2;
+  const badgeY = 240;
+  drawRoundedRect(ctx, badgeX, badgeY, badgeW, badgeH, 56);
+  const cardGrad = ctx.createLinearGradient(badgeX, badgeY, badgeX + badgeW, badgeY + badgeH);
+  cardGrad.addColorStop(0, '#0D1B2A');
+  cardGrad.addColorStop(1, '#1B2D45');
+  ctx.fillStyle = cardGrad;
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Gold rating square — BIGGER
+  const gsSize = 340;
+  const gsX = (W - gsSize) / 2;
+  const gsY = badgeY + 110;
+  // Shadow behind
+  ctx.save();
+  ctx.shadowColor = 'rgba(226,181,90,0.4)';
+  ctx.shadowBlur = 60;
+  ctx.shadowOffsetY = 0;
+  drawRoundedRect(ctx, gsX, gsY, gsSize, gsSize, 68);
+  const goldGrad = ctx.createLinearGradient(gsX, gsY, gsX + gsSize, gsY + gsSize);
+  goldGrad.addColorStop(0, '#F2D479');
+  goldGrad.addColorStop(1, '#D4A843');
+  ctx.fillStyle = goldGrad;
+  ctx.fill();
+  ctx.restore();
+
+  // Rating number — MUCH bigger
+  ctx.font = '800 240px "DM Sans", sans-serif';
+  ctx.fillStyle = '#0D1B2A';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(rating, gsX + gsSize/2, gsY + gsSize/2 + 10);
+  ctx.textBaseline = 'alphabetic';
+
+  // Stars — bigger
+  const starsY = gsY + gsSize + 110;
+  const starSize = 58;
+  const starGap = 16;
+  const starsTotalW = 5 * starSize + 4 * starGap;
+  const starsStartX = (W - starsTotalW) / 2;
+  ctx.font = `${starSize}px sans-serif`;
+  for (let i = 0; i < 5; i++) {
+    const x = starsStartX + i * (starSize + starGap) + starSize/2;
+    ctx.fillStyle = i < ratingNum ? '#E2B55A' : 'rgba(226,181,90,0.2)';
+    ctx.textAlign = 'center';
+    ctx.fillText('★', x, starsY);
+  }
+
+  // Restaurant name — BIG
+  ctx.font = '700 56px "DM Sans", sans-serif';
+  ctx.fillStyle = '#F0ECE3';
+  ctx.textAlign = 'center';
+  const fittedName = wrapFit(ctx, name, 760, 56);
+  ctx.fillText(fittedName, W/2, starsY + 100);
+
+  // Address
+  ctx.font = '500 28px "DM Sans", sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.5)';
+  const fittedAddr = wrapFit(ctx, addr + (postcode ? ', ' + postcode : ''), 760, 28);
+  ctx.fillText(fittedAddr, W/2, starsY + 160);
+
+  // Divider
+  ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(badgeX + 200, starsY + 230);
+  ctx.lineTo(badgeX + badgeW - 200, starsY + 230);
+  ctx.stroke();
+
+  // Powered by Blueroll — bigger tracked mono
+  setLetterSpacing(ctx, 4);
+  ctx.font = '600 22px "DM Sans", sans-serif';
+  ctx.fillStyle = 'rgba(226,181,90,0.6)';
+  ctx.fillText('POWERED BY BLUEROLL', W/2, starsY + 275);
+  setLetterSpacing(ctx, 0);
+
+  // ─── Below badge ───
+  if (handle) {
+    ctx.font = '500 34px "DM Sans", sans-serif';
+    ctx.fillStyle = 'rgba(240,236,227,0.6)';
+    ctx.textAlign = 'center';
+    ctx.fillText(handle + ' — here\u2019s your badge', W/2, 1490);
+  }
+
+  // Main CTA: Free badge for your website
+  ctx.font = '800 64px "DM Sans", sans-serif';
+  ctx.fillStyle = '#E2B55A';
+  ctx.textAlign = 'center';
+  ctx.fillText('Free badge for your website', W/2, 1585);
+
+  // Sub-CTA: how to get it
+  ctx.font = '500 36px "DM Sans", sans-serif';
+  ctx.fillStyle = 'rgba(240,236,227,0.9)';
+  ctx.fillText('DM us for the embed code \u2192', W/2, 1640);
+
+  ctx.font = '400 24px "DM Sans", sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.4)';
+  ctx.fillText('Auto-updating. 2-line HTML snippet. Free forever.', W/2, 1685);
+
+  // blueroll.app — footer brand
+  ctx.font = '800 88px "DM Sans", sans-serif';
+  ctx.fillStyle = '#F0ECE3';
+  ctx.fillText('blueroll.app', W/2, 1820);
+
+  setLetterSpacing(ctx, 4);
+  ctx.font = '600 20px "DM Sans", sans-serif';
+  ctx.fillStyle = 'rgba(226,181,90,0.7)';
+  ctx.fillText('FOOD SAFETY MADE SIMPLE', W/2, 1870);
+  setLetterSpacing(ctx, 0);
+
+  // Download
+  canvas.toBlob((blob) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const safeName = name.replace(/[^a-z0-9]+/gi, '-').toLowerCase().slice(0, 40);
+    a.download = `blueroll-story-${safeName}.png`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }, 'image/png');
+
+  ctx.textAlign = 'left';
+}
+
+function setLetterSpacing(ctx, px) {
+  // Supported in modern Chrome/Edge/Safari
+  if ('letterSpacing' in ctx) ctx.letterSpacing = px + 'px';
+}
+
+function showToast(msg) {
+  let toast = document.getElementById('br-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'br-toast';
+    toast.style.cssText = `
+      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+      background: #0D1B2A; color: #F0ECE3; padding: 16px 28px;
+      border-radius: 14px; font-size: 15px; font-weight: 500;
+      font-family: 'DM Sans', sans-serif; z-index: 9999;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+      border: 1px solid rgba(226,181,90,0.3);
+      opacity: 0; transition: opacity 0.2s, transform 0.2s;
+      pointer-events: none; max-width: 90vw; text-align: center;
+    `;
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  requestAnimationFrame(() => {
+    toast.style.opacity = '1';
+    toast.style.transform = 'translateX(-50%) translateY(-8px)';
+  });
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(-50%)';
+  }, 2800);
+}
+
+function drawRoundedRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+function spaceOut(s, px) {
+  // Fake tracking — just add thin spaces between chars
+  return s.split('').join(' '.repeat(1));
+}
+
+function wrapFit(ctx, text, maxW, baseFontSize) {
+  // If text is too wide, truncate with ellipsis
+  if (ctx.measureText(text).width <= maxW) return text;
+  let t = text;
+  while (ctx.measureText(t + '\u2026').width > maxW && t.length > 3) t = t.slice(0, -1);
+  return t + '\u2026';
+}
+
+// ─── Send via Gmail (one click) ───
+
+function sendViaGmail(idx) {
+  const r = allData[idx];
+  const subject = getSubject(r);
+
+  // Copy email body to clipboard
+  const html = buildEmailHTML(r);
+  const blob = new Blob([html], {type:'text/html'});
+  const text = r.name + ' email body';
+  navigator.clipboard.write([new ClipboardItem({
+    'text/html': blob,
+    'text/plain': new Blob([text], {type:'text/plain'})
+  })]).catch(() => {});
+
+  // Open Gmail compose with To + Subject pre-filled
+  const gmailUrl = `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(r.email)}&su=${encodeURIComponent(subject)}`;
+  window.open(gmailUrl, '_blank');
+
+  // Flash the button
+  const btns = document.querySelectorAll('#tbody tr');
+  if (btns[idx]) {
+    const btn = btns[idx].querySelector('button');
+    if (btn) { btn.textContent = 'Cmd+V'; btn.style.color = '#047857'; setTimeout(() => { btn.textContent = 'Gmail'; btn.style.color = ''; }, 3000); }
+  }
+}
+
+function sendAllViaGmail() {
+  if (selected.size === 0) return;
+  const indices = [...selected];
+  // For bulk: open first one, copy its body
+  sendViaGmail(indices[0]);
+  if (indices.length > 1) {
+    alert(`Gmail opened for ${allData[indices[0]].name}.\n\nAfter sending, click Gmail buttons for the remaining ${indices.length - 1} restaurants \u2014 each one opens Gmail with everything pre-filled. Just Cmd+V and send.`);
+  }
+}
+
+// \u2500\u2500\u2500 Generate Gmail drafts (server-side via OAuth) \u2500\u2500\u2500
+// POSTs selected recipients to /api/outreach/generate-drafts. The backend
+// creates one personalised draft per selected lead in the authorised
+// Gmail account's Drafts folder. Operator then opens Gmail Drafts and
+// hits Send for each \u2014 preserving manual control + Streak open tracking.
+
+async function generateGmailDrafts() {
+  if (selected.size === 0) {
+    alert('Select at least one restaurant first.');
+    return;
+  }
+  const indices = [...selected];
+
+  // Build recipients payload \u2014 leverage existing getSubject() + buildEmailHTML()
+  const recipients = [];
+  for (const idx of indices) {
+    const r = allData[idx];
+    if (!r) continue;
+    if (!r.email) {
+      console.warn(`Skipping ${r.name} \u2014 no email on record`);
+      continue;
+    }
+    recipients.push({
+      fhrs_id: r.fhrs_id,
+      to: r.email,
+      subject: getSubject(r),
+      html_body: buildEmailHTML(r),
+    });
+  }
+
+  if (recipients.length === 0) {
+    alert('None of the selected restaurants have an email on file.');
+    return;
+  }
+
+  const bar = document.getElementById('gmailStatusBar');
+  bar.style.display = 'block';
+  bar.textContent = `Creating ${recipients.length} draft(s) in Gmail\u2026`;
+
+  let resp;
+  try {
+    const r = await fetch(`${CRM}/api/outreach/generate-drafts`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ recipients, account: 'team' }),   // NY drafts → team@getblueroll.com
+    });
+    resp = await r.json();
+    if (!r.ok) {
+      bar.textContent = `Failed: ${resp.error || ('HTTP ' + r.status)}`;
+      bar.style.color = '#DC2626';
+      if (r.status === 503) {
+        bar.textContent += ' \u2014 Gmail OAuth env vars not configured on Railway yet.';
+      }
+      return;
+    }
+  } catch (e) {
+    bar.textContent = `Network error: ${e.message}`;
+    bar.style.color = '#DC2626';
+    return;
+  }
+
+  const { created, failed = [], sender, total_attempted } = resp;
+  bar.style.color = '';
+
+  if (failed.length === 0) {
+    bar.textContent = `\u2713 Created ${created} draft(s) as ${sender || 'sender'}. Open Gmail \u2192 Drafts and send when ready.`;
+  } else {
+    bar.textContent = `\u2713 ${created} created, ${failed.length} failed (as ${sender || 'sender'}). Check console for details.`;
+    console.warn('Drafts that failed:', failed);
+  }
+}
+
+// \u2500\u2500\u2500 Gmail status indicator (calls on page load) \u2500\u2500\u2500
+async function checkGmailStatus() {
+  try {
+    const r = await fetch(`${CRM}/api/outreach/gmail-status?account=team`);
+    const d = await r.json();
+    const bar = document.getElementById('gmailStatusBar');
+    if (d.configured) {
+      bar.style.display = 'block';
+      bar.textContent = `Gmail connected as ${d.sender}`;
+      bar.style.color = '#059669';
+    } else {
+      bar.style.display = 'block';
+      bar.textContent = `Gmail drafts not yet configured: ${d.error || 'env vars missing on Railway'}`;
+      bar.style.color = '#D97706';
+    }
+  } catch {
+    // Silent \u2014 status bar is optional UX, not critical
+  }
+}
+// Fire on page load (non-blocking)
+window.addEventListener('DOMContentLoaded', checkGmailStatus);
+
+// ─── Mark single as sent ───
+
+async function markOneSent(idx, btn) {
+  const r = allData[idx];
+  if (!r || !r.fhrs_id) return;
+  btn.textContent = '...';
+  btn.disabled = true;
+  try {
+    await fetch(`${CRM}/api/contact`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fhrs_ids: [r.fhrs_id], channel: 'email', template: 'rating_badge' })
+    });
+    // Update local data so UI reflects immediately
+    r.email_sent_at = new Date().toISOString();
+    // Also update in rawData
+    const raw = rawData.find(x => x.fhrs_id === r.fhrs_id);
+    if (raw) raw.email_sent_at = r.email_sent_at;
+    // Re-render
+    applyClientFilters();
+  } catch (err) {
+    btn.textContent = 'Sent';
+    btn.disabled = false;
+    alert('Error: ' + err.message);
+  }
+}
+
+// ─── Filters ───
+
+function setRating(btn, val) {
+  activeRating = val;
+  document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyClientFilters();
+}
+
+function setType(btn, val) {
+  activeType = val;
+  document.querySelectorAll('.tbtn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  curPage = 1;
+  applyClientFilters();
+}
+
+function setSortBtn(btn, col, ord) {
+  sortCol = col; sortOrd = ord;
+  document.querySelectorAll('.sbtn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.sort-arrow').forEach(s => s.textContent = '');
+  applyClientFilters();
+}
+
+function esc(s) { if (!s) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+// ─── Init ───
+loadData(1);
+</script>
+</body>
+</html>
