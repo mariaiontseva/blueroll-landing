@@ -1,0 +1,206 @@
+- generic [active] [ref=f1e1]:
+  - banner [ref=f1e2]:
+    - link "Blueroll Blueroll" [ref=f1e3] [cursor=pointer]:
+      - /url: /
+      - img "Blueroll" [ref=f1e4]
+      - generic [ref=f1e5]: Blueroll
+    - generic "Menu" [ref=f1e6] [cursor=pointer]
+  - main [ref=f1e10]:
+    - generic [ref=f1e12]:
+      - navigation "Breadcrumb" [ref=f1e13]:
+        - list [ref=f1e14]:
+          - listitem [ref=f1e15]:
+            - link "Blueroll" [ref=f1e16] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=f1e17]: ›
+          - listitem [ref=f1e18]: Multi-site groups
+      - generic [ref=f1e19]:
+        - generic [ref=f1e20]:
+          - generic [ref=f1e21]: New · Multi-site management
+          - heading [level=1] [ref=f1e22]:
+            - text: Every site on standard.
+            - emphasis [ref=f1e23]: One view for head office.
+          - paragraph [ref=f1e24]: Move from the whole group to a single location without losing context. See completion, missed checks and HACCP status across the estate, then open the site that needs attention.
+          - generic [ref=f1e25]:
+            - link "Start free for 14 days" [ref=f1e26] [cursor=pointer]:
+              - /url: https://app.blueroll.app/
+            - link "Book a multi-site demo" [ref=f1e27] [cursor=pointer]:
+              - /url: mailto:hello@blueroll.app?subject=Multi-site%20Blueroll%20demo
+          - generic [ref=f1e28]:
+            - generic [ref=f1e29]: All sites dashboard
+            - generic [ref=f1e30]: Site-level access
+            - generic [ref=f1e31]: Unlimited team members
+        - generic "Illustrative Blueroll interface preview" [ref=f1e32]:
+          - generic [ref=f1e33]:
+            - strong [ref=f1e34]: All sites
+            - generic [ref=f1e35]: Group view
+          - generic [ref=f1e36]:
+            - generic [ref=f1e37]:
+              - generic [ref=f1e38]: "4"
+              - text: active sites
+            - generic [ref=f1e39]:
+              - generic [ref=f1e40]: 93%
+              - text: checks complete
+            - generic [ref=f1e41]:
+              - generic [ref=f1e42]: "1"
+              - text: needs attention
+          - generic [ref=f1e43]:
+            - generic [ref=f1e44]:
+              - generic [ref=f1e46]:
+                - generic [ref=f1e47]: Shoreditch
+                - generic [ref=f1e48]: All scheduled checks complete
+              - generic [ref=f1e49]: On track
+            - generic [ref=f1e50]:
+              - generic [ref=f1e52]:
+                - generic [ref=f1e53]: Stratford
+                - generic [ref=f1e54]: 2 missed checks
+              - generic [ref=f1e55]: Review
+            - generic [ref=f1e56]:
+              - generic [ref=f1e58]:
+                - generic [ref=f1e59]: Clapham
+                - generic [ref=f1e60]: HACCP sign-off current
+              - generic [ref=f1e61]: On track
+    - generic [ref=f1e63]:
+      - generic [ref=f1e64]:
+        - generic [ref=f1e65]: Group visibility
+        - heading "See the estate. Keep the record local." [level=2] [ref=f1e66]
+        - paragraph [ref=f1e67]: Head office gets a useful overview without flattening every kitchen into one undifferentiated list. Local teams stay focused on the site they run.
+      - generic [ref=f1e68]:
+        - article [ref=f1e69]:
+          - generic [ref=f1e70]: "01"
+          - heading "Spot the site that needs attention" [level=3] [ref=f1e71]
+          - paragraph [ref=f1e72]: Use the All sites scope to compare progress and missed checks before opening the location-level detail.
+        - article [ref=f1e73]:
+          - generic [ref=f1e74]: "02"
+          - heading "Give people the right site access" [level=3] [ref=f1e75]
+          - paragraph [ref=f1e76]: Assign members and roles so local teams see their work while group leaders retain oversight.
+        - article [ref=f1e77]:
+          - generic [ref=f1e78]: "03"
+          - heading "Keep HACCP organised by location" [level=3] [ref=f1e79]
+          - paragraph [ref=f1e80]: Each site keeps its operational evidence, while the group view shows where reviews or sign-off need attention.
+    - generic [ref=f1e82]:
+      - generic [ref=f1e83]:
+        - 'heading "The answer to: “Which site do I need to look at?”" [level=2] [ref=f1e84]'
+        - paragraph [ref=f1e85]: Multi-site management should reduce the hunt for information. Blueroll brings the exception to the surface, then lets you move into the exact location and record.
+      - list [ref=f1e86]:
+        - listitem [ref=f1e87]: ✓ Switch between All sites and a single location from the same workspace.
+        - listitem [ref=f1e88]: ✓ Review group completion, missed checks and site-level HACCP status.
+        - listitem [ref=f1e89]: ✓ Manage locations, members, roles and permissions from one group account.
+    - generic [ref=f1e91]:
+      - generic [ref=f1e92]:
+        - generic [ref=f1e93]: How it works
+        - heading "Add sites without multiplying admin." [level=2] [ref=f1e94]
+      - generic [ref=f1e95]:
+        - article [ref=f1e96]:
+          - heading "Create a location" [level=3] [ref=f1e97]
+          - paragraph [ref=f1e98]: Add the site inside the existing Blueroll group and start it with the group standard.
+        - article [ref=f1e99]:
+          - heading "Assign local leads" [level=3] [ref=f1e100]
+          - paragraph [ref=f1e101]: Invite the manager and team with access matched to their responsibilities.
+        - article [ref=f1e102]:
+          - heading "Run locally" [level=3] [ref=f1e103]
+          - paragraph [ref=f1e104]: Each kitchen completes its checks, records and sign-off in its own site view.
+        - article [ref=f1e105]:
+          - heading "Review as a group" [level=3] [ref=f1e106]
+          - paragraph [ref=f1e107]: Use All sites to find exceptions, then open the location that needs follow-up.
+    - generic [ref=f1e109]:
+      - generic [ref=f1e110]:
+        - generic [ref=f1e111]: Connected product
+        - heading "One record across the food-safety workflow." [level=2] [ref=f1e112]
+        - paragraph [ref=f1e113]: Use the parts you need now. The value grows when checks, people, recipes, allergens, documents and reports stay connected.
+      - generic [ref=f1e114]:
+        - link "✓ HACCP checklists Opening, closing, cleaning and temperature records." [ref=f1e115] [cursor=pointer]:
+          - /url: /haccp-checklists.html
+          - generic [ref=f1e116]: ✓
+          - generic [ref=f1e117]:
+            - heading "HACCP checklists" [level=3] [ref=f1e118]
+            - paragraph [ref=f1e119]: Opening, closing, cleaning and temperature records.
+        - link "H HACCP Pack A structured food-safety system connected to your records." [ref=f1e120] [cursor=pointer]:
+          - /url: /haccp-pack.html
+          - generic [ref=f1e121]: H
+          - generic [ref=f1e122]:
+            - heading "HACCP Pack" [level=3] [ref=f1e123]
+            - paragraph [ref=f1e124]: A structured food-safety system connected to your records.
+        - link "14 Allergen matrix Recipes and all 14 regulated allergens in one view." [ref=f1e125] [cursor=pointer]:
+          - /url: /allergen-matrix.html
+          - generic [ref=f1e126]: "14"
+          - generic [ref=f1e127]:
+            - heading "Allergen matrix" [level=3] [ref=f1e128]
+            - paragraph [ref=f1e129]: Recipes and all 14 regulated allergens in one view.
+        - link "PDF Compliance reports Export the date range an inspector asks to see." [ref=f1e130] [cursor=pointer]:
+          - /url: /compliance-reports.html
+          - generic [ref=f1e131]: PDF
+          - generic [ref=f1e132]:
+            - heading "Compliance reports" [level=3] [ref=f1e133]
+            - paragraph [ref=f1e134]: Export the date range an inspector asks to see.
+        - link "R Roles & team Give each person the right access and responsibilities." [ref=f1e135] [cursor=pointer]:
+          - /url: /team-management.html
+          - generic [ref=f1e136]: R
+          - generic [ref=f1e137]:
+            - heading "Roles & team" [level=3] [ref=f1e138]
+            - paragraph [ref=f1e139]: Give each person the right access and responsibilities.
+        - link "D Documents Keep certificates together and track expiry dates." [ref=f1e140] [cursor=pointer]:
+          - /url: /document-management.html
+          - generic [ref=f1e141]: D
+          - generic [ref=f1e142]:
+            - heading "Documents" [level=3] [ref=f1e143]
+            - paragraph [ref=f1e144]: Keep certificates together and track expiry dates.
+    - generic [ref=f1e146]:
+      - generic [ref=f1e147]:
+        - generic [ref=f1e148]: FAQ
+        - heading "Questions before you switch." [level=2] [ref=f1e149]
+      - generic [ref=f1e150]:
+        - group [ref=f1e151]:
+          - generic "What counts as multi-site in Blueroll? +" [ref=f1e152] [cursor=pointer]
+        - group [ref=f1e153]:
+          - generic "Can a manager be limited to one site? +" [ref=f1e154] [cursor=pointer]
+        - group [ref=f1e155]:
+          - generic "Is pricing per user or per location? +" [ref=f1e156] [cursor=pointer]
+        - group [ref=f1e157]:
+          - generic "Do all sites lose their individual records? +" [ref=f1e158] [cursor=pointer]
+    - generic [ref=f1e161]:
+      - heading "Put every location in the same operating view." [level=2] [ref=f1e162]
+      - paragraph [ref=f1e163]: Start a group trial or book a walkthrough for your current site structure.
+      - generic [ref=f1e164]:
+        - link "Start free for 14 days" [ref=f1e165] [cursor=pointer]:
+          - /url: https://app.blueroll.app/
+        - link "Book a demo" [ref=f1e166] [cursor=pointer]:
+          - /url: mailto:hello@blueroll.app?subject=Blueroll%20demo
+  - contentinfo [ref=f1e167]:
+    - generic [ref=f1e168]:
+      - generic [ref=f1e169]:
+        - generic [ref=f1e170]: Blueroll
+        - paragraph [ref=f1e171]: Food safety management for independent restaurants and growing hospitality groups.
+      - generic [ref=f1e172]:
+        - heading "Solutions" [level=3] [ref=f1e173]
+        - link "Independent restaurants" [ref=f1e174] [cursor=pointer]:
+          - /url: /independent-restaurant-food-safety.html
+        - link "Multi-site groups" [ref=f1e175] [cursor=pointer]:
+          - /url: /multi-site-food-safety.html
+        - link "Franchises" [ref=f1e176] [cursor=pointer]:
+          - /url: /franchise-food-safety.html
+        - link "Hospitality groups" [ref=f1e177] [cursor=pointer]:
+          - /url: /hospitality-group-food-safety.html
+      - generic [ref=f1e178]:
+        - heading "Benefits" [level=3] [ref=f1e179]
+        - link "Inspection-ready" [ref=f1e180] [cursor=pointer]:
+          - /url: /inspection-ready-compliance.html
+        - link "Consistency" [ref=f1e181] [cursor=pointer]:
+          - /url: /food-safety-consistency.html
+        - link "Accountability" [ref=f1e182] [cursor=pointer]:
+          - /url: /team-accountability.html
+        - link "Time & paper" [ref=f1e183] [cursor=pointer]:
+          - /url: /paperless-food-safety.html
+      - generic [ref=f1e184]:
+        - heading "Company" [level=3] [ref=f1e185]
+        - link "Compare apps" [ref=f1e186] [cursor=pointer]:
+          - /url: /best-food-safety-apps-uk.html
+        - link "About" [ref=f1e187] [cursor=pointer]:
+          - /url: /about.html
+        - link "Security" [ref=f1e188] [cursor=pointer]:
+          - /url: /security.html
+        - link "Privacy" [ref=f1e189] [cursor=pointer]:
+          - /url: /privacy.html
+        - link "Terms" [ref=f1e190] [cursor=pointer]:
+          - /url: /terms.html
+    - generic [ref=f1e191]: © 2026 Blueroll. London, United Kingdom.
