@@ -48,6 +48,30 @@
       }
     }
 
+    const trialClickKey = 'blueroll_trial_click';
+
+    // A trial click followed by a browser-back arrival here means the visitor left onboarding.
+    // Any other kind of page load clears the marker, so later back navigation on the site is not counted.
+    window.addEventListener('pageshow', event => {
+      try {
+        const stored = window.sessionStorage.getItem(trialClickKey);
+        if (!stored) return;
+        window.sessionStorage.removeItem(trialClickKey);
+
+        const navigation = window.performance?.getEntriesByType?.('navigation')?.[0];
+        if (!event.persisted && navigation?.type !== 'back_forward') return;
+
+        const { time } = JSON.parse(stored);
+        sendEvent('onboarding_back_return', {
+          ai_source: sessionSource || '(not_ai_referred)',
+          landing_page: window.location.pathname,
+          seconds: Math.max(0, Math.round((Date.now() - time) / 1000))
+        });
+      } catch (error) {
+        // Analytics must never interfere with page use.
+      }
+    });
+
     document.addEventListener('click', event => {
       const link = event.target.closest?.('a[href]');
       if (!link) return;
@@ -57,7 +81,8 @@
       let destination = '';
 
       if (/^https:\/\/app\.blueroll\.app(?:\/|$)/i.test(href)) {
-        eventName = 'trial_start_click';
+        // "Sign in" links share the app URL; keep returning customers out of the trial count.
+        eventName = /^\s*sign in\s*$/i.test(link.textContent || '') ? 'sign_in_click' : 'trial_start_click';
         destination = 'app.blueroll.app';
       } else if (/^mailto:hello@blueroll\.app/i.test(href) && /demo/i.test(href)) {
         eventName = 'demo_request_click';
@@ -77,6 +102,17 @@
         destination,
         transport_type: 'beacon'
       });
+
+      // Remember a same-tab trial click so a browser-back return from the app can be counted.
+      const sameTab = event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey &&
+        (link.getAttribute('target') || '_self') === '_self';
+      if (eventName === 'trial_start_click' && sameTab) {
+        try {
+          window.sessionStorage.setItem(trialClickKey, JSON.stringify({ time: Date.now() }));
+        } catch (error) {
+          // Storage can be blocked; the click itself has already been recorded.
+        }
+      }
     }, { capture: true });
 
     document.querySelectorAll('details.ms-faq').forEach((item, index) => {
