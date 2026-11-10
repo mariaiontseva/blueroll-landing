@@ -6,7 +6,7 @@ Usage: python3 _build/build_owner_pages.py   (writes the pages into the repo roo
 """
 import json
 import re
-from datetime import date
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -26,6 +26,7 @@ assert "footer-grid" in CHROME_FOOTER and "getElementById('nav-burger')" in CHRO
 
 CSS = (SRC_DIR / "owner.css").read_text().rstrip()
 UPDATED = date.today().strftime("%B %Y")
+MODIFIED = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
 
 # Free HACCP pack capture: same pipeline as the template and borough pages
 # (template_leads -> drip letters), source haccp-template:owner:<page>-inline.
@@ -63,7 +64,7 @@ META = {
         "desc": "A 5 needs all three inspection scores at 5 or better. Enter your inspector's scores to see your rating, what caps it and what to fix first.",
         "og_title": "How to get a 5 food hygiene rating",
         "og_desc": "Enter the inspector's three scores, see your rating, what caps it and what to fix first.",
-        "crumb": "How to get a 5", "published": "2026-11-10",
+        "crumb": "How to get a 5", "published": "2026-11-10T08:00:00+00:00",
         "howto": "How to prepare for a 5 food hygiene rating",
     },
     "food-hygiene-re-rating.html": {
@@ -71,7 +72,7 @@ META = {
         "desc": "Got a 1, 2 or 3? Ask your council for a re-rating visit. Fees in England, Wales and NI, how long it takes, and a free request letter.",
         "og_title": "Got a 1, 2 or 3? How to get re-rated",
         "og_desc": "Re-rating fees by council and nation, timing, and a free request letter you can send today.",
-        "crumb": "Re-rating", "published": "2026-11-10",
+        "crumb": "Re-rating", "published": "2026-11-10T08:00:00+00:00",
         "howto": "How to get a food hygiene re-rating",
     },
 }
@@ -106,7 +107,7 @@ def head(name: str) -> str:
 <meta property="og:description" content="{esc(m['og_desc'])}">
 <meta property="og:image" content="{SITE}/og-image.png">
 <meta property="article:published_time" content="{m['published']}">
-<meta property="article:modified_time" content="{date.today().isoformat()}">
+<meta property="article:modified_time" content="{MODIFIED}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{esc(m['og_title'])}">
 <meta name="twitter:description" content="{esc(m['og_desc'])}">
@@ -131,7 +132,7 @@ def structured_data(name: str, html: str) -> str:
     graph = [
         org,
         {"@type": "Article", "headline": h1, "description": m["desc"], "image": f"{SITE}/og-image.png",
-         "datePublished": m["published"], "dateModified": date.today().isoformat(), "inLanguage": "en-GB",
+         "datePublished": m["published"], "dateModified": MODIFIED, "inLanguage": "en-GB",
          "author": {"@id": f"{SITE}/#org"}, "publisher": {"@id": f"{SITE}/#org"},
          "mainEntityOfPage": {"@type": "WebPage", "@id": url}},
         {"@type": "BreadcrumbList", "itemListElement": [
