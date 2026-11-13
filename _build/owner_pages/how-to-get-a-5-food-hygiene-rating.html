@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{{HEAD}}
+<link rel="stylesheet" href="/site-chrome.css?v=20260720-solutions-v1">
+<link rel="stylesheet" href="/site-chrome-v2.css?v=20260812">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFY0GPZYYQ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZFY0GPZYYQ');</script>
+{{LD}}
+<style>
+{{CSS}}
+  /* calculator */
+  .calc { display:grid; grid-template-columns:1fr 250px; overflow:hidden; }
+  .calc-in { padding:24px 26px 18px; }
+  .calc-row { padding:14px 0 16px; border-top:1px solid var(--line2); }
+  .calc-row:first-child { border-top:0; padding-top:2px; }
+  .calc-row .lab { display:flex; justify-content:space-between; gap:10px; align-items:baseline; margin-bottom:10px; }
+  .calc-row .lab b { font-size:15.5px; }
+  .calc-row .lab span { font-size:13px; color:var(--soft); text-align:right; }
+  .seg { display:flex; gap:6px; }
+  .seg button { flex:1 1 0; min-width:0; height:42px; border-radius:10px; border:0; background:#f2f4f2; color:var(--muted); font:600 15px "Geist",sans-serif; font-variant-numeric:tabular-nums; cursor:pointer; transition:background .15s,color .15s,box-shadow .15s; }
+  .seg button:hover { background:#e8ece9; }
+  .seg button[aria-checked="true"] { background:var(--ink); color:#fff; }
+  .seg button.worst[aria-checked="true"] { background:var(--amber); }
+  .calc-out { background:var(--navy); background:linear-gradient(160deg,var(--navy),var(--navy2)); color:#e9eef3; padding:26px 22px; display:flex; flex-direction:column; gap:12px; }
+  .calc-out .k { font-family:"Geist Mono",monospace; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:#E2B55A; }
+  .calc-out .big { display:flex; align-items:center; gap:14px; }
+  .calc-out .name { font-weight:700; font-size:16px; color:#fff; line-height:1.25; }
+  .calc-out .tot { font-size:13px; color:rgba(233,238,243,.6); font-variant-numeric:tabular-nums; }
+  .calc-out .why { font-size:14px; line-height:1.5; color:rgba(233,238,243,.86); border-top:1px solid rgba(255,255,255,.1); padding-top:12px; }
+  .calc-out .why b { color:#fff; }
+  .calc-note { font-size:13px; color:var(--soft); margin-top:10px; }
+  .bands td:first-child { width:64px; }
+  .mini { display:inline-block; width:30px; height:30px; border-radius:8px; line-height:30px; text-align:center; font-weight:800; color:#fff; font-size:14px; }
+  .m5{background:#1a7f4f}.m4{background:#59a06b}.m3{background:#d0a02b}.m2{background:#d97a2b}.m1{background:#c65530}.m0{background:#9c2b23}
+  @media (max-width:760px) { .calc { grid-template-columns:1fr; } .calc-in { padding:18px 16px 10px; } .seg button { height:40px; font-size:14px; } }
+</style>
+<script src="/geo-analytics.js" defer></script>
+</head>
+<body>
+{{CHROME_NAV}}
+<main class="wrap">
+  <div class="crumbs"><a href="/">Blueroll</a> › <a href="/food-hygiene-ratings/">Food hygiene ratings</a> › How to get a 5</div>
+  <div class="eyebrow">For food business owners</div>
+  <h1>How to get a <em>5</em> food hygiene rating</h1>
+  <p class="lede">The inspector scores three things, and the worst of the three sets your ceiling. A spotless kitchen with patchy records still can't get a 5. Pick your scores below and see exactly what holds you back.</p>
+  <div class="meta">Based on the Food Standards Agency scoring used in England, Wales and Northern Ireland · checked {{UPDATED}}</div>
+
+  <h2>Work out your rating</h2>
+  <p class="lead">Your scores are on the letter the inspector sent after the visit. Lower is better: 0 means very good, 25 or 30 means urgent improvement.</p>
+  <div class="card calc" id="calc">
+    <div class="calc-in">
+      <div class="calc-row" data-area="h">
+        <div class="lab"><b>Food handling</b><span data-word></span></div>
+        <div class="seg" role="radiogroup" aria-label="Food handling score"></div>
+      </div>
+      <div class="calc-row" data-area="s">
+        <div class="lab"><b>Building and cleaning</b><span data-word></span></div>
+        <div class="seg" role="radiogroup" aria-label="Building and cleaning score"></div>
+      </div>
+      <div class="calc-row" data-area="m">
+        <div class="lab"><b>Food safety management</b><span data-word></span></div>
+        <div class="seg" role="radiogroup" aria-label="Food safety management score"></div>
+      </div>
+    </div>
+    <div class="calc-out" aria-live="polite">
+      <div class="k">Your rating</div>
+      <div class="big"><div class="tile" id="c-tile">3</div><div><div class="name" id="c-name">Generally satisfactory</div><div class="stars" id="c-stars"></div></div></div>
+      <div class="tot" id="c-tot"></div>
+      <div class="why" id="c-why"></div>
+    </div>
+  </div>
+  <p class="calc-note">Councils score in the same steps you see here. Management has no 15 or 25: it jumps from 10 to 20.</p>
+
+  <h2>The three things an inspector scores</h2>
+  <p class="lead">Each area gets its own score. For a 5, every one of them has to be 0 or 5.</p>
+  <div class="areas">
+    <div class="card area"><div class="k">Area 1</div><h3>Food handling</h3><p>How food is stored, prepared, cooked, cooled and reheated. Temperatures, cross-contamination, handwashing.</p></div>
+    <div class="card area"><div class="k">Area 2</div><h3>Building and cleaning</h3><p>Cleanliness, repair, layout, lighting, ventilation, pest control and handwashing facilities.</p></div>
+    <div class="card area lever"><div class="k">Area 3 · the one paper loses</div><h3>Food safety management</h3><p>A written system such as SFBB or HACCP, records that are actually filled in, staff training and your track record.</p></div>
+  </div>
+
+  <h2>Why so many kitchens stop at a 3 or 4</h2>
+  <p>The rating isn't just the total. Each rating also has a ceiling on the worst single area, so one weak area caps you however good the rest is.</p>
+  <div class="card tscroll">
+    <table class="t bands">
+      <thead><tr><th>Rating</th><th>Total score</th><th>Worst single area</th></tr></thead>
+      <tbody>
+        <tr><td><span class="mini m5">5</span></td><td class="num">15 or less</td><td class="num">5 or better</td></tr>
+        <tr><td><span class="mini m4">4</span></td><td class="num">20</td><td class="num">10 or better</td></tr>
+        <tr><td><span class="mini m3">3</span></td><td class="num">25 to 30</td><td class="num">10 or better</td></tr>
+        <tr><td><span class="mini m2">2</span></td><td class="num">35 to 40</td><td class="num">15 or better</td></tr>
+        <tr><td><span class="mini m1">1</span></td><td class="num">45 to 50</td><td class="num">20 or better</td></tr>
+        <tr><td><span class="mini m0">0</span></td><td class="num">over 50</td><td>any</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top:16px">Food safety management is where this bites hardest. Inspectors give it 10 when a written system is <b>in progress</b>, 5 when it is <b>in place</b>, and 20 or 30 when there is <b>none</b>. A score of 20 holds the whole rating at 1, even with a perfect kitchen. It is also the area you can fix fastest, because it is mostly paperwork that has to exist and be kept up every day.</p>
+
+  <h2>What to do before your next inspection</h2>
+  <p class="lead">In the order that usually moves the score most.</p>
+  <ol class="steps">
+    <li><div><b>Get your written system in place and in use</b><span>Safer Food, Better Business or your own HACCP plan, filled in for your kitchen, not a blank pack on a shelf.</span></div></li>
+    <li><div><b>Keep the daily records every day</b><span>Fridge and freezer temperatures, cooking and cooling checks, opening and closing checks, cleaning sign-offs. Inspectors look for gaps and for weeks filled in with one pen.</span></div></li>
+    <li><div><b>Make allergens answerable</b><span>Every dish with its 14 allergens, kept up to date when a recipe changes, so any member of staff can answer a customer.</span></div></li>
+    <li><div><b>Show your team is trained</b><span>Food hygiene certificates and a record of who was shown what, including new starters.</span></div></li>
+    <li><div><b>Fix the building items on your last letter</b><span>Repairs, handwash basins, pest proofing. Keep invoices and photos: you will need them if you ask for a re-rating.</span></div></li>
+  </ol>
+
+  <h2>A quick self-check</h2>
+  <div class="card"><ul class="checks">
+    <li>Fridge and freezer temperatures recorded at least twice a day<small>With the time and who checked, and what was done if one was out of range.</small></li>
+    <li>Cooking, cooling and reheating temperatures checked and written down</li>
+    <li>Cleaning schedule signed off every day</li>
+    <li>Your SFBB or HACCP pack is completed for your own menu and processes</li>
+    <li>Allergen information for every dish, up to date</li>
+    <li>Training certificates on file for everyone who handles food</li>
+    <li>Pest control contract or checks, with the latest report</li>
+    <li>Supplier details and delivery checks recorded</li>
+  </ul></div>
+
+  <div class="band">
+    <div>
+      <div class="k">Free set-up</div>
+      <h2>We'll set up your daily records for you</h2>
+      <p>Send us photos of the sheets you use now. We turn them into checklists your team ticks off on a phone, with the time and name saved for the inspector. Ready within one working day.</p>
+    </div>
+    <div><a class="btn" href="https://app.blueroll.app/" data-cta="get5-band">Start free</a><span class="sub2">14 days free, then £24.99 a month per site</span></div>
+  </div>
+
+  <div class="pack" data-gate="inline">
+    <div class="pdf" aria-hidden="true">PDF</div>
+    <div>
+      <h3>Prefer paper for now?</h3>
+      <p>Get our free HACCP record pack: daily logs, cleaning schedule and delivery checks, ready to print.</p>
+      <div class="g-form"><div class="grow"><input class="g-email" type="email" autocomplete="email" placeholder="Your email" aria-label="Your email"><button class="btn g-send" type="button">Send me the pack</button></div></div>
+      <div class="gsent g-sent" hidden>Downloading now. We've also emailed you a copy.</div>
+    </div>
+  </div>
+
+  <h2>Got a low rating already?</h2>
+  <p>You don't have to wait for the next routine inspection. Once you've fixed what the inspector found, you can ask your council for a re-rating visit. <a href="/food-hygiene-re-rating.html">Here's how, what it costs in your area, and a request you can send today</a>.</p>
+
+  <h2>Questions owners ask</h2>
+  <div class="faq">
+    <details><summary>What do you need for a 5 food hygiene rating?</summary><p>All three area scores at 0 or 5, adding up to 15 or less. One weak area caps the rating however good the others are.</p></details>
+    <details><summary>What is confidence in management?</summary><p>The inspector's view of how well you manage food safety: a written system such as SFBB or HACCP, records that are kept, staff training and your track record. With no written system this area scores 20 or 30, which on its own holds the rating at 1 or 0.</p></details>
+    <details><summary>Can I get my food hygiene rating changed before the next inspection?</summary><p>Yes. Accept the rating, make the improvements, then ask your council for a re-rating visit. Most councils in England charge a fee, Wales about £255 and Northern Ireland £150. The visit is unannounced and the rating can go up, down or stay the same. <a href="/food-hygiene-re-rating.html">Full guide</a>.</p></details>
+    <details><summary>Do I have to display my food hygiene rating?</summary><p>In Wales and Northern Ireland, yes, at each customer entrance. In England it's voluntary, but your rating is published online either way.</p></details>
+  </div>
+
+  <div class="rel">
+    <a class="card" href="/food-hygiene-re-rating.html"><b>Got a 1, 2 or 3?</b><span>How to get re-rated, fees by council</span></a>
+    <a class="card" href="/eho-inspection-checklist.html"><b>EHO inspection checklist</b><span>What the inspector asks to see</span></a>
+    <a class="card" href="/food-hygiene-ratings/"><b>Ratings near you</b><span>Every kitchen in your area, 0 to 5</span></a>
+  </div>
+
+  <div class="sources">
+    Sources
+    <ol>
+      <li><a href="https://www.gov.uk/government/publications/food-hygiene-rating-scheme-fhrs-guidance-for-businesses/food-hygiene-rating-scheme-fhrs-guidance-for-businesses">GOV.UK, Food Hygiene Rating Scheme guidance for businesses</a></li>
+      <li><a href="https://www.blackpool.gov.uk/business/food-hygiene/food-hygiene-rating-scheme">Blackpool Council, how food hygiene ratings are worked out</a></li>
+      <li><a href="https://www.reigate-banstead.gov.uk/info/20376/food_hygiene_rating_scheme/199/food_hygiene_rating_scheme_fhrs_-_information_for_businesses">Reigate and Banstead Council, FHRS information for businesses</a></li>
+      <li><a href="https://new.calderdale.gov.uk/sites/default/files/2023-08/food-hygiene-ratings.pdf">Calderdale Council, food hygiene ratings guide (management scores)</a></li>
+    </ol>
+  </div>
+</main>
+{{CHROME_FOOTER}}
+<script>
+(function () {
+  var OPTS = { h:[0,5,10,15,20,25], s:[0,5,10,15,20,25], m:[0,5,10,20,30] };
+  var WORD = {0:'Very good',5:'Good',10:'Generally satisfactory',15:'Improvement necessary',20:'Major improvement necessary',25:'Urgent improvement necessary',30:'Urgent improvement necessary'};
+  var NAME = {5:'Very good',4:'Good',3:'Generally satisfactory',2:'Improvement necessary',1:'Major improvement necessary',0:'Urgent improvement necessary'};
+  var AREA = { h:'food handling', s:'building and cleaning', m:'food safety management' };
+  var BANDS = [{r:5,max:15,cap:5},{r:4,max:20,cap:10},{r:3,max:30,cap:10},{r:2,max:40,cap:15},{r:1,max:50,cap:20},{r:0,max:1e9,cap:1e9}];
+  var state = { h:10, s:5, m:10 };
+  function rate(t, w) { for (var i = 0; i < BANDS.length; i++) if (t <= BANDS[i].max && w <= BANDS[i].cap) return BANDS[i].r; return 0; }
+  function byTotal(t) { for (var i = 0; i < BANDS.length; i++) if (t <= BANDS[i].max) return BANDS[i].r; return 0; }
+  function render() {
+    var total = state.h + state.s + state.m;
+    var worst = Math.max(state.h, state.s, state.m);
+    var worstKey = state.m === worst ? 'm' : (state.h === worst ? 'h' : 's');  // ties: point at records first
+    var r = rate(total, worst), rt = byTotal(total);
+    document.getElementById('c-tile').textContent = r;
+    document.getElementById('c-name').textContent = NAME[r];
+    document.getElementById('c-stars').innerHTML = '★★★★★'.slice(0, r) + '<i>' + '★★★★★'.slice(r) + '</i>';
+    document.getElementById('c-tot').textContent = 'Total ' + total + ' · worst area ' + worst;
+    var why;
+    if (r === 5) why = '<b>That\'s a 5.</b> Keep the records going every day so the next inspection finds the same.';
+    else if (rt > r) why = 'Your total alone would be a <b>' + rt + '</b>, but <b>' + AREA[worstKey] + '</b> at ' + worst + ' caps you at ' + r + '.';
+    else { var nb = BANDS[5 - r - 1]; why = 'For a <b>' + nb.r + '</b> you need a total of ' + nb.max + ' or less, with no area above ' + nb.cap + '.'; }
+    if (r < 5 && worstKey === 'm') why += ' Management is mostly records, the quickest area to fix.';
+    document.getElementById('c-why').innerHTML = why;
+    document.querySelectorAll('.calc-row').forEach(function (row) {
+      var k = row.getAttribute('data-area');
+      row.querySelector('[data-word]').textContent = WORD[state[k]];
+      row.querySelectorAll('button').forEach(function (b) {
+        var on = +b.value === state[k];
+        b.setAttribute('aria-checked', on ? 'true' : 'false');
+        b.classList.toggle('worst', on && r < 5 && k === worstKey && state[k] > 5);
+        b.tabIndex = on ? 0 : -1;
+      });
+    });
+  }
+  document.querySelectorAll('.calc-row').forEach(function (row) {
+    var k = row.getAttribute('data-area'), seg = row.querySelector('.seg');
+    OPTS[k].forEach(function (v) {
+      var b = document.createElement('button'); b.type = 'button'; b.value = v; b.textContent = v;
+      b.setAttribute('role', 'radio'); b.setAttribute('aria-label', v + ', ' + WORD[v]);
+      b.addEventListener('click', function () { state[k] = v; render(); if (window.gtag) gtag('event', 'rating_calc_change', { area: k, score: v }); });
+      b.addEventListener('keydown', function (e) {
+        var i = OPTS[k].indexOf(state[k]);
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); state[k] = OPTS[k][Math.min(i + 1, OPTS[k].length - 1)]; render(); seg.querySelector('[aria-checked="true"]').focus(); }
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); state[k] = OPTS[k][Math.max(i - 1, 0)]; render(); seg.querySelector('[aria-checked="true"]').focus(); }
+      });
+      seg.appendChild(b);
+    });
+  });
+  render();
+})();
+{{PACK_JS}}
+</script>
+</body>
+</html>
