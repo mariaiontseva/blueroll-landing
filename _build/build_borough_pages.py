@@ -41,6 +41,17 @@ assert "footer-grid" in CHROME_FOOTER and "getElementById('nav-burger')" in CHRO
 
 UPDATED = date.today().strftime("%-d %B %Y")
 
+# The pages owners land on from search. Same four links on every area page and the hub.
+OWNER_LINKS = """<div class="rel">
+    <strong style="font-size:15px;">For food business owners</strong>
+    <ul>
+      <li><a href="/">Food safety app for restaurants</a></li>
+      <li><a href="/eho-inspection-checklist.html">EHO inspection checklist</a></li>
+      <li><a href="/how-to-get-a-5-food-hygiene-rating.html">How to get a 5 food hygiene rating</a></li>
+      <li><a href="/free-haccp-template.html">Free HACCP plan template</a></li>
+    </ul>
+  </div>"""
+
 
 def fmt_n(n: int) -> str:
     return f"{n:,}"
@@ -156,6 +167,7 @@ def build_page(slug: str) -> str:
         "{{EXEMPT_NOTE}}": exempt_note, "{{MOVERS_HTML}}": movers_html(b, name, DATA.get("prev_date")),
         "{{WORST_ROWS}}": worst_rows, "{{WORST_NOTE}}": worst_note,
         "{{NEARBY_LINKS}}": nearby, "{{LAID}}": str(cfg["id"]), "{{ANON}}": ANON,
+        "{{OWNER_LINKS}}": OWNER_LINKS,
         "{{REGION_LABEL}}": region_label,
         "{{MAP_LINK_LI}}": ("" if is_city else
                             '<li><a href="/london-food-hygiene-map.html">Live London food hygiene map: search all 33 boroughs</a></li>'),
@@ -241,13 +253,14 @@ def build_hub() -> str:
   </table>
   </div>
   <p class="note">Share of 5s is calculated over rated establishments only. Exempt and awaiting-inspection businesses are counted in the register totals. Scottish cities use the separate FHIS scheme and are not listed here.</p>
-  <div class="rel">
+  {OWNER_LINKS}
+
+  <div class="rel" style="margin-top:12px;">
     <strong style="font-size:15px;">More on food hygiene ratings</strong>
     <ul>
       <li><a href="/london-food-hygiene-map.html">Live London food hygiene map: search any restaurant</a></li>
       <li><a href="/food-hygiene-ratings-explained.html">Food hygiene ratings explained: EHO scoring and how to get a 5</a></li>
       <li><a href="/how-to-improve-food-hygiene-rating.html">How to improve your food hygiene rating</a></li>
-      <li><a href="/free-haccp-template.html">Free 16-page HACCP pack for UK kitchens</a></li>
     </ul>
   </div>
 </div>
