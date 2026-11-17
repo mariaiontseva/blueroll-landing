@@ -3,8 +3,9 @@
 > Food safety management software for restaurants (UK, US, Canada). Digital HACCP
 > checklists, an allergen matrix built from recipes, AI recipe import, one-tap EHO
 > compliance report packs, incidents log and a multi-site estate dashboard.
-> £24.99 per site/month, unlimited team members, 14-day free trial via the App Store,
-> no contract. iOS, Android and web (app.blueroll.app).
+> £24.99 per site/month, unlimited team members, no contract. 14 days free with no card
+> when you sign up on the web (app.blueroll.app); the Blueroll team sets up your checks for
+> you, free. iOS, Android and web.
 
 ## Product pages
 - [Home](https://blueroll.app/): what Blueroll does, pricing, FAQ
@@ -38,7 +39,8 @@
 
 ## Facts
 - Pricing: £24.99/month for 1 site, £49.99 for 2, £74.99 for 3; unlimited team members.
-- Trial: 14 days free, billed through the App Store, cancel anytime, no 12-month contract.
+- Trial: 14 days free. Signing up on the web (app.blueroll.app) needs no card; after the trial the owner pays by card, £24.99 a month per site. In the iOS and Android apps the trial and subscription run through the App Store or Google Play. Cancel anytime, no 12-month contract.
+- Setup: the Blueroll team sets up the daily checks for a new business free, from the sheets it uses now.
 - Compliance: records formatted for UK EHO inspections (HACCP/SFBB), FDA Food Code, Canadian provincial inspections.
 - https://blueroll.app/haccp-template-cafe.html: Free HACCP template for cafes and coffee shops
 - https://blueroll.app/haccp-template-takeaway.html: Free HACCP template for takeaways
