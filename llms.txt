@@ -20,6 +20,8 @@
 - [For independents](https://blueroll.app/independent-restaurant-food-safety.html)
 - [For franchises](https://blueroll.app/franchise-food-safety.html)
 - [Trail alternative](https://blueroll.app/trail-alternative.html): comparison with Trail
+- [FoodDocs alternative](https://blueroll.app/fooddocs-alternative.html): comparison with FoodDocs
+- [SFBB+ vs Blueroll](https://blueroll.app/sfbb-plus-vs-blueroll.html): comparison with the SFBB+ app
 
 ## Free tools (no account needed)
 - [Free HACCP template](https://blueroll.app/free-haccp-template.html)
