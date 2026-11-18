@@ -25,6 +25,10 @@
 
 ## Free tools (no account needed)
 - [Free HACCP template](https://blueroll.app/free-haccp-template.html)
+- [Kitchen cleaning schedule template (UK)](https://blueroll.app/kitchen-cleaning-schedule-template.html): weekly schedule, filled-in example, monthly deep-clean log, A4 PDF
+- [Restaurant cleaning checklist (US)](https://blueroll.app/restaurant-cleaning-checklist.html): daily, weekly and monthly tasks and a sanitizer log, US Letter PDF
+- [Fridge temperature log sheet (UK)](https://blueroll.app/fridge-temperature-log.html): weekly fridge and freezer log in °C, filled-in example, cooking and cooling log, A4 PDF
+- [Food temperature log (US)](https://blueroll.app/food-temperature-log.html): walk-in cooler and freezer log in °F, cooling log, FDA Food Code temperatures, US Letter PDF
 - [EHO self-audit](https://blueroll.app/audit/)
 - [Hygiene rating checker](https://blueroll.app/check-food-hygiene-rating.html)
 - [Free hygiene rating badge](https://blueroll.app/free-food-hygiene-rating-badge.html)

@@ -348,6 +348,78 @@ a:hover { color: #1f9d63; }
   <p style="font-size: 17px; line-height: 1.6; color: #5c626b; margin: 18px auto 0; max-width: 580px; text-wrap: pretty;">Use these free tools to run a mock EHO inspection, check live hygiene ratings, download HACCP records and find practical UK kitchen guidance. Most tools need no account; the HACCP pack is delivered by email. Want the checks on your team's phones instead of paper? Blueroll is a <a href="/">food safety app for restaurants</a>.</p>
 </div>
 
+<!-- Free HACCP pack capture (drip source: haccp-template:tools:inline) -->
+<style>
+@media (max-width: 720px) { .tools-gate { grid-template-columns: 1fr !important; padding: 24px 20px !important; gap: 22px !important; } .tools-gate img { max-width: 150px; margin: 0 auto; } }
+</style>
+<div style="max-width: 1160px; margin: 44px auto 0; padding: 0 24px;">
+  <div data-gate="inline" class="tools-gate" style="background: #eef1f0; border-radius: 22px; padding: 32px 40px; display: grid; grid-template-columns: 170px 1fr; gap: 40px; align-items: center;">
+    <img src="/uploads/template-page-1.png?v=20260830" alt="HACCP template pack, 2026 edition, cover" style="width: 100%; display: block; border-radius: 4px; transform: rotate(-2deg); box-shadow: 0 2px 4px rgba(16,24,40,.08), 0 24px 40px -20px rgba(16,24,40,.45);">
+    <div>
+      <div style="font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #1f7a52;">Free download &middot; 16 pages &middot; 2026 edition</div>
+      <h2 style="font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.2; margin: 8px 0 0;">The HACCP record pack, ready to print</h2>
+      <p style="font-size: 14.5px; color: #5c626b; line-height: 1.65; margin: 10px 0 18px; max-width: 620px; text-wrap: pretty;">Daily opening checklist, weekly fridge temperature log, cleaning schedule, delivery checks, corrective actions and the allergen matrix. Every sheet comes with a filled-in example, and the pack fits straight into an SFBB folder.</p>
+    <div class="g-idle">
+      <button class="g-open" style="background:#1f9d63;color:#fff;font-family:inherit;font-size:15px;font-weight:700;padding:13px 26px;border:none;border-radius:8px;cursor:pointer;">Get the free pack</button>
+    </div>
+    <div class="g-form" style="display:none;">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;background:#fff;border:1px solid #dbe3dd;border-radius:12px;padding:8px;max-width:520px;">
+        <input class="g-email" type="email" placeholder="Your work email" autocomplete="email" style="flex:1 1 180px;min-width:0;font-family:inherit;font-size:16px;padding:10px 12px;border:none;border-radius:8px;background:transparent;color:#1a1d21;outline:none;box-shadow:inset 0 0 0 1.5px #e2e4e8;">
+        <button class="g-send" style="flex:1 1 auto;background:#1f9d63;color:#fff;font-family:inherit;font-size:14.5px;font-weight:700;padding:12px 20px;border:none;border-radius:8px;cursor:pointer;white-space:nowrap;">Send me the PDF</button>
+      </div>
+      <div style="font-size:12px;color:#8a9099;line-height:1.5;margin-top:10px;">The PDF downloads straight away. We also email you a copy, plus two short follow-ups. Unsubscribe anytime.</div>
+    </div>
+    <div class="g-sent" style="display:none;">
+      <div style="display:flex;align-items:center;gap:11px;background:#eaf4ee;border:1px solid #cfe6d9;border-radius:12px;padding:15px 18px;max-width:520px;">
+        <span style="width:24px;height:24px;border-radius:50%;background:#1f9d63;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;">&#10003;</span>
+        <span style="font-size:14.5px;font-weight:600;color:#14532d;">Downloading. Check your Downloads folder</span>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var SB = 'https://rszrggreuarvodcqeqrj.supabase.co';
+  var ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzenJnZ3JldWFydm9kY3FlcXJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1NzY2NzYsImV4cCI6MjA4OTE1MjY3Nn0.dwD1MJcMOc9w1IP4T15ep1mYHVARW6eJPNArn4oGmH0';
+  function track(n, p) { if (typeof gtag === 'function') gtag('event', n, p || {}); }
+  var g = document.querySelector('[data-gate="inline"]');
+  if (!g) return;
+  var idle = g.querySelector('.g-idle'), form = g.querySelector('.g-form'), sent = g.querySelector('.g-sent');
+  var input = g.querySelector('.g-email'), send = g.querySelector('.g-send'), open = g.querySelector('.g-open');
+  open.addEventListener('click', function () {
+    idle.style.display = 'none'; form.style.display = 'block';
+    track('haccp_form_open', { placement: 'tools:inline' });
+    setTimeout(function () { input.focus(); }, 30);
+  });
+  function submit() {
+    var email = (input.value || '').trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      input.style.boxShadow = 'inset 0 0 0 1.5px #d64545'; input.focus(); return;
+    }
+    form.style.display = 'none'; sent.style.display = 'block';
+    try { localStorage.setItem('br-tpl-downloaded', '1'); } catch (e) {}
+    fetch(SB + '/rest/v1/template_leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': ANON, 'Authorization': 'Bearer ' + ANON, 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ email: email, source: 'haccp-template:tools:inline', page: window.location.pathname, user_agent: navigator.userAgent.slice(0, 250) })
+    }).catch(function () {});
+    fetch('https://formsubmit.co/ajax/hello@blueroll.app', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ email: email, _subject: 'New HACCP template download: ' + email, source: 'haccp-template:tools', placement: 'inline', page: window.location.href })
+    }).catch(function () {});
+    track('haccp_template_download', { placement: 'tools:inline', email_domain: email.split('@')[1] });
+    var a = document.createElement('a');
+    a.href = '/blueroll-haccp-template.pdf'; a.download = 'blueroll-haccp-template.pdf';
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+  send.addEventListener('click', submit);
+  input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); submit(); } });
+  input.addEventListener('input', function () { input.style.boxShadow = 'inset 0 0 0 1.5px #e2e4e8'; });
+})();
+</script>
+
 <div style="max-width: 1160px; margin: 44px auto 0; padding: 0 24px;">
   <div style="background: #fff; border: 1px solid #e7e9ec; border-radius: 18px; padding: 26px 30px; box-shadow: 0 1px 2px rgba(16,24,40,.03); display: grid; grid-template-columns: 1.4fr .7fr; gap: 32px; align-items: center;">
     <div>
@@ -423,6 +495,26 @@ a:hover { color: #1f9d63; }
     <a href="/free-haccp-template.html" style="background: #fff; border: 1px solid #e7e9ec; border-radius: 18px; padding: 24px 26px; color: #16181d; box-shadow: 0 1px 2px rgba(16,24,40,.03); display: flex; flex-direction: column; transition: border-color .18s;" class="gh1">
       <div style="display: flex; align-items: center; gap: 10px;"><span style="width: 38px; height: 38px; border-radius: 11px; background: #eef6f1; display: inline-flex; align-items: center; justify-content: center; color: #1f7a52; font-size: 9px; font-weight: 700; font-family: 'Geist Mono', monospace;">PDF</span><span style="font-size: 16px; font-weight: 700; letter-spacing: -0.02em;">Free HACCP plan template UK</span></div>
       <div style="font-size: 13px; color: #6b727b; line-height: 1.55; margin-top: 10px; text-wrap: pretty; flex: 1;">The 7 HACCP principles, daily logs and cleaning schedules — a ready-to-use PDF.</div>
+      <div style="margin-top: 12px; font-size: 12.5px; font-weight: 600; color: #1f7a52;">Download free →</div>
+    </a>
+    <a href="/kitchen-cleaning-schedule-template.html" style="background: #fff; border: 1px solid #e7e9ec; border-radius: 18px; padding: 24px 26px; color: #16181d; box-shadow: 0 1px 2px rgba(16,24,40,.03); display: flex; flex-direction: column; transition: border-color .18s;" class="gh1">
+      <div style="display: flex; align-items: center; gap: 10px;"><span style="width: 38px; height: 38px; border-radius: 11px; background: #eef6f1; display: inline-flex; align-items: center; justify-content: center; color: #1f7a52; font-size: 9px; font-weight: 700; font-family: 'Geist Mono', monospace;">PDF</span><span style="font-size: 16px; font-weight: 700; letter-spacing: -0.02em;">Kitchen cleaning schedule template</span></div>
+      <div style="font-size: 13px; color: #6b727b; line-height: 1.55; margin-top: 10px; text-wrap: pretty; flex: 1;">A weekly schedule, a filled-in example and a monthly deep-clean log for UK kitchens.</div>
+      <div style="margin-top: 12px; font-size: 12.5px; font-weight: 600; color: #1f7a52;">Download free →</div>
+    </a>
+    <a href="/restaurant-cleaning-checklist.html" style="background: #fff; border: 1px solid #e7e9ec; border-radius: 18px; padding: 24px 26px; color: #16181d; box-shadow: 0 1px 2px rgba(16,24,40,.03); display: flex; flex-direction: column; transition: border-color .18s;" class="gh1">
+      <div style="display: flex; align-items: center; gap: 10px;"><span style="width: 38px; height: 38px; border-radius: 11px; background: #eef6f1; display: inline-flex; align-items: center; justify-content: center; color: #1f7a52; font-size: 9px; font-weight: 700; font-family: 'Geist Mono', monospace;">PDF</span><span style="font-size: 16px; font-weight: 700; letter-spacing: -0.02em;">Restaurant cleaning checklist (US)</span></div>
+      <div style="font-size: 13px; color: #6b727b; line-height: 1.55; margin-top: 10px; text-wrap: pretty; flex: 1;">Daily, weekly and monthly tasks plus a sanitizer log, built on the FDA Food Code.</div>
+      <div style="margin-top: 12px; font-size: 12.5px; font-weight: 600; color: #1f7a52;">Download free →</div>
+    </a>
+    <a href="/fridge-temperature-log.html" style="background: #fff; border: 1px solid #e7e9ec; border-radius: 18px; padding: 24px 26px; color: #16181d; box-shadow: 0 1px 2px rgba(16,24,40,.03); display: flex; flex-direction: column; transition: border-color .18s;" class="gh1">
+      <div style="display: flex; align-items: center; gap: 10px;"><span style="width: 38px; height: 38px; border-radius: 11px; background: #eef6f1; display: inline-flex; align-items: center; justify-content: center; color: #1f7a52; font-size: 9px; font-weight: 700; font-family: 'Geist Mono', monospace;">PDF</span><span style="font-size: 16px; font-weight: 700; letter-spacing: -0.02em;">Fridge temperature log sheet</span></div>
+      <div style="font-size: 13px; color: #6b727b; line-height: 1.55; margin-top: 10px; text-wrap: pretty; flex: 1;">Weekly fridge and freezer log in °C, a filled-in example and a cooking and cooling log.</div>
+      <div style="margin-top: 12px; font-size: 12.5px; font-weight: 600; color: #1f7a52;">Download free →</div>
+    </a>
+    <a href="/food-temperature-log.html" style="background: #fff; border: 1px solid #e7e9ec; border-radius: 18px; padding: 24px 26px; color: #16181d; box-shadow: 0 1px 2px rgba(16,24,40,.03); display: flex; flex-direction: column; transition: border-color .18s;" class="gh1">
+      <div style="display: flex; align-items: center; gap: 10px;"><span style="width: 38px; height: 38px; border-radius: 11px; background: #eef6f1; display: inline-flex; align-items: center; justify-content: center; color: #1f7a52; font-size: 9px; font-weight: 700; font-family: 'Geist Mono', monospace;">PDF</span><span style="font-size: 16px; font-weight: 700; letter-spacing: -0.02em;">Food temperature log (US)</span></div>
+      <div style="font-size: 13px; color: #6b727b; line-height: 1.55; margin-top: 10px; text-wrap: pretty; flex: 1;">Walk-in cooler and freezer log in °F with a cooling log, built on the FDA Food Code.</div>
       <div style="margin-top: 12px; font-size: 12.5px; font-weight: 600; color: #1f7a52;">Download free →</div>
     </a>
     <a href="/haccp-pack.html" style="background: #fff; border: 1px solid #e7e9ec; border-radius: 18px; padding: 24px 26px; color: #16181d; box-shadow: 0 1px 2px rgba(16,24,40,.03); display: flex; flex-direction: column; transition: border-color .18s;" class="gh1">
