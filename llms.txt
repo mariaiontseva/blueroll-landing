@@ -30,6 +30,7 @@
 - [Restaurant cleaning checklist (US)](https://blueroll.app/restaurant-cleaning-checklist.html): daily, weekly and monthly tasks and a sanitizer log, US Letter PDF
 - [Fridge temperature log sheet (UK)](https://blueroll.app/fridge-temperature-log.html): weekly fridge and freezer log in °C, filled-in example, cooking and cooling log, A4 PDF
 - [Food temperature log (US)](https://blueroll.app/food-temperature-log.html): walk-in cooler and freezer log in °F, cooling log, FDA Food Code temperatures, US Letter PDF
+- [Restaurant health inspection checklist (US)](https://blueroll.app/restaurant-health-inspection-checklist.html): 24-point self-inspection on the FDA Food Code, filled-in example, corrective action log
 - [EHO self-audit](https://blueroll.app/audit/)
 - [Hygiene rating checker](https://blueroll.app/check-food-hygiene-rating.html)
 - [Free hygiene rating badge](https://blueroll.app/free-food-hygiene-rating-badge.html)
