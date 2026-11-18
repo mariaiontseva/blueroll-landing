@@ -22,6 +22,7 @@
 - [Trail alternative](https://blueroll.app/trail-alternative.html): comparison with Trail
 - [FoodDocs alternative](https://blueroll.app/fooddocs-alternative.html): comparison with FoodDocs
 - [SFBB+ vs Blueroll](https://blueroll.app/sfbb-plus-vs-blueroll.html): comparison with the SFBB+ app
+- [SFBB app](https://blueroll.app/sfbb-app.html): the FSA's Safer Food Better Business diary on the team's phones; how each part of the pack maps to Blueroll, free and paid options
 
 ## Free tools (no account needed)
 - [Free HACCP template](https://blueroll.app/free-haccp-template.html)
