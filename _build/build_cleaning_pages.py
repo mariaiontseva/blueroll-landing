@@ -102,7 +102,8 @@ def build_head(cfg):
     s = s.replace(MAIN_TITLE, cfg["title"])
     s = re.sub(r'(<meta name="description" content=")[^"]*(")', lambda m: m.group(1) + cfg["desc"] + m.group(2), s)
     s = re.sub(r'(<meta property="og:description" content=")[^"]*(")', lambda m: m.group(1) + cfg["desc"] + m.group(2), s)
-    s = s.replace(f'<link rel="canonical" href="{cfg["url"]}">',
+    if cfg.get("hreflang", True):
+      s = s.replace(f'<link rel="canonical" href="{cfg["url"]}">',
                   f'<link rel="canonical" href="{cfg["url"]}">\n'
                   f'<link rel="alternate" hreflang="en-gb" href="{cfg.get("uk_url", UK_URL)}">\n'
                   f'<link rel="alternate" hreflang="en-us" href="{cfg.get("us_url", US_URL)}">\n'
@@ -390,8 +391,8 @@ US = {
     "figs": [(-2, "Daily restaurant cleaning checklist, blank", "SHEET 1 &middot; DAILY CHECKLIST"),
              (1.2, "Daily restaurant cleaning checklist, filled-in example", "SHEET 2 &middot; FILLED EXAMPLE"),
              (-1, "Weekly and monthly cleaning log with a sanitizer test-strip log", "SHEET 3 &middot; WEEKLY, MONTHLY, SANITIZER")],
-    "chips_label": "Temperature log and city guides",
-    "chips": [("Food temperature log", "/food-temperature-log.html"), ("New York City", "/nyc-restaurant-grade.html"), ("Los Angeles", "/la-restaurant-grade.html"),
+    "chips_label": "Free templates and city guides",
+    "chips": [("Food temperature log", "/food-temperature-log.html"), ("Inspection checklist", "/restaurant-health-inspection-checklist.html"), ("New York City", "/nyc-restaurant-grade.html"), ("Los Angeles", "/la-restaurant-grade.html"),
               ("San Francisco", "/sf-restaurant-inspection.html"), ("Chicago", "/chicago-restaurant-inspection.html"),
               ("Seattle", "/seattle-restaurant-inspection.html")],
     "mid_title": "Get the checklist, free.",
