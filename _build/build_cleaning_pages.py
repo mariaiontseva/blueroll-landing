@@ -634,7 +634,7 @@ UK = {
     "h1": "Free kitchen cleaning schedule template",
     "lede": "A printable A4 weekly cleaning schedule for UK kitchens, with the jobs, methods and frequencies already written in, plus a filled-in example and a monthly deep-clean log.",
     "button": "Get the free schedule",
-    "note": "The PDF downloads straight away. We also email you our full 16-page HACCP pack, then two short emails about free setup. Unsubscribe anytime.",
+    "note": "The PDF downloads straight away. We also email you our full 16-page HACCP pack, then two short follow-ups. Unsubscribe anytime.",
     "offer": True,
     "chip": ("Floors &middot; SR", "21:40"),
     "bridge": "This same schedule ticks itself off in Blueroll",

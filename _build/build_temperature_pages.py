@@ -31,7 +31,7 @@ UK = {
     "h1": "Free fridge temperature log sheet",
     "lede": "A printable A4 weekly log in &deg;C for fridges, freezers, display chillers and the cold room, plus a filled-in example and a cooking, cooling and hot-holding log.",
     "button": "Get the free log",
-    "note": "The PDF downloads straight away. We also email you our full 16-page HACCP pack, then two short emails about free setup. Unsubscribe anytime.",
+    "note": "The PDF downloads straight away. We also email you our full 16-page HACCP pack, then two short follow-ups. Unsubscribe anytime.",
     "offer": True,
     "chip": ("Fridge 2 &middot; PK", "3.9&deg;C"),
     "bridge": "This same log fills itself in Blueroll",
