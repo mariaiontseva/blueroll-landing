@@ -11,7 +11,7 @@
 - [Home](https://blueroll.app/): what Blueroll does, pricing, FAQ
 - [Multisite](https://blueroll.app/multi-site-food-safety.html): estate dashboard for groups & franchises
 - [HACCP Checklists](https://blueroll.app/haccp-checklists.html)
-- [Allergen Matrix](https://blueroll.app/allergen-matrix.html): all 14 UK allergens from recipes
+- [Allergen matrix template](https://blueroll.app/allergen-matrix.html): free A4 PDF and Excel allergen matrix for the 14 UK allergens (FSA wording), filled-in example and change log; in the app the matrix is built from recipes
 - [AI Recipe Import](https://blueroll.app/ai-recipe-import.html)
 - [Compliance Reports](https://blueroll.app/compliance-reports.html): EHO report packs
 - [Incidents](https://blueroll.app/incidents.html): complaint & incident log
