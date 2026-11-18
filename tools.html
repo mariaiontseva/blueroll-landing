@@ -371,12 +371,13 @@ a:hover { color: #1f9d63; }
         <input class="g-email" type="email" placeholder="Your work email" autocomplete="email" style="flex:1 1 180px;min-width:0;font-family:inherit;font-size:16px;padding:10px 12px;border:none;border-radius:8px;background:transparent;color:#1a1d21;outline:none;box-shadow:inset 0 0 0 1.5px #e2e4e8;">
         <button class="g-send" style="flex:1 1 auto;background:#1f9d63;color:#fff;font-family:inherit;font-size:14.5px;font-weight:700;padding:12px 20px;border:none;border-radius:8px;cursor:pointer;white-space:nowrap;">Send me the PDF</button>
       </div>
-      <div style="font-size:12px;color:#8a9099;line-height:1.5;margin-top:10px;">The PDF downloads straight away. We also email you a copy, plus two short follow-ups. Unsubscribe anytime.</div>
+      <div style="font-size:12px;color:#8a9099;line-height:1.5;margin-top:10px;">The PDF downloads straight away. We also email you a copy, then two short emails about free setup. Unsubscribe anytime.</div>
     </div>
     <div class="g-sent" style="display:none;">
-      <div style="display:flex;align-items:center;gap:11px;background:#eaf4ee;border:1px solid #cfe6d9;border-radius:12px;padding:15px 18px;max-width:520px;">
-        <span style="width:24px;height:24px;border-radius:50%;background:#1f9d63;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;">&#10003;</span>
-        <span style="font-size:14.5px;font-weight:600;color:#14532d;">Downloading. Check your Downloads folder</span>
+      <div style="background:#fff;border:1px solid #dbe3dd;border-radius:12px;padding:18px 20px;max-width:520px;">
+        <div style="font-size:12.5px;font-weight:600;color:#1f7a52;">&#10003; Your PDF is downloading.</div>
+        <div style="font-size:15px;font-weight:600;line-height:1.45;color:#1a1d21;margin:8px 0 14px;text-wrap:pretty;">Send us a photo of your paper sheets and we&rsquo;ll set up your checks on your team&rsquo;s phones for free, ready by 10:00 the next working day.</div>
+        <a class="g-setup btn-green" href="https://app.blueroll.app/onboarding" style="display:inline-block;background:#1f9d63;color:#fff;font-size:14.5px;font-weight:700;padding:12px 20px;border-radius:8px;text-decoration:none;">Start 14 days free, no card</a>
       </div>
     </div>
     </div>
@@ -421,6 +422,8 @@ a:hover { color: #1f9d63; }
   send.addEventListener('click', submit);
   input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); submit(); } });
   input.addEventListener('input', function () { input.style.boxShadow = 'inset 0 0 0 1.5px #e2e4e8'; });
+  var setup = g.querySelector('.g-setup');
+  if (setup) setup.addEventListener('click', function () { track('template_setup_cta', { placement: 'tools:inline', lead_source: 'haccp-template:tools:inline', transport_type: 'beacon' }); });
 })();
 </script>
 

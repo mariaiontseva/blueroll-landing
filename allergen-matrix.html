@@ -379,13 +379,10 @@ body.mm-lock { overflow: hidden; }
             <a class="g-file g-pdf" href="/blueroll-allergen-matrix-template.pdf" download>PDF, A4 landscape</a>
             <a class="g-file g-xlsx" href="/blueroll-allergen-matrix-template.xlsx" download>Excel (.xlsx)</a>
           </div>
-        </div>
-      </div>
-      <div class="g-bridge" style="display: none; flex-wrap: wrap; align-items: center; gap: 14px; background: #fff; border: 1px solid #e7e9ec; border-radius: 14px; padding: 14px 16px; margin-top: 12px; text-align: left;">
-        <div style="display: flex; align-items: center; gap: 8px; background: #f6f7f8; border: 1px solid #eef0f2; border-radius: 9px; padding: 8px 11px; font-size: 11.5px; white-space: nowrap; flex-shrink: 0;"><span style="font-weight: 600;">Shakshuka</span><span style="background: #fbf1e1; color: #b07d1e; font-weight: 700; border-radius: 20px; padding: 2px 8px;">Sesame</span></div>
-        <div style="flex: 1 1 170px; min-width: 0;">
-          <div style="font-size: 13px; font-weight: 600; line-height: 1.4;">In Blueroll this matrix comes from your recipes</div>
-          <a href="#app" style="font-size: 12.5px; font-weight: 700;">See how it works &rarr;</a>
+          <div style="margin-top: 18px;">
+            <div style="font-size: 15px; font-weight: 600; line-height: 1.45; color: #16181d; margin: 0 0 12px; text-wrap: pretty;">Send us a photo of your paper sheets and we&rsquo;ll set up your checks on your team&rsquo;s phones for free, ready by 10:00 the next working day.</div>
+            <a class="g-setup btn-green" href="https://app.blueroll.app/onboarding" style="display: inline-block; font-size: 14.5px; font-weight: 700; padding: 12px 20px;">Start 14 days free, no card</a>
+          </div>
         </div>
       </div>
     </div>
@@ -532,6 +529,10 @@ body.mm-lock { overflow: hidden; }
             <a class="g-file g-pdf" href="/blueroll-allergen-matrix-template.pdf" download>PDF, A4 landscape</a>
             <a class="g-file g-xlsx" href="/blueroll-allergen-matrix-template.xlsx" download>Excel (.xlsx)</a>
           </div>
+          <div style="margin-top: 18px;">
+            <div style="font-size: 15px; font-weight: 600; line-height: 1.45; color: #16181d; margin: 0 0 12px; text-wrap: pretty;">Send us a photo of your paper sheets and we&rsquo;ll set up your checks on your team&rsquo;s phones for free, ready by 10:00 the next working day.</div>
+            <a class="g-setup btn-green" href="https://app.blueroll.app/onboarding" style="display: inline-block; font-size: 14.5px; font-weight: 700; padding: 12px 20px;">Start 14 days free, no card</a>
+          </div>
         </div>
       </div>
       </div>
@@ -663,6 +664,8 @@ body.mm-lock { overflow: hidden; }
     input.addEventListener('input', function () { input.style.boxShadow = 'inset 0 0 0 1.5px #e2e4e8'; });
     var x = g.querySelector('.g-xlsx');
     if (x) x.addEventListener('click', function () { track('allergen_xlsx_download', { placement: SOURCE + ':' + loc }); });
+    var setup = g.querySelector('.g-setup');
+    if (setup) setup.addEventListener('click', function () { track('template_setup_cta', { placement: SOURCE + ':' + loc, lead_source: SOURCE + ':' + loc, transport_type: 'beacon' }); });
   });
 
   // A link in an email can land here with ?dl=1: start the PDF download and log the click.

@@ -18,7 +18,8 @@ sheet, a frequency scale or cards for real sets, what the law expects beside
 the third sheet, the app screenshot for how Blueroll does it; then the FAQ,
 one closing CTA and the sources.
 The email gate and its script are unchanged: hero and bottom CTAs plus the
-desktop exit-intent modal.
+desktop exit-intent modal. On the UK pages ("offer": True) the state after
+the download is the free-setup offer with one sign-up button.
 
 PDFs and the preview images in uploads/ come from _build/build_cleaning_pdfs.py.
 Run from the repo root:
@@ -221,7 +222,31 @@ TEMPLATE_CSS = """<style>
 </style>"""
 
 
-def gate(loc, button, note, align="flex-start"):
+# What a UK visitor sees after the download starts: one offer, one button (18.11.2026). The sign-up page has no
+# parameter that preselects "Set it up for me"; that choice is the first screen after sign-up.
+SETUP_URL = "https://app.blueroll.app/onboarding"
+SETUP_OFFER = ("Send us a photo of your paper sheets and we&rsquo;ll set up your checks on your team&rsquo;s phones "
+               "for free, ready by 10:00 the next working day.")
+SETUP_BUTTON = "Start 14 days free, no card"
+SENT = """<div class="g-sent" style="display: none;">
+          <div style="display: flex; align-items: center; justify-content: center; gap: 11px; background: #eaf4ee; border: 1px solid #cfe6d9; border-radius: 12px; padding: 15px 18px;">
+            <span style="width: 24px; height: 24px; border-radius: 50%; background: #1f9d63; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0;">&#10003;</span>
+            <span style="font-size: 14.5px; font-weight: 600; color: #14532d;">Downloading. Check your Downloads folder</span>
+          </div>
+        </div>"""
+SENT_OFFER = f"""<div class="g-sent" style="display: none;">
+          <div style="background: #fff; border: 1px solid #e2e4e8; border-radius: 12px; padding: 18px 20px; box-shadow: 0 20px 44px -28px rgba(16,24,40,.35); text-align: left;">
+            <div style="font-size: 12.5px; font-weight: 600; color: #1f7a52;">&#10003; Your PDF is downloading.</div>
+            <div style="font-size: 15px; font-weight: 600; line-height: 1.45; color: #16181d; margin: 8px 0 14px; text-wrap: pretty;">{SETUP_OFFER}</div>
+            <a class="g-setup btn-green" href="{SETUP_URL}" style="display: inline-block; font-size: 14.5px; font-weight: 700; padding: 12px 20px;">{SETUP_BUTTON}</a>
+          </div>
+        </div>"""
+SETUP_JS = """
+    var setup = g.querySelector('.g-setup');
+    if (setup) setup.addEventListener('click', function () { track('template_setup_cta', { placement: '%(slug)s:' + loc, lead_source: SOURCE + ':' + loc, transport_type: 'beacon' }); });"""
+
+
+def gate(loc, button, note, align="flex-start", offer=False):
     return f"""<div data-gate="{loc}">
         <div class="g-idle" style="display: flex; justify-content: {align};">
           <button class="g-open gh0" style="background: #1f9d63; color: #fff; font-family: 'Geist', sans-serif; font-size: 15.5px; font-weight: 700; padding: 15px 32px; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 12px 32px -14px rgba(31,157,99,.8); width: 100%; max-width: 340px;">{button}</button>
@@ -233,12 +258,7 @@ def gate(loc, button, note, align="flex-start"):
           </div>
           <div style="font-size: 12px; color: #8a9099; line-height: 1.5; margin-top: 10px; text-align: left;">{note}</div>
         </div>
-        <div class="g-sent" style="display: none;">
-          <div style="display: flex; align-items: center; justify-content: center; gap: 11px; background: #eaf4ee; border: 1px solid #cfe6d9; border-radius: 12px; padding: 15px 18px;">
-            <span style="width: 24px; height: 24px; border-radius: 50%; background: #1f9d63; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0;">&#10003;</span>
-            <span style="font-size: 14.5px; font-weight: 600; color: #14532d;">Downloading. Check your Downloads folder</span>
-          </div>
-        </div>
+        {SENT_OFFER if offer else SENT}
       </div>"""
 
 
@@ -453,6 +473,16 @@ def build_body(cfg):
         return sheet_html(f'/uploads/{cfg["img"]}-{i}.png?v={IMG_V}', w, h, alts[i - 1], eager)
 
     bands, white = sections_html(cfg["sections"], sheet)
+    offer = cfg.get("offer", False)
+    # UK pages show the free-setup offer inside the gate instead; the US pages keep the small bridge.
+    bridge = "" if offer else f"""
+      <div class="g-bridge" style="display: none; flex-wrap: wrap; align-items: center; gap: 14px; background: #fff; border: 1px solid #e7e9ec; border-radius: 14px; padding: 14px 16px; margin-top: 12px; text-align: left;">
+        <div style="display: flex; align-items: center; gap: 8px; background: #f6f7f8; border: 1px solid #eef0f2; border-radius: 9px; padding: 8px 11px; font-size: 11.5px; white-space: nowrap; flex-shrink: 0;">{CHECK}<span style="font-weight: 600;">{cfg['chip'][0]}</span><span style="color: #1f7a52; font-weight: 700; font-variant-numeric: tabular-nums; padding-left: 8px;">{cfg['chip'][1]}</span></div>
+        <div style="flex: 1 1 170px; min-width: 0;">
+          <div style="font-size: 13px; font-weight: 600; line-height: 1.4;">{cfg['bridge']}</div>
+          <a href="/haccp-checklists.html" style="font-size: 12.5px; font-weight: 700;">See how, 2 min tour &rarr;</a>
+        </div>
+      </div>"""
     return f"""
 <div style="max-width: 1160px; margin: 22px auto 0; padding: 0 24px; font-size: 12.5px; color: #8a9099;"><a href="/">Blueroll</a> <span style="color: #c6cad0;">›</span> <a href="/tools.html">Free Tools</a> <span style="color: #c6cad0;">›</span> <span style="color: #5c626b; font-weight: 600;">{cfg['crumb']}</span></div>
 
@@ -462,21 +492,14 @@ def build_body(cfg):
     <h1>{cfg['h1']}</h1>
     <p class="tp-lede">{cfg['lede']}</p>
     <div class="tp-cta">
-      {gate('hero', cfg['button'], cfg['note'])}
-      <div class="g-bridge" style="display: none; flex-wrap: wrap; align-items: center; gap: 14px; background: #fff; border: 1px solid #e7e9ec; border-radius: 14px; padding: 14px 16px; margin-top: 12px; text-align: left;">
-        <div style="display: flex; align-items: center; gap: 8px; background: #f6f7f8; border: 1px solid #eef0f2; border-radius: 9px; padding: 8px 11px; font-size: 11.5px; white-space: nowrap; flex-shrink: 0;">{CHECK}<span style="font-weight: 600;">{cfg['chip'][0]}</span><span style="color: #1f7a52; font-weight: 700; font-variant-numeric: tabular-nums; padding-left: 8px;">{cfg['chip'][1]}</span></div>
-        <div style="flex: 1 1 170px; min-width: 0;">
-          <div style="font-size: 13px; font-weight: 600; line-height: 1.4;">{cfg['bridge']}</div>
-          <a href="/haccp-checklists.html" style="font-size: 12.5px; font-weight: 700;">See how, 2 min tour &rarr;</a>
-        </div>
-      </div>
+      {gate('hero', cfg['button'], cfg['note'], offer=offer)}{bridge}
     </div>
   </div>
   {sheet(1, eager=True)}
 </div>
 {bands}
 {faq_html(cfg['faq'], white)}
-{end_html(cfg['end_h2'], gate('bottom', cfg['button'], cfg['note'], 'center'), cfg['sources'], not white)}"""
+{end_html(cfg['end_h2'], gate('bottom', cfg['button'], cfg['note'], 'center', offer=offer), cfg['sources'], not white)}"""
 
 
 
@@ -487,7 +510,7 @@ def build_tail(cfg):
     <button id="tpl-exit-close" aria-label="Close" style="position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; border: none; border-radius: 50%; background: #f2f3f5; color: #41464d; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: 'Geist', sans-serif;">&#10005;</button>
     <h2 style="font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin: 0; padding-right: 36px;">{cfg['exit_h2']}</h2>
     <p style="font-size: 14px; color: #5c626b; line-height: 1.6; margin: 10px 0 16px;">{cfg['exit_p']}</p>
-    {gate('exit', cfg['button'], cfg['note'], 'center')}
+    {gate('exit', cfg['button'], cfg['note'], 'center', offer=cfg.get('offer', False))}
   </div>
 </div>
 """
@@ -547,7 +570,7 @@ def build_tail(cfg):
     open.addEventListener('click', showForm);
     send.addEventListener('click', submit);
     input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); submit(); } });
-    input.addEventListener('input', function () { input.style.boxShadow = 'inset 0 0 0 1.5px #e2e4e8'; });
+    input.addEventListener('input', function () { input.style.boxShadow = 'inset 0 0 0 1.5px #e2e4e8'; });%(setup_js)s
   });
 
   // Links in emails can land here with ?dl=1: start the download and log the click.
@@ -573,7 +596,8 @@ def build_tail(cfg):
 </script>
 </body>
 </html>
-""" % {"anon": ANON, "pdf": cfg["pdf"], "source": cfg["source"], "subject": cfg["subject"], "slug": cfg["slug"]}
+""" % {"anon": ANON, "pdf": cfg["pdf"], "source": cfg["source"], "subject": cfg["subject"], "slug": cfg["slug"],
+       "setup_js": (SETUP_JS % {"slug": cfg["slug"]}) if cfg.get("offer") else ""}
     return FOOTER + "\n\n" + modal + script
 
 
@@ -610,7 +634,8 @@ UK = {
     "h1": "Free kitchen cleaning schedule template",
     "lede": "A printable A4 weekly cleaning schedule for UK kitchens, with the jobs, methods and frequencies already written in, plus a filled-in example and a monthly deep-clean log.",
     "button": "Get the free schedule",
-    "note": "The PDF downloads straight away. We also email you our full 16-page HACCP pack, plus two short follow-ups. Unsubscribe anytime.",
+    "note": "The PDF downloads straight away. We also email you our full 16-page HACCP pack, then two short emails about free setup. Unsubscribe anytime.",
+    "offer": True,
     "chip": ("Floors &middot; SR", "21:40"),
     "bridge": "This same schedule ticks itself off in Blueroll",
     "alts": ["Blank weekly kitchen cleaning schedule: each job with how often and how to clean it, and a column for each day of the week",

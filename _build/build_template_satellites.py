@@ -74,6 +74,9 @@ def build(slug: str, cfg: dict) -> str:
 
     s = s.replace("source: 'haccp-template:' + placement", f"source: 'haccp-template:{slug}:' + placement")
     assert f"haccp-template:{slug}:" in s
+    # The free-setup button after a download reports the same source label to GA.
+    s, n = re.subn(r"lead_source: 'haccp-template:' \+ loc", f"lead_source: 'haccp-template:{slug}:' + loc", s)
+    assert n == 1, f"{slug}: setup cta source"
 
     assert f"{PAGES_COUNT}-page" in s, f"{slug}: page count marker"
     return s
