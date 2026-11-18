@@ -96,7 +96,7 @@ US = {
     "h1": "Free food temperature log sheet",
     "lede": "A printable weekly log in &deg;F for the walk-in, reach-ins, prep-line cooler and freezers, plus a filled-in example and a cooking, hot-holding and cooling log with Food Code temperatures.",
     "button": "Get the free log",
-    "note": "The PDF downloads right away. We don&rsquo;t share your email.",
+    "note": "The PDF downloads right away. We also email you a copy, once. Unsubscribe anytime.",
     "chip": ("Walk-in cooler &middot; DL", "37&deg;F"),
     "bridge": "This same log fills itself in Blueroll",
     "alts": ["Blank weekly cooler and freezer temperature log in &deg;F, with the target temperature for each unit and a column for each day",

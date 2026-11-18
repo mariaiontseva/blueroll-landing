@@ -32,7 +32,7 @@ PAGE = {
     "h1": "Free restaurant health inspection checklist",
     "lede": "A printable 24-point self-inspection built on the FDA Food Code, covering temperatures, handwashing, storage, sanitizing, pests and paperwork, plus a filled-in example and a corrective action log.",
     "button": "Get the free checklist",
-    "note": "The PDF downloads right away. We don&rsquo;t share your email.",
+    "note": "The PDF downloads right away. We also email you a copy, once. Unsubscribe anytime.",
     "chip": ("Self-inspection &middot; DL", "21/24"),
     "bridge": "This same checklist ticks itself off in Blueroll",
     "alts": ["Blank 24-point restaurant self-inspection checklist with yes and no columns and space for the fix",
@@ -107,7 +107,7 @@ def city_gate(slug, city, who):
       <input class="g-email" type="email" placeholder="Your work email" autocomplete="email" style="flex:1 1 180px;min-width:0;font-family:inherit;font-size:16px;padding:10px 12px;border:none;border-radius:8px;background:transparent;color:#1a1d21;outline:none;box-shadow:inset 0 0 0 1.5px #e2e4e8;">
       <button class="g-send" style="flex:1 1 auto;background:#047857;color:#fff;font-family:inherit;font-size:14.5px;font-weight:700;padding:12px 20px;border:none;border-radius:8px;cursor:pointer;white-space:nowrap;">Send me the PDF</button>
     </div>
-    <div style="font-size:12px;color:#8a9099;line-height:1.5;margin-top:10px;">The PDF downloads right away. We don&rsquo;t share your email.</div>
+    <div style="font-size:12px;color:#8a9099;line-height:1.5;margin-top:10px;">The PDF downloads right away. We also email you a copy, once. Unsubscribe anytime.</div>
   </div>
   <div class="g-sent" style="display:none;">
     <div style="display:flex;align-items:center;gap:11px;background:#eaf4ee;border:1px solid #cfe6d9;border-radius:12px;padding:15px 18px;max-width:520px;">

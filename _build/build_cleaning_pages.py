@@ -711,7 +711,7 @@ US = {
     "h1": "Free restaurant cleaning checklist",
     "lede": "A printable daily cleaning checklist for the kitchen, front of house and restrooms, plus a filled-in example and a weekly, monthly and sanitizer log, built on the FDA Food Code.",
     "button": "Get the free checklist",
-    "note": "The PDF downloads right away. We don&rsquo;t share your email.",
+    "note": "The PDF downloads right away. We also email you a copy, once. Unsubscribe anytime.",
     "chip": ("Prep tables &middot; JM", "2:05 pm"),
     "bridge": "This same checklist ticks itself off in Blueroll",
     "alts": ["Blank daily restaurant cleaning checklist: kitchen, front-of-house and restroom tasks with when and how, and a column for each day",
