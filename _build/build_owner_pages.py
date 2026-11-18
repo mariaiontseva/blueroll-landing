@@ -62,8 +62,8 @@ PACK_JS = """
 SITE = "https://blueroll.app"
 META = {
     "how-to-get-a-5-food-hygiene-rating.html": {
-        "title": "How to Get a 5 Star Food Hygiene Rating (Calculator) | Blueroll",
-        "desc": "A 5 star rating needs every inspection score at 0 or 5. Enter your scores to see your rating, why a 4 isn't a 5, and what a re-rating costs.",
+        "title": "Get a 5 Star Food Hygiene Rating (Calculator) | Blueroll",
+        "desc": "A 5 star food hygiene rating needs every inspection score at 0 or 5. Enter your scores to see your rating, why a 4 isn't a 5, and what a re-rating costs.",
         "og_title": "How to get a 5 star food hygiene rating",
         "og_desc": "Enter the inspector's three scores, see your rating, what caps it and what to fix first.",
         "crumb": "How to get a 5", "published": "2026-11-10T08:00:00+00:00",

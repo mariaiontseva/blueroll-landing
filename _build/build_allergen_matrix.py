@@ -8,8 +8,8 @@
   uploads/allergen-matrix-app.webp         the app's matrix screen, cropped to the content (no names)
   allergen-matrix-template-og.png          1200x630 share image
 
-Same look as the 16-page HACCP pack and the cleaning sheets (dark green table heads,
-filled example in handwriting). The 14 allergens and their examples are the FSA's
+Same look as the cleaning and temperature sheets (shared CSS and helpers in
+_build/build_cleaning_pdfs.py; filled example in handwriting). The 14 allergens and their examples are the FSA's
 wording from "Allergen guidance for food businesses" (GOV.UK, updated 17 July 2026).
 The example dishes are the FSA's own examples from "Allergen information for
 non-prepacked foods: best practice" (24 February 2025), plus a coffee and chips.
@@ -19,8 +19,7 @@ Run from the repo root:
     python3 _build/build_allergen_matrix.py
 """
 import html
-import subprocess
-import tempfile
+import sys
 from pathlib import Path
 
 from openpyxl import Workbook
@@ -30,8 +29,10 @@ from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
 from PIL import Image
 
+sys.path.insert(0, str(Path(__file__).parent))
+import build_cleaning_pdfs as B  # noqa: E402  shared look of the printable templates
+
 ROOT = Path(__file__).resolve().parent.parent
-CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 PDF = ROOT / "blueroll-allergen-matrix-template.pdf"
 XLSX = ROOT / "blueroll-allergen-matrix-template.xlsx"
 
@@ -80,158 +81,98 @@ E = html.escape
 
 # ---------------------------------------------------------------- PDF (HTML printed by headless Chrome)
 
-CSS = """
-@page { size: A4 landscape; margin: 0; }
-* { box-sizing: border-box; }
-html, body { margin: 0; }
-body { font-family: 'Geist', -apple-system, sans-serif; color: #16181d; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-.page { width: 297mm; height: 210mm; padding: 10mm 12mm 7mm; display: flex; flex-direction: column; page-break-after: always; overflow: hidden; }
-.page:last-child { page-break-after: auto; }
-.head { display: flex; align-items: flex-end; justify-content: space-between; border-bottom: 1.4px solid #16181d; padding-bottom: 2.6mm; }
-.head h1 { font-size: 20pt; font-weight: 800; letter-spacing: -0.03em; margin: 0; line-height: 1; }
-.head .r { display: flex; align-items: center; gap: 3mm; }
-.tag { background: #1f9d63; color: #fff; font-size: 6.5pt; font-weight: 700; letter-spacing: .14em; border-radius: 20px; padding: 1.4mm 3.6mm; text-transform: uppercase; }
-.pno { font-size: 6.5pt; color: #9aa0a8; letter-spacing: .16em; font-weight: 600; text-transform: uppercase; }
-.intro { font-size: 7.8pt; color: #5c626b; line-height: 1.45; margin: 2.2mm 0 0; }
-.intro b { color: #16181d; }
-.fields { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 9mm; margin-top: 2.6mm; }
-.field label { display: block; font-size: 6pt; letter-spacing: .16em; color: #8a9099; font-weight: 700; text-transform: uppercase; }
-.field .line { border-bottom: 1px solid #c9cfd6; height: 7mm; font-family: 'Caveat', cursive; font-size: 14pt; color: #1d3a8a; padding-left: 1mm; line-height: 8mm; }
-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 3.4mm; font-size: 7.6pt; table-layout: fixed; }
-thead th { background: #123227; color: #fff; font-weight: 700; padding: 2mm 1.4mm; vertical-align: bottom; text-align: left; }
-thead th.lab { font-size: 6pt; letter-spacing: .12em; text-transform: uppercase; line-height: 1.3; }
-thead th:first-child { border-top-left-radius: 2.4mm; }
-thead th:last-child { border-top-right-radius: 2.4mm; }
-thead th.al { padding: 2mm 0 2.2mm; border-left: 1px solid rgba(255,255,255,.14); }
-thead th.al div { writing-mode: vertical-rl; transform: rotate(180deg); height: 29mm; margin: 0 auto; font-size: 7pt; line-height: 1.15; letter-spacing: 0; text-align: left; }
-tbody td { border-bottom: 1px solid #e3e6e4; padding: 0 2mm; height: 7.1mm; line-height: 1.2; overflow: hidden; }
-tbody td.cell { border-left: 1px solid #e3e6e4; text-align: center; padding: 0; font-family: 'Caveat', cursive; font-size: 14pt; color: #1d3a8a; }
-tbody td.cell.alt { background: #f7f9f8; }
-tbody td.hand { font-family: 'Caveat', cursive; font-size: 12.5pt; color: #1d3a8a; }
-tbody td.notes { border-left: 1px solid #e3e6e4; }
-.key { display: flex; flex-wrap: wrap; gap: 1.2mm 6mm; font-size: 7.2pt; color: #5c626b; margin-top: 2.4mm; line-height: 1.45; }
-.key b { color: #16181d; }
-.grid2 { display: grid; grid-template-columns: 112mm 1fr; gap: 7mm; margin-top: 3.6mm; flex: 1; min-height: 0; }
-.card { background: #f1f6f3; border-radius: 3mm; padding: 3.2mm 4mm; font-size: 7.3pt; line-height: 1.45; color: #33403a; margin-bottom: 3mm; }
-.card h4 { font-size: 8.4pt; margin: 0 0 1.4mm; color: #16181d; letter-spacing: -0.01em; }
-.card ol, .card ul { margin: 0; padding-left: 4.2mm; }
-.card li { margin: 0 0 .7mm; }
-.card .src { font-size: 6.4pt; color: #6b756f; margin-top: 1.6mm; }
-.log td { height: 8.6mm; }
-.log td + td { border-left: 1px solid #e3e6e4; }
-.foot { margin-top: auto; border-top: 1px solid #e3e6e4; padding-top: 2.2mm; display: flex; justify-content: space-between; font-size: 6.5pt; color: #8a9099; }
+NAME = "allergen matrix template"
+PAD = "10mm 12mm 8mm"
+
+EXTRA_CSS = """
+.matrix th.al { padding: 1.8mm 0; }
+.matrix th.al div { writing-mode: vertical-rl; transform: rotate(180deg); height: 26mm; margin: 0 auto;
+                    font-size: 8.5pt; line-height: 1.12; text-align: left; white-space: normal; }
+.matrix th.notes span { display: block; font-weight: 400; color: #454b53; margin-top: .8mm; }
+.matrix td.cell { font-size: 15pt; }
+.split { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: 116mm 1fr; grid-template-rows: minmax(0, 1fr);
+         column-gap: 10mm; margin-top: 5mm; }
+.split .grow { margin-top: 0; }
+.split .text { display: flex; flex-direction: column; gap: 4.2mm; }
+.split .text ul.two { columns: 2; column-gap: 6mm; }
+.split .text li { break-inside: avoid; }
+.split .src { font-size: 8pt; color: #5c626b; margin-top: 1.4mm; }
 """
-
-FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
-         '<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;800&family=Caveat:wght@500&display=block" rel="stylesheet">')
-
-FOOT = ('<div class="foot"><span>Blueroll &middot; Free allergen matrix template &middot; 14 UK allergens</span>'
-        '<span>In Blueroll the matrix comes from your recipes &middot; blueroll.app/allergen-matrix.html</span></div>')
-
-
-def head(title: str, pno: str, example: bool = False) -> str:
-    tag = '<span class="tag">Filled example</span>' if example else ''
-    return f'<div class="head"><h1>{E(title)}</h1><div class="r">{tag}<span class="pno">{E(pno)}</span></div></div>'
 
 
 def fields(vals=("", "", "")) -> str:
     labels = ("Business", "Date reviewed", "Reviewed by (print and sign)")
-    return '<div class="fields">' + "".join(
-        f'<div class="field"><label>{E(lab)}</label><div class="line">{E(v)}</div></div>'
-        for lab, v in zip(labels, vals)) + '</div>'
+    return B.fields(*zip(labels, vals))
 
 
 def matrix_table(rows) -> str:
     # 273 mm wide: dish 58 mm, 14 x 11.4 mm, notes the rest
     cols = '<colgroup><col style="width:58mm">' + '<col style="width:11.4mm">' * 14 + '<col></colgroup>'
-    th = ('<tr><th class="lab">Dish, drink, sauce or side</th>'
-          + "".join(f'<th class="al"><div>{E(n)}</div></th>' for n in NAMES)
-          + '<th class="lab">Notes<br>Which cereal or nut? Why may contain?</th></tr>')
+    th = ('<tr><th>Dish, drink, sauce or side</th>'
+          + "".join(f'<th class="al v"><div>{E(n)}</div></th>' for n in NAMES)
+          + '<th class="notes v">Notes<span>Which cereal or nut? Why may contain?</span></th></tr>')
     body = []
     for dish, marks, note in rows:
-        cells = "".join(
-            f'<td class="cell{" alt" if i % 2 else ""}">{E(marks.get(n, ""))}</td>' for i, n in enumerate(NAMES))
-        body.append(f'<tr><td class="hand">{E(dish)}</td>{cells}<td class="hand notes">{E(note)}</td></tr>')
-    return f'<table>{cols}<thead>{th}</thead><tbody>{"".join(body)}</tbody></table>'
-
-
-KEY = ('<div class="key"><span><b>&#10003; = contains</b> (it is an ingredient, or in one)</span>'
-       '<span><b>M = may contain</b> (cross-contact you cannot rule out)</span>'
-       '<span><b>Blank = not in the dish</b></span>'
-       '<span>The 14 allergens are the ones UK food law says you must declare (FSA list).</span></div>')
+        cells = "".join(f'<td class="cell v">{E(marks.get(n, ""))}</td>' for n in NAMES)
+        body.append(f'<tr class="w"><td class="hand">{E(dish)}</td>{cells}<td class="hand v">{E(note)}</td></tr>')
+    return f'<table class="matrix">{cols}<thead>{th}</thead><tbody>{"".join(body)}</tbody></table>'
 
 
 def sheet_blank() -> str:
-    intro = ('<b>How to use:</b> list every dish, drink, sauce and side. Work from recipes and ingredient labels, not memory. '
-             'Tick each allergen it contains; write M only for real cross-contact; for cereals and tree nuts, write which one in Notes. '
-             'Re-check after any recipe, ingredient or supplier change, then re-date and sign the sheet.')
-    rows = [("", {}, "")] * 15
-    return ('<section class="page">' + head("Allergen matrix", "Sheet 1")
-            + f'<p class="intro">{intro}</p>' + fields() + matrix_table(rows) + KEY + FOOT + '</section>')
+    lead = ("One row per dish, drink, sauce or side. Tick &#10003; each allergen it contains, write M for may contain "
+            "(cross-contact you cannot rule out), leave the rest blank.")
+    return B.page(B.head("Allergen matrix", lead), fields(), B.grow(matrix_table([("", {}, "")]), extend=True),
+                  B.foot(NAME))
 
 
 def sheet_example() -> str:
-    intro = ('An example cafe menu. The first six dishes and their allergens are the FSA&rsquo;s own examples; your recipes '
-             'and ingredient labels decide what goes in your boxes. Note the chips: no allergen in the recipe, but they share '
-             'a fryer with battered fish, so they get an M.')
-    rows = EXAMPLE + [("", {}, "")] * 7
-    return ('<section class="page">' + head("Allergen matrix", "Sheet 2", example=True)
-            + f'<p class="intro">{intro}</p>' + fields(("Example cafe", "16 / 11 / 26", "Head chef"))
-            + matrix_table(rows) + KEY + FOOT + '</section>')
+    lead = ("Filled example. The first six dishes and their allergens are the FSA&rsquo;s own examples. "
+            "The chips share a fryer with battered fish, so they get an M.")
+    return B.page(B.head("Allergen matrix", lead), fields(("Example cafe", "16 / 11 / 26", "Head chef")),
+                  B.grow(matrix_table(EXAMPLE + [("", {}, "")]), extend=True), B.foot(NAME))
 
 
-def sheet_howto() -> str:
+def sheet_log() -> str:
     allergens = "".join(f'<li><b>{E(n)}</b>{" (" + E(x) + ")" if x else ""}</li>' for n, x in ALLERGENS)
-    left = ('<div>'
-            '<div class="card"><h4>The 14 allergens, as the FSA lists them</h4>'
-            f'<ul style="columns: 2; column-gap: 6mm;">{allergens}</ul>'
+    left = ('<div class="text">'
+            '<div><h3>The 14 allergens, as the FSA lists them</h3>'
+            f'<ul class="two">{allergens}</ul>'
             '<div class="src">Source: FSA, Allergen guidance for food businesses, updated 17 July 2026 (GOV.UK). '
             'This also applies to additives, processing aids and other substances in the final dish.</div></div>'
-            '<div class="card"><h4>Fill it in</h4><ol>'
+            '<div><h3>Fill it in</h3><ol>'
             '<li>List every dish and drink, plus sauces, dressings, garnishes and sides served on their own.</li>'
             '<li>Check every ingredient against its label or spec sheet. Compound items (stocks, sauces, bread) count.</li>'
             '<li>Tick &#10003; each allergen present. For cereals and tree nuts, name which one in Notes.</li>'
             '<li>Write M only where cross-contact is real and you cannot control it, such as a shared fryer.</li>'
             '<li>Date and sign it. Keep one copy at the pass and one front of house, and make sure staff know where it is.</li>'
             '</ol></div>'
-            '<div class="card"><h4>Re-check the matrix when</h4><ul>'
+            '<div><h3>Re-check the matrix when</h3><ul>'
             '<li>a recipe changes, or a new dish or special goes on;</li>'
             '<li>you change supplier or brand, or a delivery comes with a substitute;</li>'
             '<li>a supplier tells you an ingredient has changed;</li>'
             '<li>you make a last-minute swap during service.</li></ul></div>'
             '</div>')
-    th = ('<tr><th class="lab" style="width:17mm">Date</th><th class="lab">Dish or ingredient</th>'
-          '<th class="lab">What changed</th><th class="lab">Allergens added or removed</th>'
-          '<th class="lab" style="width:24mm">Matrix updated by</th><th class="lab" style="width:20mm">Checked by</th></tr>')
-    rows = "".join('<tr>' + '<td></td>' * 6 + '</tr>' for _ in range(15))
-    right = ('<div><div style="font-size:8.4pt;font-weight:700;letter-spacing:-0.01em">Change log</div>'
-             '<div style="font-size:7.2pt;color:#5c626b;margin-top:1mm;line-height:1.45">One line for every change that '
-             'could move a tick. It shows when the matrix was last checked, and why.</div>'
-             f'<table class="log" style="margin-top:2.6mm"><thead>{th}</thead><tbody>{rows}</tbody></table></div>')
-    return ('<section class="page">' + head("How to use it, and keep it right", "Sheet 3")
-            + f'<div class="grid2">{left}{right}</div>' + FOOT + '</section>')
+    th = ('<tr><th style="width:17mm">Date</th><th class="v">Dish or ingredient</th>'
+          '<th class="v">What changed</th><th class="v" style="width:31mm">Allergens added or removed</th>'
+          '<th class="v" style="width:22mm">Updated by</th><th class="v" style="width:22mm">Checked by</th></tr>')
+    row = '<tr class="w"><td class="hand"></td>' + '<td class="hand v"></td>' * 5 + '</tr>'
+    log = B.grow(f'<table><thead>{th}</thead><tbody>{row}</tbody></table>', extend=True)
+    lead = "One line for every change that could move a tick. It shows when the matrix was last checked, and why."
+    return B.page(B.head("Allergen change log", lead), f'<div class="split">{left}{log}</div>', B.foot(NAME))
 
 
 def build_pdf() -> None:
-    doc = (f'<!doctype html><html lang="en-GB"><head><meta charset="utf-8">'
-           f'<title>Allergen matrix template (14 UK allergens) | Blueroll</title>{FONTS}'
-           f'<style>{CSS}</style></head><body>{sheet_blank()}{sheet_example()}{sheet_howto()}</body></html>')
-    with tempfile.TemporaryDirectory() as tmp:
-        src = Path(tmp) / "doc.html"
-        src.write_text(doc, encoding="utf-8")
-        subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--no-pdf-header-footer",
-                        "--virtual-time-budget=8000", f"--print-to-pdf={PDF}", src.as_uri()],
-                       check=True, capture_output=True)
-    print("built", PDF.name)
+    B.render([sheet_blank(), sheet_example(), sheet_log()], "A4 landscape", "297mm", "210mm", PDF,
+             "Allergen matrix template (14 UK allergens) | Blueroll", pad=PAD, extra_css=EXTRA_CSS)
 
 
 # ---------------------------------------------------------------- XLSX
 
-GREEN = "123227"
 THIN = Side(style="thin", color="D9DEDB")
 BOX = Border(left=THIN, right=THIN, top=THIN, bottom=THIN)
-HEAD_FILL = PatternFill("solid", fgColor=GREEN)
-HEAD_FONT = Font(name="Arial", bold=True, color="FFFFFF", size=10)
+HEAD_FILL = PatternFill("solid", fgColor="F1F4F2")
+HEAD_FONT = Font(name="Arial", bold=True, color="16181D", size=10)
+HEAD_BOX = Border(left=THIN, right=THIN, top=THIN, bottom=Side(style="thin", color="9AA19D"))
 BODY = Font(name="Arial", size=10)
 MUTED = Font(name="Arial", size=9, color="5C626B")
 FIRST, LAST = 2, 15             # allergen columns B..O
@@ -281,7 +222,7 @@ def matrix_sheet(ws, title: str, rows, filled: bool) -> None:
                                                       "Contains (for your menu)"]
     for i, h in enumerate(heads, start=1):
         cell = ws.cell(row=HEADER_ROW, column=i, value=h)
-        cell.fill, cell.font, cell.border = HEAD_FILL, HEAD_FONT, BOX
+        cell.fill, cell.font, cell.border = HEAD_FILL, HEAD_FONT, HEAD_BOX
         if FIRST <= i <= LAST:
             cell.alignment = Alignment(text_rotation=90, horizontal="center", vertical="bottom", wrap_text=True)
         else:
@@ -402,7 +343,7 @@ def log_sheet(ws) -> None:
     widths = [13, 30, 40, 30, 20, 18]
     for i, (h, w) in enumerate(zip(heads, widths), start=1):
         c = ws.cell(row=4, column=i, value=h)
-        c.fill, c.font, c.border = HEAD_FILL, HEAD_FONT, BOX
+        c.fill, c.font, c.border = HEAD_FILL, HEAD_FONT, HEAD_BOX
         ws.column_dimensions[get_column_letter(i)].width = w
     for r in range(5, 45):
         for i in range(1, 7):
@@ -432,17 +373,13 @@ def build_xlsx() -> None:
 
 # ---------------------------------------------------------------- images
 
-def previews() -> None:
-    out = ROOT / "uploads"
-    with tempfile.TemporaryDirectory() as tmp:
-        subprocess.run(["pdftoppm", "-r", "110", "-png", "-f", "1", "-l", "2", str(PDF), f"{tmp}/p"], check=True)
-        pages = sorted(Path(tmp).glob("p-*.png"))
-        for i, p in enumerate(pages, start=1):
-            im = Image.open(p).convert("RGB")
-            im.save(out / f"allergen-matrix-template-{i}.webp", "WEBP", quality=86, method=6)
-            if i == 2:
-                og(im)
+def previews() -> Image.Image:
+    """uploads/allergen-matrix-template-1.webp and -2.webp. Returns the filled example page (for og())."""
+    pages = B.page_images(PDF, 1754, 1, 2)
+    for i, im in enumerate(pages, start=1):
+        im.save(ROOT / "uploads" / f"allergen-matrix-template-{i}.webp", "WEBP", quality=86, method=6)
     print("previews", len(pages))
+    return pages[1]
 
 
 def og(page: Image.Image) -> None:
@@ -466,7 +403,7 @@ def app_shot() -> None:
 def main() -> None:
     build_pdf()
     build_xlsx()
-    previews()
+    og(previews())
     app_shot()
 
 
