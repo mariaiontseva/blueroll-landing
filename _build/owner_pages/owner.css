@@ -107,5 +107,8 @@
     .areas, .rel { grid-template-columns:1fr; }
     .band { grid-template-columns:1fr; padding:28px 22px; }
     .band .btn { width:100%; }
+    /* site footer: the chrome's inline four-column grid overflowed phones (same fix as br-mobile-fix on article pages) */
+    .footer-grid { grid-template-columns:1fr 1fr !important; }
+    html, body { overflow-x:clip; }
   }
   @media (prefers-reduced-motion:reduce) { * { transition:none !important; animation:none !important; } }

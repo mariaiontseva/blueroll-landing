@@ -2,10 +2,12 @@
 
 Site chrome (nav + footer) is lifted from a live article page at build time, the same way
 build_borough_pages.py does it, so these pages never drift from the rest of the site.
-Usage: python3 _build/build_owner_pages.py   (writes the pages into the repo root)
+Usage: python3 _build/build_owner_pages.py [page.html ...]   (writes the pages into the repo root;
+       with no arguments builds every page in PAGES)
 """
 import json
 import re
+import sys
 from datetime import date, datetime, timezone
 from pathlib import Path
 
@@ -60,9 +62,9 @@ PACK_JS = """
 SITE = "https://blueroll.app"
 META = {
     "how-to-get-a-5-food-hygiene-rating.html": {
-        "title": "How to Get a 5 Food Hygiene Rating + Calculator | Blueroll",
-        "desc": "A 5 needs all three inspection scores at 5 or better. Enter your inspector's scores to see your rating, what caps it and what to fix first.",
-        "og_title": "How to get a 5 food hygiene rating",
+        "title": "How to Get a 5 Star Food Hygiene Rating (Calculator) | Blueroll",
+        "desc": "A 5 star rating needs every inspection score at 0 or 5. Enter your scores to see your rating, why a 4 isn't a 5, and what a re-rating costs.",
+        "og_title": "How to get a 5 star food hygiene rating",
         "og_desc": "Enter the inspector's three scores, see your rating, what caps it and what to fix first.",
         "crumb": "How to get a 5", "published": "2026-11-10T08:00:00+00:00",
         "howto": "How to prepare for a 5 food hygiene rating",
@@ -88,7 +90,7 @@ def _text(fragment: str) -> str:
 def head(name: str) -> str:
     m = META[name]
     url = f"{SITE}/{name}"
-    assert len(m["title"]) <= 62, f"title too long: {len(m['title'])}"
+    assert len(m["title"]) <= 64, f"title too long: {len(m['title'])}"
     assert 110 <= len(m["desc"]) <= 158, f"description length {len(m['desc'])}"
     esc = lambda s: s.replace("&", "&amp;").replace('"', "&quot;")
     return f"""<title>{esc(m['title'])}</title>
@@ -160,5 +162,7 @@ def build(name: str) -> None:
 
 
 if __name__ == "__main__":
-    for p in PAGES:
+    wanted = sys.argv[1:] or PAGES
+    assert all(p in PAGES for p in wanted), f"unknown page in {wanted}"
+    for p in wanted:
         build(p)

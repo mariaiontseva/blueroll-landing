@@ -260,7 +260,7 @@ def build_hub() -> str:
     <ul>
       <li><a href="/london-food-hygiene-map.html">Live London food hygiene map: search any restaurant</a></li>
       <li><a href="/food-hygiene-ratings-explained.html">Food hygiene ratings explained: EHO scoring and how to get a 5</a></li>
-      <li><a href="/how-to-improve-food-hygiene-rating.html">How to improve your food hygiene rating</a></li>
+      <li><a href="/food-hygiene-re-rating.html">Got a 1, 2 or 3? How to get re-rated, with fees by council</a></li>
     </ul>
   </div>
 </div>
