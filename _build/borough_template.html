@@ -182,7 +182,7 @@
     <h3>Who inspects food businesses in {{NAME}}?</h3>
     <p>Environmental health officers from {{COUNCIL}}. Visits are unannounced, and the new rating is published on the FSA register within a few weeks of the inspection.</p>
     <h3>My kitchen in {{NAME}} got a low rating. How do I get re-inspected?</h3>
-    <p>Fix the issues, then request a re-rating visit through {{COUNCIL}}. Officers look hardest at your daily records; our guide to <a href="/how-to-improve-food-hygiene-rating.html">improving your food hygiene rating</a> covers the fastest route back to a 5.</p>
+    <p>Fix the issues, then request a re-rating visit through {{COUNCIL}}. Officers look hardest at your daily records; our guide to <a href="/how-to-get-a-5-food-hygiene-rating.html">getting a 5 star food hygiene rating</a> shows which of the three scores holds you back.</p>
     <h3>Is a 0 rating illegal?</h3>
     <p>No. It means urgent improvement is necessary, but the business may keep trading unless the council issues a hygiene emergency prohibition notice.</p>
     <h3>How current is this page?</h3>
@@ -272,8 +272,8 @@
   function esc(s) { return String(s || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function ctaFor(r) {
     if (r >= 5) return 'Holding a 5. Nice. <a href="/free-food-hygiene-rating-badge.html">Put the free auto-updating badge on your website</a> and let it sell for you.';
-    if (r >= 3) return 'A ' + r + ' is usually capped by paperwork, what EHOs call confidence in management. <a href="/how-to-improve-food-hygiene-rating.html">How to get to a 5</a>, and grab the free pack below.';
-    return 'Urgent but fixable. Fix the issues, request a re-rating visit from the council, and keep signed daily records from today. <a href="/how-to-improve-food-hygiene-rating.html">The route back</a>, and start with the free pack below.';
+    if (r >= 3) return 'A ' + r + ' is usually capped by paperwork, what EHOs call confidence in management. <a href="/how-to-get-a-5-food-hygiene-rating.html">How to get to a 5</a>, and grab the free pack below.';
+    return 'Urgent but fixable. Fix the issues, request a re-rating visit from the council, and keep signed daily records from today. <a href="/how-to-get-a-5-food-hygiene-rating.html">The route back</a>, and start with the free pack below.';
   }
   function fsearch() {
     var q = (fq.value || '').trim();

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How to Get a 5 Star Food Hygiene Rating (Calculator) | Blueroll</title>
-<meta name="description" content="A 5 needs all three inspection scores at 5 or better. Enter your inspector's scores to see your rating, what caps it and what to fix first.">
+<meta name="description" content="A 5 star rating needs every inspection score at 0 or 5. Enter your scores to see your rating, why a 4 isn't a 5, and what a re-rating costs.">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <link rel="canonical" href="https://blueroll.app/how-to-get-a-5-food-hygiene-rating.html">
 <link rel="alternate" hreflang="en-gb" href="https://blueroll.app/how-to-get-a-5-food-hygiene-rating.html">
@@ -19,7 +19,7 @@
 <meta property="og:description" content="Enter the inspector's three scores, see your rating, what caps it and what to fix first.">
 <meta property="og:image" content="https://blueroll.app/og-image.png">
 <meta property="article:published_time" content="2026-11-10T08:00:00+00:00">
-<meta property="article:modified_time" content="2026-11-10T08:26:02+00:00">
+<meta property="article:modified_time" content="2026-11-18T03:26:11+00:00">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="How to get a 5 star food hygiene rating">
 <meta name="twitter:description" content="Enter the inspector's three scores, see your rating, what caps it and what to fix first.">
@@ -47,11 +47,11 @@
   },
   {
    "@type": "Article",
-   "headline": "How to get a 5 food hygiene rating",
-   "description": "A 5 needs all three inspection scores at 5 or better. Enter your inspector's scores to see your rating, what caps it and what to fix first.",
+   "headline": "How to get a 5 star food hygiene rating",
+   "description": "A 5 star rating needs every inspection score at 0 or 5. Enter your scores to see your rating, why a 4 isn't a 5, and what a re-rating costs.",
    "image": "https://blueroll.app/og-image.png",
    "datePublished": "2026-11-10T08:00:00+00:00",
-   "dateModified": "2026-11-10T08:26:02+00:00",
+   "dateModified": "2026-11-18T03:26:11+00:00",
    "inLanguage": "en-GB",
    "author": {
     "@id": "https://blueroll.app/#org"
@@ -100,6 +100,22 @@
     },
     {
      "@type": "Question",
+     "name": "Is a food hygiene rating of 4 good?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. A 4 means hygiene standards are good, one step below the top rating. What stops it being a 5 is at least one area scored 10 instead of 5, and once that's fixed you can ask for a re-rating visit."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What's the difference between a 4 and a 5 food hygiene rating?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "For a 5, all three area scores must be 0 or 5, which keeps the total at 15 or less. A 4 allows areas at 10 and a total of up to 20. So scores of 0, 5 and 10 add up to 15 but still give a 4."
+     }
+    },
+    {
+     "@type": "Question",
      "name": "What is confidence in management?",
      "acceptedAnswer": {
       "@type": "Answer",
@@ -111,7 +127,23 @@
      "name": "Can I get my food hygiene rating changed before the next inspection?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Yes. Accept the rating, make the improvements, then ask your council for a re-rating visit. Most councils in England charge a fee, Wales about £255 and Northern Ireland £150. The visit is unannounced and the rating can go up, down or stay the same. Full guide."
+      "text": "Yes. Accept the rating, fix everything on the inspector's letter, then ask your council in writing for a re-rating visit. The visit is unannounced and the rating can go up, down or stay the same. Full guide."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How much does a food hygiene re-rating visit cost?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "In England each council decides whether to charge and how much. The ones we checked charge £120 to £371. In Wales every council charges, about £255, and in Northern Ireland it's £150. Fees council by council."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What temperature should a fridge be for a food hygiene inspection?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Chilled food must be kept at 8°C or below in England, Wales and Northern Ireland. Guidance is to set fridges to 5°C or below so food stays cold enough when the temperature changes. Write the readings down so the inspector can see them."
      }
     },
     {
@@ -273,6 +305,9 @@
     .areas, .rel { grid-template-columns:1fr; }
     .band { grid-template-columns:1fr; padding:28px 22px; }
     .band .btn { width:100%; }
+    /* site footer: the chrome's inline four-column grid overflowed phones (same fix as br-mobile-fix on article pages) */
+    .footer-grid { grid-template-columns:1fr 1fr !important; }
+    html, body { overflow-x:clip; }
   }
   @media (prefers-reduced-motion:reduce) { * { transition:none !important; animation:none !important; } }
   /* calculator */
@@ -299,7 +334,19 @@
   .bands td:first-child { width:64px; }
   .mini { display:inline-block; width:30px; height:30px; border-radius:8px; line-height:30px; text-align:center; font-weight:800; color:#fff; font-size:14px; }
   .m5{background:#1a7f4f}.m4{background:#59a06b}.m3{background:#d0a02b}.m2{background:#d97a2b}.m1{background:#c65530}.m0{background:#9c2b23}
-  @media (max-width:760px) { .calc { grid-template-columns:1fr; } .calc-in { padding:18px 16px 10px; } .seg button { height:40px; font-size:14px; } }
+  /* 4 or 5 */
+  .vs th { vertical-align:middle; }
+  .vs th .mini { width:26px; height:26px; line-height:26px; font-size:13px; margin-right:8px; vertical-align:middle; font-family:"Geist",sans-serif; letter-spacing:0; }
+  .vs td:first-child { color:var(--muted); width:38%; }
+  .vs .combos { font-family:"Geist Mono",monospace; font-size:13.5px; line-height:1.8; white-space:nowrap; }
+  .vs th { white-space:nowrap; }
+  .wrap h3.sub { font-size:20px; margin:36px 0 10px; }
+  .plain { margin:0 0 16px; padding-left:20px; }
+  .plain li { margin:7px 0; }
+  .ask { margin:22px 0 16px; padding-left:22px; }
+  .ask li { margin:10px 0; padding-left:4px; }
+  .ask li::marker { font-weight:700; color:var(--green-deep); }
+  @media (max-width:760px) { .t th, .t td { padding:11px 10px; } .vs td:first-child { width:30%; } .vs .combos { font-size:12.5px; } .vs th .mini { margin-right:6px; } .calc { grid-template-columns:1fr; } .calc-in { padding:18px 16px 10px; } .seg button { height:40px; font-size:14px; } }
 </style>
 <script src="/geo-analytics.js" defer></script>
 </head>
@@ -317,7 +364,7 @@
         <div class="dd-menu" style="width: 312px;">
           <a href="/independent-restaurant-food-safety.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a7 7 0 0 0-7 7c0 4.5 4.5 8.5 6.4 10.1a1 1 0 0 0 1.2 0C14.5 18.5 19 14.5 19 10a7 7 0 0 0-7-7z"></path><circle cx="12" cy="10" r="2.5"></circle></svg></span>
-            <span><span class="dd-title">Independents</span><span class="dd-sub">One kitchen, one folder — fully digital</span></span>
+            <span><span class="dd-title">Independents</span><span class="dd-sub">One kitchen, one folder, fully digital</span></span>
           </a>
           <a href="/multi-site-food-safety.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M3.5 12h17"></path><path d="M12 3.5c-2.5 2.3-3.8 5.2-3.8 8.5s1.3 6.2 3.8 8.5c2.5-2.3 3.8-5.2 3.8-8.5S14.5 5.8 12 3.5z"></path></svg></span>
@@ -379,7 +426,7 @@
         <div class="dd-menu" style="width: 312px;">
           <a href="/free-haccp-template.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7.5 11l4.5 4.5L16.5 11"></path><path d="M4.5 16v3a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5v-3"></path></svg></span>
-            <span><span class="dd-title">Free HACCP template</span><span class="dd-sub">Printable pack — logs, schedules, checks</span></span>
+            <span><span class="dd-title">Free HACCP template</span><span class="dd-sub">Printable pack: logs, schedules, checks</span></span>
           </a>
           <a href="/audit/" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"></path><path d="M9 11.8l2.2 2.2 3.8-4"></path></svg></span>
@@ -395,7 +442,7 @@
           </a>
           <a href="/london-food-hygiene-map.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20l-5.5-2V4L9 6M9 20l6-2M9 20V6M15 18l5.5 2V6L15 4M15 18V4M9 6l6-2"></path></svg></span>
-            <span><span class="dd-title">Hygiene rating maps</span><span class="dd-sub">London, NYC &amp; SF — live inspection data</span></span>
+            <span><span class="dd-title">Hygiene rating maps</span><span class="dd-sub">London, NYC &amp; SF: live inspection data</span></span>
           </a>
           <div style="border-top: 1px solid #f2f3f5; margin-top: 6px; padding: 9px 10px;"><a href="/tools.html" style="font-size: 13px; font-weight: 700; color: #1f7a52;">See all free tools →</a></div>
         </div>
@@ -504,6 +551,44 @@
   </div>
   <p style="margin-top:16px">Food safety management is where this bites hardest. Inspectors give it 10 when a written system is <b>in progress</b>, 5 when it is <b>in place</b>, and 20 or 30 when there is <b>none</b>. A score of 20 holds the whole rating at 1, even with a perfect kitchen. It is also the area you can fix fastest, because it is mostly paperwork that has to exist and be kept up every day.</p>
 
+  <h2 id="four-or-five">4 or 5: is a 4 good?</h2>
+  <p class="lead">Yes. A 4 means the inspector found hygiene standards were good. It is one step below the top rating, and the gap is smaller than it looks.</p>
+  <div class="card tscroll">
+    <table class="t vs">
+      <thead><tr><th></th><th><span class="mini m4">4</span>Good</th><th><span class="mini m5">5</span>Very good</th></tr></thead>
+      <tbody>
+        <tr><td>Total of the three scores</td><td class="num">20 or less</td><td class="num">15 or less</td></tr>
+        <tr><td>Worst single area</td><td class="num">10</td><td class="num">5 or better</td></tr>
+        <tr><td>Scores that give it, for example</td><td class="combos">0, 5, 10<br>5, 5, 10<br>0, 10, 10</td><td class="combos">5, 5, 5<br>0, 5, 5<br>0, 0, 0</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top:16px">The difference is one area. With every area at 0 or 5 you get a 5. One area at 10 makes it a 4, even when the total is 15, the same total as a 5. Try 0, 5 and 10 in the calculator above.</p>
+
+  <h3 class="sub">What turns a 5 into a 10</h3>
+  <p>The Food Standards Agency's scoring guide describes each score. Side by side, the step is small:</p>
+  <div class="card tscroll">
+    <table class="t">
+      <thead><tr><th>Area</th><th>Scored 5</th><th>Scored 10</th></tr></thead>
+      <tbody>
+        <tr><td><b>Food handling</b></td><td>Only minor lapses. Everything needed to stop cross-contamination is in place.</td><td>Some lapses in hygiene and safety procedures, though food is generally prepared, cooked, cooled and stored safely.</td></tr>
+        <tr><td><b>Building and cleaning</b></td><td>Only minor repairs needed. Pest control and waste disposal are adequate.</td><td>Generally satisfactory cleaning, fairly well kept, some repairs may be needed.</td></tr>
+        <tr><td><b>Food safety management</b></td><td>A system in place and reviewed, records kept up, staff trained and supervised, new starters inducted, a good track record.</td><td>Controls generally in place, but gaps in the records or minor issues with training.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub">If you're on a 4</h3>
+  <p>Find the area scored 10 on your inspection letter. The letter also lists what the inspector wants changed. Things worth checking first:</p>
+  <ul class="plain">
+    <li>An SFBB or HACCP pack that no longer matches how the kitchen works, for example after a menu change.</li>
+    <li>Records with gaps, or pages that look filled in all at once.</li>
+    <li>Points from the last inspection letter that are still not done.</li>
+    <li>New starters who haven't been shown your system.</li>
+    <li>Only one person who can explain the system. If they're off on the day, nobody else can answer the inspector.</li>
+  </ul>
+  <p>Once they're fixed and your records show it, you can ask for a re-rating. A 4 qualifies: the re-visit scheme covers every rating from 0 to 4. <a href="#re-rating">What it costs and how to ask</a>.</p>
+
   <h2>What to do before your next inspection</h2>
   <p class="lead">In the order that usually moves the score most.</p>
   <ol class="steps">
@@ -514,16 +599,36 @@
     <li><div><b>Fix the building items on your last letter</b><span>Repairs, handwash basins, pest proofing. Keep invoices and photos: you will need them if you ask for a re-rating.</span></div></li>
   </ol>
 
+  <h2>The temperatures an inspector checks</h2>
+  <p class="lead">Temperature control is part of the food handling score. These are the figures in the government's food hygiene guidance for businesses.</p>
+  <div class="card tscroll">
+    <table class="t">
+      <thead><tr><th>What</th><th>The rule</th></tr></thead>
+      <tbody>
+        <tr><td><b>Fridges and chilled food</b></td><td>8°C or below, a legal requirement in England, Wales and Northern Ireland. Set fridges to 5°C or below so food stays cold enough.</td></tr>
+        <tr><td><b>Chilled food out on display</b></td><td>Up to 4 hours, then throw it away.</td></tr>
+        <tr><td><b>Cooking</b></td><td>70°C in the centre for 2 minutes. Also safe: 75°C for 30 seconds or 80°C for 6 seconds.</td></tr>
+        <tr><td><b>Hot holding</b></td><td>63°C or above.</td></tr>
+        <tr><td><b>Hot food on display below 63°C</b></td><td>Up to 2 hours, then cool it to 8°C or below, or throw it away.</td></tr>
+        <tr><td><b>Reheating</b></td><td>Steaming hot all the way through, and only once.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
   <h2>A quick self-check</h2>
   <div class="card"><ul class="checks">
     <li>Fridge and freezer temperatures recorded at least twice a day<small>With the time and who checked, and what was done if one was out of range.</small></li>
-    <li>Cooking, cooling and reheating temperatures checked and written down</li>
-    <li>Cleaning schedule signed off every day</li>
-    <li>Your SFBB or HACCP pack is completed for your own menu and processes</li>
+    <li>Cooking, cooling and reheating checked with a clean probe thermometer and written down</li>
+    <li>Raw meat, fish and poultry kept apart from ready-to-eat food, with their own chopping boards and utensils</li>
+    <li>Food in the fridge labelled with the date it was made or opened</li>
+    <li>Handwash basins stocked with soap, warm water and a way to dry hands</li>
+    <li>Cleaning schedule that says what to clean, how often and with which products, signed off every day</li>
+    <li>Your SFBB or HACCP pack is completed for your own menu and processes<small>And updated when the menu, a supplier or the equipment changes.</small></li>
     <li>Allergen information for every dish, up to date</li>
-    <li>Training certificates on file for everyone who handles food</li>
+    <li>Training certificates on file for everyone who handles food<small>And new starters shown the system before they work on their own.</small></li>
     <li>Pest control contract or checks, with the latest report</li>
     <li>Supplier details and delivery checks recorded</li>
+    <li>Every point on your last inspection letter done</li>
   </ul></div>
 
   <div class="band">
@@ -545,14 +650,38 @@
     </div>
   </div>
 
-  <h2>Got a low rating already?</h2>
-  <p>You don't have to wait for the next routine inspection. Once you've fixed what the inspector found, you can ask your council for a re-rating visit. <a href="/food-hygiene-re-rating.html">Here's how, what it costs in your area, and a request you can send today</a>.</p>
+  <h2 id="re-rating">Re-rating: what the visit costs and how to ask</h2>
+  <p class="lead">You don't have to wait for the next routine inspection. Once you've fixed what the inspector found, you can ask your council to come back and rate you again.</p>
+  <div class="card tscroll">
+    <table class="t">
+      <thead><tr><th>Where</th><th>Fee for a re-rating visit</th></tr></thead>
+      <tbody>
+        <tr><td><b>England</b></td><td>Each council decides whether to charge and how much. The ones we checked charge £120 to £371.</td></tr>
+        <tr><td><b>Wales</b></td><td>Every council charges, about £255.</td></tr>
+        <tr><td><b>Northern Ireland</b></td><td>Every council charges, £150.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top:16px"><b>How soon.</b> Where the council charges, the visit should happen within three months of your request, or of your payment if it wants the fee first. In England, where it doesn't charge, the visit usually won't happen in the first three months after the inspection, and you shouldn't wait more than six months from asking. In Wales and Northern Ireland, it's within three months of your written request.</p>
+  <ol class="ask">
+    <li><b>Accept the rating.</b> If you think it was wrong on the day, appeal in writing within 21 days instead.</li>
+    <li><b>Fix every point on the inspector's letter</b>, in all three areas. Keep photos, invoices and certificates as you go.</li>
+    <li><b>Write to the council.</b> Email is fine. Say what you changed and attach the evidence, including your records since the inspection. A council can turn down a request without enough evidence.</li>
+    <li><b>Pay the fee</b> if your council charges one.</li>
+    <li><b>The inspector comes back unannounced</b> and looks at everything, not just what you fixed. The rating can go up, down or stay the same.</li>
+  </ol>
+  <p>If your fixes are mostly records and management, a council that charges may time the visit towards the end of the three months, to see that the change has lasted. Keep the daily records going from the day you ask.</p>
+  <p><a href="/food-hygiene-re-rating.html">Re-rating fees council by council, appeal or re-rating, and a request letter you can copy</a>.</p>
 
   <h2>Questions owners ask</h2>
   <div class="faq">
     <details><summary>What do you need for a 5 food hygiene rating?</summary><p>All three area scores at 0 or 5, adding up to 15 or less. One weak area caps the rating however good the others are.</p></details>
+    <details><summary>Is a food hygiene rating of 4 good?</summary><p>Yes. A 4 means hygiene standards are good, one step below the top rating. What stops it being a 5 is at least one area scored 10 instead of 5, and once that's fixed you can ask for a re-rating visit.</p></details>
+    <details><summary>What's the difference between a 4 and a 5 food hygiene rating?</summary><p>For a 5, all three area scores must be 0 or 5, which keeps the total at 15 or less. A 4 allows areas at 10 and a total of up to 20. So scores of 0, 5 and 10 add up to 15 but still give a 4.</p></details>
     <details><summary>What is confidence in management?</summary><p>The inspector's view of how well you manage food safety: a written system such as SFBB or HACCP, records that are kept, staff training and your track record. With no written system this area scores 20 or 30, which on its own holds the rating at 1 or 0.</p></details>
-    <details><summary>Can I get my food hygiene rating changed before the next inspection?</summary><p>Yes. Accept the rating, make the improvements, then ask your council for a re-rating visit. Most councils in England charge a fee, Wales about £255 and Northern Ireland £150. The visit is unannounced and the rating can go up, down or stay the same. <a href="/food-hygiene-re-rating.html">Full guide</a>.</p></details>
+    <details><summary>Can I get my food hygiene rating changed before the next inspection?</summary><p>Yes. Accept the rating, fix everything on the inspector's letter, then ask your council in writing for a re-rating visit. The visit is unannounced and the rating can go up, down or stay the same. <a href="/food-hygiene-re-rating.html">Full guide</a>.</p></details>
+    <details><summary>How much does a food hygiene re-rating visit cost?</summary><p>In England each council decides whether to charge and how much. The ones we checked charge £120 to £371. In Wales every council charges, about £255, and in Northern Ireland it's £150. <a href="/food-hygiene-re-rating.html">Fees council by council</a>.</p></details>
+    <details><summary>What temperature should a fridge be for a food hygiene inspection?</summary><p>Chilled food must be kept at 8°C or below in England, Wales and Northern Ireland. Guidance is to set fridges to 5°C or below so food stays cold enough when the temperature changes. Write the readings down so the inspector can see them.</p></details>
     <details><summary>Do I have to display my food hygiene rating?</summary><p>In Wales and Northern Ireland, yes, at each customer entrance. In England it's voluntary, but your rating is published online either way.</p></details>
   </div>
 
@@ -566,6 +695,9 @@
     Sources
     <ol>
       <li><a href="https://www.gov.uk/government/publications/food-hygiene-rating-scheme-fhrs-guidance-for-businesses/food-hygiene-rating-scheme-fhrs-guidance-for-businesses">GOV.UK, Food Hygiene Rating Scheme guidance for businesses</a></li>
+      <li><a href="https://www.gov.uk/government/publications/guidance-on-implementation-and-operation-of-the-food-hygiene-rating-scheme-the-brand-standard-and-statutory-guidance">Food Standards Agency, Food Hygiene Rating Scheme brand standard</a> (score descriptions, Tables 2 to 4, Section 8 on re-visits)</li>
+      <li><a href="https://www.gov.uk/food-hygiene-businesses/chilling-and-freezing">GOV.UK, chilling and freezing</a>, <a href="https://www.gov.uk/food-hygiene-businesses/cooking">cooking</a>, <a href="https://www.gov.uk/food-hygiene-businesses/cleaning">cleaning</a> and <a href="https://www.gov.uk/food-hygiene-businesses/cross-contamination">cross-contamination</a></li>
+      <li>Re-rating fees: <a href="https://www.ipswich.gov.uk/content/food-hygiene-re-rating-request">Ipswich</a> and <a href="https://rbwm.gov.uk/environment-and-waste/environmental-health/food-safety/request-food-safety-hygiene-rescore-inspection">Windsor and Maidenhead</a> (England), <a href="https://www.pembrokeshire.gov.uk/finance-and-business/fees-and-charges-food-hygiene">Pembrokeshire</a> (Wales), <a href="https://antrimandnewtownabbey.gov.uk/business/support-for-businesses/environmental-health/food-hygiene-scheme/your-rating/">Antrim and Newtownabbey</a> (Northern Ireland)</li>
       <li><a href="https://www.blackpool.gov.uk/business/food-hygiene/food-hygiene-rating-scheme">Blackpool Council, how food hygiene ratings are worked out</a></li>
       <li><a href="https://www.reigate-banstead.gov.uk/info/20376/food_hygiene_rating_scheme/199/food_hygiene_rating_scheme_fhrs_-_information_for_businesses">Reigate and Banstead Council, FHRS information for businesses</a></li>
       <li><a href="https://new.calderdale.gov.uk/sites/default/files/2023-08/food-hygiene-ratings.pdf">Calderdale Council, food hygiene ratings guide (management scores)</a></li>

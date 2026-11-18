@@ -35,7 +35,7 @@
 - [London food hygiene map](https://blueroll.app/london-food-hygiene-map.html)
 
 ## Guides
-- [How to get a 5 food hygiene rating](https://blueroll.app/how-to-get-a-5-food-hygiene-rating.html): rating calculator from the inspector's three scores, what caps a rating, what to fix first
+- [How to get a 5 food hygiene rating](https://blueroll.app/how-to-get-a-5-food-hygiene-rating.html): rating calculator from the inspector's three scores, what caps a rating, 4 vs 5, the temperatures inspectors check, what to fix first, re-rating cost and how to ask
 - [Food hygiene re-rating](https://blueroll.app/food-hygiene-re-rating.html): re-rating fees by council and nation, timing, appeal vs re-rating, free request letter generator
 - [SFBB guide](https://blueroll.app/sfbb-guide.html)
 - [Food hygiene ratings explained](https://blueroll.app/food-hygiene-ratings-explained.html)
