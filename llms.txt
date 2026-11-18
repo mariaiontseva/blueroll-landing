@@ -39,6 +39,7 @@
 - [How to get a 5 food hygiene rating](https://blueroll.app/how-to-get-a-5-food-hygiene-rating.html): rating calculator from the inspector's three scores, what caps a rating, 4 vs 5, the temperatures inspectors check, what to fix first, re-rating cost and how to ask
 - [Food hygiene re-rating](https://blueroll.app/food-hygiene-re-rating.html): re-rating fees by council and nation, timing, appeal vs re-rating, free request letter generator
 - [EHO inspection: what to expect and UK checklist](https://blueroll.app/eho-inspection-checklist.html): what happens on the visit, how often by risk category, the three scores behind the rating, interactive checklist, mock inspection, appeal, right to reply and re-rating
+- [UK guides index](https://blueroll.app/guides/uk/)
 - [SFBB guide](https://blueroll.app/sfbb-guide.html)
 - [Food hygiene ratings explained](https://blueroll.app/food-hygiene-ratings-explained.html)
 - [14 allergens UK](https://blueroll.app/14-allergens-uk.html)
