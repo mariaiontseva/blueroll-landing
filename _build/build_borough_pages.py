@@ -258,6 +258,7 @@ def build_hub() -> str:
   <div class="rel" style="margin-top:12px;">
     <strong style="font-size:15px;">More on food hygiene ratings</strong>
     <ul>
+      <li><a href="/food-hygiene-ratings/where-points-are-lost.html">Why food businesses miss a 5: inspection scores for every council</a></li>
       <li><a href="/london-food-hygiene-map.html">Live London food hygiene map: search any restaurant</a></li>
       <li><a href="/food-hygiene-ratings-explained.html">Food hygiene ratings explained: EHO scoring and how to get a 5</a></li>
       <li><a href="/food-hygiene-re-rating.html">Got a 1, 2 or 3? How to get re-rated, with fees by council</a></li>
@@ -299,6 +300,8 @@ def update_llms() -> None:
              for slug in sorted(AREAS)]
     block = (LLMS_HEADER + "\n"
              + "- [Food hygiene ratings: London and major UK cities](https://blueroll.app/food-hygiene-ratings/)\n"
+             + "- [Why food businesses miss a 5: hygiene scores council by council](https://blueroll.app/food-hygiene-ratings/where-points-are-lost.html): "
+               "share at 5 and which inspection score keeps the rest below it, for every council in England, Wales and Northern Ireland, with a CSV\n"
              + "\n".join(lines) + "\n")
     if LLMS_HEADER in s:
         s = re.sub(re.escape(LLMS_HEADER) + r"[\s\S]*?(?=\n## |\Z)", block, s)

@@ -60,6 +60,7 @@
 
 ## London borough food hygiene ratings
 - [Food hygiene ratings: London and major UK cities](https://blueroll.app/food-hygiene-ratings/)
+- [Why food businesses miss a 5: hygiene scores council by council](https://blueroll.app/food-hygiene-ratings/where-points-are-lost.html): share at 5 and which inspection score keeps the rest below it, for every council in England, Wales and Northern Ireland, with a CSV
 - [Food hygiene ratings in Barking and Dagenham](https://blueroll.app/food-hygiene-ratings/barking-and-dagenham.html)
 - [Food hygiene ratings in Barnet](https://blueroll.app/food-hygiene-ratings/barnet.html)
 - [Food hygiene ratings in Bexley](https://blueroll.app/food-hygiene-ratings/bexley.html)
