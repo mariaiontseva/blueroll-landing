@@ -13,19 +13,19 @@
 </script>
 <script src="/geo-analytics.js" defer></script>
 <link rel="canonical" href="https://blueroll.app/haccp-checklists.html">
-<title>Digital HACCP Checklists for Restaurants | Blueroll</title>
-<meta name="description" content="Digital HACCP checklists for restaurants: opening and closing checks, fridge and freezer temperatures and sign-offs on your team’s phones. Out-of-range readings flag themselves. £24.99/month.">
+<title>HACCP App for Restaurants: Digital Checklists | Blueroll</title>
+<meta name="description" content="Run digital HACCP checklists, temperature logs and manager sign-offs on your team's phones. £24.99 per site/month, unlimited users. Try Blueroll free for 14 days.">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://blueroll.app/haccp-checklists.html">
-<meta property="og:title" content="Digital HACCP Checklists for Restaurants | Blueroll">
-<meta property="og:description" content="Digital HACCP checklists for restaurants: opening and closing checks, fridge and freezer temperatures and sign-offs on your team’s phones. Out-of-range readings flag themselves. £24.99/month.">
+<meta property="og:title" content="HACCP App for Restaurants: Digital Checklists | Blueroll">
+<meta property="og:description" content="Run digital HACCP checklists, temperature logs and manager sign-offs on your team's phones. £24.99 per site/month, unlimited users. Try Blueroll free for 14 days.">
 <meta property="og:image" content="https://blueroll.app/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Can it really replace my paper SFBB folder?", "acceptedAnswer": {"@type": "Answer", "text": "Yes — that’s the whole point. The built-in templates cover the same daily checks as the FSA’s SFBB pack, your team fills them in on their phones, and every entry lands timestamped in the diary."}}, {"@type": "Question", "name": "Do EHO inspectors accept digital records?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The law doesn’t require paper — inspectors need to see that checks were completed and recorded at the time, by a named person. Digital records make that easier to prove, not harder."}}, {"@type": "Question", "name": "What if a fridge temperature is out of range?", "acceptedAnswer": {"@type": "Answer", "text": "It’s flagged the moment it’s logged and managers get a notification straight away. The corrective action is recorded against the same entry, so the paper trail is complete."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Can it really replace my paper SFBB folder?", "acceptedAnswer": {"@type": "Answer", "text": "Blueroll brings daily SFBB-style checks, records and sign-offs onto your team's phones. Your business still needs safe methods that cover its actual food operations, kept up to date. See how the SFBB pack maps to Blueroll."}}, {"@type": "Question", "name": "Do EHO inspectors accept digital records?", "acceptedAnswer": {"@type": "Answer", "text": "The FSA's SFBB guidance for England and Wales allows completed diary pages to be stored electronically or on paper. Keep your records accessible for the food safety officer. Using an app does not by itself establish compliance or guarantee a hygiene rating."}}, {"@type": "Question", "name": "What if a fridge temperature is out of range?", "acceptedAnswer": {"@type": "Answer", "text": "It’s flagged the moment it’s logged and managers get a notification straight away. The corrective action is recorded against the same entry, so the paper trail is complete."}}, {"@type": "Question", "name": "Does the HACCP app measure temperatures automatically?", "acceptedAnswer": {"@type": "Answer", "text": "Your team measures and enters temperatures. Blueroll checks a logged reading against the set range and flags exceptions. It does not connect to wireless fridge sensors or Bluetooth probes."}}, {"@type": "Question", "name": "How much does the HACCP app cost?", "acceptedAnswer": {"@type": "Answer", "text": "£24.99 per site per month, with unlimited team members. Try it free for 14 days; signing up on the web needs no card. The team sets up your checks free from your existing sheets."}}]}</script>
 <style>
 /* ============ base ============ */
 * { box-sizing: border-box; }
@@ -33,6 +33,19 @@ body { margin: 0; background: #f6f7f8; color: #16181d; font-family: 'Geist', -ap
 a { color: #1f7a52; text-decoration: none; }
 a:hover { color: #1f9d63; }
 img { max-width: 100%; }
+.hc-guide { max-width: 1010px; margin: 72px auto 0; padding: 0 24px; }
+.hc-guide h2 { font-size: clamp(27px, 4vw, 34px); line-height: 1.2; letter-spacing: -.03em; margin: 0 0 18px; }
+.hc-guide h3 { font-size: 20px; line-height: 1.35; letter-spacing: -.02em; margin: 26px 0 12px; }
+.hc-guide p, .hc-guide li { font-size: 15px; color: #5c626b; line-height: 1.75; }
+.hc-guide a { text-decoration: underline; text-underline-offset: 3px; }
+.hc-guide .hc-table-wrap { overflow-x: auto; background: #fff; border: 1px solid #e7e9ec; border-radius: 14px; margin-top: 20px; }
+.hc-guide table { width: 100%; min-width: 620px; border-collapse: collapse; font-size: 14px; line-height: 1.65; text-align: left; }
+.hc-guide th, .hc-guide td { padding: 16px 18px; vertical-align: top; border-bottom: 1px solid #e7e9ec; }
+.hc-guide thead { background: #edf5f0; }
+.hc-guide td { color: #5c626b; }
+.hc-guide tbody tr:last-child > * { border-bottom: 0; }
+.hc-guide .hc-note { padding: 22px 26px; border: 1px solid #d6e6dc; border-radius: 14px; background: #edf5f0; margin-top: 24px; }
+.hc-guide .hc-note p { margin: 0; }
 
 /* ============ keyframes (from design) ============ */
 @keyframes fg-cycle { 0%, 12% { opacity: 0; transform: translateY(4px); } 22%, 90% { opacity: 1; transform: none; } 100% { opacity: 0; } }
@@ -151,7 +164,6 @@ a:hover { color: #1f9d63; }
   h1 { font-size: 38px !important; }
 }
 </style>
-<link rel="stylesheet" href="/site-footer.css?v=20260813">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Blueroll", "item": "https://blueroll.app/"}, {"@type": "ListItem", "position": 2, "name": "Features", "item": "https://blueroll.app/#features"}, {"@type": "ListItem", "position": 3, "name": "HACCP Checklists", "item": "https://blueroll.app/haccp-checklists.html"}]}</script>
 <style id="br-mobile-fix">
 @media (max-width: 960px) {
@@ -200,90 +212,92 @@ a:hover { color: #1f9d63; }
   div[style*="grid-template-columns: 1fr 1fr 1fr"][style*="border-top"] > div > div { white-space: normal !important; }
 }
 </style>
+<link rel="stylesheet" href="/site-chrome.css">
+<script src="/site-chrome.js" defer></script>
 </head>
 <body>
-<!-- ============ NAV ============ -->
-<div style="position: sticky; top: 0; z-index: 50; background: rgba(246,247,248,.9); backdrop-filter: blur(12px); border-bottom: 1px solid #e7e9ec;">
+<!-- BEGIN SHARED SITE HEADER -->
+<header id="br-site-header" class="br-site-chrome" style="position: sticky; top: 0; z-index: 50; background: rgba(246,247,248,.9); backdrop-filter: blur(12px); border-bottom: 1px solid #e7e9ec;">
   <div style="max-width: 1160px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; gap: 26px;">
     <a href="/" style="display: flex; align-items: center; gap: 9px; color: #16181d; font-weight: 700; font-size: 17px; white-space: nowrap;">
-      <img src="assets/blueroll-logo-v2.svg" alt="Blueroll" style="height: 26px; display: block;">
+      <img src="/assets/blueroll-logo-v2.svg" alt="Blueroll" style="height: 26px; display: block;">
       <span>Blueroll</span>
     </a>
-    <div class="nav-links" style="display: flex; align-items: center; gap: 22px; font-size: 13.5px; font-weight: 500; color: #41464d; flex: 1; height: 100%;">
-      <span class="dd">
+    <nav class="nav-links" aria-label="Primary navigation" style="display: flex; align-items: center; gap: 22px; font-size: 13.5px; font-weight: 500; color: #41464d; flex: 1; height: 100%;">
+      <div class="dd">
         <a href="/#audiences" class="navlink">Who it's for <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
         <div class="dd-menu" style="width: 312px;">
-          <a href="independent-restaurant-food-safety.html" class="dd-item">
+          <a href="/independent-restaurant-food-safety.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a7 7 0 0 0-7 7c0 4.5 4.5 8.5 6.4 10.1a1 1 0 0 0 1.2 0C14.5 18.5 19 14.5 19 10a7 7 0 0 0-7-7z"></path><circle cx="12" cy="10" r="2.5"></circle></svg></span>
             <span><span class="dd-title">Independents</span><span class="dd-sub">One kitchen, one folder — fully digital</span></span>
           </a>
-          <a href="multi-site-food-safety.html" class="dd-item">
+          <a href="/multi-site-food-safety.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M3.5 12h17"></path><path d="M12 3.5c-2.5 2.3-3.8 5.2-3.8 8.5s1.3 6.2 3.8 8.5c2.5-2.3 3.8-5.2 3.8-8.5S14.5 5.8 12 3.5z"></path></svg></span>
             <span><span style="display: flex; align-items: center; gap: 7px;" class="dd-title">Groups &amp; estates <span class="tag-new">NEW</span></span><span class="dd-sub">Every site on one dashboard</span></span>
           </a>
-          <a href="franchise-food-safety.html" class="dd-item">
+          <a href="/franchise-food-safety.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"></circle><path d="M9 6H4M20 6h-5"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="18" r="3"></circle><path d="M9 18h6"></path><path d="M12 9v3M7.5 15.5L10 12M16.5 15.5L14 12"></path></svg></span>
             <span><span class="dd-title">Franchises</span><span class="dd-sub">Central standards, local execution</span></span>
           </a>
         </div>
-      </span>
-      <span class="dd">
+      </div>
+      <div class="dd">
         <a href="/#features" class="navlink">Features <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
         <div class="dd-menu dd-grid">
-          <a href="multi-site-food-safety.html" class="dd-item">
+          <a href="/multi-site-food-safety.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.2"></circle><circle cx="5" cy="5" r="2.2"></circle><circle cx="19" cy="5" r="2.2"></circle><circle cx="5" cy="19" r="2.2"></circle><circle cx="19" cy="19" r="2.2"></circle><path d="M6.6 6.6l3.8 3.8M17.4 6.6l-3.8 3.8M6.6 17.4l3.8-3.8M17.4 17.4l-3.8-3.8"></path></svg></span>
             <span><span style="display: flex; align-items: center; gap: 7px;" class="dd-title">Multisite <span class="tag-new">NEW</span></span><span class="dd-sub">Run every site from one dashboard</span></span>
           </a>
-          <a href="haccp-checklists.html" class="dd-item">
+          <a href="/haccp-checklists.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 8h8M8 12h8M8 16h5"></path></svg></span>
             <span><span class="dd-title">HACCP Checklists</span><span class="dd-sub">Daily tasks, temps and sign-offs</span></span>
           </a>
-          <a href="allergen-matrix.html" class="dd-item">
+          <a href="/allergen-matrix.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L4 19h16z"></path><path d="M12 10v4M12 16.5v.5"></path></svg></span>
             <span><span class="dd-title">Allergen Matrix</span><span class="dd-sub">Auto-built from your recipes</span></span>
           </a>
-          <a href="ai-recipe-import.html" class="dd-item">
+          <a href="/ai-recipe-import.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4c0-.6 3-1.5 5-1.5S21 3.1 21 3.7V19c0 .6-2-1-4-1s-5 .9-5 1.5c0-.6-3-1.5-5-1.5s-4 1.6-4 1V3.7C3 3.1 5 2.5 7 2.5s5 .9 5 1.5z"></path><path d="M12 4v15.5"></path></svg></span>
             <span><span class="dd-title">AI Recipe Import</span><span class="dd-sub">Photograph a recipe, get it typed up</span></span>
           </a>
-          <a href="compliance-reports.html" class="dd-item">
+          <a href="/compliance-reports.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M8.5 12.3l2.3 2.3 4.7-5"></path></svg></span>
             <span><span class="dd-title">Compliance Reports</span><span class="dd-sub">One-tap packs for EHO visits</span></span>
           </a>
-          <a href="team-management.html" class="dd-item">
+          <a href="/team-management.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20a7 7 0 0 1 14 0"></path></svg></span>
             <span><span class="dd-title">Team Management</span><span class="dd-sub">Roles, training and accountability</span></span>
           </a>
-          <a href="deliveries.html" class="dd-item">
+          <a href="/deliveries.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5v8l9 5 9-5z"></path><path d="M3.3 8.2L12 13l8.7-4.8M12 13v8.5"></path></svg></span>
             <span><span class="dd-title">Deliveries</span><span class="dd-sub">Log suppliers and check-ins fast</span></span>
           </a>
-          <a href="document-management.html" class="dd-item">
+          <a href="/document-management.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></span>
             <span><span class="dd-title">Documents</span><span class="dd-sub">Certificates and policies in one place</span></span>
           </a>
-          <a href="haccp-pack.html" class="dd-item">
+          <a href="/haccp-pack.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5h11.5a2 2 0 0 1 2 2V21H7a2 2 0 0 1-2-2z"></path><path d="M5 4.5A1.75 1.75 0 0 1 6.75 3H16v3.5"></path><path d="M9 10.5h6M9 14h6"></path></svg></span>
             <span><span class="dd-title">HACCP Pack</span><span class="dd-sub">Your SFBB file, writing itself</span></span>
           </a>
-          <a href="incidents.html" class="dd-item">
+          <a href="/incidents.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 21.5 20h-19z"></path><line x1="12" y1="10" x2="12" y2="14"></line><circle cx="12" cy="17" r="0.5" fill="currentColor"></circle></svg></span>
             <span><span class="dd-title">Incidents</span><span class="dd-sub">Complaints logged, owned, resolved</span></span>
           </a>
         </div>
-      </span>
-      <span class="dd">
-        <a href="tools.html" class="navlink">Free tools <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
+      </div>
+      <div class="dd">
+        <a href="/tools.html" class="navlink">Free tools <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
         <div class="dd-menu" style="width: 312px;">
-          <a href="free-haccp-template.html" class="dd-item">
+          <a href="/free-haccp-template.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7.5 11l4.5 4.5L16.5 11"></path><path d="M4.5 16v3a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5v-3"></path></svg></span>
             <span><span class="dd-title">Free HACCP template</span><span class="dd-sub">Printable pack — logs, schedules, checks</span></span>
           </a>
-          <a href="audit/" class="dd-item">
+          <a href="/audit/" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"></path><path d="M9 11.8l2.2 2.2 3.8-4"></path></svg></span>
             <span><span class="dd-title">Free self-audit</span><span class="dd-sub">Score your kitchen like an EHO would</span></span>
           </a>
-          <a href="check-food-hygiene-rating.html" class="dd-item">
+          <a href="/check-food-hygiene-rating.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg></span>
             <span><span class="dd-title">Check a hygiene rating</span><span class="dd-sub">Live FSA rating of any UK venue</span></span>
           </a>
@@ -291,59 +305,60 @@ a:hover { color: #1f9d63; }
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5c-4.7 0-8.5 3-8.5 6.8 0 2.2 1.3 4.2 3.3 5.4L6 20.5l4-2.1c.6.1 1.3.2 2 .2 4.7 0 8.5-3 8.5-6.8S16.7 3.5 12 3.5z"></path></svg></span>
             <span><span class="dd-title">GPT food safety coach</span><span class="dd-sub">Ask anything about HACCP or allergens</span></span>
           </a>
-          <a href="london-food-hygiene-map.html" class="dd-item">
+          <a href="/london-food-hygiene-map.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20l-5.5-2V4L9 6M9 20l6-2M9 20V6M15 18l5.5 2V6L15 4M15 18V4M9 6l6-2"></path></svg></span>
             <span><span class="dd-title">Hygiene rating maps</span><span class="dd-sub">London, NYC &amp; SF — live inspection data</span></span>
           </a>
-          <div style="border-top: 1px solid #f2f3f5; margin-top: 6px; padding: 9px 10px;"><a href="tools.html" style="font-size: 13px; font-weight: 700; color: #1f7a52;">See all free tools →</a></div>
+          <div style="border-top: 1px solid #f2f3f5; margin-top: 6px; padding: 9px 10px;"><a href="/tools.html" style="font-size: 13px; font-weight: 700; color: #1f7a52;">See all free tools →</a></div>
         </div>
-      </span>
+      </div>
       <a href="/#pricing" class="navlink">Pricing</a>
       <a href="/#faq" class="navlink">FAQ</a>
-    </div>
+    </nav>
     <a href="https://app.blueroll.app/login" class="nav-signin" style="font-size: 13.5px; font-weight: 600; color: #41464d; white-space: nowrap; margin-left: auto;">Sign in</a>
-    <a href="https://app.blueroll.app/onboarding" class="btn-green" style="font-size: 13.5px; padding: 9px 18px; box-shadow: 0 1px 2px rgba(16,24,40,.1);">Start for free</a>
-    <button class="nav-burger" id="nav-burger" aria-label="Menu" aria-expanded="false">
+    <a href="https://app.blueroll.app/onboarding" class="btn-green" data-cta-location="header" style="font-size: 13.5px; padding: 9px 18px; box-shadow: 0 1px 2px rgba(16,24,40,.1);">Start for free</a>
+    <button class="nav-burger" id="nav-burger" type="button" aria-controls="mobile-menu" aria-label="Menu" aria-expanded="false">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
     </button>
   </div>
-</div>
+</header>
 
-<div class="mobile-menu" id="mobile-menu">
+<div class="mobile-menu br-site-chrome" id="mobile-menu" role="navigation" aria-label="Mobile navigation" hidden>
   <div class="mm-group">
     <div class="mm-label">Who it's for</div>
-    <a class="mm-link" href="independent-restaurant-food-safety.html">Independents</a>
-    <a class="mm-link" href="multi-site-food-safety.html">Groups &amp; estates <span class="tag-new">NEW</span></a>
-    <a class="mm-link" href="franchise-food-safety.html">Franchises</a>
+    <a class="mm-link" href="/independent-restaurant-food-safety.html">Independents</a>
+    <a class="mm-link" href="/multi-site-food-safety.html">Groups &amp; estates <span class="tag-new">NEW</span></a>
+    <a class="mm-link" href="/franchise-food-safety.html">Franchises</a>
   </div>
   <div class="mm-group">
     <div class="mm-label">Features</div>
-    <a class="mm-link" href="multi-site-food-safety.html">Multisite <span class="tag-new">NEW</span></a>
-    <a class="mm-link" href="haccp-checklists.html">HACCP Checklists</a>
-    <a class="mm-link" href="allergen-matrix.html">Allergen Matrix</a>
-    <a class="mm-link" href="ai-recipe-import.html">AI Recipe Import</a>
-    <a class="mm-link" href="compliance-reports.html">Compliance Reports</a>
-    <a class="mm-link" href="team-management.html">Team Management</a>
-    <a class="mm-link" href="deliveries.html">Deliveries</a>
-    <a class="mm-link" href="document-management.html">Documents</a>
-    <a class="mm-link" href="haccp-pack.html">HACCP Pack</a>
-    <a class="mm-link" href="incidents.html">Incidents</a>
+    <a class="mm-link" href="/multi-site-food-safety.html">Multisite <span class="tag-new">NEW</span></a>
+    <a class="mm-link" href="/haccp-checklists.html">HACCP Checklists</a>
+    <a class="mm-link" href="/allergen-matrix.html">Allergen Matrix</a>
+    <a class="mm-link" href="/ai-recipe-import.html">AI Recipe Import</a>
+    <a class="mm-link" href="/compliance-reports.html">Compliance Reports</a>
+    <a class="mm-link" href="/team-management.html">Team Management</a>
+    <a class="mm-link" href="/deliveries.html">Deliveries</a>
+    <a class="mm-link" href="/document-management.html">Documents</a>
+    <a class="mm-link" href="/haccp-pack.html">HACCP Pack</a>
+    <a class="mm-link" href="/incidents.html">Incidents</a>
   </div>
   <div class="mm-group">
     <div class="mm-label">Free tools</div>
-    <a class="mm-link" href="free-haccp-template.html">Free HACCP template</a>
-    <a class="mm-link" href="audit/">Free self-audit</a>
-    <a class="mm-link" href="check-food-hygiene-rating.html">Check a hygiene rating</a>
-    <a class="mm-link" href="london-food-hygiene-map.html">Hygiene rating maps</a>
-    <a class="mm-link" href="tools.html">See all free tools →</a>
+    <a class="mm-link" href="/free-haccp-template.html">Free HACCP template</a>
+    <a class="mm-link" href="/audit/">Free self-audit</a>
+    <a class="mm-link" href="/check-food-hygiene-rating.html">Check a hygiene rating</a>
+    <a class="mm-link" href="/london-food-hygiene-map.html">Hygiene rating maps</a>
+    <a class="mm-link" href="/tools.html">See all free tools →</a>
   </div>
   <div class="mm-group" style="border-bottom: none;">
     <a class="mm-link" href="/#pricing">Pricing</a>
     <a class="mm-link" href="/#faq">FAQ</a>
     <a class="mm-link" href="https://app.blueroll.app/login">Sign in</a>
   </div>
-  <a href="https://app.blueroll.app/onboarding" class="btn-green mm-cta">Start for free</a>
+  <a href="https://app.blueroll.app/onboarding" class="btn-green mm-cta" data-cta-location="mobile_menu">Start for free</a>
 </div>
+<!-- END SHARED SITE HEADER -->
 
 
 
@@ -352,8 +367,8 @@ a:hover { color: #1f9d63; }
 <div style="max-width: 1160px; margin: 52px auto 0; padding: 0 24px; text-align: center;">
   <div style="max-width: 820px; margin: 0 auto;">
     <div style="display: inline-flex; align-items: center; gap: 7px; background: #eaf4ee; color: #1f7a52; font-size: 12.5px; font-weight: 700; border-radius: 20px; padding: 5px 14px;">Feature · HACCP Checklists</div>
-    <h1 style="font-size: 54px; line-height: 1.05; font-weight: 800; letter-spacing: -0.04em; margin: 18px 0 0; text-wrap: balance;">Daily food safety checks, without the paper</h1>
-    <p style="font-size: 17px; line-height: 1.6; color: #5c626b; margin: 18px auto 0; max-width: 620px; text-wrap: pretty;">Opening checks, temperatures, closing, weekly deep clean — built-in UK templates your team ticks on their phones. Every entry lands timestamped in the diary, and the folder never needs printing again.</p>
+    <h1 style="font-size: 54px; line-height: 1.05; font-weight: 800; letter-spacing: -0.04em; margin: 18px 0 0; text-wrap: balance;">A HACCP app for your restaurant's daily checks</h1>
+    <p style="font-size: 17px; line-height: 1.6; color: #5c626b; margin: 18px auto 0; max-width: 620px; text-wrap: pretty;">Opening checks, temperature logs, closing and cleaning schedules on your team's phones. Blueroll saves who completed each digital HACCP checklist and when, flags readings outside your set range and keeps the manager's sign-off with the record.</p>
     <div style="display: flex; justify-content: center; gap: 12px; margin-top: 28px;">
       <a href="https://app.blueroll.app/onboarding" style="background: #1f9d63; color: #fff; font-size: 15px; font-weight: 700; padding: 13px 26px; border-radius: 8px; box-shadow: 0 12px 32px -14px rgba(31,157,99,.9);" class="gh0">Start for free</a>
       <a href="/#hero-demo" style="border: 1px solid #e2e4e8; background: #fff; color: #16181d; font-size: 15px; font-weight: 600; padding: 13px 26px; border-radius: 8px; display: inline-flex; align-items: center; gap: 9px;" class="gh1"><svg width="12" height="12" viewBox="0 0 24 24" fill="#1f7a52"><path d="M7 4.8v14.4c0 .9 1 1.4 1.7.9l11-7.2c.7-.4.7-1.4 0-1.8l-11-7.2c-.7-.5-1.7 0-1.7.9z"></path></svg>Watch the 60-second tour</a>
@@ -410,15 +425,48 @@ a:hover { color: #1f9d63; }
   </div>
 </div>
 
+<section class="hc-guide" aria-labelledby="haccp-shift-workflow">
+  <h2 id="haccp-shift-workflow">What a digital HACCP checklist covers during a shift</h2>
+  <p>Give the person doing each job a clear check, the right frequency and a place to record problems. Start with Blueroll's built-in templates and adapt them to your equipment, menu and agreed food safety procedures.</p>
+  <div class="hc-table-wrap" role="region" aria-label="Restaurant HACCP checklist workflow" tabindex="0">
+    <table>
+      <thead><tr><th scope="col">When</th><th scope="col">What your team records</th><th scope="col">What the manager reviews</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Before opening</th><td>Fridge and freezer readings, opening checks and any equipment or cleaning issues.</td><td>Completed checks, the person who entered them and readings outside the agreed range.</td></tr>
+        <tr><th scope="row">During service</th><td>Temperature checks relevant to your process, including hot holding, plus actions taken after failed checks.</td><td>The original reading and the corrective action on the same entry.</td></tr>
+        <tr><th scope="row">At delivery</th><td>Supplier, temperature, condition and a photo in <a href="/deliveries.html">delivery records</a>.</td><td>Acceptance or rejection and the reason, alongside your daily checks.</td></tr>
+        <tr><th scope="row">Closing and scheduled jobs</th><td>Closing checks and weekly or monthly tasks, such as deep cleaning and probe calibration.</td><td>Completed lists to sign off, then records filed by day, week and site.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>A failed check needs an action</h3>
+  <p>For example, a team member enters a fridge reading outside the range your kitchen has set. Blueroll flags the entry and notifies the manager. The team follows the kitchen's procedure, records what happened to the affected food and logs the action against that check. The manager can review the reading and response together. This is an example workflow; decisions about food safety follow your own documented controls.</p>
+</section>
+
+<section class="hc-guide" aria-labelledby="haccp-app-fit">
+  <h2 id="haccp-app-fit">Choosing a HACCP app for a small restaurant</h2>
+  <p>During a trial, run one opening shift, a delivery, a failed temperature check and a closing sign-off with the people who normally do those jobs. Then retrieve that day's records. This shows whether an app fits the kitchen more clearly than a feature list.</p>
+  <p><strong>Blueroll costs £24.99 per site per month</strong> with unlimited team members. It works on iOS, Android and the web. The 14-day web trial needs no card, and we set up your checks free from your existing sheets. See <a href="/#pricing">pricing and setup</a> or <a href="/best-food-safety-apps-uk.html">compare UK food safety apps</a>.</p>
+  <p>Temperature readings are entered by your team. Blueroll does not connect to wireless fridge sensors or Bluetooth probes and does not provide batch traceability. If those are essential, include them in your comparison. For groups, see the <a href="/multi-site-food-safety.html">multi-site dashboard</a>.</p>
+  <div class="hc-note">
+    <p><strong>Your HACCP plan still needs your kitchen's decisions.</strong> Daily checklists record monitoring and actions. You still identify hazards, decide which controls are critical and review whether they work. The <a href="https://myhaccp.food.gov.uk/help/guidance/introduction-haccp-principles">FSA's HACCP principles</a> explain those responsibilities. For a starting document, use our <a href="/free-haccp-template.html">free HACCP plan template</a>; for the catering diary and safe methods, see <a href="/sfbb-app.html">SFBB in Blueroll</a>.</p>
+  </div>
+  <p>Already using paper? Try the <a href="/kitchen-cleaning-schedule-template.html">cleaning schedule template</a> and <a href="/fridge-temperature-log.html">fridge temperature log</a> to organise your current checks before moving them into the app.</p>
+</section>
+
 <div style="max-width: 760px; margin: 96px auto 0; padding: 0 24px;">
   <h2 style="font-size: 26px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.25;">Frequently asked questions</h2>
   <div style="margin-top: 8px;">
     <h3 style="font-size: 15.5px; font-weight: 700; margin: 22px 0 0;">Can it really replace my paper SFBB folder?</h3>
-    <p style="font-size: 14px; color: #5c626b; line-height: 1.65; margin: 6px 0 0;">Yes — that’s the whole point. The built-in templates cover the same daily checks as the FSA’s SFBB pack, your team fills them in on their phones, and every entry lands timestamped in the diary.</p>
+    <p style="font-size: 14px; color: #5c626b; line-height: 1.65; margin: 6px 0 0;">Blueroll brings daily SFBB-style checks, records and sign-offs onto your team's phones. Your business still needs safe methods that cover its actual food operations, kept up to date. See <a href="/sfbb-app.html">how the SFBB pack maps to Blueroll</a>.</p>
     <h3 style="font-size: 15.5px; font-weight: 700; margin: 22px 0 0;">Do EHO inspectors accept digital records?</h3>
-    <p style="font-size: 14px; color: #5c626b; line-height: 1.65; margin: 6px 0 0;">Yes. The law doesn’t require paper — inspectors need to see that checks were completed and recorded at the time, by a named person. Digital records make that easier to prove, not harder.</p>
+    <p style="font-size: 14px; color: #5c626b; line-height: 1.65; margin: 6px 0 0;">The FSA's <a href="https://www.gov.uk/government/publications/safer-food-better-business-sfbb/safer-food-better-business-sfbb">SFBB guidance for England and Wales</a> allows completed diary pages to be stored electronically or on paper. Keep your records accessible for the food safety officer. Using an app does not by itself establish compliance or guarantee a hygiene rating.</p>
     <h3 style="font-size: 15.5px; font-weight: 700; margin: 22px 0 0;">What if a fridge temperature is out of range?</h3>
     <p style="font-size: 14px; color: #5c626b; line-height: 1.65; margin: 6px 0 0;">It’s flagged the moment it’s logged and managers get a notification straight away. The corrective action is recorded against the same entry, so the paper trail is complete.</p>
+    <h3 style="font-size: 15.5px; font-weight: 700; margin: 22px 0 0;">Does the HACCP app measure temperatures automatically?</h3>
+    <p style="font-size: 14px; color: #5c626b; line-height: 1.65; margin: 6px 0 0;">Your team measures and enters temperatures. Blueroll checks a logged reading against the set range and flags exceptions. It does not connect to wireless fridge sensors or Bluetooth probes.</p>
+    <h3 style="font-size: 15.5px; font-weight: 700; margin: 22px 0 0;">How much does the HACCP app cost?</h3>
+    <p style="font-size: 14px; color: #5c626b; line-height: 1.65; margin: 6px 0 0;">£24.99 per site per month, with unlimited team members. Try it free for 14 days; signing up on the web needs no card. The team sets up your checks free from your existing sheets.</p>
   </div>
 </div>
 
@@ -427,8 +475,8 @@ a:hover { color: #1f9d63; }
   <div id="final-cta" style="position: relative; background: linear-gradient(105deg, #14382a, #0f2b1e 55%, #0a1f15); border-radius: 28px; padding: 64px 56px 58px; text-align: center; color: #fff; overflow: hidden;">
     <span aria-hidden="true" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -54%); font-size: 560px; font-weight: 800; line-height: 1; color: rgba(255,255,255,.035); user-select: none; pointer-events: none; font-variant-numeric: tabular-nums;">5</span>
     <div style="position: relative; z-index: 1;">
-      <h2 style="font-size: 44px; font-weight: 800; letter-spacing: -0.035em; margin: 0; line-height: 1.08;">The 5 on your door<br>starts tonight.</h2>
-      <p style="font-size: 16.5px; margin: 18px auto 0; max-width: 520px; color: rgba(255,255,255,.66); line-height: 1.6; text-wrap: balance;">Ten minutes to set up. Built-in UK checklists, fridge temps, allergens and sign-offs — live before tomorrow's opening checks.</p>
+      <h2 style="font-size: 44px; font-weight: 800; letter-spacing: -0.035em; margin: 0; line-height: 1.08;">Put your daily checks<br>on your team's phones.</h2>
+      <p style="font-size: 16.5px; margin: 18px auto 0; max-width: 520px; color: rgba(255,255,255,.66); line-height: 1.6; text-wrap: balance;">Built-in UK checklists, fridge temperatures, allergens and manager sign-offs in one place. Start with the checks your kitchen already uses.</p>
       <div style="max-width: 780px; margin: 44px auto 0; position: relative;">
         <span style="position: absolute; top: 8px; left: 9%; right: 9%; height: 2px; background: rgba(255,255,255,.14); border-radius: 2px;"></span>
         <span style="position: absolute; top: 8px; left: 9%; right: 9%; height: 2px; background: linear-gradient(90deg, #1f9d63, #3fbf82); border-radius: 2px; transform-origin: left; animation: ctaProg 2.1s cubic-bezier(.4,0,.2,1) .3s both; animation-play-state: paused;" class="cta-node"></span>
@@ -448,8 +496,8 @@ a:hover { color: #1f9d63; }
   </div>
 </div>
 
-<!-- ============ FOOTER ============ -->
-<div style="background: #14161b; color: #9aa0a8;">
+<!-- BEGIN SHARED SITE FOOTER -->
+<footer id="br-site-footer" class="br-site-chrome" style="background: #14161b; color: #9aa0a8;">
   <div class="footer-grid" style="max-width: 1160px; margin: 0 auto; padding: 56px 24px 40px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; font-size: 12.5px;">
     <div>
       <div style="display: flex; align-items: center; gap: 9px; color: #fff; font-weight: 700; font-size: 16px;"><img src="/assets/blueroll-logo-v2.svg" alt="" style="height: 24px; filter: brightness(0) invert(1);"> Blueroll</div>
@@ -478,28 +526,19 @@ a:hover { color: #1f9d63; }
     </div>
     <div style="display: flex; flex-direction: column; gap: 9px;">
       <div style="color: #fff; font-weight: 700; font-size: 12px; margin-bottom: 4px;">Company</div>
-      <a href="#pricing" class="foot-link">Pricing</a>
+      <a href="/#pricing" class="foot-link">Pricing</a>
       <a href="/trail-alternative.html" class="foot-link">Trail alternative</a>
       <a href="/about.html" class="foot-link">About</a>
       <a href="/privacy.html" class="foot-link">Privacy</a>
       <a href="/terms.html" class="foot-link">Terms</a>
     </div>
   </div>
-</div>
+</footer>
+<!-- END SHARED SITE FOOTER -->
 
 
 <script>
 (function () {
-  var btn = document.getElementById('nav-burger'), menu = document.getElementById('mobile-menu');
-  if (btn && menu) {
-    var set = function (open) {
-      menu.classList.toggle('open', open);
-      document.body.classList.toggle('mm-lock', open);
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    };
-    btn.addEventListener('click', function () { set(!menu.classList.contains('open')); });
-    menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { set(false); }); });
-  }
   var el = document.getElementById('final-cta');
   if (el) {
     if (!('IntersectionObserver' in window)) { el.classList.add('cta-live'); return; }

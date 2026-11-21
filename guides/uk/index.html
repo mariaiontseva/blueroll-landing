@@ -126,8 +126,27 @@
         "position": 13,
         "url": "https://blueroll.app/trail-alternative.html",
         "name": "Blueroll as a Trail alternative"
+      },
+      {
+        "@type": "ListItem",
+        "position": 14,
+        "url": "https://blueroll.app/kitchen-cleaning-schedule-generator.html",
+        "name": "Free kitchen cleaning schedule generator"
+      },
+      {
+        "@type": "ListItem",
+        "position": 15,
+        "url": "https://blueroll.app/haccp-checklists.html",
+        "name": "HACCP app for restaurant checklists"
+      },
+      {
+        "@type": "ListItem",
+        "position": 16,
+        "url": "https://blueroll.app/sfbb-app.html",
+        "name": "Digital SFBB diary: free and paid options"
       }
-    ]
+    ],
+    "numberOfItems": 16
   }
 }
 </script>
@@ -259,7 +278,6 @@ nav {
 <script src="/geo-analytics.js" defer></script>
 <link rel="stylesheet" href="/site-chrome-v2.css?v=20260812">
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/site-footer.css?v=20260813">
 <style id="br-mobile-fix">
 @media (max-width: 960px) {
   div[style*="grid-template-columns:"] { grid-template-columns: 1fr !important; }
@@ -307,23 +325,25 @@ nav {
   div[style*="grid-template-columns: 1fr 1fr 1fr"][style*="border-top"] > div > div { white-space: normal !important; }
 }
 </style>
+<link rel="stylesheet" href="/site-chrome.css">
+<script src="/site-chrome.js" defer></script>
 </head>
 <body>
 
-<!-- ============ NAV ============ -->
-<div style="position: sticky; top: 0; z-index: 50; background: rgba(246,247,248,.9); backdrop-filter: blur(12px); border-bottom: 1px solid #e7e9ec;">
+<!-- BEGIN SHARED SITE HEADER -->
+<header id="br-site-header" class="br-site-chrome" style="position: sticky; top: 0; z-index: 50; background: rgba(246,247,248,.9); backdrop-filter: blur(12px); border-bottom: 1px solid #e7e9ec;">
   <div style="max-width: 1160px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; gap: 26px;">
     <a href="/" style="display: flex; align-items: center; gap: 9px; color: #16181d; font-weight: 700; font-size: 17px; white-space: nowrap;">
       <img src="/assets/blueroll-logo-v2.svg" alt="Blueroll" style="height: 26px; display: block;">
       <span>Blueroll</span>
     </a>
-    <div class="nav-links" style="display: flex; align-items: center; gap: 22px; font-size: 13.5px; font-weight: 500; color: #41464d; flex: 1; height: 100%;">
-      <span class="dd">
-        <a href="#audiences" class="navlink">Who it's for <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
+    <nav class="nav-links" aria-label="Primary navigation" style="display: flex; align-items: center; gap: 22px; font-size: 13.5px; font-weight: 500; color: #41464d; flex: 1; height: 100%;">
+      <div class="dd">
+        <a href="/#audiences" class="navlink">Who it's for <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
         <div class="dd-menu" style="width: 312px;">
           <a href="/independent-restaurant-food-safety.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a7 7 0 0 0-7 7c0 4.5 4.5 8.5 6.4 10.1a1 1 0 0 0 1.2 0C14.5 18.5 19 14.5 19 10a7 7 0 0 0-7-7z"></path><circle cx="12" cy="10" r="2.5"></circle></svg></span>
-            <span><span class="dd-title">Independents</span><span class="dd-sub">One kitchen, one folder, fully digital</span></span>
+            <span><span class="dd-title">Independents</span><span class="dd-sub">One kitchen, one folder — fully digital</span></span>
           </a>
           <a href="/multi-site-food-safety.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M3.5 12h17"></path><path d="M12 3.5c-2.5 2.3-3.8 5.2-3.8 8.5s1.3 6.2 3.8 8.5c2.5-2.3 3.8-5.2 3.8-8.5S14.5 5.8 12 3.5z"></path></svg></span>
@@ -334,9 +354,9 @@ nav {
             <span><span class="dd-title">Franchises</span><span class="dd-sub">Central standards, local execution</span></span>
           </a>
         </div>
-      </span>
-      <span class="dd">
-        <a href="#features" class="navlink">Features <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
+      </div>
+      <div class="dd">
+        <a href="/#features" class="navlink">Features <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
         <div class="dd-menu dd-grid">
           <a href="/multi-site-food-safety.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.2"></circle><circle cx="5" cy="5" r="2.2"></circle><circle cx="19" cy="5" r="2.2"></circle><circle cx="5" cy="19" r="2.2"></circle><circle cx="19" cy="19" r="2.2"></circle><path d="M6.6 6.6l3.8 3.8M17.4 6.6l-3.8 3.8M6.6 17.4l3.8-3.8M17.4 17.4l-3.8-3.8"></path></svg></span>
@@ -379,13 +399,13 @@ nav {
             <span><span class="dd-title">Incidents</span><span class="dd-sub">Complaints logged, owned, resolved</span></span>
           </a>
         </div>
-      </span>
-      <span class="dd">
+      </div>
+      <div class="dd">
         <a href="/tools.html" class="navlink">Free tools <span style="font-size: 9px; color: #9aa0a8;">▾</span></a>
         <div class="dd-menu" style="width: 312px;">
           <a href="/free-haccp-template.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7.5 11l4.5 4.5L16.5 11"></path><path d="M4.5 16v3a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5v-3"></path></svg></span>
-            <span><span class="dd-title">Free HACCP template</span><span class="dd-sub">Printable pack, logs, schedules, checks</span></span>
+            <span><span class="dd-title">Free HACCP template</span><span class="dd-sub">Printable pack — logs, schedules, checks</span></span>
           </a>
           <a href="/audit/" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"></path><path d="M9 11.8l2.2 2.2 3.8-4"></path></svg></span>
@@ -401,23 +421,23 @@ nav {
           </a>
           <a href="/london-food-hygiene-map.html" class="dd-item">
             <span class="dd-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1f7a52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20l-5.5-2V4L9 6M9 20l6-2M9 20V6M15 18l5.5 2V6L15 4M15 18V4M9 6l6-2"></path></svg></span>
-            <span><span class="dd-title">Hygiene rating maps</span><span class="dd-sub">London, NYC &amp; SF, live inspection data</span></span>
+            <span><span class="dd-title">Hygiene rating maps</span><span class="dd-sub">London, NYC &amp; SF — live inspection data</span></span>
           </a>
           <div style="border-top: 1px solid #f2f3f5; margin-top: 6px; padding: 9px 10px;"><a href="/tools.html" style="font-size: 13px; font-weight: 700; color: #1f7a52;">See all free tools →</a></div>
         </div>
-      </span>
-      <a href="#pricing" class="navlink">Pricing</a>
-      <a href="#faq" class="navlink">FAQ</a>
-    </div>
+      </div>
+      <a href="/#pricing" class="navlink">Pricing</a>
+      <a href="/#faq" class="navlink">FAQ</a>
+    </nav>
     <a href="https://app.blueroll.app/login" class="nav-signin" style="font-size: 13.5px; font-weight: 600; color: #41464d; white-space: nowrap; margin-left: auto;">Sign in</a>
-    <a href="https://app.blueroll.app/onboarding" class="btn-green" style="font-size: 13.5px; padding: 9px 18px; box-shadow: 0 1px 2px rgba(16,24,40,.1);">Start for free</a>
-    <button class="nav-burger" id="nav-burger" aria-label="Menu" aria-expanded="false">
+    <a href="https://app.blueroll.app/onboarding" class="btn-green" data-cta-location="header" style="font-size: 13.5px; padding: 9px 18px; box-shadow: 0 1px 2px rgba(16,24,40,.1);">Start for free</a>
+    <button class="nav-burger" id="nav-burger" type="button" aria-controls="mobile-menu" aria-label="Menu" aria-expanded="false">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
     </button>
   </div>
-</div>
+</header>
 
-<div class="mobile-menu" id="mobile-menu">
+<div class="mobile-menu br-site-chrome" id="mobile-menu" role="navigation" aria-label="Mobile navigation" hidden>
   <div class="mm-group">
     <div class="mm-label">Who it's for</div>
     <a class="mm-link" href="/independent-restaurant-food-safety.html">Independents</a>
@@ -446,12 +466,13 @@ nav {
     <a class="mm-link" href="/tools.html">See all free tools →</a>
   </div>
   <div class="mm-group" style="border-bottom: none;">
-    <a class="mm-link" href="#pricing">Pricing</a>
-    <a class="mm-link" href="#faq">FAQ</a>
+    <a class="mm-link" href="/#pricing">Pricing</a>
+    <a class="mm-link" href="/#faq">FAQ</a>
     <a class="mm-link" href="https://app.blueroll.app/login">Sign in</a>
   </div>
-  <a href="https://app.blueroll.app/onboarding" class="btn-green mm-cta">Start for free</a>
+  <a href="https://app.blueroll.app/onboarding" class="btn-green mm-cta" data-cta-location="mobile_menu">Start for free</a>
 </div>
+<!-- END SHARED SITE HEADER -->
 
 <div style="max-width: 1160px; margin: 22px auto 0; padding: 0 24px; font-size: 12.5px; color: #8a9099;"><a href="/">Blueroll</a> <span style="color: #c6cad0;">›</span> <span style="color: #5c626b; font-weight: 600;">UK Restaurant Operations & Food Safety Library</span></div>
 
@@ -625,7 +646,7 @@ nav {
         <span class="card-time">2 min setup</span>
       </div>
       <h3>Rating badge widget for your website</h3>
-      <p>Embed your FHRS rating on your restaurant website with a beautiful auto-updating badge. Works for UK and US. Copy-paste embed code, two styles, free forever.</p>
+      <p>Add an official live FSA widget or a custom snapshot badge to your restaurant website. Includes installation guidance for common website builders.</p>
       <span class="card-cta">Get the widget <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></span>
     </a>
 
@@ -640,6 +661,16 @@ nav {
     </a>
 
   </div>
+</section>
+
+<section class="section" aria-labelledby="kitchen-schedule-tool">
+  <div class="section-head"><h2 id="kitchen-schedule-tool">Build a cleaning schedule for your kitchen</h2></div>
+  <a class="card" href="/kitchen-cleaning-schedule-generator.html">
+    <div class="card-meta"><span class="card-tag tool">Free interactive tool</span><span class="card-time">No email or account</span></div>
+    <h3>Kitchen cleaning schedule generator</h3>
+    <p>Add your tasks, methods, frequencies and responsibilities. Print a weekly sheet with space for sign-offs, or export CSV for a spreadsheet.</p>
+    <span class="card-cta">Create your schedule →</span>
+  </a>
 </section>
 
 <section class="section" aria-labelledby="choosing-food-safety-app">
@@ -660,6 +691,14 @@ nav {
   </div>
 </section>
 
+<section class="section" aria-labelledby="digital-kitchen-records">
+  <div class="section-head"><h2 id="digital-kitchen-records">Digital HACCP and SFBB records</h2></div>
+  <div class="grid">
+    <a class="card" href="/haccp-checklists.html"><div class="card-meta"><span class="card-tag">HACCP app</span></div><h3>HACCP app for restaurant checklists</h3><p>See how opening checks, temperature records, failed checks and manager review work during a shift.</p><span class="card-cta">Explore digital HACCP →</span></a>
+    <a class="card" href="/sfbb-app.html"><div class="card-meta"><span class="card-tag">SFBB diary</span></div><h3>Digital SFBB diary: free and paid options</h3><p>Compare ways to keep your daily diary on a phone and use the one-shift checklist to evaluate an app.</p><span class="card-cta">Choose an SFBB app →</span></a>
+  </div>
+</section>
+
 <div class="cta-banner">
   <div class="cta-inner">
     <h3>Stop printing checklists. Start with Blueroll.</h3>
@@ -671,12 +710,8 @@ nav {
 
 
 
-<!-- ============ FOOTER ============ -->
-
-
-
-<!-- ============ FOOTER ============ -->
-<div style="background: #14161b; color: #9aa0a8;">
+<!-- BEGIN SHARED SITE FOOTER -->
+<footer id="br-site-footer" class="br-site-chrome" style="background: #14161b; color: #9aa0a8;">
   <div class="footer-grid" style="max-width: 1160px; margin: 0 auto; padding: 56px 24px 40px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; font-size: 12.5px;">
     <div>
       <div style="display: flex; align-items: center; gap: 9px; color: #fff; font-weight: 700; font-size: 16px;"><img src="/assets/blueroll-logo-v2.svg" alt="" style="height: 24px; filter: brightness(0) invert(1);"> Blueroll</div>
@@ -705,29 +740,18 @@ nav {
     </div>
     <div style="display: flex; flex-direction: column; gap: 9px;">
       <div style="color: #fff; font-weight: 700; font-size: 12px; margin-bottom: 4px;">Company</div>
-      <a href="#pricing" class="foot-link">Pricing</a>
+      <a href="/#pricing" class="foot-link">Pricing</a>
       <a href="/trail-alternative.html" class="foot-link">Trail alternative</a>
       <a href="/about.html" class="foot-link">About</a>
       <a href="/privacy.html" class="foot-link">Privacy</a>
       <a href="/terms.html" class="foot-link">Terms</a>
     </div>
   </div>
-</div>
+</footer>
+<!-- END SHARED SITE FOOTER -->
 
 
-<script>
-(function () {
-  var btn = document.getElementById('nav-burger'), menu = document.getElementById('mobile-menu');
-  if (!btn || !menu) return;
-  var set = function (open) {
-    menu.classList.toggle('open', open);
-    document.body.classList.toggle('mm-lock', open);
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-  };
-  btn.addEventListener('click', function () { set(!menu.classList.contains('open')); });
-  menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { set(false); }); });
-})();
-</script>
+
 </body>
 </html>
 
