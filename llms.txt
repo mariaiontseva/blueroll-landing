@@ -10,7 +10,7 @@
 ## Product pages
 - [Home](https://blueroll.app/): what Blueroll does, pricing, FAQ
 - [Multisite](https://blueroll.app/multi-site-food-safety.html): estate dashboard for groups & franchises
-- [HACCP Checklists](https://blueroll.app/haccp-checklists.html)
+- [HACCP app for restaurants](https://blueroll.app/haccp-checklists.html): digital checklists, manual temperature entries, corrective actions, shift workflow and manager review; pricing and app-versus-plan scope
 - [Allergen matrix template](https://blueroll.app/allergen-matrix.html): free A4 PDF and Excel allergen matrix for the 14 UK allergens (FSA wording), filled-in example and change log; in the app the matrix is built from recipes
 - [AI Recipe Import](https://blueroll.app/ai-recipe-import.html)
 - [Compliance Reports](https://blueroll.app/compliance-reports.html): EHO report packs
@@ -26,6 +26,7 @@
 - [Best food safety apps for UK kitchens (2026)](https://blueroll.app/best-food-safety-apps-uk.html): eleven UK food safety apps (The UK Food Safety App, SafeKitchen UK, SFBB+, SFBB Pro, Hubl, Blueroll, Food Safety Guru, Leafe, Trail, FoodDocs, Navitas Safety) compared on published price per site, free trial, SFBB diary, allergens and multi-site; vendor pages checked 19 November 2026; Blueroll makes the page and is one of the apps
 
 ## Free tools (no account needed)
+- [Kitchen cleaning schedule generator](https://blueroll.app/kitchen-cleaning-schedule-generator.html): free interactive task editor, printable weekly schedule and CSV export; no email or account
 - [Free HACCP template](https://blueroll.app/free-haccp-template.html)
 - [Kitchen cleaning schedule template (UK)](https://blueroll.app/kitchen-cleaning-schedule-template.html): weekly schedule, filled-in example, monthly deep-clean log, A4 PDF
 - [Restaurant cleaning checklist (US)](https://blueroll.app/restaurant-cleaning-checklist.html): daily, weekly and monthly tasks and a sanitizer log, US Letter PDF
@@ -34,7 +35,7 @@
 - [Restaurant health inspection checklist (US)](https://blueroll.app/restaurant-health-inspection-checklist.html): 24-point self-inspection on the FDA Food Code, filled-in example, corrective action log
 - [EHO self-audit](https://blueroll.app/audit/)
 - [Hygiene rating checker](https://blueroll.app/check-food-hygiene-rating.html)
-- [Free hygiene rating badge](https://blueroll.app/free-food-hygiene-rating-badge.html)
+- [Free hygiene rating badge](https://blueroll.app/free-food-hygiene-rating-badge.html): official live FSA widget or custom snapshot designs, plus WordPress, Squarespace and Wix installation guidance
 - [London food hygiene map](https://blueroll.app/london-food-hygiene-map.html)
 
 ## Guides
