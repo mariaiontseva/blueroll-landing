@@ -117,7 +117,7 @@ HEADER = f"""<input type="checkbox" id="bx-burger-cb" class="bx-burger-cb">
     </div>
     <a href="/#pricing">Pricing</a>
     <a href="mailto:hello@blueroll.app?subject=Blueroll%20demo">Book a Demo</a>
-    <a href="https://app.blueroll.app/" class="bx-btn">Start for Free</a>
+    <a href="https://app.blueroll.app/onboarding" class="bx-btn">Start for Free</a>
   </div>
   <label for="bx-burger-cb" class="bx-burger" aria-label="Menu"><span></span><span></span><span></span></label>
 </header>
@@ -127,7 +127,7 @@ HEADER = f"""<input type="checkbox" id="bx-burger-cb" class="bx-burger-cb">
   <a href="/haccp-checklists.html">HACCP Checklists</a><a href="/allergen-matrix.html">Allergen Matrix</a><a href="/ai-recipe-import.html">AI Recipe Import</a><a href="/compliance-reports.html">Compliance Reports</a><a href="/deliveries.html">Deliveries</a><a href="/document-management.html">Documents</a><a href="/team-management.html">Team Management</a>
   <h4>Free Tools</h4>
   <a href="/audit/">Free Self-Audit</a><a href="/check-food-hygiene-rating.html">Check a Hygiene Rating</a><a href="/tools.html">See all free tools</a>
-  <h4>&nbsp;</h4><a href="/#pricing">Pricing</a><a href="mailto:hello@blueroll.app?subject=Blueroll%20demo">Book a Demo</a><a href="https://app.blueroll.app/" class="bx-m-cta">Start for Free</a>
+  <h4>&nbsp;</h4><a href="/#pricing">Pricing</a><a href="mailto:hello@blueroll.app?subject=Blueroll%20demo">Book a Demo</a><a href="https://app.blueroll.app/onboarding" class="bx-m-cta">Start for Free</a>
 </div>"""
 
 
@@ -387,14 +387,14 @@ def render_page(page: dict) -> str:
 <main>
   <header class="sp-hero"><div class="sp-shell">
     <nav class="sp-breadcrumb" aria-label="Breadcrumb"><ol><li><a href="/">Blueroll</a></li><li>›</li><li aria-current="page">{page['crumb']}</li></ol></nav>
-    <div class="sp-hero-grid"><div><div class="sp-eyebrow">{page['eyebrow']}</div><h1>{page['h1']}</h1><p class="sp-lede">{page['lede']}</p><div class="sp-actions"><a class="sp-btn sp-btn-primary" href="https://app.blueroll.app/">Start free for 14 days</a><a class="sp-btn" href="{secondary_href}">{secondary_label}</a></div><div class="sp-proof">{proof}</div></div>{render_demo(page['demo'])}</div>
+    <div class="sp-hero-grid"><div><div class="sp-eyebrow">{page['eyebrow']}</div><h1>{page['h1']}</h1><p class="sp-lede">{page['lede']}</p><div class="sp-actions"><a class="sp-btn sp-btn-primary" href="https://app.blueroll.app/onboarding">Start free for 14 days</a><a class="sp-btn" href="{secondary_href}">{secondary_label}</a></div><div class="sp-proof">{proof}</div></div>{render_demo(page['demo'])}</div>
   </div></header>
   <section class="sp-section"><div class="sp-shell"><div class="sp-heading"><div class="sp-kicker">{page['section_kicker']}</div><h2>{page['section_title']}</h2><p>{page['section_intro']}</p></div><div class="sp-card-grid">{cards}</div></div></section>
   <section class="sp-band"><div class="sp-shell sp-band-grid"><div><h2>{page['band_title']}</h2><p>{page['band_text']}</p></div><ul class="sp-band-list">{band_items}</ul></div></section>
   <section class="sp-section sp-section-soft"><div class="sp-shell"><div class="sp-heading"><div class="sp-kicker">How it works</div><h2>{page['workflow_title']}</h2></div><div class="sp-steps">{steps}</div></div></section>
   <section class="sp-section"><div class="sp-shell"><div class="sp-heading"><div class="sp-kicker">Connected product</div><h2>One record across the food-safety workflow.</h2><p>Use the parts you need now. The value grows when checks, people, recipes, allergens, documents and reports stay connected.</p></div><div class="sp-feature-grid">{features}</div></div></section>
   <section class="sp-section sp-section-soft"><div class="sp-shell sp-faq"><div><div class="sp-kicker">FAQ</div><h2>Questions before you switch.</h2></div><div class="sp-faq-list">{faqs}</div></div></section>
-  <section class="sp-section"><div class="sp-shell"><div class="sp-final"><h2>{page['cta_title']}</h2><p>{page['cta_text']}</p><div class="sp-actions"><a class="sp-btn sp-btn-primary" href="https://app.blueroll.app/">Start free for 14 days</a><a class="sp-btn" href="mailto:hello@blueroll.app?subject=Blueroll%20demo">Book a demo</a></div></div></div></section>
+  <section class="sp-section"><div class="sp-shell"><div class="sp-final"><h2>{page['cta_title']}</h2><p>{page['cta_text']}</p><div class="sp-actions"><a class="sp-btn sp-btn-primary" href="https://app.blueroll.app/onboarding">Start free for 14 days</a><a class="sp-btn" href="mailto:hello@blueroll.app?subject=Blueroll%20demo">Book a demo</a></div></div></div></section>
 </main>
 {render_footer()}
 </body>
