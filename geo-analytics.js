@@ -24,8 +24,21 @@
       }
     }
 
-    if (entrySource) window.sessionStorage.setItem('blueroll_ai_source', entrySource);
-    const sessionSource = entrySource || window.sessionStorage.getItem('blueroll_ai_source') || '';
+    // Browsers can deny storage while still allowing analytics events.
+    const storage = {
+      get(key) {
+        try { return window.sessionStorage.getItem(key); } catch (error) { return null; }
+      },
+      set(key, value) {
+        try { window.sessionStorage.setItem(key, value); } catch (error) { /* Optional attribution only. */ }
+      },
+      remove(key) {
+        try { window.sessionStorage.removeItem(key); } catch (error) { /* Optional attribution only. */ }
+      }
+    };
+
+    if (entrySource) storage.set('blueroll_ai_source', entrySource);
+    const sessionSource = entrySource || storage.get('blueroll_ai_source') || '';
 
     const sendEvent = (name, eventParams) => {
       window.dataLayer = window.dataLayer || [];
@@ -38,8 +51,8 @@
 
     if (entrySource) {
       const eventKey = `blueroll_ai_referral:${entrySource}:${window.location.pathname}`;
-      if (!window.sessionStorage.getItem(eventKey)) {
-        window.sessionStorage.setItem(eventKey, '1');
+      if (!storage.get(eventKey)) {
+        storage.set(eventKey, '1');
         sendEvent('ai_referral_landing', {
           ai_source: entrySource,
           landing_page: window.location.pathname,
@@ -54,9 +67,9 @@
     // Any other kind of page load clears the marker, so later back navigation on the site is not counted.
     window.addEventListener('pageshow', event => {
       try {
-        const stored = window.sessionStorage.getItem(trialClickKey);
+        const stored = storage.get(trialClickKey);
         if (!stored) return;
-        window.sessionStorage.removeItem(trialClickKey);
+        storage.remove(trialClickKey);
 
         const navigation = window.performance?.getEntriesByType?.('navigation')?.[0];
         if (!event.persisted && navigation?.type !== 'back_forward') return;
@@ -81,8 +94,9 @@
       let destination = '';
 
       if (/^https:\/\/app\.blueroll\.app(?:\/|$)/i.test(href)) {
-        // "Sign in" links share the app URL; keep returning customers out of the trial count.
-        eventName = /^\s*sign in\s*$/i.test(link.textContent || '') ? 'sign_in_click' : 'trial_start_click';
+        // Recognise the login route as well as its label on older pages.
+        const appPath = new URL(href).pathname;
+        eventName = appPath === '/login' || /^\s*sign in\s*$/i.test(link.textContent || '') ? 'sign_in_click' : 'trial_start_click';
         destination = 'app.blueroll.app';
       } else if (/^mailto:hello@blueroll\.app/i.test(href) && /demo/i.test(href)) {
         eventName = 'demo_request_click';
@@ -96,9 +110,14 @@
       }
 
       if (!eventName) return;
+      const placement = link.closest('[data-cta-location]');
+      const region = link.closest('nav, header, footer, section, [id]');
+      const ctaLocation = placement?.getAttribute('data-cta-location') ||
+        region?.id || region?.tagName?.toLowerCase() || 'content';
       sendEvent(eventName, {
         ai_source: sessionSource || '(not_ai_referred)',
         landing_page: window.location.pathname,
+        cta_location: ctaLocation,
         destination,
         transport_type: 'beacon'
       });
@@ -108,7 +127,7 @@
         (link.getAttribute('target') || '_self') === '_self';
       if (eventName === 'trial_start_click' && sameTab) {
         try {
-          window.sessionStorage.setItem(trialClickKey, JSON.stringify({ time: Date.now() }));
+          storage.set(trialClickKey, JSON.stringify({ time: Date.now() }));
         } catch (error) {
           // Storage can be blocked; the click itself has already been recorded.
         }
