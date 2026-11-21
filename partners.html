@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="app_icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Blueroll for Consultants — Partner Programme</title>
+
+<style>
+/* ── Tokens: taken from the live blueroll.app marketing palette ─────────── */
+:root{
+  --bg:#FAFAF7;
+  --card:#FFFFFF;
+  --border:#E8E5DF;
+  --ink:#111111;
+  --mid:#555555;
+  --light:#999999;
+  --green:#047857;
+  --green-dark:#065F46;
+  --green-deep:#022c22;
+  --green-tint:#ECF6F1;
+  --amber:#B45309;
+  --amber-tint:#FDF6EA;
+  --on-deep:#EAF3EF;
+  --on-deep-mid:#9FBDB1;
+  --on-deep-line:#0d3b2e;
+  --on-deep-card:#05372a;
+  --mint:#34D399;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#101110;
+    --card:#191A18;
+    --border:#2A2C29;
+    --ink:#F2F1ED;
+    --mid:#AFB0AB;
+    --light:#83857F;
+    --green:#34D399;
+    --green-dark:#6EE7B7;
+    --green-deep:#04231b;
+    --green-tint:#14261F;
+    --amber:#E0A33F;
+    --amber-tint:#241D11;
+    --on-deep:#EAF3EF;
+    --on-deep-mid:#9FBDB1;
+    --on-deep-line:#0c3527;
+    --on-deep-card:#052e23;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#101110;
+  --card:#191A18;
+  --border:#2A2C29;
+  --ink:#F2F1ED;
+  --mid:#AFB0AB;
+  --light:#83857F;
+  --green:#34D399;
+  --green-dark:#6EE7B7;
+  --green-deep:#04231b;
+  --green-tint:#14261F;
+  --amber:#E0A33F;
+  --amber-tint:#241D11;
+  --on-deep:#EAF3EF;
+  --on-deep-mid:#9FBDB1;
+  --on-deep-line:#0c3527;
+  --on-deep-card:#052e23;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.tnum{font-variant-numeric:tabular-nums}
+.wrap{max-width:1160px;margin:0 auto;padding:0 28px}
+section{padding:92px 0}
+.hairline{border-top:1px solid var(--border)}
+
+/* ── Type ──────────────────────────────────────────────────────────────── */
+h1,h2,h3{margin:0;text-wrap:balance}
+h1{font-size:54px;line-height:1.06;font-weight:800;letter-spacing:-1.6px;max-width:15ch}
+h2{font-size:36px;line-height:1.12;font-weight:800;letter-spacing:-1px;max-width:20ch}
+h3{font-size:19px;line-height:1.3;font-weight:700;letter-spacing:-0.4px}
+p{margin:0}
+.eyebrow{
+  font-size:12px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;
+  color:var(--green);margin-bottom:18px
+}
+.lede{font-size:19px;line-height:1.55;color:var(--mid);max-width:54ch;margin-top:22px;letter-spacing:-0.2px}
+.sub{font-size:17px;color:var(--mid);max-width:60ch;letter-spacing:-0.2px}
+.sechead{margin-bottom:44px}
+.sechead .sub{margin-top:18px}
+
+/* ── Buttons ───────────────────────────────────────────────────────────── */
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;padding:16px 32px;border-radius:10px;
+  font-size:16px;font-weight:700;text-decoration:none;letter-spacing:-0.2px;
+  border:1.5px solid transparent;transition:background .15s,border-color .15s,color .15s
+}
+.btn-green{background:var(--green);color:#fff}
+.btn-green:hover{background:var(--green-dark)}
+.btn-outline{background:none;color:var(--ink);border-color:var(--border)}
+.btn-outline:hover{border-color:var(--light)}
+.btn-light{background:#fff;color:var(--green-deep)}
+.btn-light:hover{background:var(--green-tint)}
+a:focus-visible{outline:2.5px solid var(--green);outline-offset:3px;border-radius:6px}
+
+/* ── Nav ───────────────────────────────────────────────────────────────── */
+.nav{
+  position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--border)
+}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:20px;height:70px}
+.logo{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:800;letter-spacing:-0.5px}
+.logo .sq{width:28px;height:28px;border-radius:8px;background:var(--green);color:#fff;display:grid;place-items:center;font-size:16px;font-weight:800}
+.nav-links{display:flex;gap:30px}
+.nav-links a{color:var(--mid);text-decoration:none;font-size:15px;font-weight:500;letter-spacing:-0.2px}
+.nav-links a:hover{color:var(--ink)}
+.nav .btn{padding:11px 22px;font-size:15px}
+
+/* ── Hero ──────────────────────────────────────────────────────────────── */
+.hero{padding:96px 0 88px}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:72px;align-items:center}
+
+/* ── Remittance statement ──────────────────────────────────────────────── */
+.stmt{
+  border-radius:16px;overflow:hidden;background:var(--card);border:1px solid var(--border);
+  box-shadow:0 20px 60px rgba(2,44,34,0.10)
+}
+.stmt-top{
+  background:var(--green-deep);color:var(--on-deep);padding:22px 26px;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:16px
+}
+.stmt-top .label{font-size:11px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--on-deep-mid)}
+.stmt-top .val{font-size:19px;font-weight:800;letter-spacing:-0.4px;margin-top:5px}
+.stmt-top .r{text-align:right}
+.stmt-body{padding:8px 26px 22px}
+.line{
+  display:grid;grid-template-columns:1fr auto auto;gap:18px;align-items:baseline;
+  padding:15px 0;border-bottom:1px solid var(--border)
+}
+.line .what{font-size:16px;font-weight:600;letter-spacing:-0.2px}
+.line .qty{font-size:14px;color:var(--light);white-space:nowrap}
+.line .amt{font-size:16px;font-weight:600;text-align:right;min-width:88px}
+.line.sum{border-bottom:2px solid var(--ink);padding-top:18px}
+.line.sum .what,.line.sum .amt{font-weight:700}
+.line.share{border-bottom:0;padding-bottom:8px}
+.line.share .what{color:var(--green)}
+.line.share .amt{color:var(--green);font-weight:800}
+.stmt-foot{
+  background:var(--green-tint);padding:18px 26px;display:flex;align-items:center;
+  justify-content:space-between;gap:16px;border-top:1px solid var(--border)
+}
+.stmt-foot .who{font-size:14px;font-weight:600;color:var(--green-dark)}
+.stmt-foot .who small{display:block;font-weight:500;color:var(--mid);font-size:12.5px;letter-spacing:0.2px;margin-top:2px}
+.stmt-foot .big{font-size:28px;font-weight:800;letter-spacing:-1px;color:var(--green-dark)}
+.stmt-note{font-size:12.5px;color:var(--light);margin-top:14px;text-align:center;letter-spacing:0.1px}
+
+/* ── Toolkit ───────────────────────────────────────────────────────────── */
+.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.tool{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;padding:30px;
+  display:flex;flex-direction:column;gap:14px
+}
+.tool-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.chip{
+  display:inline-flex;align-items:center;padding:5px 12px;border-radius:999px;
+  font-size:12px;font-weight:700;letter-spacing:0.2px;background:var(--green-tint);color:var(--green-dark)
+}
+.tool p{font-size:16px;color:var(--mid);letter-spacing:-0.2px}
+.speclist{margin-top:4px;border-top:1px solid var(--border)}
+.spec{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid var(--border);font-size:14.5px}
+.spec:last-child{border-bottom:0}
+.spec span:first-child{color:var(--light)}
+.spec span:last-child{font-weight:600;text-align:right;letter-spacing:-0.2px}
+
+/* ── Money band ────────────────────────────────────────────────────────── */
+.band{background:var(--green-deep);color:var(--on-deep)}
+.band h2{color:#fff}
+.band .eyebrow{color:var(--mint)}
+.band .sub{color:var(--on-deep-mid)}
+.band-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:56px;align-items:start}
+.term{padding:17px 0;border-bottom:1px solid var(--on-deep-line);display:flex;gap:18px;align-items:baseline}
+.term:first-child{padding-top:0}
+.term:last-child{border-bottom:0}
+.term b{font-size:15px;font-weight:700;min-width:104px;color:#fff;letter-spacing:-0.2px}
+.term span{font-size:15px;color:var(--on-deep-mid);letter-spacing:-0.2px}
+.earn{background:var(--on-deep-card);border:1px solid var(--on-deep-line);border-radius:16px;overflow:hidden}
+.earn-head{padding:18px 24px;border-bottom:1px solid var(--on-deep-line);font-size:14px;color:var(--on-deep-mid);letter-spacing:-0.1px}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:460px}
+.earn th{
+  text-align:right;padding:14px 24px;font-size:11.5px;font-weight:700;letter-spacing:1.4px;
+  text-transform:uppercase;color:var(--on-deep-mid);border-bottom:1px solid var(--on-deep-line)
+}
+.earn th:first-child{text-align:left}
+.earn td{padding:17px 24px;border-bottom:1px solid var(--on-deep-line);text-align:right;font-size:17px;font-weight:600;color:#fff}
+.earn td:first-child{text-align:left;font-size:15px;font-weight:500;color:var(--on-deep-mid)}
+.earn tr:last-child td{border-bottom:0}
+.earn td.hi{color:var(--mint);font-weight:800}
+.earn-foot{padding:16px 24px;border-top:1px solid var(--on-deep-line);font-size:13px;color:var(--on-deep-mid);line-height:1.5}
+
+/* ── Retention ─────────────────────────────────────────────────────────── */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:30px}
+.panel > h3{margin-bottom:6px}
+.signal{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--border)}
+.signal:last-child{border-bottom:0;padding-bottom:0}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--green);margin-top:8px;flex:0 0 auto}
+.dot.amber{background:var(--amber)}
+.signal h3{font-size:16px;margin-bottom:3px}
+.signal p{font-size:15px;color:var(--mid);letter-spacing:-0.2px}
+
+/* ── Terms ─────────────────────────────────────────────────────────────── */
+.note{
+  background:var(--amber-tint);border:1px solid var(--border);border-radius:16px;
+  padding:26px 30px;display:flex;flex-direction:column;gap:10px;margin-bottom:12px
+}
+.note p{font-size:16px;color:var(--mid);max-width:78ch;letter-spacing:-0.2px}
+.rules{display:grid;grid-template-columns:repeat(2,1fr);gap:0 44px}
+.rule{padding:20px 0;border-bottom:1px solid var(--border)}
+.rule h3{font-size:16px;margin-bottom:4px}
+.rule p{font-size:15px;color:var(--mid);letter-spacing:-0.2px}
+
+/* ── Steps ─────────────────────────────────────────────────────────────── */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;counter-reset:s}
+.step{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px;counter-increment:s}
+.step:before{
+  content:counter(s,decimal-leading-zero);display:block;font-size:13px;font-weight:800;
+  color:var(--green);letter-spacing:1.4px;margin-bottom:12px
+}
+.step p{font-size:15px;color:var(--mid);margin-top:6px;letter-spacing:-0.2px}
+
+/* ── Close ─────────────────────────────────────────────────────────────── */
+.close{display:flex;flex-direction:column;align-items:center;gap:22px;text-align:center}
+.close .sub{text-align:center}
+footer{border-top:1px solid var(--border)}
+footer .in{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;padding:28px 0}
+footer p{font-size:14px;color:var(--light)}
+
+@media (max-width:940px){
+  .hero-grid,.band-grid,.split{grid-template-columns:1fr;gap:44px}
+  .tools,.rules{grid-template-columns:1fr}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  h1{font-size:38px;letter-spacing:-1.1px}
+  h2{font-size:29px;letter-spacing:-0.7px}
+  .nav-links{display:none}
+  section{padding:64px 0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="nav">
+  <div class="wrap nav-in">
+    <div class="logo"><span class="sq">B</span> Blueroll</div>
+    <nav class="nav-links">
+      <a href="#toolkit">Toolkit</a>
+      <a href="#earnings">Earnings</a>
+      <a href="#retention">Retention</a>
+      <a href="#terms">Terms</a>
+      <a href="partners-workspace.html">Workspace</a>
+    </nav>
+    <a class="btn btn-green" href="#apply">Apply</a>
+  </div>
+</div>
+
+<!-- ── Hero ──────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Partner Programme</div>
+      <h1>Your clients already need this. Now it pays you.</h1>
+      <p class="lede">
+        You audit kitchens, write HACCP plans and train teams. Blueroll carries your advice
+        between visits — and pays you half the revenue, every month, for as long as the
+        client stays.
+      </p>
+      <div class="row" style="margin-top:34px">
+        <a class="btn btn-green" href="#apply">Apply to the programme</a>
+        <a class="btn btn-outline" href="#toolkit">See what you get</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="stmt">
+        <div class="stmt-top">
+          <div>
+            <div class="label">Remittance advice</div>
+            <div class="val">Blueroll Partner Programme</div>
+          </div>
+          <div class="r">
+            <div class="label">Period</div>
+            <div class="val tnum">March</div>
+          </div>
+        </div>
+
+        <div class="stmt-body tnum">
+          <div class="line">
+            <span class="what">Pub group</span>
+            <span class="qty">16 sites</span>
+            <span class="amt">£399.84</span>
+          </div>
+          <div class="line">
+            <span class="what">Coffee group</span>
+            <span class="qty">13 sites</span>
+            <span class="amt">£324.87</span>
+          </div>
+          <div class="line">
+            <span class="what">Dessert group</span>
+            <span class="qty">7 sites</span>
+            <span class="amt">£174.93</span>
+          </div>
+          <div class="line sum">
+            <span class="what">Client revenue, ex VAT</span>
+            <span class="qty">36 sites</span>
+            <span class="amt">£899.64</span>
+          </div>
+          <div class="line share">
+            <span class="what">Your share</span>
+            <span class="qty">50%</span>
+            <span class="amt">£449.82</span>
+          </div>
+        </div>
+
+        <div class="stmt-foot">
+          <div class="who">
+            Paid 15 April
+            <small>Stripe Connect · straight to your bank</small>
+          </div>
+          <div class="big tnum">£449.82</div>
+        </div>
+      </div>
+      <p class="stmt-note">Illustration of a three-group book at list price. Groups shown by type, not by client.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Toolkit ───────────────────────────────────────────────────────── -->
+<div class="hairline"></div>
+<section id="toolkit">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="eyebrow">Agent workspace</div>
+      <h2>Four tools, one login</h2>
+      <p class="sub">
+        Everything you need to find a client, set them up in front of you, and keep them.
+        No sales collateral to invent, no spreadsheets to maintain.
+      </p>
+      <p style="margin-top:16px"><a class="btn btn-outline" href="partners-workspace.html">Look inside the workspace</a></p>
+    </div>
+
+    <div class="tools">
+
+      <div class="tool">
+        <div class="tool-top"><h3>Training</h3><span class="chip">Half a day</span></div>
+        <p>
+          A short course on running Blueroll: how the checklist packs map to SFBB and HACCP
+          principles, how to configure a site, and how to hand it to a head chef so it
+          survives past Monday. Product training — it complements your qualification, it
+          doesn't replace it.
+        </p>
+        <div class="speclist">
+          <div class="spec"><span>Format</span><span>7 modules, self-paced</span></div>
+          <div class="spec"><span>Assessment</span><span>Live setup of a demo 3-site group</span></div>
+          <div class="spec"><span>Refreshers</span><span>With every product release</span></div>
+        </div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-top"><h3>Leads</h3><span class="chip">Your territory</span></div>
+        <p>
+          Every food business in the UK, with its current FSA hygiene rating, inspection date
+          and contact route. Claim a set of postcodes or a city and the list is yours to work
+          — filtered to the operators who actually need help.
+        </p>
+        <div class="speclist">
+          <div class="spec"><span>Coverage</span><span class="tnum">680,978 establishments</span></div>
+          <div class="spec"><span>Reachable</span><span class="tnum">44,351 with a phone</span></div>
+          <div class="spec"><span>Multi-site groups</span><span class="tnum">869 chains of 2–20 sites</span></div>
+          <div class="spec"><span>Refresh</span><span>Synced from FSA daily</span></div>
+        </div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-top"><h3>Onboarding</h3><span class="chip">Minutes, not weeks</span></div>
+        <p>
+          Pick a pack, pick the sites, deploy. The packs are real operating sets — opening and
+          closing checks, temperature records, weekly and monthly tasks, ad-hoc logs — with UK
+          thresholds already set. Fridges and equipment get tuned per site afterwards, not before.
+        </p>
+        <div class="speclist">
+          <div class="spec"><span>Master set</span><span class="tnum">51 templates, 6 groups</span></div>
+          <div class="spec"><span>Kitchen packs</span><span>Restaurant · Pub · Bakery · Takeaway</span></div>
+          <div class="spec"><span>Thresholds</span><span>Cooked ≥75℃ · Hot hold &gt;63℃</span></div>
+          <div class="spec"><span>Migration</span><span>Import from their current system</span></div>
+        </div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-top"><h3>Discounts</h3><span class="chip">Yours to spend</span></div>
+        <p>
+          Close on price without asking us. Every agent gets an allowance to use as they see
+          fit — the client gets a better rate, and it comes out of your share, not off the
+          list price. Your judgement, your margin, no negotiation with head office.
+        </p>
+        <div class="speclist">
+          <div class="spec"><span>Allowance</span><span class="tnum">Up to 20% off list</span></div>
+          <div class="spec"><span>Funded from</span><span>Your commission</span></div>
+          <div class="spec"><span>Applied via</span><span>Your code, at sign-up</span></div>
+          <div class="spec"><span>List price</span><span>Public, same for everyone</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Money ─────────────────────────────────────────────────────────── -->
+<div class="band" id="earnings">
+  <section class="wrap" style="padding-left:28px;padding-right:28px">
+    <div class="sechead">
+      <div class="eyebrow">Getting paid</div>
+      <h2>Half the revenue, for as long as they stay</h2>
+      <p class="sub">
+        Not a finder's fee. A share of what the client actually pays, recurring, with no
+        cut-off at the end of year one.
+      </p>
+    </div>
+
+    <div class="band-grid">
+      <div>
+        <div class="term"><b>Rate</b><span>50% of net revenue on every account you sign</span></div>
+        <div class="term"><b>Base</b><span>Calculated on £24.99 per site excluding VAT — never on the VAT</span></div>
+        <div class="term"><b>Trigger</b><span>Accrues when the client's payment clears, not when they sign</span></div>
+        <div class="term"><b>Payout</b><span>Stripe Connect, to your bank, by the 15th of the following month</span></div>
+        <div class="term"><b>Refunds</b><span>A payment reversed before payout cancels that month's accrual</span></div>
+        <div class="term"><b>Growth</b><span>Client opens another site — your share grows with them, automatically</span></div>
+      </div>
+
+      <div class="earn">
+        <div class="earn-head">
+          A book of business built from groups of 7–20 sites (average 10.9), at list price
+        </div>
+        <div class="tablewrap">
+          <table class="tnum">
+            <thead>
+              <tr><th>Signing pace</th><th>Month 12</th><th>Month 24</th><th>Month 36</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>One group a month</td>
+                <td>£1,634</td><td>£3,269</td><td class="hi">£4,903</td>
+              </tr>
+              <tr>
+                <td>Two groups a month</td>
+                <td>£3,269</td><td>£6,537</td><td class="hi">£9,806</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="earn-foot">
+          Monthly commission, before tax. Modelled from list price and average group size —
+          not a record of past agent earnings. Your result depends on what you sign and what
+          you keep.
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ── Retention ─────────────────────────────────────────────────────── -->
+<section id="retention">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="eyebrow">Keeping the book</div>
+      <h2>A client who drifts stops paying you</h2>
+      <p class="sub">
+        Recurring commission cuts both ways: nobody has a stronger interest in these sites
+        still logging temperatures next year than you do. The workspace tells you when one
+        starts slipping, early enough to pick up the phone.
+      </p>
+    </div>
+
+    <div class="split">
+      <div class="panel">
+        <h3>Signals you get</h3>
+        <div class="signal">
+          <span class="dot amber"></span>
+          <div>
+            <h3>Checks stopped</h3>
+            <p>A site that completed its opening checks every day last month, and hasn't this week.</p>
+          </div>
+        </div>
+        <div class="signal">
+          <span class="dot amber"></span>
+          <div>
+            <h3>Rating moved</h3>
+            <p>FSA publishes a new score for one of your sites — you hear before the operator does.</p>
+          </div>
+        </div>
+        <div class="signal">
+          <span class="dot"></span>
+          <div>
+            <h3>New site opened</h3>
+            <p>A group in your book registers another premises. More sites, more commission.</p>
+          </div>
+        </div>
+        <div class="signal">
+          <span class="dot amber"></span>
+          <div>
+            <h3>Payment failed</h3>
+            <p>A card bounced. Usually an expired card rather than a decision — but only if someone calls.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>What's expected of you</h3>
+        <div class="signal">
+          <span class="dot"></span>
+          <div>
+            <h3>Be the first call</h3>
+            <p>Your clients contact you, not our support inbox. That's the trade for keeping the full rate.</p>
+          </div>
+        </div>
+        <div class="signal">
+          <span class="dot"></span>
+          <div>
+            <h3>Tune the sites</h3>
+            <p>Fridge lists, equipment, who signs off — the details that decide whether a pack survives week three.</p>
+          </div>
+        </div>
+        <div class="signal">
+          <span class="dot"></span>
+          <div>
+            <h3>Check in quarterly</h3>
+            <p>A short review alongside your own audit visit. Most churn is silent and preventable.</p>
+          </div>
+        </div>
+        <div class="signal">
+          <span class="dot"></span>
+          <div>
+            <h3>Escalate to us</h3>
+            <p>Anything that's the product's fault comes to us and stays our problem, not yours.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Terms ─────────────────────────────────────────────────────────── -->
+<div class="hairline"></div>
+<section id="terms">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="eyebrow">The small print, said plainly</div>
+      <h2>What we ask, and what we won't do</h2>
+    </div>
+
+    <div class="note">
+      <h3>This is a single-tier programme</h3>
+      <p>
+        You earn from clients you sign. There is no commission for recruiting other agents,
+        there is no joining fee, and there is nothing to buy. If anyone describes this to you
+        as a network you build underneath yourself, they have it wrong.
+      </p>
+    </div>
+
+    <div class="rules">
+      <div class="rule">
+        <h3>Your accounts stay yours</h3>
+        <p>We don't sell over the top of you, and we don't reassign a client you signed.</p>
+      </div>
+      <div class="rule">
+        <h3>The rate is personal</h3>
+        <p>Commission follows you, not your company. It isn't transferable or sold on without our agreement.</p>
+      </div>
+      <div class="rule">
+        <h3>Servicing keeps the rate</h3>
+        <p>The full share assumes you're the one looking after the client. Hand that back to us and it steps down.</p>
+      </div>
+      <div class="rule">
+        <h3>Terms don't change under you</h3>
+        <p>We can change the rate for future signings. Accounts already in your book keep the rate they were signed at.</p>
+      </div>
+      <div class="rule">
+        <h3>You carry your own cover</h3>
+        <p>You advise on food safety in your own name. Professional indemnity insurance is on you, as it already is.</p>
+      </div>
+      <div class="rule">
+        <h3>Leads stay in the workspace</h3>
+        <p>Work your territory freely inside the tool. The list itself isn't exportable, and isn't yours to take elsewhere.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Steps ─────────────────────────────────────────────────────────── -->
+<div class="hairline"></div>
+<section id="apply">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="eyebrow">Getting started</div>
+      <h2>Four steps, about a week</h2>
+      <p class="sub">
+        We take a small number of agents at a time, so every one of them gets a real
+        territory rather than a crowded one.
+      </p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <h3>Apply</h3>
+        <p>Company number, what you do now, roughly how many food clients you look after.</p>
+      </div>
+      <div class="step">
+        <h3>Talk</h3>
+        <p>Half an hour with us. We show the workspace, you tell us which postcodes you want.</p>
+      </div>
+      <div class="step">
+        <h3>Train</h3>
+        <p>The course and a live setup of a demo group. Half a day, at your own pace.</p>
+      </div>
+      <div class="step">
+        <h3>Start</h3>
+        <p>Territory unlocked, code issued, Stripe Connect linked. First client can be the same week.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hairline"></div>
+<section>
+  <div class="wrap close">
+    <h2 style="max-width:24ch">Take a territory before someone else does</h2>
+    <p class="sub">
+      Tell us where you work and which operators you already look after. If it fits, you'll
+      be set up inside a week.
+    </p>
+    <div class="row">
+      <a class="btn btn-green" href="mailto:partners@blueroll.app?subject=Partner%20programme%20application">Apply to the programme</a>
+      <a class="btn btn-outline" href="mailto:partners@blueroll.app?subject=Partner%20programme%20question">Ask a question first</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap in">
+    <p>Blueroll — food safety management for UK hospitality</p>
+    <p>partners@blueroll.app</p>
+  </div>
+</footer>
+
+</body>
+</html>

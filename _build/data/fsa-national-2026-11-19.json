@@ -1,0 +1,90 @@
+{
+ "as_of": "2026-11-19",
+ "councils": 331,
+ "national": {
+  "rated": 303278,
+  "at_5_pct": 77.5,
+  "below_5": 68175,
+  "below_5_pct": 22.5,
+  "below5_management_10plus_pct": 66.1,
+  "below5_hygiene_10plus_pct": 45.0,
+  "below5_structure_10plus_pct": 61.6,
+  "rated_0_to_2_pct": 3.0,
+  "median_days_since_inspection": 428,
+  "inspected_over_2y_ago_pct": 23.5
+ },
+ "by_type": {
+  "Restaurant/Cafe/Canteen": {
+   "rated": 117615,
+   "at_5_pct": 75.8,
+   "below_5": 28446,
+   "below_5_pct": 24.2,
+   "below5_management_10plus_pct": 66.4,
+   "below5_hygiene_10plus_pct": 47.4,
+   "below5_structure_10plus_pct": 61.6,
+   "rated_0_to_2_pct": 3.6,
+   "median_days_since_inspection": 387,
+   "inspected_over_2y_ago_pct": 16.2
+  },
+  "Hotel/bed & breakfast/guest house": {
+   "rated": 10689,
+   "at_5_pct": 85.4,
+   "below_5": 1565,
+   "below_5_pct": 14.6,
+   "below5_management_10plus_pct": 61.6,
+   "below5_hygiene_10plus_pct": 35.3,
+   "below5_structure_10plus_pct": 55.7,
+   "rated_0_to_2_pct": 1.3,
+   "median_days_since_inspection": 540,
+   "inspected_over_2y_ago_pct": 37.4
+  },
+  "Takeaway/sandwich shop": {
+   "rated": 50838,
+   "at_5_pct": 61.8,
+   "below_5": 19423,
+   "below_5_pct": 38.2,
+   "below5_management_10plus_pct": 69.3,
+   "below5_hygiene_10plus_pct": 53.5,
+   "below5_structure_10plus_pct": 67.0,
+   "rated_0_to_2_pct": 5.8,
+   "median_days_since_inspection": 366,
+   "inspected_over_2y_ago_pct": 11.8
+  },
+  "Pub/bar/nightclub": {
+   "rated": 43381,
+   "at_5_pct": 77.2,
+   "below_5": 9887,
+   "below_5_pct": 22.8,
+   "below5_management_10plus_pct": 53.5,
+   "below5_hygiene_10plus_pct": 32.9,
+   "below5_structure_10plus_pct": 69.5,
+   "rated_0_to_2_pct": 2.3,
+   "median_days_since_inspection": 510,
+   "inspected_over_2y_ago_pct": 33.3
+  },
+  "Other catering premises": {
+   "rated": 56820,
+   "at_5_pct": 89.3,
+   "below_5": 6103,
+   "below_5_pct": 10.7,
+   "below5_management_10plus_pct": 75.3,
+   "below5_hygiene_10plus_pct": 31.2,
+   "below5_structure_10plus_pct": 39.7,
+   "rated_0_to_2_pct": 1.0,
+   "median_days_since_inspection": 547,
+   "inspected_over_2y_ago_pct": 37.3
+  },
+  "Mobile caterer": {
+   "rated": 23935,
+   "at_5_pct": 88.5,
+   "below_5": 2751,
+   "below_5_pct": 11.5,
+   "below5_management_10plus_pct": 69.0,
+   "below5_hygiene_10plus_pct": 39.6,
+   "below5_structure_10plus_pct": 48.4,
+   "rated_0_to_2_pct": 1.3,
+   "median_days_since_inspection": 472,
+   "inspected_over_2y_ago_pct": 27.5
+  }
+ }
+}
