@@ -39,6 +39,9 @@ def strip_tags(html: str) -> str:
 
 def build(slug: str, cfg: dict) -> str:
     s = SKELETON
+    # The broad plan-writing guide belongs to the main search landing page.
+    # Keep the segment pages focused on their own kitchen type and examples.
+    s = re.sub(r'<!-- BEGIN MAIN HACCP PLAN GUIDE -->.*?<!-- END MAIN HACCP PLAN GUIDE -->\n*', '', s, flags=re.S)
     url = f"https://blueroll.app/{cfg['file']}"
 
     s = s.replace(MAIN_URL, url)                      # canonical, og:url, JSON-LD urls
@@ -91,3 +94,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
