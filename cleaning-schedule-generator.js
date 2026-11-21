@@ -286,6 +286,42 @@
       }
     });
 
+    // Share the public tool URL only. Never include entered kitchen or task data.
+    var copyToolButton = doc.getElementById('copy-tool-link');
+    var shareStatus = doc.getElementById('share-tool-status');
+    var shareFallback = doc.getElementById('share-tool-fallback');
+    var shareInput = doc.getElementById('share-tool-url');
+    var publicToolLink = 'https://blueroll.app/kitchen-cleaning-schedule-generator.html?utm_source=customer_share&utm_medium=referral&utm_campaign=cleaning_schedule_shared';
+    function trackSharing(name, channel) {
+      try { if (typeof win.gtag === 'function') win.gtag('event', name, { channel: channel, tool: 'cleaning_schedule' }); } catch (error) {}
+    }
+    if (copyToolButton && shareStatus && shareFallback && shareInput) {
+      shareInput.value = publicToolLink;
+      copyToolButton.disabled = false;
+      copyToolButton.addEventListener('click', function () {
+        function selectShareLink() {
+          shareFallback.hidden = false;
+          shareInput.focus();
+          shareInput.select();
+          shareStatus.textContent = 'Tool link selected. Press Ctrl+C or Command+C to copy, then paste it where you want to share.';
+          trackSharing('cleaning_schedule_link_copy_fallback', 'customer_share');
+        }
+        try {
+          if (!win.navigator.clipboard || typeof win.navigator.clipboard.writeText !== 'function') { selectShareLink(); return; }
+          win.navigator.clipboard.writeText(publicToolLink).then(function () {
+            shareFallback.hidden = true;
+            shareStatus.textContent = 'Tool link copied. Your kitchen name and schedule were not included.';
+            trackSharing('cleaning_schedule_link_copy', 'customer_share');
+          }).catch(selectShareLink);
+        } catch (error) { selectShareLink(); }
+      });
+      shareInput.addEventListener('click', function () { shareInput.select(); });
+    }
+    ['whatsapp', 'linkedin'].forEach(function (channel) {
+      var link = doc.getElementById('share-tool-' + channel);
+      if (link) link.addEventListener('click', function () { trackSharing('cleaning_schedule_share_open', channel); });
+    });
+
     date.value = currentMonday(new Date());
     renderEditor();
     renderPreview();
