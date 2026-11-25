@@ -110,6 +110,17 @@
       }
 
       if (!eventName) return;
+      if (eventName === 'trial_start_click') {
+        // Say which page sent the person to sign-up; onboarding keeps it on the account (signup_source).
+        try {
+          const u = new URL(link.href);
+          if (u.pathname.startsWith('/onboarding') && !u.searchParams.has('from')) {
+            const page = window.location.pathname.replace(/^\/+|\.html$/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+            u.searchParams.set('from', page || 'home');
+            link.href = u.toString();
+          }
+        } catch (error) { /* the link still works without it */ }
+      }
       const placement = link.closest('[data-cta-location]');
       const region = link.closest('nav, header, footer, section, [id]');
       const ctaLocation = placement?.getAttribute('data-cta-location') ||

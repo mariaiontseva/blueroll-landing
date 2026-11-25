@@ -59,7 +59,7 @@ p.body { margin: 10px 0 0; font-size: 16px; line-height: 1.6; color: #41464d; }
   <div id="next" class="hide">
     <h2 id="h2"></h2>
     <p class="body" id="move"></p>
-    <a class="btn" id="start" href="https://app.blueroll.app/onboarding">Start for free</a>
+    <a class="btn" id="start" href="https://app.blueroll.app/onboarding?from=r">Start for free</a>
     <p class="small">14 days free. No card needed.</p>
     <p class="small">Or email <a id="setup" href="mailto:hello@getblueroll.com">hello@getblueroll.com</a> and we set it up for you, free.</p>
   </div>
@@ -139,6 +139,8 @@ p.body { margin: 10px 0 0; font-size: 16px; line-height: 1.6; color: #41464d; }
     }
     $('h2').textContent = h2; $('move').textContent = move;
     $('setup').href = 'mailto:hello@getblueroll.com?subject=' + encodeURIComponent('Set up ' + name);
+    // Sign-up opens with this venue already picked: one screen, name, email and password.
+    if (id) $('start').href = 'https://app.blueroll.app/onboarding?fhrs=' + id + '&from=rating&src=' + encodeURIComponent(src || 'web') + (tpl ? '&t=' + tpl : '');
     $('next').classList.remove('hide');
     track('rating_page_view', { fhrs_id: id, rating: rating, src: src, tpl: tpl });
   }
