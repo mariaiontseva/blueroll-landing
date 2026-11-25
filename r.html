@@ -44,6 +44,10 @@ p.body { margin: 10px 0 0; font-size: 16px; line-height: 1.6; color: #41464d; }
 .small { margin: 10px 0 0; font-size: 14.5px; line-height: 1.5; color: #5c626b; text-align: center; }
 .src { margin: 40px 0 0; padding-top: 16px; border-top: 1px solid #e3e6e9; font-size: 13px; line-height: 1.55; color: #7a808a; }
 .hide { display: none; }
+.checks { list-style: none; margin: 18px 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 9px 18px; font-size: 15px; line-height: 1.4; color: #16181d; }
+.checks li { position: relative; padding-left: 24px; }
+.checks li::before { content: "✓"; position: absolute; left: 3px; top: 0; color: #1f7a52; font-weight: 700; }
+@media (max-width: 440px) { .checks { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -59,7 +63,17 @@ p.body { margin: 10px 0 0; font-size: 16px; line-height: 1.6; color: #41464d; }
   <div id="next" class="hide">
     <h2 id="h2"></h2>
     <p class="body" id="move"></p>
-    <a class="btn" id="start" href="https://app.blueroll.app/onboarding?from=r">Start for free</a>
+    <ul class="checks" aria-label="Daily checks">
+      <li>Opening and closing</li>
+      <li>Fridge and freezer temperatures</li>
+      <li>Cooking and reheating</li>
+      <li>Cooling hot food</li>
+      <li>Hot holding</li>
+      <li>Deliveries</li>
+      <li>Cleaning and cross-contamination</li>
+      <li>Weekly deep clean</li>
+    </ul>
+    <a class="btn" id="start" href="https://app.blueroll.app/onboarding?from=r">Start with these checks</a>
     <p class="small">14 days free. No card needed.</p>
     <p class="small">Or email <a id="setup" href="mailto:hello@getblueroll.com">hello@getblueroll.com</a> and we set it up for you, free.</p>
   </div>
@@ -125,17 +139,17 @@ p.body { margin: 10px 0 0; font-size: 16px; line-height: 1.6; color: #41464d; }
     var h2, move;
     if (n === 5) {
       h2 = 'Keeping the 5';
-      move = 'A 5 is re-earned at every visit, and inspectors do not call ahead. The management score rests on records for every day since the last one: fridge and freezer temperatures, cooking and cooling, cleaning, opening and closing checks. Blueroll puts those checks on your team\u2019s phones.';
+      move = 'A 5 is re-earned at every visit, and inspectors do not call ahead. The management score rests on records for every day since the last one. Blueroll puts these checks on your team\u2019s phones:';
     } else if (m !== null && m > 5) {
       h2 = 'What moves the management score';
-      move = 'It is marked on proof: a written food safety system, trained staff, and records that show control every day. Fridge and freezer temperatures, cooking and cooling, cleaning, opening and closing checks. Blueroll puts those checks on your team\u2019s phones, so the records are there when the inspector comes back.'
+      move = 'It is marked on proof: a written food safety system, trained staff, and records that show control every day. Blueroll puts these checks on your team\u2019s phones, so the records are there when the inspector comes back.'
         + (others ? ' The other scores are about the kitchen itself on the day, and no app fixes those.' : '');
     } else if (others) {
       h2 = 'What Blueroll can and cannot move';
       move = 'Food handling and the building are about the kitchen itself on the day, and no app fixes those. What Blueroll covers is the management score: daily checks on your team\u2019s phones, so the records are there when the inspector comes back.';
     } else {
       h2 = 'Being ready for the next visit';
-      move = 'Inspectors do not call ahead. Blueroll puts your daily checks on your team\u2019s phones, so the records are there when they come: fridge and freezer temperatures, cooking and cooling, cleaning, opening and closing checks.';
+      move = 'Inspectors do not call ahead. Blueroll puts these daily checks on your team\u2019s phones, so the records are there when they come.';
     }
     $('h2').textContent = h2; $('move').textContent = move;
     $('setup').href = 'mailto:hello@getblueroll.com?subject=' + encodeURIComponent('Set up ' + name);
