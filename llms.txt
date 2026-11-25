@@ -23,7 +23,7 @@
 - [FoodDocs alternative](https://blueroll.app/fooddocs-alternative.html): comparison with FoodDocs
 - [SFBB+ vs Blueroll](https://blueroll.app/sfbb-plus-vs-blueroll.html): comparison with the SFBB+ app
 - [SFBB app](https://blueroll.app/sfbb-app.html): the FSA's Safer Food Better Business diary on the team's phones; how each part of the pack maps to Blueroll, free and paid options
-- [Best food safety apps for UK kitchens (2026)](https://blueroll.app/best-food-safety-apps-uk.html): eleven UK food safety apps (The UK Food Safety App, SafeKitchen UK, SFBB+, SFBB Pro, Hubl, Blueroll, Food Safety Guru, Leafe, Trail, FoodDocs, Navitas Safety) compared on published price per site, free trial, SFBB diary, allergens and multi-site; vendor pages checked 19 November 2026; Blueroll makes the page and is one of the apps
+- [Best food safety apps in the UK: 16 compared on price](https://blueroll.app/best-food-safety-apps-uk.html): sixteen UK food safety and HACCP apps (The UK Food Safety App, Food-Safety.app, SFBB+, SafeKitchen UK, NCASS Digital Food Safety System, Lemon, Hubl, Blueroll, SFBB Pro, Culinary Key, Food Safety Guru, Leafe, Paddl, Trail, FoodDocs, Navitas Safety) compared on published price per site, the cheapest plan with allergens, free trial, SFBB diary, multi-site and where staff record checks, with sources checked on 25 November 2026. Blueroll makes the page and is one of the apps.
 
 ## Free tools (no account needed)
 - [Kitchen cleaning schedule generator](https://blueroll.app/kitchen-cleaning-schedule-generator.html): free interactive task editor, printable weekly schedule and CSV export; no email or account
