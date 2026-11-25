@@ -105,9 +105,15 @@ p.body { margin: 10px 0 0; font-size: 16px; line-height: 1.6; color: #41464d; }
   function show(v) {
     var name = v.name || 'Your business', rating = String(v.rating == null ? '' : v.rating);
     var h = num(v.h), s = num(v.s), m = num(v.m), n = num(rating);
+    // New venues: on the register, not inspected yet (Scotland writes it with a space).
+    var first = /^awaiting ?inspection$/i.test(rating);
     document.title = name + ': your food hygiene rating, score by score | Blueroll';
     $('venue').textContent = name;
-    if (n === null) {
+    if (first) {
+      document.title = name + ': ready for the first inspection | Blueroll';
+      $('h1').textContent = 'Waiting for its first inspection';
+      $('lead').textContent = 'Your council\u2019s food safety officer will visit to give the first rating, usually without calling ahead.';
+    } else if (n === null) {
       $('h1').textContent = rating ? 'Inspection result: ' + rating : 'No rating on the register yet';
       $('lead').textContent = v.date ? 'Last inspected on ' + day(v.date) + '.' : '';
     } else {
@@ -137,7 +143,10 @@ p.body { margin: 10px 0 0; font-size: 16px; line-height: 1.6; color: #41464d; }
     }
     var others = (h !== null && h > 5) || (s !== null && s > 5);
     var h2, move;
-    if (n === 5) {
+    if (first) {
+      h2 = 'Ready for the first visit';
+      move = 'The management score rests on your records: a food safety system, trained staff and daily checks. Blueroll puts these checks on your team\u2019s phones from day one, so the records are there when the inspector comes.';
+    } else if (n === 5) {
       h2 = 'Keeping the 5';
       move = 'A 5 is re-earned at every visit, and inspectors do not call ahead. The management score rests on records for every day since the last one. Blueroll puts these checks on your team\u2019s phones:';
     } else if (m !== null && m > 5) {
