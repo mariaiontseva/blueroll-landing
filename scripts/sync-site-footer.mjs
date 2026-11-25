@@ -30,7 +30,7 @@ const footer = `<!-- ============ FOOTER ============ -->
         <a href="https://apps.apple.com/app/id6760937451" aria-label="Download Blueroll on the App Store"><img src="/assets/badge-app-store.svg" alt="Download on the App Store"></a>
         <a href="https://play.google.com/store/apps/details?id=app.blueroll.mobile" aria-label="Get Blueroll on Google Play"><img src="/assets/badge-google-play.svg" alt="Get it on Google Play"></a>
       </div>
-      <div class="blueroll-footer__copyright">© 2026 Blueroll · London &amp; New York</div>
+      <div class="blueroll-footer__copyright">© 2026 Blueroll · London &amp; New York<br>Blueroll is a trading name of Cherrypicked Design Limited, registered in England and Wales, company number 12387565, registered office 38 Crouch Hill, London N4 4AU.</div>
     </div>
     <nav class="blueroll-footer__column" aria-label="Product">
       <div class="blueroll-footer__heading">Product</div>
