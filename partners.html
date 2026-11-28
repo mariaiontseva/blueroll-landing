@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="canonical" href="https://blueroll.app/partners.html">
+<meta name="description" content="Partner programme for UK food safety consultants and trainers. Your clients fill in their checks in WhatsApp or Telegram, you get a morning summary, and we pay £150 for every site you bring.">
+<link rel="icon" href="app_icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Blueroll Partner Programme</title>
+
+<style>
+/* ── Tokens: taken from the live blueroll.app marketing palette ─────────── */
+:root{
+  --bg:#FAFAF7;
+  --card:#FFFFFF;
+  --border:#E8E5DF;
+  --ink:#111111;
+  --mid:#555555;
+  --light:#999999;
+  --green:#047857;
+  --green-dark:#065F46;
+  --green-deep:#022c22;
+  --green-tint:#ECF6F1;
+  --amber:#B45309;
+  --amber-tint:#FDF6EA;
+  --on-deep:#EAF3EF;
+  --on-deep-mid:#9FBDB1;
+  --on-deep-line:#0d3b2e;
+  --on-deep-card:#05372a;
+  --mint:#34D399;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#101110;
+    --card:#191A18;
+    --border:#2A2C29;
+    --ink:#F2F1ED;
+    --mid:#AFB0AB;
+    --light:#83857F;
+    --green:#34D399;
+    --green-dark:#6EE7B7;
+    --green-deep:#04231b;
+    --green-tint:#14261F;
+    --amber:#E0A33F;
+    --amber-tint:#241D11;
+    --on-deep:#EAF3EF;
+    --on-deep-mid:#9FBDB1;
+    --on-deep-line:#0c3527;
+    --on-deep-card:#052e23;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#101110;
+  --card:#191A18;
+  --border:#2A2C29;
+  --ink:#F2F1ED;
+  --mid:#AFB0AB;
+  --light:#83857F;
+  --green:#34D399;
+  --green-dark:#6EE7B7;
+  --green-deep:#04231b;
+  --green-tint:#14261F;
+  --amber:#E0A33F;
+  --amber-tint:#241D11;
+  --on-deep:#EAF3EF;
+  --on-deep-mid:#9FBDB1;
+  --on-deep-line:#0c3527;
+  --on-deep-card:#052e23;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.tnum{font-variant-numeric:tabular-nums}
+.wrap{max-width:1160px;margin:0 auto;padding:0 28px}
+section{padding:92px 0}
+.hairline{border-top:1px solid var(--border)}
+
+/* ── Type ──────────────────────────────────────────────────────────────── */
+h1,h2,h3{margin:0;text-wrap:balance}
+h1{font-size:54px;line-height:1.06;font-weight:800;letter-spacing:-1.6px;max-width:15ch}
+h2{font-size:36px;line-height:1.12;font-weight:800;letter-spacing:-1px;max-width:20ch}
+h3{font-size:19px;line-height:1.3;font-weight:700;letter-spacing:-0.4px}
+p{margin:0}
+.eyebrow{
+  font-size:12px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;
+  color:var(--green);margin-bottom:18px
+}
+.lede{font-size:19px;line-height:1.55;color:var(--mid);max-width:54ch;margin-top:22px;letter-spacing:-0.2px}
+.sub{font-size:17px;color:var(--mid);max-width:60ch;letter-spacing:-0.2px}
+.sechead{margin-bottom:44px}
+.sechead .sub{margin-top:18px}
+
+/* ── Buttons ───────────────────────────────────────────────────────────── */
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;padding:16px 32px;border-radius:10px;
+  font-size:16px;font-weight:700;text-decoration:none;letter-spacing:-0.2px;
+  border:1.5px solid transparent;transition:background .15s,border-color .15s,color .15s
+}
+.btn-green{background:var(--green);color:#fff}
+.btn-green:hover{background:var(--green-dark)}
+.btn-outline{background:none;color:var(--ink);border-color:var(--border)}
+.btn-outline:hover{border-color:var(--light)}
+.btn-light{background:#fff;color:var(--green-deep)}
+.btn-light:hover{background:var(--green-tint)}
+a:focus-visible{outline:2.5px solid var(--green);outline-offset:3px;border-radius:6px}
+
+/* ── Nav ───────────────────────────────────────────────────────────────── */
+.nav{
+  position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--border)
+}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:20px;height:70px}
+.logo{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:800;letter-spacing:-0.5px}
+.logo .sq{width:28px;height:28px;border-radius:8px;background:var(--green);color:#fff;display:grid;place-items:center;font-size:16px;font-weight:800}
+.nav-links{display:flex;gap:30px}
+.nav-links a{color:var(--mid);text-decoration:none;font-size:15px;font-weight:500;letter-spacing:-0.2px}
+.nav-links a:hover{color:var(--ink)}
+.nav .btn{padding:11px 22px;font-size:15px}
+
+/* ── Hero ──────────────────────────────────────────────────────────────── */
+.hero{padding:96px 0 88px}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:72px;align-items:center}
+
+/* ── Remittance statement ──────────────────────────────────────────────── */
+.stmt{
+  border-radius:16px;overflow:hidden;background:var(--card);border:1px solid var(--border);
+  box-shadow:0 20px 60px rgba(2,44,34,0.10)
+}
+.stmt-top{
+  background:var(--green-deep);color:var(--on-deep);padding:22px 26px;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:16px
+}
+.stmt-top .label{font-size:11px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--on-deep-mid)}
+.stmt-top .val{font-size:19px;font-weight:800;letter-spacing:-0.4px;margin-top:5px}
+.stmt-top .r{text-align:right}
+.stmt-body{padding:8px 26px 22px}
+.line{
+  display:grid;grid-template-columns:1fr auto auto;gap:18px;align-items:baseline;
+  padding:15px 0;border-bottom:1px solid var(--border)
+}
+.line .what{font-size:16px;font-weight:600;letter-spacing:-0.2px}
+.line .qty{font-size:14px;color:var(--light);white-space:nowrap}
+.line .amt{font-size:16px;font-weight:600;text-align:right;min-width:88px}
+.line.sum{border-bottom:2px solid var(--ink);padding-top:18px}
+.line.sum .what,.line.sum .amt{font-weight:700}
+.line.share{border-bottom:0;padding-bottom:8px}
+.line.share .what{color:var(--green)}
+.line.share .amt{color:var(--green);font-weight:800}
+.stmt-foot{
+  background:var(--green-tint);padding:18px 26px;display:flex;align-items:center;
+  justify-content:space-between;gap:16px;border-top:1px solid var(--border)
+}
+.stmt-foot .who{font-size:14px;font-weight:600;color:var(--green-dark)}
+.stmt-foot .who small{display:block;font-weight:500;color:var(--mid);font-size:12.5px;letter-spacing:0.2px;margin-top:2px}
+.stmt-foot .big{font-size:28px;font-weight:800;letter-spacing:-1px;color:var(--green-dark)}
+.stmt-note{font-size:12.5px;color:var(--light);margin-top:14px;text-align:center;letter-spacing:0.1px}
+
+/* ── Toolkit ───────────────────────────────────────────────────────────── */
+.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.tool{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;padding:30px;
+  display:flex;flex-direction:column;gap:14px
+}
+.tool-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.chip{
+  display:inline-flex;align-items:center;padding:5px 12px;border-radius:999px;
+  font-size:12px;font-weight:700;letter-spacing:0.2px;background:var(--green-tint);color:var(--green-dark)
+}
+.tool p{font-size:16px;color:var(--mid);letter-spacing:-0.2px}
+.speclist{margin-top:4px;border-top:1px solid var(--border)}
+.spec{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid var(--border);font-size:14.5px}
+.spec:last-child{border-bottom:0}
+.spec span:first-child{color:var(--light)}
+.spec span:last-child{font-weight:600;text-align:right;letter-spacing:-0.2px}
+
+/* ── Money band ────────────────────────────────────────────────────────── */
+.band{background:var(--green-deep);color:var(--on-deep)}
+.band h2{color:#fff}
+.band .eyebrow{color:var(--mint)}
+.band .sub{color:var(--on-deep-mid)}
+.band-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:56px;align-items:start}
+.term{padding:17px 0;border-bottom:1px solid var(--on-deep-line);display:flex;gap:18px;align-items:baseline}
+.term:first-child{padding-top:0}
+.term:last-child{border-bottom:0}
+.term b{font-size:15px;font-weight:700;min-width:104px;color:#fff;letter-spacing:-0.2px}
+.term span{font-size:15px;color:var(--on-deep-mid);letter-spacing:-0.2px}
+.earn{background:var(--on-deep-card);border:1px solid var(--on-deep-line);border-radius:16px;overflow:hidden}
+.earn-head{padding:18px 24px;border-bottom:1px solid var(--on-deep-line);font-size:14px;color:var(--on-deep-mid);letter-spacing:-0.1px}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:460px}
+.earn th{
+  text-align:right;padding:14px 24px;font-size:11.5px;font-weight:700;letter-spacing:1.4px;
+  text-transform:uppercase;color:var(--on-deep-mid);border-bottom:1px solid var(--on-deep-line)
+}
+.earn th:first-child{text-align:left}
+.earn td{padding:17px 24px;border-bottom:1px solid var(--on-deep-line);text-align:right;font-size:17px;font-weight:600;color:#fff}
+.earn td:first-child{text-align:left;font-size:15px;font-weight:500;color:var(--on-deep-mid)}
+.earn tr:last-child td{border-bottom:0}
+.earn td.hi{color:var(--mint);font-weight:800}
+.earn-foot{padding:16px 24px;border-top:1px solid var(--on-deep-line);font-size:13px;color:var(--on-deep-mid);line-height:1.5}
+
+/* ── Retention ─────────────────────────────────────────────────────────── */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:30px}
+.panel > h3{margin-bottom:6px}
+.signal{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--border)}
+.signal:last-child{border-bottom:0;padding-bottom:0}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--green);margin-top:8px;flex:0 0 auto}
+.dot.amber{background:var(--amber)}
+.signal h3{font-size:16px;margin-bottom:3px}
+.signal p{font-size:15px;color:var(--mid);letter-spacing:-0.2px}
+
+/* ── Terms ─────────────────────────────────────────────────────────────── */
+.note{
+  background:var(--amber-tint);border:1px solid var(--border);border-radius:16px;
+  padding:26px 30px;display:flex;flex-direction:column;gap:10px;margin-bottom:12px
+}
+.note p{font-size:16px;color:var(--mid);max-width:78ch;letter-spacing:-0.2px}
+.rules{display:grid;grid-template-columns:repeat(2,1fr);gap:0 44px}
+.rule{padding:20px 0;border-bottom:1px solid var(--border)}
+.rule h3{font-size:16px;margin-bottom:4px}
+.rule p{font-size:15px;color:var(--mid);letter-spacing:-0.2px}
+
+/* ── Steps ─────────────────────────────────────────────────────────────── */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;counter-reset:s}
+.step{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px;counter-increment:s}
+.step:before{
+  content:counter(s,decimal-leading-zero);display:block;font-size:13px;font-weight:800;
+  color:var(--green);letter-spacing:1.4px;margin-bottom:12px
+}
+.step p{font-size:15px;color:var(--mid);margin-top:6px;letter-spacing:-0.2px}
+
+/* ── Close ─────────────────────────────────────────────────────────────── */
+.close{display:flex;flex-direction:column;align-items:center;gap:22px;text-align:center}
+.close .sub{text-align:center}
+footer{border-top:1px solid var(--border)}
+footer .in{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;padding:28px 0}
+footer p{font-size:14px;color:var(--light)}
+
+@media (max-width:940px){
+  .hero-grid,.band-grid,.split{grid-template-columns:1fr;gap:44px}
+  .tools,.rules{grid-template-columns:1fr}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  h1{font-size:38px;letter-spacing:-1.1px}
+  h2{font-size:29px;letter-spacing:-0.7px}
+  .nav-links{display:none}
+  section{padding:64px 0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="nav">
+  <div class="wrap nav-in">
+    <div class="logo"><span class="sq">B</span> Blueroll</div>
+    <nav class="nav-links">
+      <a href="#kitchen">Kitchen</a>
+      <a href="#toolkit">Toolkit</a>
+      <a href="#earnings">Earnings</a>
+      <a href="#retention">Retention</a>
+      <a href="#terms">Terms</a>
+    </nav>
+    <a class="btn btn-green" href="#apply">Apply</a>
+  </div>
+</div>
+
+<!-- ── Hero ──────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Partner Programme · founding partners</div>
+      <h1>Your clients already need this. Now it pays you.</h1>
+      <p class="lede">
+        You audit kitchens, write HACCP plans and train teams. Blueroll carries your advice
+        between visits: the kitchen fills its checks in WhatsApp or Telegram, and you get a
+        morning summary of how every client is doing. For every site you bring with a full setup, we pay you £150.
+      </p>
+      <div class="row" style="margin-top:34px">
+        <a class="btn btn-green" href="#apply">Apply to the programme</a>
+        <a class="btn btn-outline" href="#toolkit">See what you get</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="stmt">
+        <div class="stmt-top">
+          <div>
+            <div class="label">Remittance advice</div>
+            <div class="val">Blueroll Partner Programme</div>
+          </div>
+          <div class="r">
+            <div class="label">Period</div>
+            <div class="val tnum">March</div>
+          </div>
+        </div>
+
+        <div class="stmt-body tnum">
+          <div class="line">
+            <span class="what">Pub group · 1st payment</span>
+            <span class="qty">16 sites</span>
+            <span class="amt">£1,200.00</span>
+          </div>
+          <div class="line">
+            <span class="what">Coffee group · 2nd payment</span>
+            <span class="qty">13 sites</span>
+            <span class="amt">£975.00</span>
+          </div>
+          <div class="line">
+            <span class="what">Dessert group · 1st payment</span>
+            <span class="qty">7 sites</span>
+            <span class="amt">£525.00</span>
+          </div>
+          <div class="line sum">
+            <span class="what">Sites paid for this month</span>
+            <span class="qty">36 sites</span>
+            <span class="amt">£75 each</span>
+          </div>
+        </div>
+
+        <div class="stmt-foot">
+          <div class="who">
+            Paid 15 April
+            <small>Monthly statement · bank transfer</small>
+          </div>
+          <div class="big tnum">£2,700.00</div>
+        </div>
+      </div>
+      <p class="stmt-note">Illustration of three groups in one month. Groups shown by type, not by client.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Kitchen & quality ─────────────────────────────────────────────── -->
+<div class="hairline"></div>
+<section id="kitchen">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="eyebrow">How it works</div>
+      <h2>The kitchen fills it in WhatsApp. You keep an eye on it.</h2>
+      <p class="sub">
+        The hardest part of food safety records isn't the template. It's getting a busy team
+        to fill them in honestly, every day. Blueroll moves the filling into the chats the team
+        already uses, so your advice keeps working between visits.
+      </p>
+    </div>
+
+    <div class="split">
+      <div class="panel">
+        <h3>For the kitchen: no app to install</h3>
+        <div class="signal">
+          <span class="dot"></span>
+          <div>
+            <h3>Checks in the team chat</h3>
+            <p>Opening and closing checks, fridge and freezer temperatures, cooking and hot-hold logs, filled in from WhatsApp or a Telegram group in a few taps.</p>
+          </div>
+        </div>
+        <div class="signal">
+          <span class="dot"></span>
+          <div>
+            <h3>Reminders before the deadline</h3>
+            <p>A live list of what's due each morning, and a nudge to whoever hasn't done theirs. Ticked items update for the whole team.</p>
+          </div>
+        </div>
+        <div class="signal">
+          <span class="dot amber"></span>
+          <div>
+            <h3>Out of range? Fix it on the spot</h3>
+            <p>A reading outside the limit asks for a corrective action straight away, and the manager is alerted.</p>
+          </div>
+        </div>
+        <div class="signal">
+          <span class="dot"></span>
+          <div>
+            <h3>Set up once</h3>
+            <p>Choose which checks go to which chat and who's on each team. Staff join from an invite, with no accounts and no passwords.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>For you: a view of every client</h3>
+        <div class="signal">
+          <span class="dot"></span>
+          <div>
+            <h3>Morning summary</h3>
+            <p>One message in WhatsApp or Telegram each morning: which of your clients did their checks and which didn't. No need to log in to anything.</p>
+          </div>
+        </div>
+        <div class="signal">
+          <span class="dot"></span>
+          <div>
+            <h3>Rating changes in your area</h3>
+            <p>Once a week, the new FSA hygiene ratings for the postcodes you cover. Useful for your clients and for finding new ones.</p>
+          </div>
+        </div>
+        <div class="signal">
+          <span class="dot amber"></span>
+          <div>
+            <h3>Quality control, built with you</h3>
+            <p>Flagging entries that don't look real, sending them back to the team and signing off the week. We're building these with our founding partners during the pilot.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Toolkit ───────────────────────────────────────────────────────── -->
+<div class="hairline"></div>
+<section id="toolkit">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="eyebrow">What you get</div>
+      <h2>Everything to sign a client and keep them</h2>
+      <p class="sub">
+        No sales collateral to invent and no spreadsheets to maintain. What you need to find a
+        client, set them up and see how they're doing.
+      </p>
+      <p class="sub" style="margin-top:12px">
+        We're onboarding our founding partners personally. Everything below runs through
+        Blueroll itself, your chats and us.
+      </p>
+    </div>
+
+    <div class="tools">
+
+      <div class="tool">
+        <div class="tool-top"><h3>Morning summary</h3><span class="chip">WhatsApp · Telegram</span></div>
+        <p>
+          Every client you bring appears in one morning message:
+          who did their checks yesterday and who didn't. You don't need to log in anywhere
+          to know who needs a nudge.
+        </p>
+        <div class="speclist">
+          <div class="spec"><span>When</span><span>Every morning</span></div>
+          <div class="spec"><span>Covers</span><span>Every client you bring</span></div>
+        </div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-top"><h3>Leads</h3><span class="chip">Your territory</span></div>
+        <p>
+          Every food business in the UK, with its current FSA hygiene rating, inspection date
+          and contact route. Tell us your postcodes or city and we prepare your list,
+          filtered to the operators who actually need help.
+        </p>
+        <div class="speclist">
+          <div class="spec"><span>Coverage</span><span class="tnum">680,978 establishments</span></div>
+          <div class="spec"><span>Reachable</span><span class="tnum">44,351 with a phone</span></div>
+          <div class="spec"><span>Multi-site groups</span><span class="tnum">869 chains of 2 to 20 sites</span></div>
+          <div class="spec"><span>Refresh</span><span>From the FSA register, on request</span></div>
+        </div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-top"><h3>Onboarding</h3><span class="chip">Minutes, not weeks</span></div>
+        <p>
+          Pick a pack, pick the sites, deploy. The packs are real operating sets: opening and
+          closing checks, temperature records, weekly and monthly tasks and ad-hoc logs, with UK
+          thresholds already set. Fridges and equipment get tuned per site afterwards, not before.
+        </p>
+        <div class="speclist">
+          <div class="spec"><span>Master set</span><span class="tnum">51 templates, 6 groups</span></div>
+          <div class="spec"><span>Kitchen packs</span><span>Restaurant · Pub · Bakery · Takeaway</span></div>
+          <div class="spec"><span>Thresholds</span><span>Cooked ≥75℃ · Hot hold &gt;63℃</span></div>
+          <div class="spec"><span>Migration</span><span>Import from their current system</span></div>
+        </div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-top"><h3>Rating watch</h3><span class="chip">Your postcodes</span></div>
+        <p>
+          Tell us the postcodes you cover and once a week we send you the food businesses there
+          that got a new FSA hygiene rating. A 5 dropping to a 2 is a conversation worth having.
+        </p>
+        <div class="speclist">
+          <div class="spec"><span>When</span><span>Weekly</span></div>
+          <div class="spec"><span>Source</span><span>FSA register</span></div>
+          <div class="spec"><span>Delivered to</span><span>WhatsApp, Telegram or email</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Money ─────────────────────────────────────────────────────────── -->
+<div class="band" id="earnings">
+  <section class="wrap" style="padding-left:28px;padding-right:28px">
+    <div class="sechead">
+      <div class="eyebrow">Getting paid</div>
+      <h2>£150 for every site you bring</h2>
+      <p class="sub">
+        Every owner gets a free basic setup. A full setup to your procedures and report format
+        is £100 + VAT per site, and for every site you bring with a full setup we pay you £75
+        after the client's first payment and another £75 after the second.
+      </p>
+    </div>
+
+    <div class="band-grid">
+      <div>
+        <div class="term"><b>Setup</b><span>Basic setup free for every owner. Full setup to your procedures and report format: £100 + VAT per site</span></div>
+        <div class="term"><b>Amount</b><span>£75 per site after the first payment, £75 after the second. £150 per site with a full setup</span></div>
+        <div class="term"><b>Per site</b><span>A group of 11 sites earns you £1,650</span></div>
+        <div class="term"><b>Trigger</b><span>Paid when the client's payment clears, not when they sign</span></div>
+        <div class="term"><b>Payout</b><span>Bank transfer with a monthly statement, by the 15th of the following month</span></div>
+        <div class="term"><b>Refunds</b><span>A payment reversed before payout cancels that month's amount</span></div>
+        <div class="term"><b>Growth</b><span>Client opens another site with Blueroll: another £150</span></div>
+      </div>
+
+      <div class="earn">
+        <div class="earn-head">
+          What a signing pays, by group size
+        </div>
+        <div class="tablewrap">
+          <table class="tnum">
+            <thead>
+              <tr><th>Client</th><th>1st payment</th><th>2nd payment</th><th>Total</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Single site</td>
+                <td>£75</td><td>£75</td><td class="hi">£150</td>
+              </tr>
+              <tr>
+                <td>Group of 11 sites</td>
+                <td>£825</td><td>£825</td><td class="hi">£1,650</td>
+              </tr>
+              <tr>
+                <td>Group of 20 sites</td>
+                <td>£1,500</td><td>£1,500</td><td class="hi">£3,000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="earn-foot">
+          Before tax. Paid per site that pays, not a record of past partner earnings.
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ── Retention ─────────────────────────────────────────────────────── -->
+<section id="retention">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="eyebrow">Keeping clients on track</div>
+      <h2>Your advice only works if the records keep coming</h2>
+      <p class="sub">
+        A kitchen that stops logging is a problem at the next inspection, and it lands on you
+        as much as on them. Blueroll tells you early, in WhatsApp or Telegram, while there's
+        still time to pick up the phone.
+      </p>
+    </div>
+
+    <div class="split">
+      <div class="panel">
+        <h3>What you'll hear from us</h3>
+        <div class="signal">
+          <span class="dot"></span>
+          <div>
+            <h3>Morning summary</h3>
+            <p>One message every morning across your clients: which sites completed their checks and which missed them.</p>
+          </div>
+        </div>
+        <div class="signal">
+          <span class="dot amber"></span>
+          <div>
+            <h3>Checks stopped</h3>
+            <p>A site that did its checks every day and has gone quiet shows up in the summary.</p>
+          </div>
+        </div>
+        <div class="signal">
+          <span class="dot amber"></span>
+          <div>
+            <h3>Rating moved</h3>
+            <p>A new FSA score for a business in your postcodes, in the weekly rating watch.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>What's expected of you</h3>
+        <div class="signal">
+          <span class="dot"></span>
+          <div>
+            <h3>Be the first contact</h3>
+            <p>Your clients come to you with day-to-day questions, as they already do.</p>
+          </div>
+        </div>
+        <div class="signal">
+          <span class="dot"></span>
+          <div>
+            <h3>Tune the sites</h3>
+            <p>Fridge lists, equipment and who signs off: the details that decide whether a pack survives week three.</p>
+          </div>
+        </div>
+        <div class="signal">
+          <span class="dot"></span>
+          <div>
+            <h3>Tell us what's missing</h3>
+            <p>As a founding partner you shape what we build next. Tell us what would make your job easier.</p>
+          </div>
+        </div>
+        <div class="signal">
+          <span class="dot"></span>
+          <div>
+            <h3>Escalate to us</h3>
+            <p>Anything that's the product's fault comes to us and stays our problem, not yours.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Terms ─────────────────────────────────────────────────────────── -->
+<div class="hairline"></div>
+<section id="terms">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="eyebrow">The small print, said plainly</div>
+      <h2>What we ask, and what we won't do</h2>
+    </div>
+
+    <div class="note">
+      <h3>This is a single-tier programme</h3>
+      <p>
+        You earn from clients you sign. There is no commission for recruiting other agents,
+        there is no joining fee, and there is nothing to buy. If anyone describes this to you
+        as a network you build underneath yourself, they have it wrong.
+      </p>
+    </div>
+
+    <div class="rules">
+      <div class="rule">
+        <h3>Your clients stay yours</h3>
+        <p>We don't sell over the top of you, and we don't reassign a client you signed.</p>
+      </div>
+      <div class="rule">
+        <h3>Tell us who's yours</h3>
+        <p>Tell us which clients you brought and we record them against your name. That's how we know who to pay.</p>
+      </div>
+      <div class="rule">
+        <h3>Terms don't change under you</h3>
+        <p>We can change the amount for future signings. Sites already signed are paid at the amount they were signed at.</p>
+      </div>
+      <div class="rule">
+        <h3>The payment is personal</h3>
+        <p>It follows you, not your company, and isn't transferable or sold on without our agreement.</p>
+      </div>
+      <div class="rule">
+        <h3>You carry your own cover</h3>
+        <p>You advise on food safety in your own name. Professional indemnity insurance is on you, as it already is.</p>
+      </div>
+      <div class="rule">
+        <h3>Leads are for your territory</h3>
+        <p>Work the list we prepare for you freely. It isn't for resale or for passing to anyone else.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Steps ─────────────────────────────────────────────────────────── -->
+<div class="hairline"></div>
+<section id="apply">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="eyebrow">Getting started</div>
+      <h2>Four steps, about a week</h2>
+      <p class="sub">
+        We're taking a small number of founding partners and onboarding each one ourselves,
+        so every one of them gets a real territory rather than a crowded one.
+      </p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <h3>Apply</h3>
+        <p>Email us your company number, what you do now and roughly how many food clients you look after.</p>
+      </div>
+      <div class="step">
+        <h3>Try it</h3>
+        <p>We set up a demo kitchen in WhatsApp or Telegram, so you can fill in checks the way a team would.</p>
+      </div>
+      <div class="step">
+        <h3>Tell us your area</h3>
+        <p>Tell us the postcodes you cover and the clients you bring. We prepare your lead list.</p>
+      </div>
+      <div class="step">
+        <h3>Start</h3>
+        <p>Morning summary and weekly rating watch switched on. Your first client can be the same week.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hairline"></div>
+<section>
+  <div class="wrap close">
+    <h2 style="max-width:24ch">Take a territory before someone else does</h2>
+    <p class="sub">
+      Tell us where you work and which operators you already look after. We're taking our first
+      partners now. If it fits, you'll be set up inside a week.
+    </p>
+    <div class="row">
+      <a class="btn btn-green" href="mailto:hello@blueroll.app?subject=Partner%20programme%20application">Apply to the programme</a>
+      <a class="btn btn-outline" href="mailto:hello@blueroll.app?subject=Partner%20programme%20question">Ask a question first</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap in">
+    <p>Blueroll · food safety management for UK hospitality</p>
+    <p>hello@blueroll.app</p>
+    <p>Blueroll is a trading name of Cherrypicked Design Limited, registered in England and Wales, company number 12387565, registered office 38 Crouch Hill, London N4 4AU.</p>
+  </div>
+</footer>
+
+</body>
+</html>

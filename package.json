@@ -1,0 +1,15 @@
+{
+  "name": "blueroll-public-site-checks",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Local quality checks for Blueroll's static public website.",
+  "scripts": {
+    "test:site-chrome": "node --test scripts/site-chrome.test.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "24.1.3"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
